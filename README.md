@@ -24,9 +24,9 @@ import {
 	Connect: iHealthDeviceManagerModel.connectDevice(mac)  
 ```
 ```
-	Start Measure: BP5Model.startMeasure(this.props.mac)  
+	Start Measure: BP5Model.startMeasure(mac)  
 ```
 ```
-	Stop Measure: BP5Model.stopMeasure(this.props.mac)  
+	Stop Measure: BP5Model.stopMeasure(mac)  
 ```
 
