@@ -59,12 +59,21 @@ public class iHealthDeviceManagerModel extends ReactContextBaseJavaModule implem
 
         @Override
         public void onScanDevice(String mac, String deviceType, int rssi, Map manufactorData) {
-            sendEvent("onScanDevice", mac);
+            WritableMap params = Arguments.createMap();
+            params.putString("Mac", mac);
+            params.putString("Type",deviceType);
+            params.putInt("RSSI",rssi);
+            sendEvent("onScanDevice", params);
         }
 
         @Override
         public void onDeviceConnectionStateChange(String mac, String deviceType, int status, int errorID, Map manufactorData) {
-            sendEvent("ConnectionStateChange", mac + "  status:" + status);
+            WritableMap params = Arguments.createMap();
+            params.putString("Mac", mac);
+            params.putString("Type",deviceType);
+            params.putInt("Status",status);
+            params.putInt("ErrorID",errorID);
+            sendEvent("ConnectionStateChange", params);
         }
 
         @Override
@@ -74,12 +83,17 @@ public class iHealthDeviceManagerModel extends ReactContextBaseJavaModule implem
 
         @Override
         public void onDeviceNotify(String mac, String deviceType, String action, String message) {
-            sendEvent("onDeviceNotify", mac + "  action:" + action + "  message:" + message);
+            WritableMap params = Arguments.createMap();
+            params.putString("Mac", mac);
+            params.putString("Type",deviceType);
+            params.putString("Action",action);
+            params.putString("Message",message);
+            sendEvent("onDeviceNotify",params);
         }
 
         @Override
         public void onScanFinish() {
-            sendEvent("onScanFinish", "onScanFinish");
+            sendEvent("onScanFinish", null);
         }
 
     };
@@ -120,12 +134,10 @@ public class iHealthDeviceManagerModel extends ReactContextBaseJavaModule implem
 
 
 
-    public static void sendEvent(String eventName, String msg) {
-        WritableMap params = Arguments.createMap();
-        params.putString(MSG, msg);
+    public static void sendEvent(String eventName, WritableMap msg) {
         reactApplicationContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(eventName, params);
+                .emit(eventName, msg);
     }
 
     @ReactMethod
@@ -141,10 +153,8 @@ public class iHealthDeviceManagerModel extends ReactContextBaseJavaModule implem
     }
 
     @ReactMethod
-    public void connectDevice(String mac) {
-        iHealthDevicesManager.getInstance().connectDevice("",mac);
+    public boolean connectDevice(String mac) {
+        return iHealthDevicesManager.getInstance().connectDevice("",mac);
     }
-
-
 
 }

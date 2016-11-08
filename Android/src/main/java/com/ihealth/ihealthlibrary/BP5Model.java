@@ -2,9 +2,11 @@ package com.ihealth.ihealthlibrary;
 
 import android.util.Log;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
 import com.ihealth.communication.control.Bp5Control;
 
 import com.ihealth.communication.manager.*;
@@ -34,7 +36,9 @@ public class BP5Model extends ReactContextBaseJavaModule {
         if (bp5Control != null) {
             bp5Control.startMeasure();
         } else {
-            iHealthDeviceManagerModel.sendEvent("Error", "400");
+            WritableMap params = Arguments.createMap();
+            params.putInt("ErrorID",400);
+            iHealthDeviceManagerModel.sendEvent("Error", params);
         }
     }
 
@@ -44,7 +48,9 @@ public class BP5Model extends ReactContextBaseJavaModule {
         if (bp5Control != null) {
             bp5Control.interruptMeasure();
         } else {
-            iHealthDeviceManagerModel.sendEvent("Error", "400");
+            WritableMap params = Arguments.createMap();
+            params.putInt("ErrorID",400);
+            iHealthDeviceManagerModel.sendEvent("Error", params);
         }
     }
 
