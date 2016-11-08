@@ -48,4 +48,5 @@ import {
 ```
 	Stop Measure: BP5Model.stopMeasure(mac)  
 ```
+##Example
 
