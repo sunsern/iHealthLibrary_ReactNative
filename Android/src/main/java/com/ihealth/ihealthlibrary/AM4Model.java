@@ -2,10 +2,12 @@ package com.ihealth.ihealthlibrary;
 
 import android.util.Log;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import com.facebook.react.bridge.WritableMap;
 import com.ihealth.communication.manager.*;
 import com.ihealth.communication.control.*;
 
@@ -36,4 +38,13 @@ public class AM4Model extends ReactContextBaseJavaModule {
         }
     }
 
+
+    public static WritableMap handleNotify(String mac, String deviceType, String action, String message) {
+        WritableMap params = Arguments.createMap();
+        params.putString("mac", mac);
+        params.putString("type", deviceType);
+        Utils.jsonToMap(message, params);
+
+        return params;
+    }
 }

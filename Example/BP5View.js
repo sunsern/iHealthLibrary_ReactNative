@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { 
-  View, 
-  Text, 
-  TouchableOpacity, 
+import {
+  View,
+  Text,
+  TouchableOpacity,
   StyleSheet,
-  DeviceEventEmitter 
+  DeviceEventEmitter
 } from 'react-native';
 
 import {
@@ -74,7 +74,7 @@ class TipView extends Component {
 }
 
 export default class BP5View extends Component {
-  
+
   constructor(props) {
     super(props);
     var connectionListener = null
@@ -100,24 +100,49 @@ export default class BP5View extends Component {
   }
 
   addListener() {
-    var self = this
-    this.connectionListener = DeviceEventEmitter.addListener('ConnectionStateChange', function(e: Event) {
-         // handle event.
-         console.log('~~~' + JSON.stringify(e))
-       });
+      let self = this
+      this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.DeviceDisconnect, function(e: Event) {
+          // handle event.
+          console.log('~~~' + JSON.stringify(e))
+      });
 
-    this.notifyListerner = DeviceEventEmitter.addListener('onDeviceNotify', function(e: Event) {
-         // handle event.
-         console.log('~~~' + JSON.stringify(e))
-         tipViewInstance.setState({tip: JSON.stringify(e)}) 
-       });
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Battery, function(e: Event) {
+          // handle event.
+          console.log('~~~' + JSON.stringify(e))
+          tipViewInstance.setState({tip: JSON.stringify(e)})
+      });
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Zeroing, function(e: Event) {
+          // handle event.
+          console.log('~~~' + BP5Model.Action_Zeroing)
+          tipViewInstance.setState({tip: JSON.stringify(e)})
+      });
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_ZeroOver, function(e: Event) {
+          // handle event.
+          console.log('~~~' + BP5Model.Action_ZeroOver)
+          tipViewInstance.setState({tip: JSON.stringify(e)})
+      });
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Pressure, function(e: Event) {
+          // handle event.
+          console.log('~~~' + e.pressure)
+          tipViewInstance.setState({tip: JSON.stringify(e)})
+      });
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_PulseWave, function(e: Event) {
+          // handle event.
+          console.log('~~~' + e.wave)
+          tipViewInstance.setState({tip: JSON.stringify(e)})
+      });
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Result, function(e: Event) {
+          // handle event.
+          console.log('~~~' + e.highpressure)
+          tipViewInstance.setState({tip: JSON.stringify(e)})
+      });
   }
 
   removeListener() {
     //Unregister  event
     if (this.connectionListener) {
       this.connectionListener.remove()
-    } 
+    }
     if(this.notifyListerner) {
       this.notifyListerner.remove()
     }
@@ -154,9 +179,8 @@ export default class BP5View extends Component {
             </Text>
         </TouchableOpacity>
 
-        <TipView /> 
+        <TipView />
       </View>
     )
   }
 }
-

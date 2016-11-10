@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { 
-  AppRegistry, 
-  Navigator, 
-  Text, 
-  View, 
-  StyleSheet, 
+import {
+  AppRegistry,
+  Navigator,
+  Text,
+  View,
+  StyleSheet,
   TouchableOpacity,
   ListView,
   DeviceEventEmitter,
@@ -33,12 +33,12 @@ class MainView extends Component {
     this.addListener()
     discoverDeviceArray = new Array()
     discoveryListViewInstance.updateListView()
-    iHealthDeviceManagerModel.startDiscovery(iHealthDeviceManagerModel.BP5)// | iHealthDeviceManagerModel.AM4 
+    iHealthDeviceManagerModel.startDiscovery(iHealthDeviceManagerModel.BP5)// | iHealthDeviceManagerModel.AM4
   }
 
 
   componentDidMount() {
-    
+
   }
 
   componentWillUnmount() {
@@ -47,29 +47,39 @@ class MainView extends Component {
   }
 
   addListener() {
-    var self = this
-    this.scanListener = DeviceEventEmitter.addListener('onScanDevice', function(e: Event) {
+    let self = this
+    this.scanListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.ScanDevice, function(e: Event) {
          // handle event.
          console.log('~~~' + JSON.stringify(e))
-         self.updateDiscoveryList(e.Mac)
+         self.updateDiscoveryList(e.mac, e.type)
        });
-    this.scanFinishListener = DeviceEventEmitter.addListener('onScanFinish', function(e: Event) {
+    this.scanFinishListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.ScanFinish, function(e: Event) {
          // handle event.
-         console.log('~~~onScanFinish')
+         console.log('~~~ScanFinish')
        });
 
-    this.connectionListener = DeviceEventEmitter.addListener('ConnectionStateChange', function(e: Event) {
+    this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.DeviceConnected, function(e: Event) {
          // handle event.
          console.log('~~~' + JSON.stringify(e))
-         self.updateConnectedList(e.Mac, e.Status)
+         self.updateConnectedList(e.mac, 1)
        });
+    this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.DeviceConnectFailed, function(e: Event) {
+          // handle event.
+         console.log('~~~' + JSON.stringify(e))
+         self.updateConnectedList(e.mac, 3)
+      });
+    this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.DeviceDisconnect, function(e: Event) {
+          // handle event.
+          console.log('~~~' + JSON.stringify(e))
+          self.updateConnectedList(e.mac, 2)
+      });
   }
 
   removeListener() {
     //Unregister  event
     if (this.scanListener) {
       this.scanListener.remove()
-    } 
+    }
     if(this.scanFinishListener) {
       this.scanFinishListener.remove()
     }
@@ -79,18 +89,19 @@ class MainView extends Component {
   }
 
   //Update discovery device list
-  updateDiscoveryList(mac) {
+  updateDiscoveryList(mac, type) {
     var existFlag = 0
     for (var i = discoverDeviceArray.length - 1; i >= 0; i--) {
-      if (discoverDeviceArray[i] == mac) {
+      if (discoverDeviceArray[i].mac == mac) {
           existFlag = 1
           break
       }
     }
     if(existFlag == 0) {
-      discoverDeviceArray.push(mac)
+      var deviceInfo = {"mac":mac, "type":type}
+      discoverDeviceArray.push(deviceInfo)
       discoveryListViewInstance.updateListView()
-    } 
+    }
   }
 
   //Update discovery device list
@@ -107,14 +118,14 @@ class MainView extends Component {
       if(existFlag == 0) {
         connectedDeviceArray.push(mac)
         connectedListViewInstance.updateListView()
-      } 
+      }
       //Update discovery device list
       for (var i = discoverDeviceArray.length - 1; i >= 0; i--) {
-         if (mac == discoverDeviceArray[i]) {
+         if (mac == discoverDeviceArray[i].mac) {
             discoverDeviceArray.splice(discoverDeviceArray.length - i -1, 1)
             discoveryListViewInstance.updateListView()
             break
-         } 
+         }
       }
 
     } else if(status == 2) {
@@ -191,9 +202,9 @@ class DiscoverListView extends Component {
   _renderRow(rowData, sectionID, rowID) {
         return (
             <TouchableOpacity onPress = {() =>this._pressRow(rowID)} underlayColor = "transparent" >
-            <View>
-              <View style={styles.cell}>
-                <Text style={styles.buttonText}> {rowData} </Text>
+              <View>
+                <View style={styles.cell}>
+                  <Text style={styles.buttonText}> {rowData.mac} </Text>
                </View>
             </View>
             </TouchableOpacity>
@@ -202,17 +213,17 @@ class DiscoverListView extends Component {
 
   _pressRow(row) {
     console.log('_pressRow:' + row)
-    var mac = discoverDeviceArray[row]
-    iHealthDeviceManagerModel.connectDevice(mac)
+    var deviceInfo = discoverDeviceArray[row]
+    iHealthDeviceManagerModel.connectDevice(deviceInfo.mac, deviceInfo.type)
   }
 
   render() {
     return(
         <ListView
-          enableEmptySections = {true} 
+          enableEmptySections = {true}
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
-        /> 
+        />
 
     )
   }
@@ -267,10 +278,10 @@ class ConnectedListView extends Component {
   render() {
     return(
         <ListView
-          enableEmptySections = {true} 
+          enableEmptySections = {true}
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
-        /> 
+        />
 
     )
   }
@@ -281,6 +292,10 @@ class ConnectedListView extends Component {
 var currentViewName = ''
 
 export default class LaunchView extends Component {
+
+  getInstance() {
+    console.log()
+  }
 
   configureScene(route, routeStack) {
     return Navigator.SceneConfigs.PushFromRight
@@ -294,7 +309,7 @@ export default class LaunchView extends Component {
             return <MainView navigator={navigator} />
         } else if(route.name == 'BP5View') {
             return <BP5View navigator={navigator} mac={route.mac}/>
-        } 
+        }
     } else {
       console.log('奇怪。。。。')
     }
@@ -307,7 +322,7 @@ export default class LaunchView extends Component {
         initialRoute={{name: 'MainView'}}
         configureScene={this.configureScene}
         renderScene={this.renderScene}
-        
+
       />
     )
   }

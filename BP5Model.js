@@ -6,6 +6,13 @@ var { NativeModules } = require('react-native');
 var RCTModule = NativeModules.BP5Model
 
 var BP5Model = {
+    Action_Battery:RCTModule.Action_Battery,
+    Action_Zeroing:RCTModule.Action_Zeroing,
+    Action_ZeroOver:RCTModule.Action_ZeroOver,
+    Action_Pressure:RCTModule.Action_Pressure,
+    Action_PulseWave:RCTModule.Action_PulseWave,
+    Action_Result:RCTModule.Action_Result,
+
 
 	//Start measure blood pressure monitor
 	startMeasure: function(
