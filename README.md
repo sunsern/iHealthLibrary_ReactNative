@@ -37,10 +37,10 @@ import {
 
 ##Demo Api
 ```
-	Discovery: iHealthDeviceManagerModel.startDiscovery(BP5)  
+	Discovery: iHealthDeviceManagerModel.startDiscovery(iHealthDeviceManagerModel.BP5)  
 ```
 ```
-	Connect: iHealthDeviceManagerModel.connectDevice(mac)  
+	Connect: iHealthDeviceManagerModel.connectDevice(mac,type)  
 ```
 ```
 	Start Measure: BP5Model.startMeasure(mac)  
