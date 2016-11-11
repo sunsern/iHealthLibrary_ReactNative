@@ -19,7 +19,7 @@ import {
 } from 'ihealthlibrary-react-native'
 
 
-var appNavigator;
+
 class MainView extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +32,7 @@ class MainView extends Component {
     this.removeListener()
     this.addListener()
     discoverDeviceArray = new Array()
-    discoveryListViewInstance.updateListView()
+      this.refs.discoverListView.updateListView()
     iHealthDeviceManagerModel.startDiscovery(iHealthDeviceManagerModel.BP5)// | iHealthDeviceManagerModel.AM4
   }
 
@@ -100,7 +100,7 @@ class MainView extends Component {
     if(existFlag == 0) {
       var deviceInfo = {"mac":mac, "type":type}
       discoverDeviceArray.push(deviceInfo)
-      discoveryListViewInstance.updateListView()
+        this.refs.discoverListView.updateListView()
     }
   }
 
@@ -117,33 +117,25 @@ class MainView extends Component {
       }
       if(existFlag == 0) {
         connectedDeviceArray.push(mac)
-        connectedListViewInstance.updateListView()
+        this.refs.connectedListView.updateListView()
       }
       //Update discovery device list
       for (var i = discoverDeviceArray.length - 1; i >= 0; i--) {
          if (mac == discoverDeviceArray[i].mac) {
             discoverDeviceArray.splice(discoverDeviceArray.length - i -1, 1)
-            discoveryListViewInstance.updateListView()
+             this.refs.discoverListView.updateListView()
             break
          }
       }
 
     } else if(status == 2) {
       //Disconnect
-      // var tempArray = new Array()
-      // for (var i = connectedDeviceArray.length - 1; i >= 0; i--) {
-      //   if (connectedDeviceArray[i] != mac) {
-      //      tempArray.push(connectedDeviceArray[i])
-      //   }
-      // }
-      // connectedDeviceArray = tempArray.slice(0)
-
       for (var i = connectedDeviceArray.length - 1; i >= 0; i--) {
         if (connectedDeviceArray[i] == mac) {
            connectedDeviceArray.splice(connectedDeviceArray.length - i -1, 1)
         }
       }
-      connectedListViewInstance.updateListView()
+        this.refs.connectedListView.updateListView()
     }
   }
 
@@ -162,10 +154,10 @@ class MainView extends Component {
         </TouchableOpacity>
 
         <Text style={styles.headText}> 扫描列表 </Text>
-        <DiscoverListView />
+        <DiscoverListView ref='discoverListView' />
 
         <Text style={styles.headText}> 连接列表 </Text>
-        <ConnectedListView />
+        <ConnectedListView ref='connectedListView' navigator={this.props.navigator}/>
       </View>
     )
   }
@@ -173,7 +165,6 @@ class MainView extends Component {
 
 
 var discoverDeviceArray = new Array();
-var discoveryListViewInstance;
 class DiscoverListView extends Component {
 
   constructor(props) {
@@ -185,18 +176,13 @@ class DiscoverListView extends Component {
   }
 
   componentDidMount() {
-    discoveryListViewInstance = this
+
   }
 
   updateListView() {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({dataSource: ds.cloneWithRows(discoverDeviceArray)})
   }
-
-  // componentWillUpdate() {
-  //   const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-  //   this.state.dataSource = ds.cloneWithRows(discoverDeviceArray);
-  // }
 
 
   _renderRow(rowData, sectionID, rowID) {
@@ -231,7 +217,6 @@ class DiscoverListView extends Component {
 
 
 var connectedDeviceArray = new Array();
-var connectedListViewInstance;
 class ConnectedListView extends Component {
 
   constructor(props) {
@@ -243,19 +228,13 @@ class ConnectedListView extends Component {
   }
 
   componentDidMount() {
-    connectedListViewInstance = this
+
   }
 
   updateListView() {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({dataSource: ds.cloneWithRows(connectedDeviceArray)})
   }
-
-  // componentWillUpdate() {
-  //   const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-  //   this.state.dataSource = ds.cloneWithRows(connectedDeviceArray);
-  // }
-
 
   _renderRow(rowData, sectionID, rowID) {
         return (
@@ -272,7 +251,7 @@ class ConnectedListView extends Component {
   _pressRow(row) {
     console.log('_pressRow:' + row)
     var mac = connectedDeviceArray[row]
-    appNavigator.push({name:'BP5View', mac:mac})
+    this.props.navigator.push({name:'BP5View', mac:mac})
   }
 
   render() {
@@ -289,22 +268,16 @@ class ConnectedListView extends Component {
 
 
 
-var currentViewName = ''
 
 export default class LaunchView extends Component {
-
-  getInstance() {
-    console.log()
-  }
 
   configureScene(route, routeStack) {
     return Navigator.SceneConfigs.PushFromRight
   }
 
   renderScene(route, navigator) {
-    appNavigator = navigator;
-    if (currentViewName != route.name){
-       currentViewName = route.name
+    if (navigator.tag != route.name){
+        navigator.tag = route.name
        if(route.name == 'MainView') {
             return <MainView navigator={navigator} />
         } else if(route.name == 'BP5View') {

@@ -53,14 +53,12 @@ var styles = StyleSheet.create({
 });
 
 
-var tipViewInstance = null
 class TipView extends Component {
   constructor(props) {
     super(props)
     this.state = {
       tip:''
     }
-    tipViewInstance = this
   }
 
   render() {
@@ -91,6 +89,12 @@ export default class BP5View extends Component {
     this.removeListener()
   }
 
+  getDeviceInfo() {
+    iHealthDeviceManagerModel.getDevicesIDPS (this.props.mac, (e) => {
+        console.log('deviceInfo:' +  e.modenumber)
+    })
+  }
+
   startMeasure() {
     BP5Model.startMeasure(this.props.mac)
   }
@@ -109,32 +113,32 @@ export default class BP5View extends Component {
       this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Battery, function(e: Event) {
           // handle event.
           console.log('~~~' + JSON.stringify(e))
-          tipViewInstance.setState({tip: JSON.stringify(e)})
+          self.refs.tipView.setState({tip: JSON.stringify(e)})
       });
       this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Zeroing, function(e: Event) {
           // handle event.
           console.log('~~~' + BP5Model.Action_Zeroing)
-          tipViewInstance.setState({tip: JSON.stringify(e)})
+          self.refs.tipView.setState({tip: JSON.stringify(e)})
       });
       this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_ZeroOver, function(e: Event) {
           // handle event.
           console.log('~~~' + BP5Model.Action_ZeroOver)
-          tipViewInstance.setState({tip: JSON.stringify(e)})
+          self.refs.tipView.setState({tip: JSON.stringify(e)})
       });
       this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Pressure, function(e: Event) {
           // handle event.
           console.log('~~~' + e.pressure)
-          tipViewInstance.setState({tip: JSON.stringify(e)})
+          self.refs.tipView.setState({tip: JSON.stringify(e)})
       });
       this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_PulseWave, function(e: Event) {
           // handle event.
           console.log('~~~' + e.wave)
-          tipViewInstance.setState({tip: JSON.stringify(e)})
+          self.refs.tipView.setState({tip: JSON.stringify(e)})
       });
       this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Result, function(e: Event) {
           // handle event.
           console.log('~~~' + e.highpressure)
-          tipViewInstance.setState({tip: JSON.stringify(e)})
+          self.refs.tipView.setState({tip: JSON.stringify(e)})
       });
   }
 
@@ -163,6 +167,14 @@ export default class BP5View extends Component {
             </Text>
         </TouchableOpacity>
 
+          <TouchableOpacity
+              style={styles.button}
+              onPress={()=> this.getDeviceInfo()}>
+              <Text style={styles.buttonText}>
+                  获取设备信息
+              </Text>
+          </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.button}
           onPress={()=> this.startMeasure()}>
@@ -179,7 +191,7 @@ export default class BP5View extends Component {
             </Text>
         </TouchableOpacity>
 
-        <TipView />
+        <TipView ref='tipView'/>
       </View>
     )
   }

@@ -46,26 +46,6 @@ public class BP5Model extends ReactContextBaseJavaModule {
 
     public BP5Model(ReactApplicationContext reactContext) {
         super(reactContext);
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("key1","1");
-            jsonObject.put("key2","2");
-
-            JSONArray jsonArray = new JSONArray();
-            jsonArray.put(jsonObject);
-
-            JSONObject jsonObject1 = new JSONObject();
-            jsonObject1.put("key", jsonArray);
-            jsonObject1.put("key3", "3");
-
-            WritableMap writableMap = Arguments.createMap();
-            Utils.jsonToMap(jsonObject1.toString(), writableMap);
-            Log.e(TAG,"writableMap:" + writableMap);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
     }
 
     @Nullable
