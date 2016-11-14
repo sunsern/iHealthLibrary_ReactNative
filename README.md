@@ -50,6 +50,4 @@ import {
 ```
 ##Example
 
-test zhangxu
-___
 
