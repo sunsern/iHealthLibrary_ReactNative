@@ -4,9 +4,9 @@
 
 var { NativeModules } = require('react-native');
 
-var RCTModule = NativeModules.iHealthDeviceManagerModel
+var RCTModule = NativeModules.iHealthDeviceManagerModule
 
-var iHealthDeviceManagerModel = {
+var iHealthDeviceManagerModule = {
 	//Device Type
 
     AM3S: RCTModule.AM3S,
@@ -96,4 +96,4 @@ var iHealthDeviceManagerModel = {
 
 }
 
-module.exports = iHealthDeviceManagerModel
+module.exports = iHealthDeviceManagerModule

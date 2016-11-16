@@ -23,9 +23,9 @@ import com.ihealth.communication.manager.*;
  * Created by jing on 16/10/20.
  */
 
-public class iHealthDeviceManagerModel extends ReactContextBaseJavaModule implements LifecycleEventListener{
+public class iHealthDeviceManagerModule extends ReactContextBaseJavaModule implements LifecycleEventListener{
 
-    private static final String modelName = "iHealthDeviceManagerModel";
+    private static final String modelName = "iHealthDeviceManagerModule";
     private static final String TAG = "iHealthModel";
 
 
@@ -54,7 +54,7 @@ public class iHealthDeviceManagerModel extends ReactContextBaseJavaModule implem
     private int callbackId;
     private static ReactApplicationContext reactApplicationContext;
 
-    public iHealthDeviceManagerModel(ReactApplicationContext reactContext) {
+    public iHealthDeviceManagerModule(ReactApplicationContext reactContext) {
         super(reactContext);
         reactContext.addLifecycleEventListener(this);
         reactApplicationContext = reactContext;
@@ -115,7 +115,7 @@ public class iHealthDeviceManagerModel extends ReactContextBaseJavaModule implem
         WritableMap handleMessage = null;
         //BP5
         if (iHealthDevicesManager.TYPE_BP5.equals(deviceType)) {
-            handleMessage = BP5Model.handleNotify(mac, deviceType, action, message);
+            handleMessage = BP5Module.handleNotify(mac, deviceType, action, message);
         }
         //BP3L
         else if (iHealthDevicesManager.TYPE_BP3L.equals(deviceType)) {
@@ -135,7 +135,7 @@ public class iHealthDeviceManagerModel extends ReactContextBaseJavaModule implem
         }
         //AM4
         else if (iHealthDevicesManager.TYPE_AM4.equals(deviceType)) {
-            handleMessage = AM4Model.handleNotify(mac, deviceType, action, message);
+            handleMessage = AM4Module.handleNotify(mac, deviceType, action, message);
         }
         //PO3
         else if (iHealthDevicesManager.TYPE_PO3.equals(deviceType)) {

@@ -11,8 +11,8 @@
 // module.exports = NativeModules;
 
 var Component = {
-	iHealthDeviceManagerModel:require('./Model/iHealthDeviceManagerModel'),
-	BP5Model:require('./Model/BP5Model')
+    iHealthDeviceManagerModule:require('./Module/iHealthDeviceManagerModule'),
+    BP5Module:require('./Module/BP5Module')
 }
 
 

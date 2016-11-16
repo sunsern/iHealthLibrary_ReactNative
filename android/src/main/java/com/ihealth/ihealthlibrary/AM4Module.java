@@ -15,11 +15,11 @@ import com.ihealth.communication.control.*;
  * Created by jing on 16/10/20.
  */
 
-public class AM4Model extends ReactContextBaseJavaModule {
-    private static final String modelName = "AM4Model";
-    private static final String TAG = "AM4Model";
+public class AM4Module extends ReactContextBaseJavaModule {
+    private static final String modelName = "AM4Module";
+    private static final String TAG = "AM4Module";
 
-    public AM4Model(ReactApplicationContext reactContext) {
+    public AM4Module(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 

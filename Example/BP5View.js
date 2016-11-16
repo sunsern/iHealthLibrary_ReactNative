@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 
 import {
-  iHealthDeviceManagerModel,
-  BP5Model
+  iHealthDeviceManagerModule,
+  BP5Module
 } from 'ihealthlibrary-react-native'
 
 
@@ -90,52 +90,52 @@ export default class BP5View extends Component {
   }
 
   getDeviceInfo() {
-    iHealthDeviceManagerModel.getDevicesIDPS (this.props.mac, (e) => {
+    iHealthDeviceManagerModule.getDevicesIDPS (this.props.mac, (e) => {
         console.log('deviceInfo:' +  e.modenumber)
     })
   }
 
   startMeasure() {
-    BP5Model.startMeasure(this.props.mac)
+    BP5Module.startMeasure(this.props.mac)
   }
 
   stopMeasure() {
-    BP5Model.stopMeasure(this.props.mac)
+    BP5Module.stopMeasure(this.props.mac)
   }
 
   addListener() {
       let self = this
-      this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.DeviceDisconnect, function(e: Event) {
+      this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function(e: Event) {
           // handle event.
           console.log('~~~' + JSON.stringify(e))
       });
 
-      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Battery, function(e: Event) {
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Module.Action_Battery, function(e: Event) {
           // handle event.
           console.log('~~~' + JSON.stringify(e))
           self.refs.tipView.setState({tip: JSON.stringify(e)})
       });
-      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Zeroing, function(e: Event) {
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Module.Action_Zeroing, function(e: Event) {
           // handle event.
-          console.log('~~~' + BP5Model.Action_Zeroing)
+          console.log('~~~' + BP5Module.Action_Zeroing)
           self.refs.tipView.setState({tip: JSON.stringify(e)})
       });
-      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_ZeroOver, function(e: Event) {
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Module.Action_ZeroOver, function(e: Event) {
           // handle event.
-          console.log('~~~' + BP5Model.Action_ZeroOver)
+          console.log('~~~' + BP5Module.Action_ZeroOver)
           self.refs.tipView.setState({tip: JSON.stringify(e)})
       });
-      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Pressure, function(e: Event) {
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Module.Action_Pressure, function(e: Event) {
           // handle event.
           console.log('~~~' + e.pressure)
           self.refs.tipView.setState({tip: JSON.stringify(e)})
       });
-      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_PulseWave, function(e: Event) {
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Module.Action_PulseWave, function(e: Event) {
           // handle event.
           console.log('~~~' + e.wave)
           self.refs.tipView.setState({tip: JSON.stringify(e)})
       });
-      this.notifyListerner = DeviceEventEmitter.addListener(BP5Model.Action_Result, function(e: Event) {
+      this.notifyListerner = DeviceEventEmitter.addListener(BP5Module.Action_Result, function(e: Event) {
           // handle event.
           console.log('~~~' + e.highpressure)
           self.refs.tipView.setState({tip: JSON.stringify(e)})

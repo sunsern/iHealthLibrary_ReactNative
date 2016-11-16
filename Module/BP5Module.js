@@ -3,9 +3,9 @@
 
 var { NativeModules } = require('react-native');
 
-var RCTModule = NativeModules.BP5Model
+var RCTModule = NativeModules.BP5Module
 
-var BP5Model = {
+var BP5Module = {
     Action_Battery:RCTModule.Action_Battery,
     Action_Zeroing:RCTModule.Action_Zeroing,
     Action_ZeroOver:RCTModule.Action_ZeroOver,
@@ -33,4 +33,4 @@ var BP5Model = {
 
 }
 
-module.exports = BP5Model
+module.exports = BP5Module

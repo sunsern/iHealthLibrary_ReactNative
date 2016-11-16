@@ -6,34 +6,25 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.ihealth.communication.control.Bp5Control;
 
 import com.ihealth.communication.control.BpProfile;
 import com.ihealth.communication.manager.*;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.annotation.Nullable;
-
-import static java.lang.System.in;
 
 /**
  * Created by jing on 16/10/24.
  */
 
-public class BP5Model extends ReactContextBaseJavaModule {
+public class BP5Module extends ReactContextBaseJavaModule {
 
-    private static final String modelName = "BP5Model";
-    private static final String TAG = "BP5Model";
+    private static final String modelName = "BP5Module";
+    private static final String TAG = "BP5Module";
 
     private static final String Action_Battery = "Action_Battery";
     private static final String Action_Zeroing = "Action_Zeroing";
@@ -44,7 +35,7 @@ public class BP5Model extends ReactContextBaseJavaModule {
 
 
 
-    public BP5Model(ReactApplicationContext reactContext) {
+    public BP5Module(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
@@ -76,7 +67,7 @@ public class BP5Model extends ReactContextBaseJavaModule {
         } else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
-            iHealthDeviceManagerModel.sendEvent("Error", params);
+            iHealthDeviceManagerModule.sendEvent("Error", params);
         }
     }
 
@@ -88,7 +79,7 @@ public class BP5Model extends ReactContextBaseJavaModule {
         } else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
-            iHealthDeviceManagerModel.sendEvent("Error", params);
+            iHealthDeviceManagerModule.sendEvent("Error", params);
         }
     }
 

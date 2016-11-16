@@ -14,8 +14,7 @@ import {
 import BP5View from './BP5View';
 
 import {
-  iHealthDeviceManagerModel,
-  BP5Model
+  iHealthDeviceManagerModule
 } from 'ihealthlibrary-react-native'
 
 
@@ -33,7 +32,7 @@ class MainView extends Component {
     this.addListener()
     discoverDeviceArray = new Array()
       this.refs.discoverListView.updateListView()
-    iHealthDeviceManagerModel.startDiscovery(iHealthDeviceManagerModel.BP5)// | iHealthDeviceManagerModel.AM4
+    iHealthDeviceManagerModule.startDiscovery(iHealthDeviceManagerModule.BP5)// | iHealthDeviceManagerModule.AM4
   }
 
 
@@ -48,27 +47,27 @@ class MainView extends Component {
 
   addListener() {
     let self = this
-    this.scanListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.ScanDevice, function(e: Event) {
+    this.scanListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.ScanDevice, function(e: Event) {
          // handle event.
          console.log('~~~' + JSON.stringify(e))
          self.updateDiscoveryList(e.mac, e.type)
        });
-    this.scanFinishListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.ScanFinish, function(e: Event) {
+    this.scanFinishListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.ScanFinish, function(e: Event) {
          // handle event.
          console.log('~~~ScanFinish')
        });
 
-    this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.DeviceConnected, function(e: Event) {
+    this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceConnected, function(e: Event) {
          // handle event.
          console.log('~~~' + JSON.stringify(e))
          self.updateConnectedList(e.mac, 1)
        });
-    this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.DeviceConnectFailed, function(e: Event) {
+    this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceConnectFailed, function(e: Event) {
           // handle event.
          console.log('~~~' + JSON.stringify(e))
          self.updateConnectedList(e.mac, 3)
       });
-    this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModel.DeviceDisconnect, function(e: Event) {
+    this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function(e: Event) {
           // handle event.
           console.log('~~~' + JSON.stringify(e))
           self.updateConnectedList(e.mac, 2)
@@ -200,7 +199,7 @@ class DiscoverListView extends Component {
   _pressRow(row) {
     console.log('_pressRow:' + row)
     var deviceInfo = discoverDeviceArray[row]
-    iHealthDeviceManagerModel.connectDevice(deviceInfo.mac, deviceInfo.type)
+    iHealthDeviceManagerModule.connectDevice(deviceInfo.mac, deviceInfo.type)
   }
 
   render() {
