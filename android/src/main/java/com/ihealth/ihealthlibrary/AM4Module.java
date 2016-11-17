@@ -30,14 +30,45 @@ public class AM4Module extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getBattery(String mac) {
-        Am4Control am4Control = iHealthDevicesManager.getInstance().getAm4Control(mac);
-        if (am4Control != null) {
-            am4Control.getUserId();
+        Am4Control control = getControl(mac);
+        if (control != null) {
+            control.getUserId();
         } else {
-            Log.e(TAG,"mac:" + mac);
+            Log.e(TAG,"Can not find AM4 Control mac:" + mac);
         }
     }
 
+    @ReactMethod
+    public void disconnect(String mac) {
+        Am4Control control = getControl(mac);
+        if (control != null) {
+            control.disconnect();
+        } else {
+            Log.e(TAG,"Can not find AM4 Control mac:" + mac);
+        }
+    }
+    @ReactMethod
+    public void getUserInfo(String mac) {
+        Am4Control control = getControl(mac);
+        if (control != null) {
+            control.getUserInfo();
+        } else {
+            Log.e(TAG,"Can not find AM4 Control mac:" + mac);
+        }
+    }
+    @ReactMethod
+    public void setUserInfo(String mac, int age, int height, float weight, int gender, int unit, int target, int activityLevel, int min) {
+        Am4Control control = getControl(mac);
+        if (control != null) {
+            control.setUserInfo(age, height, weight, gender, unit, target, activityLevel, min);
+        } else {
+            Log.e(TAG,"Can not find AM4 Control mac:" + mac);
+        }
+    }
+
+    private static Am4Control getControl(String mac) {
+        return iHealthDevicesManager.getInstance().getAm4Control(mac);
+    }
 
     public static WritableMap handleNotify(String mac, String deviceType, String action, String message) {
         WritableMap params = Arguments.createMap();

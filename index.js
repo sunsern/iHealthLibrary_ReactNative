@@ -12,7 +12,9 @@
 
 var Component = {
     iHealthDeviceManagerModule:require('./Module/iHealthDeviceManagerModule'),
-    BP5Module:require('./Module/BP5Module')
+    BP5Module:require('./Module/BP5Module'),
+    AM4Module:require('./Module/AM4Module'),
+    AMProfileModule:require('./Module/AMProfileModule')
 }
 
 
