@@ -160,9 +160,6 @@ class MainView extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.heading}>
-                    <Text style={styles.headText}> iHealth Demo </Text>
-                </View>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => this.startDiscovery()}>
@@ -251,30 +248,25 @@ var connectedDeviceArray = [];
 export default class LaunchView extends Component {
 
     configureScene(route, routeStack) {
-        return Navigator.SceneConfigs.FadeAndroid
+        return Navigator.SceneConfigs.HorizontalSwipeJump
     }
 
     renderScene(route, navigator) {
-        if (navigator.tag != route.name) {
-            navigator.tag = route.name
-            if (route.name == 'MainView') {
-                return <MainView navigator={navigator}/>
-            } else if (route.name == 'DeviceView') {
-                switch (route.type) {
-                    case "BP5":
-                        return <BP5View navigator={navigator} mac={route.mac}/>
-                        break;
-                    case "AM4":
-                    case "AM3S":
-                        return <AMView navigator={navigator} mac={route.mac} type={route.type}/>
-                        break;
-                    default:
-                        console.warn('Not implemented yet, type = ' + route.type)
-                        break;
-                }
+        if (route.name == 'MainView') {
+            return <MainView navigator={navigator}/>
+        } else if (route.name == 'DeviceView') {
+            switch (route.type) {
+                case "BP5":
+                    return <BP5View navigator={navigator} mac={route.mac}/>
+                    break;
+                case "AM4":
+                case "AM3S":
+                    return <AMView navigator={navigator} mac={route.mac} type={route.type}/>
+                    break;
+                default:
+                    console.warn('Not implemented yet, type = ' + route.type)
+                    break;
             }
-        } else {
-            console.log('奇怪。。。。')
         }
     }
 
@@ -290,25 +282,35 @@ export default class LaunchView extends Component {
                         routeMapper={{
                             LeftButton: (route, navigator, index, navState) => {
                                 if (route.name == "MainView") {
-                                    return null
+                                    return (
+                                        <View
+                                            style={{flex: 1, justifyContent: 'center', marginLeft: 10}}>
+                                            <Text style={styles.navigationBarTitle}>iHealthReactNative</Text>
+                                        </View>
+                                    );
                                 } else {
                                     return (
-                                        <TouchableHighlight onPress={() => navigator.pop()}>
-                                            <Text>Back</Text>
-                                        </TouchableHighlight>
+                                        <View
+                                            style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}}>
+                                            <TouchableHighlight
+                                                style={{flex: 1, width: 40}}
+                                                onPress={() => navigator.jumpBack()}
+                                                underlayColor='#312F31'>
+                                                <Text style={styles.navigationBarBack}>⇦</Text>
+                                            </TouchableHighlight>
+                                            <View style={{width: 1, backgroundColor: '#2E2E32', marginTop: 10, marginBottom: 10, marginRight: 10}}/>
+                                            <Text style={styles.navigationBarTitle}>{route.type}</Text>
+                                        </View>
+
                                     );
                                 }
                             }, RightButton: (route, navigator, index, navState) => {
                                 return null
                             }, Title: (route, navigator, index, navState) => {
-                                if (route.name == "MainView") {
-                                    return (<Text>iHealthReactNative</Text>);
-                                } else {
-                                    return (<Text>{route.type}</Text>)
-                                }
+                                return null
                             }
                         }}
-                        style={{backgroundColor: 'gray'}}
+                        style={{backgroundColor: '#393A3F'}}
                     />
                 }
             />
@@ -321,7 +323,7 @@ export default class LaunchView extends Component {
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 20
+        marginTop: 75
     },
     // 导航栏
     heading: {
@@ -360,5 +362,16 @@ var styles = StyleSheet.create({
         fontSize: 22,
     }, listItemDesc: {
         fontSize: 13,
+    }, navigationBarTitle: {
+        textAlignVertical: 'center',
+        fontSize: 20,
+        color: 'white',
+    }, navigationBarBack: {
+        flex: 1,
+        textAlignVertical: 'center',
+        textAlign: 'center',
+        fontSize: 20,
+        color: 'white',
+        fontWeight: 'bold'
     }
 });

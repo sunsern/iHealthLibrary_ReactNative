@@ -97,4 +97,16 @@ export default class AMView extends Component {
         }
 
     }
+    componentDidMount() {
+        let self = this
+        this.disconnectListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
+            // handle event.
+            if (e.mac == self.props.mac) {
+                self.props.navigator.pop()
+            }
+        });
+    }
+    componentWillUnmount() {
+        this.disconnectListener.remove()
+    }
 }
