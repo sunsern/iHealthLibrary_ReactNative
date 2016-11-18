@@ -2,11 +2,11 @@
 
 ##Install  
 ```
- npm install  ihealthlibrary-react-native  
+ npm install ihealthlibrary-react-native  
 ```
 
 
-##Configure model for Android
+##Configure module for Android
 ```
 1. android/settings.gradle    
 
@@ -29,24 +29,25 @@
 ##Import module
 ```
 import {
-  iHealthDeviceManagerModel,
-  BP5Model
+  iHealthDeviceManagerModule,
+  BP5Module,
+  AM4Module
 } from 'ihealthlibrary-react-native'
 ```
 
 
 ##Demo Api
 ```
-	Discovery: iHealthDeviceManagerModel.startDiscovery(iHealthDeviceManagerModel.BP5)  
+	Discovery: iHealthDeviceManagerModule.startDiscovery(iHealthDeviceManagerModule.BP5)  
 ```
 ```
-	Connect: iHealthDeviceManagerModel.connectDevice(mac,type)  
+	Connect: iHealthDeviceManagerModule.connectDevice(mac,type)  
 ```
 ```
-	Start Measure: BP5Model.startMeasure(mac)  
+	Start Measure: BP5Module.startMeasure(mac)  
 ```
 ```
-	Stop Measure: BP5Model.stopMeasure(mac)  
+	Stop Measure: BP5Module.stopMeasure(mac)  
 ```
 ##Example
 
