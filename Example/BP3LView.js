@@ -21,7 +21,6 @@ import {
     BPProfileModule
 } from 'ihealthlibrary-react-native'
 
-import Log from './Log';
 
 
 var styles = StyleSheet.create({
@@ -77,53 +76,43 @@ class TipView extends Component {
 }
 
 
-let log = new Log;
 
 export default class BP3LView extends Component {
 
     constructor(props) {
         super(props);
 
-        var error_Listener = null;
-        var connectionListener = null;
-        var battery_Listerner = null;
-        var Zeroing_Listerner = null;
-        var ZeroOver_Listerner = null;
-        var Pressure_Listerner = null;
-        var PulseWave_Listerner = null;
-        var Result_Listerner = null;
-        var interrupted_Listener = null;
 
     }
 
     componentWillMount() {
-        log.info('BP3LView', 'componentWillMount()', null);
+        console.info('BP3LView', 'componentWillMount()', null);
         this._addListener();
     }
 
     componentDidMount() {
-        log.info('BP3LView', 'componentDidMount()', null);
+        console.info('BP3LView', 'componentDidMount()', null);
     }
 
 
     componentWillReceiveProps() {
-        log.info('BP3LView', 'componentWillReceiveProps()', null);
+        console.info('BP3LView', 'componentWillReceiveProps()', null);
     }
 
     shouldComponentUpdate() {
-        log.info('BP3LView', 'shouldComponentUpdate()', null);
+        console.info('BP3LView', 'shouldComponentUpdate()', null);
     }
 
     componentWillUpdate() {
-        log.info('BP3LView', 'componentWillUpdate()', null);
+        console.info('BP3LView', 'componentWillUpdate()', null);
     }
 
     componentDidUpdate() {
-        log.info('BP3LView', 'componentDidUpdate()', null);
+        console.info('BP3LView', 'componentDidUpdate()', null);
     }
 
     componentWillUnmount() {
-        log.info('BP3LView', 'componentWillUnmount()', null);
+        console.info('BP3LView', 'componentWillUnmount()', null);
 
         this._removeListener();
 
@@ -131,7 +120,7 @@ export default class BP3LView extends Component {
 
     render() {
 
-        log.info('BP3LView', 'render()', null);
+        console.info('BP3LView', 'render()', null);
 
         return (
             <View style={styles.container}>
@@ -217,90 +206,53 @@ export default class BP3LView extends Component {
 
 
         let self = this;
-        this.error_Listener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Action_Error, function (e: Event) {
-            log.info('BP3LView', '_addListener()_Action_Error', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)});
-        });
         this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
-            log.info('BP3LView', '_addListener()_DeviceDisconnect', JSON.stringify(e));
+            // handle event.
+            console.info('BP5View', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
-
-        this.battery_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_Battery, function (e: Event) {
-            log.info('BP3LView', '_addListener()_Action_Battery', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-
+        this.notifyListener = DeviceEventEmitter.addListener(BP3LModule.NOTIFY_EVENT_BP3L, function (e: Event) {
+            console.info('BP5View', 'addListener_DeviceDisconnect',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
+            if (e.action === BPProfileModule.Action_Battery) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_Zeroing) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_ZeroOver) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_Pressure) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_PulseWave) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_Result) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_interrupted) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
         });
 
-        this.Zeroing_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_Zeroing, function (e: Event) {
-            log.info('BP3LView', '_addListener()_Action_Zeroing', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-
-        });
-
-        this.ZeroOver_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_ZeroOver, function (e: Event) {
-            log.info('BP3LView', '_addListener()_Action_ZeroOver', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-        });
-
-
-        this.Pressure_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_Pressure, function (e: Event) {
-            log.info('BP3LView', '_addListener()_Action_Pressure', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-        });
-
-        this.PulseWave_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_PulseWave, function (e: Event) {
-            log.info('BP3LView', '_addListener()_Action_PulseWave', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-        });
-
-        this.Result_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_Result, function (e: Event) {
-            log.info('BP3LView', '_addListener()_Action_Result', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-        });
-        this.interrupted_Listener = DeviceEventEmitter.addListener(BPProfileModule.Action_interrupted, function (e: Event) {
-            // handle event.
-            log.info('BP3LView', 'addListener_Action_interrupted', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-        });
 
     }
 
     _removeListener() {
         //Unregister  event
-        if (this.error_Listener) {
-            this.error_Listener.remove()
-        }
         if (this.connectionListener) {
             this.connectionListener.remove()
         }
-        if (this.battery_Listerner) {
-            this.battery_Listerner.remove()
-        }
-        if (this.Zeroing_Listerner) {
-            this.Zeroing_Listerner.remove()
-        }
-        if (this.ZeroOver_Listerner) {
-            this.ZeroOver_Listerner.remove()
-        }
-        if (this.Pressure_Listerner) {
-            this.Pressure_Listerner.remove()
-        }
-        if (this.PulseWave_Listerner) {
-            this.PulseWave_Listerner.remove()
-        }
-        if (this.Result_Listerner) {
-            this.Result_Listerner.remove()
-        }
-        if (this.interrupted_Listener) {
-            this.interrupted_Listener.remove()
+        if (this.notifyListener) {
+            this.notifyListener.remove()
         }
     }
 
 
     _getDeviceIDPS() {
         iHealthDeviceManagerModule.getDevicesIDPS(this.props.mac, (e) => {
-            console.log('deviceInfo:' + JSON.stringify(e));
+            console.info('deviceInfo:' + JSON.stringify(e));
             this.refs.tipView.setState({tip: JSON.stringify(e)})
         })
     }

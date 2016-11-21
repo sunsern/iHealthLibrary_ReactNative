@@ -24,7 +24,6 @@ import {
     BPProfileModule
 } from 'ihealthlibrary-react-native'
 
-import Log from './Log';
 
 
 var styles = StyleSheet.create({
@@ -80,50 +79,44 @@ class TipView extends Component {
 }
 
 
-let log = new Log;
 
 export default class BP550BTView extends Component {
 
     constructor(props) {
         super(props);
 
-        var error_Listener = null;
-        var connectionListener = null;
-        var battery_Listerner = null;
-        var getOffLineNum_Listerner = null;
-        var getOffLineData_Listerner = null;
-        var getFunctionInfo_Listerner = null;
+
 
     }
 
     componentWillMount() {
-        log.info('BP550BTView', 'componentWillMount()', "mac = " + this.props.mac + " type = " + this.props.type);
+        console.info('BP550BTView', 'componentWillMount()', "mac = " + this.props.mac + " type = " + this.props.type);
         this._addListener();
     }
 
     componentDidMount() {
-        log.info('BP550BTView', 'componentDidMount()', null);
+        console.info('BP550BTView', 'componentDidMount()');
     }
 
 
     componentWillReceiveProps() {
-        log.info('BP550BTView', 'componentWillReceiveProps()', null);
+        console.info('BP550BTView', 'componentWillReceiveProps()');
     }
 
     shouldComponentUpdate() {
-        log.info('BP550BTView', 'shouldComponentUpdate()', null);
+        console.info('BP550BTView', 'shouldComponentUpdate()');
     }
 
     componentWillUpdate() {
-        log.info('BP550BTView', 'componentWillUpdate()', null);
+        console.info('BP550BTView', 'componentWillUpdate()');
     }
 
     componentDidUpdate() {
-        log.info('BP550BTView', 'componentDidUpdate()', null);
+        console.info('BP550BTView', 'componentDidUpdate()');
     }
 
     componentWillUnmount() {
-        log.info('BP550BTView', 'componentWillUnmount()', null);
+        console.info('BP550BTView', 'componentWillUnmount()');
 
         this._removeListener();
 
@@ -131,7 +124,7 @@ export default class BP550BTView extends Component {
 
     render() {
 
-        log.info('BP550BTView', 'render()', null);
+        console.info('BP550BTView', 'render()');
 
         return (
             <View style={styles.container}>
@@ -231,67 +224,47 @@ export default class BP550BTView extends Component {
 
 
         let self = this;
-        this.error_Listener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Action_Error, function (e: Event) {
-            log.info('BP550BTView', '_addListener()_Action_Error', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)});
-        });
+
         this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
-            log.info('BP550BTView', '_addListener()_DeviceDisconnect', JSON.stringify(e));
+            // handle event.
+            console.info('BP5View', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
-
-        this.battery_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_Battery, function (e: Event) {
-            log.info('BP550BTView', '_addListener()_Action_Battery', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-
-        });
-        this.getOffLineNum_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_getOffLineDataNum, function (e: Event) {
-            log.info('BP550BTView', '_addListener()_Action_getOffLineDataNum', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-
-        });
-
-        this.getOffLineData_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_getOffLineData, function (e: Event) {
-            log.info('BP550BTView', '_addListener()_Action_getOffLineData', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-
-        });
-
-        this.getFunctionInfo_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_getFunctionInfo, function (e: Event) {
-            log.info('BP550BTView', '_addListener()_Action_getFunctionInfo', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
+        this.notifyListener = DeviceEventEmitter.addListener(BP550BTModule.NOTIFY_EVENT_BP550BT, function (e: Event) {
+            console.info('BP5View', 'addListener_DeviceDisconnect',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
+            if (e.action === BPProfileModule.Action_Battery) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_getOffLineDataNum) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_getOffLineData) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_getFunctionInfo) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
 
         });
+
 
 
     }
 
     _removeListener() {
         //Unregister  event
-        if (this.error_Listener) {
-            this.error_Listener.remove()
-        }
         if (this.connectionListener) {
             this.connectionListener.remove()
         }
-        if (this.battery_Listerner) {
-            this.battery_Listerner.remove()
-        }
-        if (this.getOffLineNum_Listerner) {
-            this.getOffLineNum_Listerner.remove()
-        }
-        if (this.getOffLineData_Listerner) {
-            this.getOffLineData_Listerner.remove()
-        }
-        if (this.getFunctionInfo_Listerner) {
-            this.getFunctionInfo_Listerner.remove()
+        if (this.notifyListener) {
+            this.notifyListener.remove()
         }
     }
 
 
     _getDeviceIDPS() {
         iHealthDeviceManagerModule.getDevicesIDPS(this.props.mac, (e) => {
-            console.log('deviceInfo:' + JSON.stringify(e));
+            console.info('deviceInfo:' + JSON.stringify(e));
             this.refs.tipView.setState({tip: JSON.stringify(e)})
         })
     }

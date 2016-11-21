@@ -22,7 +22,6 @@ import {
     BPProfileModule
 } from 'ihealthlibrary-react-native'
 
-import Log from './Log';
 
 
 var styles = StyleSheet.create({
@@ -78,52 +77,43 @@ class TipView extends Component {
 }
 
 
-let log = new Log;
 
 export default class BP7SView extends Component {
 
     constructor(props) {
         super(props);
 
-        var error_Listener = null;
-        var connectionListener = null;
-        var battery_Listerner = null;
-        var getOffLineNum_Listerner = null;
-        var getOffLineData_Listerner = null;
-        var getFunctionInfo_Listerner = null;
-        var setUnit_Listener = null;
-        var setAngle_Listener = null;
 
     }
 
     componentWillMount() {
-        log.info('BP7SView', 'componentWillMount()', "mac = " + this.props.mac + " type = " + this.props.type);
+        console.info('BP7SView', 'componentWillMount()', "mac = " + this.props.mac + " type = " + this.props.type);
         this._addListener();
     }
 
     componentDidMount() {
-        log.info('BP7SView', 'componentDidMount()', null);
+        console.info('BP7SView', 'componentDidMount()');
     }
 
 
     componentWillReceiveProps() {
-        log.info('BP7SView', 'componentWillReceiveProps()', null);
+        console.info('BP7SView', 'componentWillReceiveProps()');
     }
 
     shouldComponentUpdate() {
-        log.info('BP7SView', 'shouldComponentUpdate()', null);
+        console.info('BP7SView', 'shouldComponentUpdate()');
     }
 
     componentWillUpdate() {
-        log.info('BP7SView', 'componentWillUpdate()', null);
+        console.info('BP7SView', 'componentWillUpdate()');
     }
 
     componentDidUpdate() {
-        log.info('BP7SView', 'componentDidUpdate()', null);
+        console.info('BP7SView', 'componentDidUpdate()');
     }
 
     componentWillUnmount() {
-        log.info('BP7SView', 'componentWillUnmount()', null);
+        console.info('BP7SView', 'componentWillUnmount()');
 
         this._removeListener();
 
@@ -131,7 +121,7 @@ export default class BP7SView extends Component {
 
     render() {
 
-        log.info('BP7SView', 'render()', null);
+        console.info('BP7SView', 'render()');
 
         return (
             <View style={styles.container}>
@@ -258,43 +248,33 @@ export default class BP7SView extends Component {
 
 
         let self = this;
-        this.error_Listener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Action_Error, function (e: Event) {
-            log.info('BP7SView', '_addListener()_Action_Error', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)});
-        });
+
         this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
-            log.info('BP7SView', '_addListener()_DeviceDisconnect', JSON.stringify(e));
+            // handle event.
+            console.info('BP5View', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
+        this.notifyListener = DeviceEventEmitter.addListener(BP7SModule.NOTIFY_EVENT_BP7S, function (e: Event) {
+            console.info('BP5View', 'addListener_DeviceDisconnect',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
+            if (e.action === BPProfileModule.Action_Battery) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_getOffLineDataNum) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_getOffLineData) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_getFunctionInfo) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_setUnitSuccess) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_setAngleSuccess) {
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
+            }
 
-        this.battery_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_Battery, function (e: Event) {
-            log.info('BP7SView', '_addListener()_Action_Battery', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-
-        });
-        this.getOffLineNum_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_getOffLineDataNum, function (e: Event) {
-            log.info('BP7SView', '_addListener()_Action_getOffLineDataNum', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-
-        });
-
-        this.getOffLineData_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_getOffLineData, function (e: Event) {
-            log.info('BP7SView', '_addListener()_Action_getOffLineData', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-
-        });
-
-        this.getFunctionInfo_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_getFunctionInfo, function (e: Event) {
-            log.info('BP7SView', '_addListener()_Action_getFunctionInfo', JSON.stringify(e));
-            self.refs.tipView.setState({tip: JSON.stringify(e)})
-
-        });
-
-        this.setUnit_Listener = DeviceEventEmitter.addListener(BPProfileModule.Action_setUnitSuccess, function (e: Event) {
-            log.info('BP7SView', '_addListener()Action_setUnitSuccess', JSON.stringify(e));
-        });
-        this.setAngle_Listener = DeviceEventEmitter.addListener(BPProfileModule.Action_setAngleSuccess, function (e: Event) {
-            log.info('BP7SView', '_addListener()_Action_setAngleSuccess', JSON.stringify(e));
         });
 
 
@@ -302,36 +282,19 @@ export default class BP7SView extends Component {
 
     _removeListener() {
         //Unregister  event
-        if (this.error_Listener) {
-            this.error_Listener.remove()
-        }
         if (this.connectionListener) {
             this.connectionListener.remove()
         }
-        if (this.battery_Listerner) {
-            this.battery_Listerner.remove()
+        if (this.notifyListener) {
+            this.notifyListener.remove()
         }
-        if (this.getOffLineNum_Listerner) {
-            this.getOffLineNum_Listerner.remove()
-        }
-        if (this.getOffLineData_Listerner) {
-            this.getOffLineData_Listerner.remove()
-        }
-        if (this.getFunctionInfo_Listerner) {
-            this.getFunctionInfo_Listerner.remove()
-        }
-        if (this.setUnit_Listener) {
-            this.setUnit_Listener.remove()
-        }
-        if (this.setAngle_Listener) {
-            this.setAngle_Listener.remove()
-        }
+
     }
 
 
     _getDeviceIDPS() {
         iHealthDeviceManagerModule.getDevicesIDPS(this.props.mac, (e) => {
-            console.log('deviceInfo:' + JSON.stringify(e));
+            console.info('deviceInfo:' + JSON.stringify(e));
             this.refs.tipView.setState({tip: JSON.stringify(e)})
         })
     }

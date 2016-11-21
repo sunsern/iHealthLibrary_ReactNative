@@ -17,9 +17,6 @@ import {
     BPProfileModule
 } from 'ihealthlibrary-react-native'
 
-import Log from './Log'
-
-let log = new Log;
 
 var styles = StyleSheet.create({
     container: {
@@ -60,7 +57,7 @@ class TipView extends Component {
     }
 
     render() {
-        log.info('TipView', 'render()', null);
+        console.info('TipView', 'render()', null);
         return (
             <View>
                 <Text> Tip: {this.state.tip} </Text>
@@ -75,55 +72,37 @@ export default class BP5View extends Component {
     constructor(props) {
         super(props);
 
-        var error_Listener = null;
-        var connectionListener = null;
-        var battery_Listerner = null;
-        var enableOffline_Listener = null;
-        var disEnableOffline_Listener = null;
-        var is_enable_offline_Listener = null;
-
-        var getOffLineNum_Listerner = null;
-        var getOffLineData_Listerner = null;
-
-        var interrupted_Listener = null;
-        var Zeroing_Listerner = null;
-        var ZeroOver_Listerner = null;
-        var Pressure_Listerner = null;
-        var PulseWave_Listerner = null;
-        var Result_Listerner = null;
-
-
     }
 
     componentWillMount() {
-        log.info('BP5View', 'componentWillMount', null);
+        console.info('BP5View', 'componentWillMount', null);
         this._addListener();
 
     }
 
     componentDidMount() {
-        log.info('BP5View', 'componentDidMount', null);
+        console.info('BP5View', 'componentDidMount', null);
     }
 
 
     componentWillReceiveProps() {
-        log.info('BP5View', 'componentWillReceiveProps', null);
+        console.info('BP5View', 'componentWillReceiveProps', null);
     }
 
     shouldComponentUpdate() {
-        log.info('BP5View', 'shouldComponentUpdate', null);
+        console.info('BP5View', 'shouldComponentUpdate', null);
     }
 
     componentWillUpdate() {
-        log.info('BP5View', 'componentWillUpdate', null);
+        console.info('BP5View', 'componentWillUpdate', null);
     }
 
     componentDidUpdate() {
-        log.info('BP5View', 'componentDidUpdate', null);
+        console.info('BP5View', 'componentDidUpdate', null);
     }
 
     componentWillUnmount() {
-        log.info('BP5View', 'componentWillUnmount', null);
+        console.info('BP5View', 'componentWillUnmount', null);
         this._removeListener();
     }
 
@@ -132,18 +111,53 @@ export default class BP5View extends Component {
     _addListener() {
         let self = this;
 
-        this.error_Listener = DeviceEventEmitter.addListener(BPProfileModule.Action_Error, function (e: Error) {
-            log.info('BP5View', 'addListener_Action_Error', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)});
-        });
         this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
             // handle event.
-            log.info('BP5View', 'addListener_DeviceDisconnect', JSON.stringify(e));
+            console.info('BP5View', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
         this.notifyListener = DeviceEventEmitter.addListener(BP5Module.NOTIFY_EVENT_BP5, function (e: Event) {
-            log.info('BP5View', e.action, JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)});
+
+            console.info('BP5View', 'addListener_DeviceDisconnect',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
+            if (e.action === BPProfileModule.Action_Battery) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_Zeroing) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_ZeroOver) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_Pressure) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_PulseWave) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_Result) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_getOffLineDataNum) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_getOffLineData) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_enableOffline) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_disEnableOffline) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_is_enable_offline) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.Action_interrupted) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+
+
+
         });
     }
 
@@ -244,7 +258,7 @@ export default class BP5View extends Component {
     }
     _getDeviceIDPS() {
         iHealthDeviceManagerModule.getDevicesIDPS(this.props.mac, (e) => {
-            console.log('deviceInfo:' + JSON.stringify(e));
+            console.info('deviceInfo:' + JSON.stringify(e));
             this.refs.TipView.setState({tip: JSON.stringify(e)})
         })
     }

@@ -9,6 +9,10 @@ var { NativeModules } = require('react-native');
 var RCTModule = NativeModules.BP3LModule
 
 var BP3LModule = {
+    /**
+     * Notify event type for BP3L.
+     */
+    NOTIFY_EVENT_BP3L: RCTModule.NOTIFY_EVENT_BP3L,
 
     /**
      * Start measure blood pressure monitor
