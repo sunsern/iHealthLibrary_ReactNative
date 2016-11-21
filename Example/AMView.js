@@ -4,7 +4,8 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    ScrollView
 } from 'react-native';
 
 import {
@@ -34,7 +35,7 @@ var styles = StyleSheet.create({
     },
     // 按钮
     button: {
-        height: 60,
+        height: 45,
         marginTop: 10,
         justifyContent: 'center', // 内容居中显示
         backgroundColor: '#eedddd',
@@ -60,31 +61,242 @@ export default class AMView extends Component {
             resultText: ""
         }
     }
+
     render() {
         console.log("AMView render() type = " + this.props.type)
         if (this.props.type == 'AM4') {
             return (
                 <View
                     style={styles.container}>
-                    <Text>{this.state.resultText}</Text>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={()=> {
-                            AM4Module.disconnect(this.props.mac)
-                        }}>
-                        <Text style={styles.buttonText}>
-                            Disconnect
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={()=> {
-                            AM4Module.getUserInfo(this.props.mac)
-                        }}>
-                        <Text style={styles.buttonText}>
-                            GetUserInfo
-                        </Text>
-                    </TouchableOpacity>
+                    <Text
+                        style={{height: 100}}>{this.state.resultText}</Text>
+                    <ScrollView>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.disconnect(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                Disconnect
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.getIdps(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                GetIdps
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.reset(this.props.mac, 0)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                reset
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.getUserId(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                getUserId
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.getAlarmClockNum(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                getAlarmClockNum
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.getAlarmClockDetail(this.props.mac, [1, 3, 2])
+                            }}>
+                            <Text style={styles.buttonText}>
+                                getAlarmClockDetail
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.setAlarmClock(this.props.mac, 1, 12, 0, true, [1, 1, 1, 1, 1, 0, 0], false)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                setAlarmClock
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.deleteAlarmClock(this.props.mac, 1)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                deleteAlarmClock
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.getActivityRemind(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                getActivityRemind
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.setActivityRemind(this.props.mac, 0, 30, false)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                setActivityRemind
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.queryAMState(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                queryAMState
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.setUserId(this.props.mac, 8)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                setUserId
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.getUserInfo(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                getUserInfo
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.setUserBmr(this.props.mac, 2000)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                setUserBmr
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.syncActivityData(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                syncActivityData
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.syncSleepData(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                syncSleepData
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.syncRealData(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                syncRealData
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.syncRealTime(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                syncRealTime
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.setHourMode(this.props.mac, 0)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                setHourMode
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.getHourMode(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                getHourMode
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.setUserInfo(this.props.mac, 25, 183, 80, 0, 0, 1000, 1, 30)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                setUserInfo
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.syncStageReportData(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                syncStageReportData
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.sendRandom(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                sendRandom
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.checkSwimPara(this.props.mac)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                checkSwimPara
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                AM4Module.setSwimPara(this.props.mac, true, 25, 0, 10, 0)
+                            }}>
+                            <Text style={styles.buttonText}>
+                                setSwimPara
+                            </Text>
+                        </TouchableOpacity>
+                    </ScrollView>
                 </View>
             )
         } else {
@@ -94,7 +306,7 @@ export default class AMView extends Component {
                     <Text>{this.state.resultText}</Text>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={()=> {
+                        onPress={() => {
                             AM4Module.disconnect(this.props.mac)
                         }}>
                         <Text style={styles.buttonText}>
@@ -103,7 +315,7 @@ export default class AMView extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={()=> {
+                        onPress={() => {
                             AM4Module.getUserInfo(this.props.mac)
                         }}>
                         <Text style={styles.buttonText}>
@@ -115,6 +327,7 @@ export default class AMView extends Component {
         }
 
     }
+
     componentDidMount() {
         let self = this
         this.disconnectListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
@@ -127,6 +340,7 @@ export default class AMView extends Component {
             self.setState({resultText: "event: " + JSON.stringify(e)})
         });
     }
+
     componentWillUnmount() {
         this.disconnectListener.remove()
         this.notifyListener.remove()
