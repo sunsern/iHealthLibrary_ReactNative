@@ -119,15 +119,15 @@ public class iHealthDeviceManagerModule extends ReactContextBaseJavaModule imple
         }
         //BP3L
         else if (iHealthDevicesManager.TYPE_BP3L.equals(deviceType)) {
-
+            handleMessage = BP3LModule.handleNotify(mac, deviceType, action, message);
         }
         //550BT
         else if (iHealthDevicesManager.TYPE_550BT.equals(deviceType)) {
-
+            handleMessage = BP550BTModule.handleNotify(mac, deviceType, action, message);
         }
         //BP7S
         else if (iHealthDevicesManager.TYPE_BP7S.equals(deviceType)) {
-
+            handleMessage = BP7SModule.handleNotify(mac, deviceType, action, message);
         }
         //AM3S
         else if (iHealthDevicesManager.TYPE_AM3S.equals(deviceType)) {

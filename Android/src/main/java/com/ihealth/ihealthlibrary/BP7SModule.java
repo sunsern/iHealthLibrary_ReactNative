@@ -1,71 +1,46 @@
 package com.ihealth.ihealthlibrary;
 
-import android.util.Log;
-
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
-import com.ihealth.communication.control.Bp5Control;
-
+import com.ihealth.communication.control.Bp7sControl;
 import com.ihealth.communication.control.BpProfile;
-import com.ihealth.communication.manager.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nullable;
+import com.ihealth.communication.manager.iHealthDevicesManager;
 
 /**
- * Created by jing on 16/10/24.
+ * Created by zhangxu on 16/11/20.
  */
 
-public class BP5Module extends ReactContextBaseJavaModule {
+public class BP7SModule extends ReactContextBaseJavaModule {
 
-    private static final String modelName = "BP5Module";
-    private static final String TAG = "BP5Module";
-
-
-
-    public BP5Module(ReactApplicationContext reactContext) {
+    private String moduleName = "BP7SModule";
+    public BP7SModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
-
     @Override
     public String getName() {
-        return modelName;
-    }
-
-    @ReactMethod
-    public void startMeasure(String mac) {
-        Bp5Control bp5Control = iHealthDevicesManager.getInstance().getBp5Control(mac);
-        if (bp5Control != null) {
-            bp5Control.startMeasure();
-        } else {
-            WritableMap params = Arguments.createMap();
-            params.putInt("errorid",400);
-            iHealthDeviceManagerModule.sendEvent("Error", params);
-        }
-    }
-
-    @ReactMethod
-    public void stopMeasure(String mac) {
-        Bp5Control bp5Control = iHealthDevicesManager.getInstance().getBp5Control(mac);
-        if (bp5Control != null) {
-            bp5Control.interruptMeasure();
-        } else {
-            WritableMap params = Arguments.createMap();
-            params.putInt("errorid",400);
-            iHealthDeviceManagerModule.sendEvent("Error", params);
-        }
+        return moduleName;
     }
     @ReactMethod
     public void getBattery(String mac) {
-        Bp5Control bp5Control = iHealthDevicesManager.getInstance().getBp5Control(mac);
-        if (bp5Control != null) {
-            bp5Control.getBattery();
+        Bp7sControl bp7sControl = iHealthDevicesManager.getInstance().getBp7sControl(mac);
+        if (bp7sControl != null) {
+            bp7sControl.getBattery();
+        }else {
+            WritableMap params = Arguments.createMap();
+            params.putInt("errorid",400);
+            iHealthDeviceManagerModule.sendEvent("Error", params);
+        }
+    }
+
+    @ReactMethod
+    public void getOffLineNum(String mac) {
+        Bp7sControl bp7sControl = iHealthDevicesManager.getInstance().getBp7sControl(mac);
+        if (bp7sControl != null) {
+            bp7sControl.getOfflineNum();
         }else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
@@ -73,10 +48,10 @@ public class BP5Module extends ReactContextBaseJavaModule {
         }
     }
     @ReactMethod
-    public void enbleOffline(String mac) {
-        Bp5Control bp5Control = iHealthDevicesManager.getInstance().getBp5Control(mac);
-        if (bp5Control != null) {
-            bp5Control.enbleOffline();
+    public void getOffLineData(String mac) {
+        Bp7sControl bp7sControl = iHealthDevicesManager.getInstance().getBp7sControl(mac);
+        if (bp7sControl != null) {
+            bp7sControl.getOfflineData();
         }else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
@@ -84,10 +59,10 @@ public class BP5Module extends ReactContextBaseJavaModule {
         }
     }
     @ReactMethod
-    public void disableOffline(String mac) {
-        Bp5Control bp5Control = iHealthDevicesManager.getInstance().getBp5Control(mac);
-        if (bp5Control != null) {
-            bp5Control.disableOffline();
+    public void setUnit(String mac, int unit) {
+        Bp7sControl bp7sControl = iHealthDevicesManager.getInstance().getBp7sControl(mac);
+        if (bp7sControl != null) {
+            bp7sControl.setUnit(unit);
         }else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
@@ -95,10 +70,10 @@ public class BP5Module extends ReactContextBaseJavaModule {
         }
     }
     @ReactMethod
-    public void isEnableOffline(String mac) {
-        Bp5Control bp5Control = iHealthDevicesManager.getInstance().getBp5Control(mac);
-        if (bp5Control != null) {
-            bp5Control.isEnableOffline();
+    public void angleSet(String mac, int leftUpper,int leftLow, int rightUpper, int rightLow) {
+        Bp7sControl bp7sControl = iHealthDevicesManager.getInstance().getBp7sControl(mac);
+        if (bp7sControl != null) {
+            bp7sControl.angleSet((byte)leftUpper,(byte)leftLow,(byte)rightUpper,(byte)rightLow);
         }else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
@@ -106,43 +81,27 @@ public class BP5Module extends ReactContextBaseJavaModule {
         }
     }
     @ReactMethod
-    public void getOfflineNum(String mac) {
-        Bp5Control bp5Control = iHealthDevicesManager.getInstance().getBp5Control(mac);
-        if (bp5Control != null) {
-            bp5Control.getOfflineNum();
+    public void getFunctionInfo(String mac) {
+        Bp7sControl bp7sControl = iHealthDevicesManager.getInstance().getBp7sControl(mac);
+        if (bp7sControl != null) {
+            bp7sControl.getFunctionInfo();
         }else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
             iHealthDeviceManagerModule.sendEvent("Error", params);
         }
     }
-    @ReactMethod
-    public void getOfflineData(String mac) {
-        Bp5Control bp5Control = iHealthDevicesManager.getInstance().getBp5Control(mac);
-        if (bp5Control != null) {
-            bp5Control.getOfflineData();
-        }else {
-            WritableMap params = Arguments.createMap();
-            params.putInt("errorid",400);
-            iHealthDeviceManagerModule.sendEvent("Error", params);
-        }
-    }
+
     @ReactMethod
     public void disconnect(String mac) {
-        Bp5Control bp5Control = iHealthDevicesManager.getInstance().getBp5Control(mac);
-        if (bp5Control != null) {
-            bp5Control.disconnect();
+        Bp7sControl bp7sControl = iHealthDevicesManager.getInstance().getBp7sControl(mac);
+        if (bp7sControl != null) {
+            bp7sControl.disconnect();
         }else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
             iHealthDeviceManagerModule.sendEvent("Error",params);
         }
-    }
-
-
-    @ReactMethod
-    public void Logger(String tag, String msg) {
-        Log.e(TAG, msg);
     }
 
 
@@ -169,6 +128,7 @@ public class BP5Module extends ReactContextBaseJavaModule {
             default:
                 break;
         }
+
         if (message == null) {
             WritableMap params = Arguments.createMap();
             params.putString("mac", mac);
@@ -182,5 +142,7 @@ public class BP5Module extends ReactContextBaseJavaModule {
 
             return params;
         }
+
     }
+
 }
