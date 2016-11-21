@@ -76,6 +76,15 @@ export default class AMView extends Component {
                             Disconnect
                         </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={()=> {
+                            AM4Module.getUserInfo(this.props.mac)
+                        }}>
+                        <Text style={styles.buttonText}>
+                            GetUserInfo
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             )
         } else {
@@ -92,6 +101,15 @@ export default class AMView extends Component {
                             Disconnect
                         </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={()=> {
+                            AM4Module.getUserInfo(this.props.mac)
+                        }}>
+                        <Text style={styles.buttonText}>
+                            GetUserInfo
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             )
         }
@@ -105,8 +123,12 @@ export default class AMView extends Component {
                 self.props.navigator.pop()
             }
         });
+        this.notifyListener = DeviceEventEmitter.addListener(AM4Module.NOTIFY_EVENT_AM4, function (e: Event) {
+            self.setState({resultText: "event: " + JSON.stringify(e)})
+        });
     }
     componentWillUnmount() {
         this.disconnectListener.remove()
+        this.notifyListener.remove()
     }
 }

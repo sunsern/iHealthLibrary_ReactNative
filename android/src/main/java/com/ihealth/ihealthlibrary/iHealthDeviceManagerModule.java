@@ -6,24 +6,21 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
+import com.ihealth.communication.manager.iHealthDevicesCallback;
+import com.ihealth.communication.manager.iHealthDevicesManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
-
-import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.ihealth.communication.manager.*;
-
 /**
  * Created by jing on 16/10/20.
  */
 
-public class iHealthDeviceManagerModule extends ReactContextBaseJavaModule implements LifecycleEventListener{
+public class iHealthDeviceManagerModule extends iHealthBaseModule implements LifecycleEventListener{
 
     private static final String modelName = "iHealthDeviceManagerModule";
     private static final String TAG = "iHealthModel";
@@ -52,12 +49,10 @@ public class iHealthDeviceManagerModule extends ReactContextBaseJavaModule imple
 
 
     private int callbackId;
-    private static ReactApplicationContext reactApplicationContext;
 
     public iHealthDeviceManagerModule(ReactApplicationContext reactContext) {
-        super(reactContext);
+        super(TAG, reactContext);
         reactContext.addLifecycleEventListener(this);
-        reactApplicationContext = reactContext;
         iHealthDevicesManager.getInstance().init(reactContext);
         callbackId = iHealthDevicesManager.getInstance().registerClientCallback(miHealthDevicesCallback);
     }
@@ -109,61 +104,47 @@ public class iHealthDeviceManagerModule extends ReactContextBaseJavaModule imple
 
     };
 
-
-    void commandHandleDeviceNotify(String mac, String deviceType, String action, String message) {
+    private void commandHandleDeviceNotify(String mac, String deviceType, String action, String message) {
         //为了与iOS返回值保持一致，需要进行二次加工
-        WritableMap handleMessage = null;
-        //BP5
-        if (iHealthDevicesManager.TYPE_BP5.equals(deviceType)) {
-            handleMessage = BP5Module.handleNotify(mac, deviceType, action, message);
+        iHealthBaseModule module = null;
+        switch (deviceType) {
+            case iHealthDevicesManager.TYPE_BP5:
+                module = getReactApplicationContext().getNativeModule(BP5Module.class);
+                break;
+            case iHealthDevicesManager.TYPE_BP3L:
+                module = getReactApplicationContext().getNativeModule(BP3LModule.class);
+                break;
+            case iHealthDevicesManager.TYPE_550BT:
+                module = getReactApplicationContext().getNativeModule(BP550BTModule.class);
+                break;
+            case iHealthDevicesManager.TYPE_BP7S:
+                module = getReactApplicationContext().getNativeModule(BP7SModule.class);
+                break;
+            case iHealthDevicesManager.TYPE_AM3S:
+                break;
+            case iHealthDevicesManager.TYPE_AM4:
+                module = getReactApplicationContext().getNativeModule(AM4Module.class);
+                break;
+            case iHealthDevicesManager.TYPE_PO3:
+                break;
+            case iHealthDevicesManager.TYPE_HS4S:
+                break;
+            case iHealthDevicesManager.TYPE_HS6:
+                break;
+            case iHealthDevicesManager.TYPE_BG1:
+                break;
+            case iHealthDevicesManager.TYPE_BG5:
+                break;
+            case iHealthDevicesManager.TYPE_BG5l:
+                break;
+            default:
+                module = null;
+                break;
         }
-        //BP3L
-        else if (iHealthDevicesManager.TYPE_BP3L.equals(deviceType)) {
-            handleMessage = BP3LModule.handleNotify(mac, deviceType, action, message);
-        }
-        //550BT
-        else if (iHealthDevicesManager.TYPE_550BT.equals(deviceType)) {
-            handleMessage = BP550BTModule.handleNotify(mac, deviceType, action, message);
-        }
-        //BP7S
-        else if (iHealthDevicesManager.TYPE_BP7S.equals(deviceType)) {
-            handleMessage = BP7SModule.handleNotify(mac, deviceType, action, message);
-        }
-        //AM3S
-        else if (iHealthDevicesManager.TYPE_AM3S.equals(deviceType)) {
-
-        }
-        //AM4
-        else if (iHealthDevicesManager.TYPE_AM4.equals(deviceType)) {
-            handleMessage = AM4Module.handleNotify(mac, deviceType, action, message);
-        }
-        //PO3
-        else if (iHealthDevicesManager.TYPE_PO3.equals(deviceType)) {
-
-        }
-        //HS4S
-        else if (iHealthDevicesManager.TYPE_HS4S.equals(deviceType)) {
-
-        }
-        //HS6
-        else if (iHealthDevicesManager.TYPE_AM4.equals(deviceType)) {
-
-        }
-        //BG1
-        else if (iHealthDevicesManager.TYPE_BG1.equals(deviceType)) {
-
-        }
-        //BG5
-        else if (iHealthDevicesManager.TYPE_BG5.equals(deviceType)) {
-
-        }
-        //BG5L
-        else if (iHealthDevicesManager.TYPE_BG5l.equals(deviceType)) {
-
-        }
-
-        if (handleMessage != null) {
-            sendEvent(action, handleMessage);
+        if (module != null) {
+            module.handleNotify(mac, deviceType, action, message);
+        } else {
+            Log.e(TAG, "We do not support this type: " + deviceType);
         }
     }
 
@@ -215,17 +196,6 @@ public class iHealthDeviceManagerModule extends ReactContextBaseJavaModule imple
         Log.e(TAG,"onHostDestroy");
     }
 
-
-
-
-
-    public static void sendEvent(String eventName, WritableMap msg) {
-        reactApplicationContext
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(eventName, msg);
-    }
-
-
     @ReactMethod
     public void startDiscovery(double type) {
         iHealthDevicesManager.getInstance().startDiscovery((long)type);
@@ -249,4 +219,8 @@ public class iHealthDeviceManagerModule extends ReactContextBaseJavaModule imple
         callback.invoke(writableMap);
     }
 
+    @Override
+    public void handleNotify(String mac, String deviceType, String action, String message) {
+        //Do nothing
+    }
 }

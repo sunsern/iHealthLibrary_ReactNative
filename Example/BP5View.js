@@ -141,68 +141,9 @@ export default class BP5View extends Component {
             log.info('BP5View', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
-
-        this.battery_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_Battery, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_Battery', JSON.stringify(e));
+        this.notifyListener = DeviceEventEmitter.addListener(BP5Module.NOTIFY_EVENT_BP5, function (e: Event) {
+            log.info('BP5View', e.action, JSON.stringify(e));
             self.refs.TipView.setState({tip: JSON.stringify(e)});
-        });
-        this.Zeroing_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_Zeroing, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_Zeroing', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)})
-        });
-        this.ZeroOver_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_ZeroOver, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_ZeroOver', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)})
-        });
-        this.Pressure_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_Pressure, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_Pressure', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)})
-        });
-        this.PulseWave_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_PulseWave, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_PulseWave', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)})
-        });
-        this.Result_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_Result, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_Result', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)})
-        });
-
-        this.interrupted_Listener = DeviceEventEmitter.addListener(BPProfileModule.Action_interrupted, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_interrupted', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)})
-        });
-
-        this.enableOffline_Listener = DeviceEventEmitter.addListener(BPProfileModule.Action_enableOffline, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_enableOffline', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)})
-        });
-        this.disEnableOffline_Listener = DeviceEventEmitter.addListener(BPProfileModule.Action_disEnableOffline, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_disEnableOffline', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)})
-        });
-        this.is_enable_offline_Listener = DeviceEventEmitter.addListener(BPProfileModule.Action_is_enable_offline, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_is_enable_offline', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)})
-        });
-        this.getOffLineNum_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_getOffLineDataNum, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_getOffLineDataNum', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)})
-        });
-        this.getOffLineData_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_getOffLineData, function (e: Event) {
-            // handle event.
-            log.info('BP5View', 'addListener_Action_getOffLineData', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)})
         });
     }
 
@@ -211,44 +152,8 @@ export default class BP5View extends Component {
         if (this.connectionListener) {
             this.connectionListener.remove()
         }
-        if (this.battery_Listerner) {
-            this.battery_Listerner.remove()
-        }
-        if (this.Zeroing_Listerner) {
-            this.Zeroing_Listerner.remove()
-        }
-        if (this.ZeroOver_Listerner) {
-            this.ZeroOver_Listerner.remove()
-        }
-        if (this.Pressure_Listerner) {
-            this.Pressure_Listerner.remove()
-        }
-        if (this.PulseWave_Listerner) {
-            this.PulseWave_Listerner.remove()
-        }
-        if (this.Result_Listerner) {
-            this.Result_Listerner.remove()
-        }
-        if (this.interrupted_Listener) {
-            this.interrupted_Listener.remove()
-        }
-        if (this.error_Listener) {
-            this.error_Listener.remove()
-        }
-        if (this.enableOffline_Listener) {
-            this.enableOffline_Listener.remove()
-        }
-        if (this.disEnableOffline_Listener) {
-            this.disEnableOffline_Listener.remove()
-        }
-        if (this.is_enable_offline_Listener) {
-            this.is_enable_offline_Listener.remove()
-        }
-        if (this.getOffLineNum_Listerner) {
-            this.getOffLineNum_Listerner.remove()
-        }
-        if (this.getOffLineData_Listerner) {
-            this.getOffLineData_Listerner.remove()
+        if (this.notifyListener) {
+            this.notifyListener.remove()
         }
     }
 

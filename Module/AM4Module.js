@@ -10,6 +10,10 @@ var RCTModule = NativeModules.AM4Module
 
 var AM4Module = {
     /**
+     * Notify event type for AM4
+     */
+    NOTIFY_EVENT_AM4: RCTModule.NOTIFY_EVENT_AM4,
+    /**
      * Disconnect device
      * Attention, it is mandatory to call DeviceEventEmitter.addListener to receive event(iHealthDeviceManagerModel.DeviceDisconnect) before call the api.
      * @param mac The device's mac address.

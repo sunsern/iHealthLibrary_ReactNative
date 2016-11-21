@@ -1,31 +1,42 @@
 package com.ihealth.ihealthlibrary;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-
 import com.facebook.react.bridge.WritableMap;
-import com.ihealth.communication.manager.*;
-import com.ihealth.communication.control.*;
+import com.ihealth.communication.control.Am4Control;
+import com.ihealth.communication.manager.iHealthDevicesManager;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jing on 16/10/20.
  */
 
-public class AM4Module extends ReactContextBaseJavaModule {
+public class AM4Module extends iHealthBaseModule {
     private static final String modelName = "AM4Module";
     private static final String TAG = "AM4Module";
 
+    private static final String NOTIFY_EVENT = "notify_event_am4";
+
     public AM4Module(ReactApplicationContext reactContext) {
-        super(reactContext);
+        super(TAG, reactContext);
     }
 
     @Override
     public String getName() {
         return modelName;
+    }
+
+    @Override
+    public Map<String, Object> getConstants() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("NOTIFY_EVENT_AM4", NOTIFY_EVENT);
+        return map;
     }
 
     @ReactMethod
@@ -70,12 +81,15 @@ public class AM4Module extends ReactContextBaseJavaModule {
         return iHealthDevicesManager.getInstance().getAm4Control(mac);
     }
 
-    public static WritableMap handleNotify(String mac, String deviceType, String action, String message) {
+    @Override
+    public void handleNotify(String mac, String deviceType, String action, String message) {
         WritableMap params = Arguments.createMap();
+        params.putString("action", action);
         params.putString("mac", mac);
         params.putString("type", deviceType);
-        Utils.jsonToMap(message, params);
-
-        return params;
+        if (!TextUtils.isEmpty(message)) {
+            Utils.jsonToMap(message, params);
+        }
+        sendEvent(NOTIFY_EVENT, params);
     }
 }

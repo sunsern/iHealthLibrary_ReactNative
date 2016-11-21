@@ -1,8 +1,9 @@
 package com.ihealth.ihealthlibrary;
 
+import android.text.TextUtils;
+
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.ihealth.communication.control.Bp3lControl;
@@ -12,28 +13,30 @@ import com.ihealth.communication.manager.iHealthDevicesManager;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
-
 /**
  * Created by zhangxu on 16/11/14.
  */
 
-public class BP3LModule extends ReactContextBaseJavaModule {
-
-
+public class BP3LModule extends iHealthBaseModule {
     private String modelName = "BP3LModule";
-
     private static final String TAG = "BP3LModule";
 
+    private static final String NOTIFY_EVENT = "notify_event_bp3l";
 
     public BP3LModule(ReactApplicationContext reactContext) {
-        super(reactContext);
+        super(TAG, reactContext);
     }
-
 
     @Override
     public String getName() {
         return modelName;
+    }
+
+    @Override
+    public Map<String, Object> getConstants() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("NOTIFY_EVENT_BP3L", NOTIFY_EVENT);
+        return map;
     }
 
 
@@ -45,7 +48,7 @@ public class BP3LModule extends ReactContextBaseJavaModule {
         } else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
-            iHealthDeviceManagerModule.sendEvent("Error", params);
+            sendEvent("Error", params);
         }
     }
 
@@ -58,7 +61,7 @@ public class BP3LModule extends ReactContextBaseJavaModule {
         } else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
-            iHealthDeviceManagerModule.sendEvent("Error", params);
+            sendEvent("Error", params);
         }
     }
 
@@ -70,7 +73,7 @@ public class BP3LModule extends ReactContextBaseJavaModule {
         }else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
-            iHealthDeviceManagerModule.sendEvent("Error",params);
+            sendEvent("Error",params);
         }
     }
 
@@ -82,12 +85,12 @@ public class BP3LModule extends ReactContextBaseJavaModule {
         }else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid",400);
-            iHealthDeviceManagerModule.sendEvent("Error",params);
+            sendEvent("Error",params);
         }
     }
 
-
-    public static WritableMap handleNotify(String mac, String deviceType, String action, String message) {
+    @Override
+    public void handleNotify(String mac, String deviceType, String action, String message) {
         switch (action) {
             case BpProfile.ACTION_BATTERY_BP:
 
@@ -110,19 +113,13 @@ public class BP3LModule extends ReactContextBaseJavaModule {
             default:
                 break;
         }
-        if (message == "") {
-            WritableMap params = Arguments.createMap();
-            params.putString("mac", mac);
-            params.putString("type", deviceType);
-
-            return params;
-        }else {
-            WritableMap params = Arguments.createMap();
-            params.putString("mac", mac);
-            params.putString("type", deviceType);
+        WritableMap params = Arguments.createMap();
+        params.putString("action", action);
+        params.putString("mac", mac);
+        params.putString("type", deviceType);
+        if (!TextUtils.isEmpty(message)) {
             Utils.jsonToMap(message, params);
-
-            return params;
         }
+        sendEvent(NOTIFY_EVENT, params);
     }
 }
