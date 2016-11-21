@@ -106,7 +106,7 @@ public class BP550BTModule extends ReactContextBaseJavaModule {
             default:
                 break;
         }
-        if (message == null) {
+        if (message == "") {
             WritableMap params = Arguments.createMap();
             params.putString("mac", mac);
             params.putString("type", deviceType);

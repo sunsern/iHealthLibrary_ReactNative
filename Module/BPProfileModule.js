@@ -71,7 +71,11 @@ var BPProfile = {
     /**
      * The action of callback indicates is the function of offline measure on or off.
      */
-    Action_is_enable_offline:RCTModule.Action_is_enable_offline
+    Action_is_enable_offline:RCTModule.Action_is_enable_offline,
+    /**
+     * The action of callback indicates interrupted the measure.
+     */
+    Action_interrupted:RCTModule.Action_interrupted
 }
 
 

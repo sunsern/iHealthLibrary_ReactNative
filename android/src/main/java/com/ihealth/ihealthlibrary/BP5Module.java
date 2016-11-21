@@ -169,7 +169,7 @@ public class BP5Module extends ReactContextBaseJavaModule {
             default:
                 break;
         }
-        if (message == null) {
+        if (message == "") {
             WritableMap params = Arguments.createMap();
             params.putString("mac", mac);
             params.putString("type", deviceType);

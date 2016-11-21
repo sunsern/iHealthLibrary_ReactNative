@@ -28,8 +28,15 @@ var BP5Module = {
 		RCTModule.startMeasure(mac)
 	},
 
-
-    //补全
+    /**
+     * stop measure blood pressure monitor
+     * Attentation: Please register to receive event(BPProfileModule.Action_interrupted) before call the api.
+     *
+     * @param {string} mac
+     * @return Event('Action_interrupted') with a Map object.<br/>
+     * eg.
+     * @api public
+     */
 	stopMeasure: function(
 		//The mac address for blood pressure monitor
 		mac: string
@@ -54,6 +61,15 @@ var BP5Module = {
         }
 
     },
+    /**
+     * turn the function of offline measure on.
+     * Attentation: Please register to receive event(BPProfileModule.Action_enableOffline) before call the api.
+     *
+     * @param {string} mac
+     * @return Event('Action_enableOffline') with a Map object.<br/>
+     * eg.
+     * @api public
+     */
     enbleOffline: function (mac: string): void {
 
         if (RCTModule != null) {
@@ -63,6 +79,15 @@ var BP5Module = {
         }
 
     },
+    /**
+     * turn the function of offline measure off.
+     * Attentation: Please register to receive event(BPProfileModule.Action_disEnableOffline) before call the api.
+     *
+     * @param {string} mac
+     * @return Event('Action_disEnableOffline') with a Map object.<br/>
+     * eg.
+     * @api public
+     */
     disableOffline: function (mac: string): void {
 
         if (RCTModule != null) {
@@ -72,6 +97,15 @@ var BP5Module = {
         }
 
     },
+    /**
+     * Return true if the Bp5 is enable to Off-line measure, otherwise is disable to Off-line measure.
+     * Attentation: Please register to receive event(BPProfileModule.Action_is_enable_offline) before call the api.
+     *
+     * @param {string} mac
+     * @return Event('Action_is_enable_offline') with a Map object.<br/>
+     * eg.
+     * @api public
+     */
     isEnableOffline: function (mac: string): void {
 
         if (RCTModule != null) {
@@ -81,6 +115,15 @@ var BP5Module = {
         }
 
     },
+    /**
+     * get the num of offlineData
+     * Attentation: Please register to receive event(BPProfileModule.Action_getOffLineDataNum) before call the api.
+     *
+     * @param {string} mac
+     * @return Event('Action_getOffLineDataNum') with a Map object.
+     * eg.
+     * @api public
+     */
     getOfflineNum: function (mac: string): void {
 
         if (RCTModule != null) {
@@ -90,6 +133,15 @@ var BP5Module = {
         }
 
     },
+    /**
+     * get the num of offlineData
+     * Attentation: Please register to receive event(BPProfileModule.Action_getOffLineDataNum) before call the api.
+     *
+     * @param {string} mac
+     * @return Event('Action_getOffLineDataNum') with a Map object.
+     * eg.
+     * @api public
+     */
     getOfflineData: function (mac: string): void {
 
         if (RCTModule != null) {
@@ -99,6 +151,8 @@ var BP5Module = {
         }
 
     },
+
+    //disconnect with BP5 device
     disconnect: function (mac: string): void {
 
         if (RCTModule != null) {

@@ -85,6 +85,7 @@ export default class BP5View extends Component {
         var getOffLineNum_Listerner = null;
         var getOffLineData_Listerner = null;
 
+        var interrupted_Listener = null;
         var Zeroing_Listerner = null;
         var ZeroOver_Listerner = null;
         var Pressure_Listerner = null;
@@ -172,6 +173,12 @@ export default class BP5View extends Component {
             self.refs.TipView.setState({tip: JSON.stringify(e)})
         });
 
+        this.interrupted_Listener = DeviceEventEmitter.addListener(BPProfileModule.Action_interrupted, function (e: Event) {
+            // handle event.
+            log.info('BP5View', 'addListener_Action_interrupted', JSON.stringify(e));
+            self.refs.TipView.setState({tip: JSON.stringify(e)})
+        });
+
         this.enableOffline_Listener = DeviceEventEmitter.addListener(BPProfileModule.Action_enableOffline, function (e: Event) {
             // handle event.
             log.info('BP5View', 'addListener_Action_enableOffline', JSON.stringify(e));
@@ -221,6 +228,9 @@ export default class BP5View extends Component {
         }
         if (this.Result_Listerner) {
             this.Result_Listerner.remove()
+        }
+        if (this.interrupted_Listener) {
+            this.interrupted_Listener.remove()
         }
         if (this.error_Listener) {
             this.error_Listener.remove()

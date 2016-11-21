@@ -80,7 +80,7 @@ var BP550BTModule = {
         }
     },
 
-    //disconnect with BP3L device
+    //disconnect with BP550BT device
 
     disconnect: function (mac: string): void {
 

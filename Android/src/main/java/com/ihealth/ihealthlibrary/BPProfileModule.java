@@ -39,6 +39,8 @@ public class BPProfileModule extends ReactContextBaseJavaModule {
     private static final String Action_setUnitSuccess = "Action_setUnitSuccess";
     private static final String Action_setAngleSuccess = "Action_setAngleSuccess";
 
+    private static final String Action_interrupted = "Action_interrupted";
+
     public BPProfileModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
@@ -72,6 +74,8 @@ public class BPProfileModule extends ReactContextBaseJavaModule {
 
         constants.put(Action_setUnitSuccess,BpProfile.ACTION_SET_UNIT_SUCCESS_BP);
         constants.put(Action_setAngleSuccess,BpProfile.ACTION_SET_ANGLE_SUCCESS_BP);
+
+        constants.put(Action_interrupted, BpProfile.ACTION_INTERRUPTED_BP);
 
 
         return constants;

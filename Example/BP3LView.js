@@ -92,6 +92,7 @@ export default class BP3LView extends Component {
         var Pressure_Listerner = null;
         var PulseWave_Listerner = null;
         var Result_Listerner = null;
+        var interrupted_Listener = null;
 
     }
 
@@ -256,7 +257,12 @@ export default class BP3LView extends Component {
         this.Result_Listerner = DeviceEventEmitter.addListener(BPProfileModule.Action_Result, function (e: Event) {
             log.info('BP3LView', '_addListener()_Action_Result', JSON.stringify(e));
             self.refs.tipView.setState({tip: JSON.stringify(e)})
-        })
+        });
+        this.interrupted_Listener = DeviceEventEmitter.addListener(BPProfileModule.Action_interrupted, function (e: Event) {
+            // handle event.
+            log.info('BP3LView', 'addListener_Action_interrupted', JSON.stringify(e));
+            self.refs.tipView.setState({tip: JSON.stringify(e)})
+        });
 
     }
 
@@ -285,6 +291,9 @@ export default class BP3LView extends Component {
         }
         if (this.Result_Listerner) {
             this.Result_Listerner.remove()
+        }
+        if (this.interrupted_Listener) {
+            this.interrupted_Listener.remove()
         }
     }
 

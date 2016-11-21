@@ -102,7 +102,7 @@ var BP7SModule = {
         }
     },
 
-    //disconnect with BP3L device
+    //disconnect with BP7S device
 
     disconnect: function (mac: string): void {
 

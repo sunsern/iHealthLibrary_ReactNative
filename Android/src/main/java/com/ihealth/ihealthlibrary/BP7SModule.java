@@ -129,7 +129,7 @@ public class BP7SModule extends ReactContextBaseJavaModule {
                 break;
         }
 
-        if (message == null) {
+        if (message == "") {
             WritableMap params = Arguments.createMap();
             params.putString("mac", mac);
             params.putString("type", deviceType);
