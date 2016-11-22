@@ -17,6 +17,7 @@ var Component = {
     BP550BTModule:require('./Module/BP550BTModule'),
     BP7SModule:require('./Module/BP7SModule'),
     BPProfileModule:require('./Module/BPProfileModule'),
+    AM3SModule:require('./Module/AM3SModule'),
     AM4Module:require('./Module/AM4Module'),
     AMProfileModule:require('./Module/AMProfileModule')
 
