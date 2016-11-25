@@ -22,19 +22,37 @@ var iHealthDeviceManagerModule = {
     BG5: RCTModule.BG5,
     BG5L: RCTModule.BG5L,
 
-    ScanDevice: RCTModule.ScanDevice,
-    ScanFinish: RCTModule.ScanFinish,
-    DeviceConnected: RCTModule.DeviceConnected,
-    DeviceConnectFailed: RCTModule.DeviceConnectFailed,
-    DeviceDisconnect: RCTModule.DeviceDisconnect,
+    Event_Scan_Device: RCTModule.Event_Scan_Device,
+    Event_Scan_Finish: RCTModule.Event_Scan_Finish,
+    Event_Device_Connected: RCTModule.Event_Device_Connected,
+    Event_Device_Connect_Failed: RCTModule.Event_Device_Connect_Failed,
+    Event_Device_Disconnect: RCTModule.Event_Device_Disconnect,
+    Event_Authenticate_Result: RCTModule.Event_Authenticate_Result,
 
 
+    /**
+     * Authentication the configure information.
+     * Attentation: Please register to receive event(iHealthDeviceManagerModel.Event_Authenticate_Result) before call the api.
+     * @param {string} userName
+	 * @param {string} clientID
+	 * @param {string} clientSecret
+     * @return Event(iHealthDeviceManagerModel.Event_Authenticate_Result) with a Map object. If the value is [1,2,3,4], authenticate success; Else authenticate failed.
+     * eg. {"authen":1}
+     * @api public
+     */
+	authenConfigureInfo:function(
+		userName: string,
+		clientID: string,
+		clientSecret: string
+	): void {
+		RCTModule.authenConfigureInfo(userName, clientID, clientSecret)
+	},
 	/**
 	 * Start discovery iHealth device with type
-	 * Attentation: Please register to receive event(iHealthDeviceManagerModel.ScanDevice) before call the api.
+	 * Attentation: Please register to receive event(iHealthDeviceManagerModel.Event_Scan_Device) before call the api.
 	 *
 	 * @param {number} type
-	 * @return Event('ScanDevice') with a Map object.
+	 * @return Event(iHealthDeviceManagerModel.Event_Scan_Device) with a Map object.
 	 * eg. {"type":"BP5","rssi":0,"mac":"8CDE5212041A"}
 	 * @api public
 	*/
@@ -49,9 +67,9 @@ var iHealthDeviceManagerModule = {
 
 	/**
  	 * Stop discovery iHealth device
- 	 * Attentation: Please register to receive event(iHealthDeviceManagerModel.ScanFinish) before call the api.
+ 	 * Attentation: Please register to receive event(iHealthDeviceManagerModel.Event_Scan_Finish) before call the api.
  	 *
- 	 * @return Event('ScanFinish').
+ 	 * @return Event(iHealthDeviceManagerModel.Event_Scan_Finish).
  	 * @api public
  	*/
 	stopDiscovery:function (
@@ -63,7 +81,7 @@ var iHealthDeviceManagerModule = {
  	 * Connect iHealth device
  	 *
  	 * @param {string} mac
- 	 * @return Event(iHealthDeviceManagerModel.DeviceConnected or iHealthDeviceManagerModel.DeviceConnectFailed or iHealthDeviceManagerModel.DeviceDisconnect) with a Map object.
+ 	 * @return Event(iHealthDeviceManagerModel.Event_Device_Connected or iHealthDeviceManagerModel.Event_Device_Connect_Failed or iHealthDeviceManagerModel.Event_Device_Disconnect) with a Map object.
  	 * eg. {"errorid":0,"type":"BP5","mac":"8CDE5212041A"}
  	 * @api public
  	*/

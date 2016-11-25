@@ -13,6 +13,7 @@ import com.ihealth.communication.manager.iHealthDevicesManager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.ConsoleHandler;
 
 import javax.annotation.Nullable;
 
@@ -41,17 +42,19 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
 
 
 
-    private final static String ScanDevice = "ScanDevice";
-    private final static String ScanFinish = "ScanFinish";
-    private final static String DeviceConnected = "DeviceConnected";
-    private final static String DeviceConnectFailed = "DeviceConnectFailed";
-    private final static String DeviceDisconnect = "DeviceDisconnect";
+    private final static String Event_Scan_Device = "event_scan_device";
+    private final static String Event_Scan_Finish = "event_scan_finish";
+    private final static String Event_Device_Connected = "event_device_connected";
+    private final static String Event_Device_Connect_Failed = "event_device_connect_failed";
+    private final static String Event_Device_Disconnect = "event_device_disconnect";
+    private final static String Event_Authenticate_Result = "event_authenticate_result";
 
 
     private int callbackId;
-
+    private ReactApplicationContext mContext;
     public iHealthDeviceManagerModule(ReactApplicationContext reactContext) {
         super(TAG, reactContext);
+        mContext = reactContext;
         reactContext.addLifecycleEventListener(this);
         iHealthDevicesManager.getInstance().init(reactContext);
         callbackId = iHealthDevicesManager.getInstance().registerClientCallback(miHealthDevicesCallback);
@@ -65,18 +68,18 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
             params.putString("mac", mac);
             params.putString("type",deviceType);
             params.putInt("rssi",rssi);
-            sendEvent(ScanDevice, params);
+            sendEvent(Event_Scan_Device, params);
         }
 
         @Override
         public void onDeviceConnectionStateChange(String mac, String deviceType, int status, int errorID, Map manufactorData) {
             String eventName = null;
             if (status == iHealthDevicesManager.DEVICE_STATE_CONNECTED) {
-                eventName = DeviceConnected;
+                eventName = Event_Device_Connected;
             } else if (status == iHealthDevicesManager.DEVICE_STATE_CONNECTIONFAIL) {
-                eventName = DeviceConnectFailed;
+                eventName = Event_Device_Connect_Failed;
             } else if (status == iHealthDevicesManager.DEVICE_STATE_DISCONNECTED) {
-                eventName = DeviceDisconnect;
+                eventName = Event_Device_Disconnect;
             }
             if (eventName != null) {
                 WritableMap params = Arguments.createMap();
@@ -89,7 +92,9 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
 
         @Override
         public void onUserStatus(String username, int userStatus) {
-
+            WritableMap params = Arguments.createMap();
+            params.putInt("authen",userStatus);
+            sendEvent(Event_Authenticate_Result, params);
         }
 
         @Override
@@ -99,7 +104,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
 
         @Override
         public void onScanFinish() {
-            sendEvent(ScanFinish, null);
+            sendEvent(Event_Scan_Finish, null);
         }
 
     };
@@ -167,11 +172,13 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
         constants.put(BG5L, iHealthDevicesManager.DISCOVERY_BG5l);
 
 
-        constants.put(ScanDevice,"ScanDevice");
-        constants.put(ScanFinish,"ScanFinish");
-        constants.put(DeviceConnected,"DeviceConnected");
-        constants.put(DeviceConnectFailed,"DeviceConnectFailed");
-        constants.put(DeviceDisconnect,"DeviceDisconnect");
+        constants.put("Event_Scan_Device", Event_Scan_Device);
+        constants.put("Event_Scan_Finish", Event_Scan_Finish);
+        constants.put("Event_Device_Connected", Event_Device_Connected);
+        constants.put("Event_Device_Connect_Failed", Event_Device_Connect_Failed);
+        constants.put("Event_Device_Disconnect", Event_Device_Disconnect);
+        constants.put("Event_Authenticate_Result", Event_Authenticate_Result);
+
 
         return constants;
     }
@@ -210,6 +217,11 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
     @ReactMethod
     public void connectDevice(String mac, String type) {
         iHealthDevicesManager.getInstance().connectDevice("", mac, type);
+    }
+
+    @ReactMethod
+    public void authenConfigureInfo(String userName, String clientID, String clientSecret) {
+        iHealthDevicesManager.getInstance().sdkUserInAuthor(mContext, userName, clientID, clientSecret, callbackId);
     }
 
     @ReactMethod

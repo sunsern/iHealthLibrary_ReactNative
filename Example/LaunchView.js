@@ -41,6 +41,13 @@ class MainView extends Component {
     }
 
 
+    authenConfigureInfo() {
+        this.removeListener()
+        this.addListener()
+        iHealthDeviceManagerModule.authenConfigureInfo( 'jing@q.aaa', '708bde5b65884f8d9e579e33e66e8e80', '38ff62374a0d4aacadaf0e4fb4ed1931')
+    }
+
+
     startDiscovery() {
         if (this.state.scanStatus) {
             console.info('正在扫描设备')
@@ -68,28 +75,32 @@ class MainView extends Component {
 
     addListener() {
         let self = this
-        this.scanListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.ScanDevice, function (e: Event) {
+        this.authenListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Authenticate_Result, function (e: Event) {
+            // handle event.
+            console.log('~~~' + JSON.stringify(e))
+        });
+        this.scanListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Scan_Device, function (e: Event) {
             // handle event.
             console.log('~~~' + JSON.stringify(e))
             self.updateDiscoveryList(e.mac, e.type)
         });
-        this.scanFinishListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.ScanFinish, function (e: Event) {
+        this.scanFinishListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Scan_Finish, function (e: Event) {
             // handle event.
             console.log('~~~ScanFinish')
             self.setState({pickerEnabled: true, scanStatus:false})
         });
 
-        this.connectSuccessListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceConnected, function (e: Event) {
+        this.connectSuccessListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Connected, function (e: Event) {
             // handle event.
             console.log('~~~' + JSON.stringify(e))
             self.updateConnectedList(e.mac, e.type, 1)
         });
-        this.connectFailedListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceConnectFailed, function (e: Event) {
+        this.connectFailedListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Connect_Failed, function (e: Event) {
             // handle event.
             console.log('~~~' + JSON.stringify(e))
             self.updateConnectedList(e.mac, e.type, 3)
         });
-        this.disconnectListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
+        this.disconnectListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Disconnect, function (e: Event) {
             // handle event.
             console.log('~~~' + JSON.stringify(e))
             self.updateConnectedList(e.mac, e.type, 2)
@@ -98,6 +109,9 @@ class MainView extends Component {
 
     removeListener() {
         //Unregister  event
+        if(this.authenListener) {
+            this.authenListener.remove()
+        }
         if (this.scanListener) {
             this.scanListener.remove()
         }
@@ -175,7 +189,20 @@ class MainView extends Component {
         return (
             <View style={styles.container}>
 
-                <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity
+                        style={{
+                            height: 60,
+                            justifyContent: 'center', // 内容居中显示
+                            backgroundColor: '#eedddd',
+                            alignItems: 'center',
+                        }}
+                        onPress={() => this.authenConfigureInfo()}>
+                        <Text style={styles.buttonText}>
+                            认证SDK
+                        </Text>
+                </TouchableOpacity>
+
+                <View style={{flexDirection: 'row', marginTop:5}}>
 
                     <Picker
                         style={{flex: 1, height: 60}}
@@ -201,6 +228,8 @@ class MainView extends Component {
                         <Picker.Item label='BG5L' value={iHealthDeviceManagerModule.BG5L}/>
 
                     </Picker>
+
+
                     <TouchableOpacity
 
                         style={{
