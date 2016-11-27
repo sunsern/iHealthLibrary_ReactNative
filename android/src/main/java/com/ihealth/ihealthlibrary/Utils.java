@@ -36,28 +36,11 @@ public class Utils {
                     String key = keys.next();
                     try {
                         Object object = jsonObject.get(key);
-
                         if (object instanceof JSONObject) {
-                            WritableMap map= Arguments.createMap();
-                            jsonObjectToMap((JSONObject)object, map);
-                            writableMap.putMap(key, map);
-                        }
-                        else if (object instanceof JSONArray) {
-                            JSONArray jsonArray = (JSONArray) object;
-                            WritableArray writableArray = Arguments.createArray();
-
-                            for (int i=0; i<jsonArray.length(); i++) {
-
-                                JSONObject jsonObjectInArray = (JSONObject) jsonArray.get(i);
-
-                                WritableMap mapInArray= Arguments.createMap();
-                                jsonObjectToMap(jsonObjectInArray, mapInArray);
-                                writableArray.pushMap(mapInArray);
-
-                            }
-                            writableMap.putArray(key, writableArray);
-                        }
-                        else {
+                            writableMap.putMap(key, getMapFromJSONObject((JSONObject) object));
+                        } else if (object instanceof JSONArray) {
+                            writableMap.putArray(key, getWritableArrayFromJSONArray((JSONArray) object));
+                        } else {
                             objectToMap(object, writableMap, key);
                         }
                     } catch (JSONException e) {
@@ -71,19 +54,53 @@ public class Utils {
         }
     }
 
-    private static void jsonObjectToMap(JSONObject object, WritableMap writableMap){
-        for (Iterator<String> keys=object.keys();keys.hasNext();) {
-
-            String key = keys.next();
-            Object objectValue = null;
+    private static WritableMap getMapFromJSONObject(JSONObject object) {
+        WritableMap map = Arguments.createMap();
+        Iterator<String> keyIterator = object.keys();
+        while (keyIterator.hasNext()) {
+            String key = keyIterator.next();
             try {
-                objectValue= object.get(key);
+                Object value = object.get(key);
+                if (value instanceof JSONObject) {
+                    // value is JSONObject case
+                    map.putMap(key, getMapFromJSONObject((JSONObject) value));
+                } else if (value instanceof JSONArray) {
+                    // value is JSONArray case
+                    map.putArray(key, getWritableArrayFromJSONArray((JSONArray) value));
+                } else {
+                    // Normal object case
+                    objectToMap(value, map, key);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            objectToMap(objectValue, writableMap, key);
         }
+        return map;
+    }
+
+    private static WritableArray getWritableArrayFromJSONArray(JSONArray array) {
+        WritableArray writableArray = Arguments.createArray();
+        for (int i = 0; i < array.length(); i++) {
+            try {
+                Object objectInArray = array.get(i);
+                if (objectInArray instanceof JSONObject) {
+                    writableArray.pushMap(getMapFromJSONObject((JSONObject) objectInArray));
+                } else if (objectInArray instanceof Boolean) {
+                    writableArray.pushBoolean((Boolean) objectInArray);
+                } else if(objectInArray instanceof Integer) {
+                    writableArray.pushInt((Integer) objectInArray);
+                } else if(objectInArray instanceof Double) {
+                    writableArray.pushDouble((Double) objectInArray);
+                } else if(objectInArray instanceof String) {
+                    writableArray.pushString((String) objectInArray);
+                } else {
+                    Log.e(TAG, "Unknown type : " + objectInArray.getClass().getSimpleName());
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return writableArray;
     }
 
     private static void objectToMap(Object object, WritableMap writableMap, String key) {
@@ -96,7 +113,7 @@ public class Utils {
         } else if(object instanceof String) {
             writableMap.putString(key, (String) object);
         } else {
-            Log.e(TAG,"~~~~~~~~~~~~~"+object.toString());
+            Log.e(TAG, "Unknown type : " + object.getClass().getSimpleName());
         }
     }
 }
