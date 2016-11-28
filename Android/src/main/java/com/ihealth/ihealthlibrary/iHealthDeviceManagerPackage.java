@@ -27,6 +27,8 @@ public class iHealthDeviceManagerPackage implements ReactPackage{
         modules.add(new BP550BTModule(reactContext));
         modules.add(new BP7SModule(reactContext));
         modules.add(new BPProfileModule(reactContext));
+        modules.add(new POProfileModule(reactContext));
+        modules.add(new PO3Module(reactContext));
         return modules;
     }
 

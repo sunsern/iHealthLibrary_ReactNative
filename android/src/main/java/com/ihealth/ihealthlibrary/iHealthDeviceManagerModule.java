@@ -132,6 +132,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
                 module = getReactApplicationContext().getNativeModule(AM4Module.class);
                 break;
             case iHealthDevicesManager.TYPE_PO3:
+                module = getReactApplicationContext().getNativeModule(PO3Module.class);
                 break;
             case iHealthDevicesManager.TYPE_HS4S:
                 break;
