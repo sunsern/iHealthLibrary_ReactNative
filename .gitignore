@@ -1,0 +1,11 @@
+Example/node_modules
+Android/build
+Example/.idea
+*.iml
+Example/android/app/build
+copy.sh
+.gitignore
+Example/android/build
+Example/android/.gradle
+recopy.sh
+local.properties
