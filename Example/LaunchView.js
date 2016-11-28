@@ -44,7 +44,7 @@ class MainView extends Component {
     authenConfigureInfo() {
         this.removeListener()
         this.addListener()
-        iHealthDeviceManagerModule.authenConfigureInfo( 'jing@q.aaa', '708bde5b65884f8d9e579e33e66e8e80', '38ff62374a0d4aacadaf0e4fb4ed1931')
+        iHealthDeviceManagerModule.authenConfigureInfo( 'jing@q.aaa', '', '')
     }
 
 
