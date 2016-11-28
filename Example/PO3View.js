@@ -105,7 +105,7 @@ export default class PO3View extends Component {
             log.info('PO3View', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
-        this.notifyListener = DeviceEventEmitter.addListener(PO3Module.NOTIFY_EVENT_BP5, function (e: Event) {
+        this.notifyListener = DeviceEventEmitter.addListener(PO3Module.Event_Notify, function (e: Event) {
             log.info('PO3View', e.action, JSON.stringify(e));
             self.refs.TipView.setState({tip: JSON.stringify(e)});
         });

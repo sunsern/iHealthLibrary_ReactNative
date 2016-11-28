@@ -12,7 +12,7 @@ var BP3LModule = {
     /**
      * Notify event type for BP3L.
      */
-    NOTIFY_EVENT_BP3L: RCTModule.NOTIFY_EVENT_BP3L,
+    Event_Notify: RCTModule.Event_Notify,
 
     /**
      * Start measure blood pressure monitor

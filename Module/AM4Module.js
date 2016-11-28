@@ -12,7 +12,7 @@ var AM4Module = {
     /**
      * Notify event type for AM4
      */
-    NOTIFY_EVENT_AM4: RCTModule.NOTIFY_EVENT_AM4,
+    Event_Notify: RCTModule.Event_Notify,
     getIdps: function (mac: String) {
         RCTModule.getIdps(mac)
     },

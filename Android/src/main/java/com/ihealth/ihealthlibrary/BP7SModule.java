@@ -22,7 +22,7 @@ public class BP7SModule extends iHealthBaseModule {
     private static final String moduleName = "BP7SModule";
     private static final String TAG = "BP7SModule";
 
-    private static final String NOTIFY_EVENT = "notify_event_bp7s";
+    private static final String EVENT_NOTIFY = "event_notify_bp7s";
 
     public BP7SModule(ReactApplicationContext reactContext) {
         super(TAG, reactContext);
@@ -36,7 +36,7 @@ public class BP7SModule extends iHealthBaseModule {
     @Override
     public Map<String, Object> getConstants() {
         Map<String, Object> map = new HashMap<>();
-        map.put("NOTIFY_EVENT_BP7S", NOTIFY_EVENT);
+        map.put("Event_Notify", EVENT_NOTIFY);
         return map;
     }
 
@@ -152,7 +152,7 @@ public class BP7SModule extends iHealthBaseModule {
         if (!TextUtils.isEmpty(message)) {
             Utils.jsonToMap(message, params);
         }
-        sendEvent(NOTIFY_EVENT, params);
+        sendEvent(EVENT_NOTIFY, params);
     }
 
 }

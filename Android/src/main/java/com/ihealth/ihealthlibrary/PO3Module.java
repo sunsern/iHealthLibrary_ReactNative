@@ -20,7 +20,7 @@ public class PO3Module extends iHealthBaseModule {
     private static final String modelName = "PO3Module";
     private static final String TAG = "PO3Module";
 
-    private static final String NOTIFY_EVENT = "notify_event_po3";
+    private static final String EVENT_NOTIFY = "event_notify_po3";
 
     public PO3Module(ReactApplicationContext reactContext) {
         super(TAG, reactContext);
@@ -34,7 +34,7 @@ public class PO3Module extends iHealthBaseModule {
     @Override
     public Map<String, Object> getConstants() {
         Map<String, Object> map = new HashMap<>();
-        map.put("NOTIFY_EVENT_PO3", NOTIFY_EVENT);
+        map.put("Event_Notify", EVENT_NOTIFY);
         return map;
     }
 
@@ -99,6 +99,6 @@ public class PO3Module extends iHealthBaseModule {
         if (!TextUtils.isEmpty(message)) {
             Utils.jsonToMap(message, params);
         }
-        sendEvent(NOTIFY_EVENT, params);
+        sendEvent(EVENT_NOTIFY, params);
     }
 }

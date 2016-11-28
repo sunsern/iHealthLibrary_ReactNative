@@ -14,7 +14,7 @@ var BP7SModule = {
     /**
      * Notify event type for BP7S.
      */
-    NOTIFY_EVENT_BP7S: RCTModule.NOTIFY_EVENT_BP7S,
+    Event_Notify: RCTModule.Event_Notify,
 
     /**
      * get battery of BP7S

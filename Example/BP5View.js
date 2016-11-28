@@ -116,7 +116,7 @@ export default class BP5View extends Component {
             console.info('BP5View', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
-        this.notifyListener = DeviceEventEmitter.addListener(BP5Module.NOTIFY_EVENT_BP5, function (e: Event) {
+        this.notifyListener = DeviceEventEmitter.addListener(BP5Module.Event_Notify, function (e: Event) {
 
             console.info('BP5View', 'addListener_DeviceDisconnect',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
             if (e.action === BPProfileModule.Action_Battery) {

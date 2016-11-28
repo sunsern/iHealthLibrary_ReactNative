@@ -22,7 +22,7 @@ public class AM3SModule extends iHealthBaseModule {
     private static final String modelName = "AM3SModule";
     private static final String TAG = "AM3SModule";
 
-    private static final String NOTIFY_EVENT = "notify_event_am3s";
+    private static final String EVENT_NOTIFY = "event_notify_am3s";
 
     public AM3SModule(ReactApplicationContext reactContext) {
         super(TAG, reactContext);
@@ -36,7 +36,7 @@ public class AM3SModule extends iHealthBaseModule {
     @Override
     public Map<String, Object> getConstants() {
         Map<String, Object> map = new HashMap<>();
-        map.put("NOTIFY_EVENT_AM3S", NOTIFY_EVENT);
+        map.put("Event_Notify", EVENT_NOTIFY);
         return map;
     }
 
@@ -49,7 +49,7 @@ public class AM3SModule extends iHealthBaseModule {
         if (!TextUtils.isEmpty(message)) {
             Utils.jsonToMap(message, params);
         }
-        sendEvent(NOTIFY_EVENT, params);
+        sendEvent(EVENT_NOTIFY, params);
     }
 
     private static Am3sControl getControl(String mac) {
@@ -65,7 +65,7 @@ public class AM3SModule extends iHealthBaseModule {
             if (!TextUtils.isEmpty(idps)) {
                 Utils.jsonToMap(idps, params);
             }
-            sendEvent(NOTIFY_EVENT, params);
+            sendEvent(EVENT_NOTIFY, params);
         } else {
             Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }

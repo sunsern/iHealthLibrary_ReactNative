@@ -10,7 +10,7 @@ var BP5Module = {
     /**
      * Notify event type for BP5.
      */
-    NOTIFY_EVENT_BP5: RCTModule.NOTIFY_EVENT_BP5,
+    Event_Notify: RCTModule.Event_Notify,
 
     /**
 	 * Start measure blood pressure monitor

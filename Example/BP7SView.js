@@ -254,7 +254,7 @@ export default class BP7SView extends Component {
             console.info('BP5View', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
-        this.notifyListener = DeviceEventEmitter.addListener(BP7SModule.NOTIFY_EVENT_BP7S, function (e: Event) {
+        this.notifyListener = DeviceEventEmitter.addListener(BP7SModule.Event_Notify, function (e: Event) {
             console.info('BP5View', 'addListener_DeviceDisconnect',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
             if (e.action === BPProfileModule.Action_Battery) {
                 self.refs.tipView.setState({tip: JSON.stringify(e)});

@@ -16,7 +16,7 @@ var BP550BTModule = {
     /**
      * Notify event type for BP550BT.
      */
-    NOTIFY_EVENT_BP550BT: RCTModule.NOTIFY_EVENT_BP550BT,
+    Event_Notify: RCTModule.Event_Notify,
 
     /**
      * get battery of BP550BT

@@ -12,7 +12,7 @@ var AM3SModule = {
     /**
      * Notify event type for AM3S
      */
-    NOTIFY_EVENT_AM3S: RCTModule.NOTIFY_EVENT_AM3S,
+    Event_Notify: RCTModule.Event_Notify,
     getIdps: function (mac: String) {
         RCTModule.getIdps(mac)
     },

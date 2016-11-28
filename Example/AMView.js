@@ -542,13 +542,13 @@ export default class AMView extends Component {
 
     componentDidMount() {
         let self = this
-        this.disconnectListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
+        this.disconnectListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Connected, function (e: Event) {
             // handle event.
             if (e.mac == self.props.mac) {
                 self.props.navigator.pop()
             }
         });
-        let eventName = this.props.type == 'AM4' ? AM4Module.NOTIFY_EVENT_AM4 : AM3SModule.NOTIFY_EVENT_AM3S
+        let eventName = this.props.type == 'AM4' ? AM4Module.Event_Notify : AM3SModule.Event_Notify
         this.notifyListener = DeviceEventEmitter.addListener(eventName, function (e: Event) {
             self.setState({resultText: "event: " + JSON.stringify(e)})
         });

@@ -9,7 +9,7 @@ var {NativeModules} = require('react-native');
 var RCTModule = NativeModules.PO3Module
 
 var PO3Module = {
-
+    Event_Notify: RCTModule.Event_Notify,
     /**
      * Get the PO3 battery status
      * Attentation: Please register to receive event(list of action: POProfileModule.ACTION_BATTERY_PO) before call the api.
