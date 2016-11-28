@@ -9,10 +9,6 @@ var {NativeModules} = require('react-native');
 var RCTModule = NativeModules.PO3Module
 
 var PO3Module = {
-    /**
-     * Notify event type for AM4
-     */
-    NOTIFY_EVENT_PO3: RCTModule.NOTIFY_EVENT_PO3,
 
     /**
      * Get the PO3 battery status

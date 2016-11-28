@@ -21,6 +21,7 @@ var Component = {
     AMProfileModule: require('./Module/AMProfileModule'),
     PO3Module: require('./Module/PO3Module'),
     POProfileModule: require('./Module/POProfileModule')
+
 }
 
 
