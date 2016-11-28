@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     ListView,
     DeviceEventEmitter,
-    TouchableHighlight
+    TouchableHighlight,
+    Picker
 
 } from 'react-native';
 
@@ -31,19 +32,34 @@ import {
 class MainView extends Component {
     constructor(props) {
         super(props);
-        var scanListener = null
-        var scanFinishListener = null
-        var connectSuccessListener = null
-        var disconnectListener = null
-        var connectFailedListener = null
+
+        this.state = {
+            type: iHealthDeviceManagerModule.BP5,
+            pickerEnabled: true,
+            scanStatus: false
+        };
     }
 
-    startDiscovery() {
+
+    authenConfigureInfo() {
         this.removeListener()
         this.addListener()
-        discoverDeviceArray = new Array()
-        this.refs.discoverListView.notifyDataSetChanged()
-        iHealthDeviceManagerModule.startDiscovery(iHealthDeviceManagerModule.BP5)// | iHealthDeviceManagerModule.AM4
+        iHealthDeviceManagerModule.authenConfigureInfo( 'jing@q.aaa', '708bde5b65884f8d9e579e33e66e8e80', '38ff62374a0d4aacadaf0e4fb4ed1931')
+    }
+
+
+    startDiscovery() {
+        if (this.state.scanStatus) {
+            console.info('正在扫描设备')
+        } else {
+            this.setState({pickerEnabled: false, scanStatus: true});
+            this.removeListener()
+            this.addListener()
+            discoverDeviceArray = new Array()
+            this.refs.discoverListView.notifyDataSetChanged()
+            iHealthDeviceManagerModule.startDiscovery(this.state.type)
+        }
+
     }
 
 
@@ -59,27 +75,32 @@ class MainView extends Component {
 
     addListener() {
         let self = this
-        this.scanListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.ScanDevice, function (e: Event) {
+        this.authenListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Authenticate_Result, function (e: Event) {
+            // handle event.
+            console.log('~~~' + JSON.stringify(e))
+        });
+        this.scanListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Scan_Device, function (e: Event) {
             // handle event.
             console.log('~~~' + JSON.stringify(e))
             self.updateDiscoveryList(e.mac, e.type)
         });
-        this.scanFinishListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.ScanFinish, function (e: Event) {
+        this.scanFinishListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Scan_Finish, function (e: Event) {
             // handle event.
             console.log('~~~ScanFinish')
+            self.setState({pickerEnabled: true, scanStatus:false})
         });
 
-        this.connectSuccessListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceConnected, function (e: Event) {
+        this.connectSuccessListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Connected, function (e: Event) {
             // handle event.
             console.log('~~~' + JSON.stringify(e))
             self.updateConnectedList(e.mac, e.type, 1)
         });
-        this.connectFailedListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceConnectFailed, function (e: Event) {
+        this.connectFailedListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Connect_Failed, function (e: Event) {
             // handle event.
             console.log('~~~' + JSON.stringify(e))
             self.updateConnectedList(e.mac, e.type, 3)
         });
-        this.disconnectListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
+        this.disconnectListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Disconnect, function (e: Event) {
             // handle event.
             console.log('~~~' + JSON.stringify(e))
             self.updateConnectedList(e.mac, e.type, 2)
@@ -88,6 +109,9 @@ class MainView extends Component {
 
     removeListener() {
         //Unregister  event
+        if(this.authenListener) {
+            this.authenListener.remove()
+        }
         if (this.scanListener) {
             this.scanListener.remove()
         }
@@ -160,16 +184,68 @@ class MainView extends Component {
         }
     }
 
+
     render() {
         return (
             <View style={styles.container}>
+
                 <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => this.startDiscovery()}>
-                    <Text style={styles.buttonText}>
-                        扫描设备
-                    </Text>
+                        style={{
+                            height: 60,
+                            justifyContent: 'center', // 内容居中显示
+                            backgroundColor: '#eedddd',
+                            alignItems: 'center',
+                        }}
+                        onPress={() => this.authenConfigureInfo()}>
+                        <Text style={styles.buttonText}>
+                            认证SDK
+                        </Text>
                 </TouchableOpacity>
+
+                <View style={{flexDirection: 'row', marginTop:5}}>
+
+                    <Picker
+                        style={{flex: 1, height: 60}}
+                        selectedValue={this.state.type}
+                        onValueChange={(value) => {
+                            this.setState({type: value})
+                        }}
+                        enabled={this.state.pickerEnabled}
+                        mode="dropdown"
+                        //when mode is dialog will work
+                        prompt="choese device to discovery">
+
+                        <Picker.Item label='BP5' value={iHealthDeviceManagerModule.BP5}/>
+                        <Picker.Item label='BP3L' value={iHealthDeviceManagerModule.BP3L}/>
+                        <Picker.Item label='KN550' value={iHealthDeviceManagerModule.KN550}/>
+                        <Picker.Item label='BP7S' value={iHealthDeviceManagerModule.BP7S}/>
+                        <Picker.Item label='AM3S' value={iHealthDeviceManagerModule.AM3S}/>
+                        <Picker.Item label='AM4' value={iHealthDeviceManagerModule.AM4}/>
+                        <Picker.Item label='PO3' value={iHealthDeviceManagerModule.PO3}/>
+                        <Picker.Item label='HS4S' value={iHealthDeviceManagerModule.HS4S}/>
+                        <Picker.Item label='HS6' value={iHealthDeviceManagerModule.HS6}/>
+                        <Picker.Item label='BG5' value={iHealthDeviceManagerModule.BG5}/>
+                        <Picker.Item label='BG5L' value={iHealthDeviceManagerModule.BG5L}/>
+
+                    </Picker>
+
+
+                    <TouchableOpacity
+
+                        style={{
+                            height: 60,
+                            justifyContent: 'center', // 内容居中显示
+                            backgroundColor: '#eedddd',
+                            alignItems: 'center',
+                            flex: 2
+                        }}
+                        onPress={() => this.startDiscovery()}>
+                        <Text style={styles.buttonText}>
+                            扫描设备
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
 
                 <Text style={styles.headText}> 扫描列表 </Text>
                 <SimpleListView
@@ -307,7 +383,13 @@ export default class LaunchView extends Component {
                                                 underlayColor='#312F31'>
                                                 <Text style={styles.navigationBarBack}>⇦</Text>
                                             </TouchableHighlight>
-                                            <View style={{width: 1, backgroundColor: '#2E2E32', marginTop: 10, marginBottom: 10, marginRight: 10}}/>
+                                            <View style={{
+                                                width: 1,
+                                                backgroundColor: '#2E2E32',
+                                                marginTop: 10,
+                                                marginBottom: 10,
+                                                marginRight: 10
+                                            }}/>
                                             <Text style={styles.navigationBarTitle}>{route.type}</Text>
                                         </View>
 
