@@ -8,6 +8,11 @@ var RCTModule = NativeModules.BP5Module
 var BP5Module = {
 
     /**
+     * Notify event type for BP5.
+     */
+    NOTIFY_EVENT_BP5: RCTModule.NOTIFY_EVENT_BP5,
+
+    /**
 	 * Start measure blood pressure monitor
 	 * Attentation: Please register to receive event(list of action: BPProfileModule.Action_Zeroing, BPProfileModule.Action_ZeroOver,
 	 * BPProfileModule.Action_Pressure, BPProfileModule.Action_PulseWave, BPProfileModule.Action_Result) before call the api.

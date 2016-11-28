@@ -8,23 +8,23 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.ihealth.communication.control.Am4Control;
+import com.ihealth.communication.control.Am3sControl;
 import com.ihealth.communication.manager.iHealthDevicesManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by jing on 16/10/20.
+ * Created by Jeepend on 22/11/2016.
  */
 
-public class AM4Module extends iHealthBaseModule {
-    private static final String modelName = "AM4Module";
-    private static final String TAG = "AM4Module";
+public class AM3SModule extends iHealthBaseModule {
+    private static final String modelName = "AM3SModule";
+    private static final String TAG = "AM3SModule";
 
-    private static final String NOTIFY_EVENT = "notify_event_am4";
+    private static final String NOTIFY_EVENT = "notify_event_am3s";
 
-    public AM4Module(ReactApplicationContext reactContext) {
+    public AM3SModule(ReactApplicationContext reactContext) {
         super(TAG, reactContext);
     }
 
@@ -36,7 +36,7 @@ public class AM4Module extends iHealthBaseModule {
     @Override
     public Map<String, Object> getConstants() {
         Map<String, Object> map = new HashMap<>();
-        map.put("NOTIFY_EVENT_AM4", NOTIFY_EVENT);
+        map.put("NOTIFY_EVENT_AM3S", NOTIFY_EVENT);
         return map;
     }
 
@@ -52,13 +52,13 @@ public class AM4Module extends iHealthBaseModule {
         sendEvent(NOTIFY_EVENT, params);
     }
 
-    private static Am4Control getControl(String mac) {
-        return iHealthDevicesManager.getInstance().getAm4Control(mac);
+    private static Am3sControl getControl(String mac) {
+        return iHealthDevicesManager.getInstance().getAm3sControl(mac);
     }
 
     @ReactMethod
     public void getIdps(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             String idps = control.getIdps();
             WritableMap params = Arguments.createMap();
@@ -67,43 +67,43 @@ public class AM4Module extends iHealthBaseModule {
             }
             sendEvent(NOTIFY_EVENT, params);
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void reset(String mac, int id) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.reset(id);
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void getUserId(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.getUserId();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void getAlarmClockNum(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.getAlarmClockNum();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void getAlarmClockDetail(String mac, ReadableArray alarmIDArray) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             int[] alarmIDs = new int[alarmIDArray.size()];
             for (int i = 0; i< alarmIDArray.size(); i++) {
@@ -111,13 +111,13 @@ public class AM4Module extends iHealthBaseModule {
             }
             control.getAlarmClockDetail(alarmIDs);
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void setAlarmClock(String mac, int id, int hour, int min, boolean isRepeat, ReadableArray weekArray, boolean isOn) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             int[] weeks = new int[weekArray.size()];
             for (int i = 0; i < weekArray.size(); i++) {
@@ -125,197 +125,197 @@ public class AM4Module extends iHealthBaseModule {
             }
             control.setAlarmClock(id, hour, min, isRepeat, weeks, isOn);
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void deleteAlarmClock(String mac, int id) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.deleteAlarmClock(id);
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void getActivityRemind(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.getActivityRemind();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void setActivityRemind(String mac, int hour, int min, boolean isOn) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.setActivityRemind(hour, min, isOn);
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void queryAMState(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.queryAMState();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void setUserId(String mac, int id) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.setUserId(id);
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void getUserInfo(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.getUserInfo();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
-    
+
     @ReactMethod
     public void setUserBmr(String mac, int bmr){
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.setUserBmr(bmr);
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void syncActivityData(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.syncActivityData();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void syncSleepData(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.syncSleepData();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void syncRealData(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.syncRealData();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void syncRealTime(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.syncRealTime();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void setHourMode(String mac, int hourMode) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.setHourMode(hourMode);
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void getHourMode(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.getHourMode();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void disconnect(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.disconnect();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
-    public void setUserInfo(String mac, int age, int height, float weight, int gender, int unit, int target, int activityLevel, int min) {
-        Am4Control control = getControl(mac);
+    public void setUserInfo(String mac, int age, int height, float weight, int gender, int unit, int target, int activityLevel) {
+        Am3sControl control = getControl(mac);
         if (control != null) {
-            control.setUserInfo(age, height, weight, gender, unit, target, activityLevel, min);
+            control.setUserInfo(age, height, weight, gender, unit, target, activityLevel);
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void syncStageReportData(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.syncStageReprotData();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
     public void sendRandom(String mac) {
-        Am4Control control = getControl(mac);
+        Am3sControl control = getControl(mac);
         if (control != null) {
             control.sendRandom();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 
     @ReactMethod
-    public void checkSwimPara(String mac) {
-        Am4Control control = getControl(mac);
+    public void getPicture(String mac) {
+        Am3sControl control = getControl(mac);
         if (control != null) {
-            control.checkSwimPara();
+            control.getPicture();
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
-    
+
     @ReactMethod
-    public void setSwimPara(String mac, boolean isOpen, int poolLength, int hours, int minutes, int unit) {
-        Am4Control control = getControl(mac);
+    public void setPicture(String mac, int index) {
+        Am3sControl control = getControl(mac);
         if (control != null) {
-            control.setSwimPara(isOpen, poolLength, hours, minutes, unit);
+            control.setPicture(index);
         } else {
-            Log.e(TAG, "Can not find AM4 Control mac:" + mac);
+            Log.e(TAG, "Can not find AM3S Control mac:" + mac);
         }
     }
 }

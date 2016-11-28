@@ -1,18 +1,18 @@
 /**
- * Created by Jeepend on 11/11/2016.
+ * Created by Jeepend on 22/11/2016.
  */
 'use strict';
 
 
 var {NativeModules} = require('react-native');
 
-var RCTModule = NativeModules.AM4Module
+var RCTModule = NativeModules.AM3SModule
 
-var AM4Module = {
+var AM3SModule = {
     /**
-     * Notify event type for AM4
+     * Notify event type for AM3S
      */
-    NOTIFY_EVENT_AM4: RCTModule.NOTIFY_EVENT_AM4,
+    NOTIFY_EVENT_AM3S: RCTModule.NOTIFY_EVENT_AM3S,
     getIdps: function (mac: String) {
         RCTModule.getIdps(mac)
     },
@@ -73,8 +73,8 @@ var AM4Module = {
     disconnect: function (mac: String) {
         RCTModule.disconnect(mac)
     },
-    setUserInfo: function (mac: String, age: int, height: int, weight: float, gender: int, unit: int, target: int, activityLevel: int, min: int) {
-        RCTModule.setUserInfo(mac, age, height, weight, gender, unit, target, activityLevel, min)
+    setUserInfo: function (mac: String, age: int, height: int, weight: float, gender: int, unit: int, target: int, activityLevel: int) {
+        RCTModule.setUserInfo(mac, age, height, weight, gender, unit, target, activityLevel)
     },
     syncStageReportData: function (mac: String) {
         RCTModule.syncStageReportData(mac)
@@ -82,12 +82,12 @@ var AM4Module = {
     sendRandom: function (mac: String) {
         RCTModule.sendRandom(mac)
     },
-    checkSwimPara: function (mac: String) {
-        RCTModule.checkSwimPara(mac)
+    getPicture: function (mac: String) {
+        RCTModule.getPicture(mac)
     },
-    setSwimPara: function (mac: String, isOpen: boolean, poolLength: int, hours: int, minutes: int, unit: int) {
-        RCTModule.setSwimPara(mac, isOpen, poolLength, hours, minutes, unit)
-    },
+    setPicture: function (mac: String, index: int) {
+        RCTModule.setPicture(mac, index)
+    }
 }
 
-module.exports = AM4Module
+module.exports = AM3SModule

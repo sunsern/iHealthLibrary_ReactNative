@@ -23,7 +23,9 @@ public abstract class iHealthBaseModule extends ReactContextBaseJavaModule {
     }
 
     void sendEvent(String eventName, WritableMap data) {
-        mEmitter = getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
+        if (mEmitter == null) {
+            mEmitter = getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
+        }
         if (mEmitter != null) {
             mEmitter.emit(eventName, data);
         } else {

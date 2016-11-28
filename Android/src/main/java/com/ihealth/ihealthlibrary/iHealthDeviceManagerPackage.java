@@ -19,9 +19,10 @@ public class iHealthDeviceManagerPackage implements ReactPackage{
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
         modules.add(new iHealthDeviceManagerModule(reactContext));
+        modules.add(new AM3SModule(reactContext));
         modules.add(new AM4Module(reactContext));
-        modules.add(new BP5Module(reactContext));
         modules.add(new AMProfileModule(reactContext));
+        modules.add(new BP5Module(reactContext));
         modules.add(new BP3LModule(reactContext));
         modules.add(new BP550BTModule(reactContext));
         modules.add(new BP7SModule(reactContext));

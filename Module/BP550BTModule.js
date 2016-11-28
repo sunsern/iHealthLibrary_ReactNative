@@ -14,6 +14,11 @@ var RCTModule = NativeModules.BP550BTModule
 var BP550BTModule = {
 
     /**
+     * Notify event type for BP550BT.
+     */
+    NOTIFY_EVENT_BP550BT: RCTModule.NOTIFY_EVENT_BP550BT,
+
+    /**
      * get battery of BP550BT
      * Attentation: Please register to receive event(BPProfileModule.Action_Battery) before call the api.
      *
