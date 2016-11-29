@@ -225,23 +225,26 @@ export default class BP550BTView extends Component {
 
         let self = this;
 
-        this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
+        this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Disconnect, function (e: Event) {
             // handle event.
             console.info('BP5View', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
         this.notifyListener = DeviceEventEmitter.addListener(BP550BTModule.Event_Notify, function (e: Event) {
             console.info('BP5View', 'addListener_DeviceDisconnect',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
-            if (e.action === BPProfileModule.Action_Battery) {
+            if (e.action === BPProfileModule.ACTION_ERROR_BP) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.ACTION_BATTERY_BP) {
                 self.refs.tipView.setState({tip: JSON.stringify(e)});
             }
-            else if (e.action === BPProfileModule.Action_getOffLineDataNum) {
+            else if (e.action === BPProfileModule.ACTION_HISTORICAL_NUM_BP) {
                 self.refs.tipView.setState({tip: JSON.stringify(e)});
             }
-            else if (e.action === BPProfileModule.Action_getOffLineData) {
+            else if (e.action === BPProfileModule.ACTION_HISTORICAL_DATA_BP) {
                 self.refs.tipView.setState({tip: JSON.stringify(e)});
             }
-            else if (e.action === BPProfileModule.Action_getFunctionInfo) {
+            else if (e.action === BPProfileModule.ACTION_FUNCTION_INFORMATION_BP) {
                 self.refs.tipView.setState({tip: JSON.stringify(e)});
             }
 

@@ -8,9 +8,12 @@ import {
     AppRegistry,
     StyleSheet,
     Text,
+    TextInput,
+    Picker,
     View,
     Button,
     TouchableNativeFeedback,
+    TouchableOpacity,
     DeviceEventEmitter,
     ScrollView
 } from 'react-native';
@@ -21,7 +24,6 @@ import {
     BP7SModule,
     BPProfileModule
 } from 'ihealthlibrary-react-native'
-
 
 
 var styles = StyleSheet.create({
@@ -77,12 +79,14 @@ class TipView extends Component {
 }
 
 
-
 export default class BP7SView extends Component {
 
     constructor(props) {
         super(props);
 
+        this.state = {
+            unit: 0
+        }
 
     }
 
@@ -100,9 +104,6 @@ export default class BP7SView extends Component {
         console.info('BP7SView', 'componentWillReceiveProps()');
     }
 
-    shouldComponentUpdate() {
-        console.info('BP7SView', 'shouldComponentUpdate()');
-    }
 
     componentWillUpdate() {
         console.info('BP7SView', 'componentWillUpdate()');
@@ -191,18 +192,44 @@ export default class BP7SView extends Component {
 
                     </TouchableNativeFeedback>
 
-                    <TouchableNativeFeedback
+                    <View style={{flexDirection: 'row',marginTop: 10}}>
 
-                        onPress={() => this._setUnit()}>
 
-                        <View style={styles.button}>
+                        <Picker
+                            style={{flex: 1, height: 60}}
+                            selectedValue={this.state.unit}
+                            onValueChange={(value) => {
+                                this.setState({unit: value})
+                            }}
+                            mode="dropdown">
+
+                            <Picker.Item label='mmHg' value={0}/>
+                            <Picker.Item label='KPa' value={1}/>
+
+                        </Picker>
+
+                        <TouchableOpacity
+
+                            style={{
+                                height: 60,
+                                justifyContent: 'center', // 内容居中显示
+                                backgroundColor: '#eedddd',
+                                alignItems: 'center',
+                                flex: 2
+                            }}
+                            onPress={() => this._setUnit(this.state.unit)}>
+
                             <Text style={styles.buttonText}>
                                 设置单位
                             </Text>
-                        </View>
 
 
-                    </TouchableNativeFeedback>
+
+                        </TouchableOpacity>
+
+
+                    </View>
+
 
                     <TouchableNativeFeedback
 
@@ -238,7 +265,8 @@ export default class BP7SView extends Component {
             </View>
 
 
-        );
+        )
+            ;
 
 
     }
@@ -249,29 +277,32 @@ export default class BP7SView extends Component {
 
         let self = this;
 
-        this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
+        this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Disconnect, function (e: Event) {
             // handle event.
             console.info('BP5View', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
         this.notifyListener = DeviceEventEmitter.addListener(BP7SModule.Event_Notify, function (e: Event) {
-            console.info('BP5View', 'addListener_DeviceDisconnect',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
-            if (e.action === BPProfileModule.Action_Battery) {
+            console.info('BP5View', 'addListener_DeviceDisconnect', "Action = " + e.action + '\n' + "Message = " + JSON.stringify(e));
+            if (e.action === BPProfileModule.ACTION_ERROR_BP) {
+                self.refs.TipView.setState({tip: JSON.stringify(e)});
+            }
+            else if (e.action === BPProfileModule.ACTION_BATTERY_BP) {
                 self.refs.tipView.setState({tip: JSON.stringify(e)});
             }
-            else if (e.action === BPProfileModule.Action_getOffLineDataNum) {
+            else if (e.action === BPProfileModule.ACTION_HISTORICAL_NUM_BP) {
                 self.refs.tipView.setState({tip: JSON.stringify(e)});
             }
-            else if (e.action === BPProfileModule.Action_getOffLineData) {
+            else if (e.action === BPProfileModule.ACTION_HISTORICAL_DATA_BP) {
                 self.refs.tipView.setState({tip: JSON.stringify(e)});
             }
-            else if (e.action === BPProfileModule.Action_getFunctionInfo) {
+            else if (e.action === BPProfileModule.ACTION_FUNCTION_INFORMATION_BP) {
                 self.refs.tipView.setState({tip: JSON.stringify(e)});
             }
-            else if (e.action === BPProfileModule.Action_setUnitSuccess) {
+            else if (e.action === BPProfileModule.ACTION_SET_UNIT_SUCCESS_BP) {
                 self.refs.tipView.setState({tip: JSON.stringify(e)});
             }
-            else if (e.action === BPProfileModule.Action_setAngleSuccess) {
+            else if (e.action === BPProfileModule.ACTION_SET_ANGLE_SUCCESS_BP) {
                 self.refs.tipView.setState({tip: JSON.stringify(e)});
             }
 
@@ -317,8 +348,8 @@ export default class BP7SView extends Component {
         BP7SModule.getBattery(this.props.mac);
     }
 
-    _setUnit() {
-        BP7SModule.setUnit(this.props.mac, 1);
+    _setUnit(unit) {
+        BP7SModule.setUnit(this.props.mac, unit);
     }
 
     _setAngle() {
