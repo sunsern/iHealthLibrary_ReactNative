@@ -13,7 +13,6 @@ import com.ihealth.communication.manager.iHealthDevicesManager;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.ConsoleHandler;
 
 import javax.annotation.Nullable;
 
@@ -21,25 +20,24 @@ import javax.annotation.Nullable;
  * Created by jing on 16/10/20.
  */
 
-public class iHealthDeviceManagerModule extends iHealthBaseModule implements LifecycleEventListener{
+public class iHealthDeviceManagerModule extends iHealthBaseModule implements LifecycleEventListener {
 
     private static final String modelName = "iHealthDeviceManagerModule";
     private static final String TAG = "iHealthModel";
 
 
-    private final static String  AM3S = "AM3S";
-    private final static String  AM4 = "AM4";
-    private final static String  PO3 = "PO3";
-    private final static String  BP5 = "BP5";
-    private final static String  BP3L = "BP3L";
-    private final static String  BP7S = "BP7S";
-    private final static String  KN550 = "KN550";
-    private final static String  HS4S = "HS4S";
-    private final static String  HS6 = "HS6";
-    private final static String  BG1 = "BG1";
-    private final static String  BG5 = "BG5";
-    private final static String  BG5L = "BG5L";
-
+    private final static String AM3S = "AM3S";
+    private final static String AM4 = "AM4";
+    private final static String PO3 = "PO3";
+    private final static String BP5 = "BP5";
+    private final static String BP3L = "BP3L";
+    private final static String BP7S = "BP7S";
+    private final static String KN550 = "KN550";
+    private final static String HS4S = "HS4S";
+    private final static String HS6 = "HS6";
+    private final static String BG1 = "BG1";
+    private final static String BG5 = "BG5";
+    private final static String BG5L = "BG5L";
 
 
     private final static String Event_Scan_Device = "event_scan_device";
@@ -52,6 +50,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
 
     private int callbackId;
     private ReactApplicationContext mContext;
+
     public iHealthDeviceManagerModule(ReactApplicationContext reactContext) {
         super(TAG, reactContext);
         mContext = reactContext;
@@ -66,8 +65,8 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
         public void onScanDevice(String mac, String deviceType, int rssi, Map manufactorData) {
             WritableMap params = Arguments.createMap();
             params.putString("mac", mac);
-            params.putString("type",deviceType);
-            params.putInt("rssi",rssi);
+            params.putString("type", deviceType);
+            params.putInt("rssi", rssi);
             sendEvent(Event_Scan_Device, params);
         }
 
@@ -84,8 +83,8 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
             if (eventName != null) {
                 WritableMap params = Arguments.createMap();
                 params.putString("mac", mac);
-                params.putString("type",deviceType);
-                params.putInt("errorid",errorID);
+                params.putString("type", deviceType);
+                params.putInt("errorid", errorID);
                 sendEvent(eventName, params);
             }
         }
@@ -93,7 +92,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
         @Override
         public void onUserStatus(String username, int userStatus) {
             WritableMap params = Arguments.createMap();
-            params.putInt("authen",userStatus);
+            params.putInt("authen", userStatus);
             sendEvent(Event_Authenticate_Result, params);
         }
 
@@ -135,6 +134,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
                 module = getReactApplicationContext().getNativeModule(PO3Module.class);
                 break;
             case iHealthDevicesManager.TYPE_HS4S:
+                module = getReactApplicationContext().getNativeModule(HS4SModule.class);
                 break;
             case iHealthDevicesManager.TYPE_HS6:
                 break;
@@ -159,11 +159,11 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
-        constants.put(AM3S,iHealthDevicesManager.DISCOVERY_AM3S);
+        constants.put(AM3S, iHealthDevicesManager.DISCOVERY_AM3S);
         constants.put(AM4, iHealthDevicesManager.DISCOVERY_AM4);
         constants.put(PO3, iHealthDevicesManager.DISCOVERY_PO3);
         constants.put(BP5, iHealthDevicesManager.DISCOVERY_BP5);
-        constants.put(BP3L,iHealthDevicesManager.DISCOVERY_BP3L);
+        constants.put(BP3L, iHealthDevicesManager.DISCOVERY_BP3L);
         constants.put(BP7S, iHealthDevicesManager.DISCOVERY_BP7S);
         constants.put(KN550, iHealthDevicesManager.DISCOVERY_BP550BT);
         constants.put(HS4S, iHealthDevicesManager.DISCOVERY_HS4S);
@@ -191,23 +191,23 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
 
     @Override
     public void onHostResume() {
-        Log.i(TAG,"onHostResume");
+        Log.i(TAG, "onHostResume");
     }
 
     @Override
     public void onHostPause() {
-        Log.i(TAG,"onHostPause");
+        Log.i(TAG, "onHostPause");
     }
 
     @Override
     public void onHostDestroy() {
         iHealthDevicesManager.getInstance().destroy();
-        Log.e(TAG,"onHostDestroy");
+        Log.e(TAG, "onHostDestroy");
     }
 
     @ReactMethod
     public void startDiscovery(double type) {
-        iHealthDevicesManager.getInstance().startDiscovery((long)type);
+        iHealthDevicesManager.getInstance().startDiscovery((long) type);
     }
 
     @ReactMethod

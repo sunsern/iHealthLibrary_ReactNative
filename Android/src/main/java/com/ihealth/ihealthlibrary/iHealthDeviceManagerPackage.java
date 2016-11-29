@@ -14,7 +14,7 @@ import java.util.List;
  * Created by jing on 16/10/20.
  */
 
-public class iHealthDeviceManagerPackage implements ReactPackage{
+public class iHealthDeviceManagerPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
@@ -29,6 +29,8 @@ public class iHealthDeviceManagerPackage implements ReactPackage{
         modules.add(new BPProfileModule(reactContext));
         modules.add(new POProfileModule(reactContext));
         modules.add(new PO3Module(reactContext));
+        modules.add(new HS4SModule(reactContext));
+        modules.add(new HSProfileModule(reactContext));
         return modules;
     }
 

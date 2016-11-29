@@ -70,7 +70,7 @@ class TipView extends Component {
 
 }
 
-export default class PO3View extends Component {
+export default class HS4SView extends Component {
 
     constructor(props) {
         super(props);
@@ -81,13 +81,13 @@ export default class PO3View extends Component {
     }
 
     componentWillMount() {
-        log.info('PO3View', 'componentWillMount', null);
+        log.info('HS4SView', 'componentWillMount', null);
         this._addListener();
 
     }
 
     componentWillUnmount() {
-        log.info('PO3View', 'componentWillUnmount', null);
+        log.info('HS4SView', 'componentWillUnmount', null);
         this._removeListener();
     }
 
@@ -97,16 +97,16 @@ export default class PO3View extends Component {
         let self = this;
 
         this.error_Listener = DeviceEventEmitter.addListener(POProfileModule.ACTION_ERROR_PO, function (e: Error) {
-            log.info('PO3View', 'addListener_ACTION_ERROR_PO', JSON.stringify(e));
+            log.info('HS4SView', 'addListener_ACTION_ERROR_HS', JSON.stringify(e));
             self.refs.TipView.setState({tip: JSON.stringify(e)});
         });
         this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
             // handle event.
-            log.info('PO3View', 'addListener_DeviceDisconnect', JSON.stringify(e));
+            log.info('HS4SView', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
         this.notifyListener = DeviceEventEmitter.addListener(PO3Module.Event_Notify, function (e: Event) {
-            log.info('PO3View', e.action, JSON.stringify(e));
+            log.info('HS4SView', e.action, JSON.stringify(e));
             self.refs.TipView.setState({tip: JSON.stringify(e)});
         });
     }
@@ -129,14 +129,7 @@ export default class PO3View extends Component {
                 <ScrollView style={styles.contentContainer}>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._getBattery()}>
-                        <Text style={styles.buttonText}>
-                            获得电量
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => this._startMeasure()}>
+                        onPress={() => this._measureOnline()}>
                         <Text style={styles.buttonText}>
                             开始测量
                         </Text>
@@ -160,23 +153,14 @@ export default class PO3View extends Component {
             </View>
         )
     }
-    _getDeviceIDPS() {
-        iHealthDeviceManagerModule.getDevicesIDPS(this.props.mac, (e) => {
-            console.log('deviceInfo:' + JSON.stringify(e));
-            this.refs.TipView.setState({tip: JSON.stringify(e)})
-        })
-    }
-    _startMeasure() {
-        PO3Module.startMeasure(this.props.mac)
-    }
 
-    _getBattery() {
-        PO3Module.getBattery(this.props.mac)
+    _measureOnline() {
+        HS4SModule.measureOnline(this.props.mac, 1, 1)
     }
     _getOfflineData() {
-        PO3Module.getHistoryData(this.props.mac)
+        HS4SModule.getOfflineData(this.props.mac)
     }
     _disconnect() {
-        PO3Module.disconnect(this.props.mac)
+        HS4SModule.disconnect(this.props.mac)
     }
 }
