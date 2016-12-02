@@ -40,7 +40,7 @@ import {
   iHealthDeviceManagerModule,
   BP5Module,
   AM4Module
-} from 'ihealthlibrary-react-native'
+} from '@ihealth/ihealthlibrary-react-native'
 ```
 
 
