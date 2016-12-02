@@ -1,5 +1,5 @@
 /**
- * Created by zhangxu on 16/11/11.
+ * Created by lixuesong on 16/11/11.
  */
 import React, {Component, PropTypes} from 'react';
 import {
@@ -13,25 +13,31 @@ import {
 
 import {
     iHealthDeviceManagerModule,
-    BP5Module,
-    BPProfileModule
+    PO3Module,
+    POProfileModule
 } from 'ihealthlibrary-react-native'
-
-import Log from './Log'
-
-let log = new Log;
 
 var styles = StyleSheet.create({
     container: {
+        flex: 1,
         margin: 20,
-        marginTop: 50
+        marginTop: 60
     },
-    contentContainer: {
-        height: 400,
+    // 导航栏
+    heading: {
+        height: 44,
+        alignItems: 'center',
+        justifyContent: 'center', // 内容居中显示
+        marginBottom: 10
+    },
+    // 导航栏文字
+    headText: {
+        color: '#ff5555',
+        fontSize: 22
     },
     // 按钮
     button: {
-        height: 60,
+        height: 45,
         marginTop: 10,
         justifyContent: 'center', // 内容居中显示
         backgroundColor: '#eedddd',
@@ -50,133 +56,137 @@ var styles = StyleSheet.create({
     },
 });
 
-
-class TipView extends Component {
+export default class PO3View extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tip: ''
-        };
-    }
-
-    render() {
-        log.info('TipView', 'render()', null);
-        return (
-            <View>
-                <Text> Tip: {this.state.tip} </Text>
-            </View>
-        )
-    }
-
-}
-
-export default class PO3View extends Component {
-
-    constructor(props) {
-        super(props);
-
-        var error_Listener = null;
-        var connectionListener = null;
-        var notifyListener = null;
-    }
-
-    componentWillMount() {
-        log.info('PO3View', 'componentWillMount', null);
-        this._addListener();
-
-    }
-
-    componentWillUnmount() {
-        log.info('PO3View', 'componentWillUnmount', null);
-        this._removeListener();
-    }
-
-
-
-    _addListener() {
-        let self = this;
-
-        this.error_Listener = DeviceEventEmitter.addListener(POProfileModule.ACTION_ERROR_PO, function (e: Error) {
-            log.info('PO3View', 'addListener_ACTION_ERROR_PO', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)});
-        });
-        this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
-            // handle event.
-            log.info('PO3View', 'addListener_DeviceDisconnect', JSON.stringify(e));
-            self.props.navigator.pop();
-        });
-        this.notifyListener = DeviceEventEmitter.addListener(PO3Module.Event_Notify, function (e: Event) {
-            log.info('PO3View', e.action, JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)});
-        });
-    }
-
-    _removeListener() {
-        //Unregister  event
-        if (this.connectionListener) {
-            this.connectionListener.remove()
-        }
-        if (this.notifyListener) {
-            this.notifyListener.remove()
+            resultText: ""
         }
     }
 
     render() {
-
         return (
             <View style={styles.container}>
-
+                <ScrollView
+                    style={{height: 100, paddingBottom: 10}}>
+                    <Text>{this.state.resultText}</Text>
+                </ScrollView>
                 <ScrollView style={styles.contentContainer}>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._getBattery()}>
+                        onPress={() => {
+                            PO3Module.getBattery(this.props.mac)
+                        }}>
                         <Text style={styles.buttonText}>
-                            获得电量
+                            Get Battery
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._startMeasure()}>
+                        onPress={() => {
+                            PO3Module.startMeasure(this.props.mac)
+                        }}>
                         <Text style={styles.buttonText}>
-                            开始测量
+                            Start Measure
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._getOfflineData()}>
+                        onPress={() => {
+                            PO3Module.getHistoryData(this.props.mac)
+                        }}>
                         <Text style={styles.buttonText}>
-                            获得离线数据
+                            Get History Data
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._disconnect()}>
+                        onPress={() => {
+                            PO3Module.disconnect(this.props.mac)
+                        }}>
                         <Text style={styles.buttonText}>
-                            断开连接
+                            Disconnect
                         </Text>
                     </TouchableOpacity>
                 </ScrollView>
-                <TipView ref="TipView"/>
             </View>
         )
     }
-    _getDeviceIDPS() {
-        iHealthDeviceManagerModule.getDevicesIDPS(this.props.mac, (e) => {
-            console.log('deviceInfo:' + JSON.stringify(e));
-            this.refs.TipView.setState({tip: JSON.stringify(e)})
-        })
-    }
-    _startMeasure() {
-        PO3Module.startMeasure(this.props.mac)
+
+    componentDidMount() {
+        let self = this
+
+        this.disconnectListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Disconnect, function (e: Event) {
+            // handle event.
+            if (e.mac == self.props.mac) {
+                self.props.navigator.pop()
+            }
+        });
+
+        this.notifyListener = DeviceEventEmitter.addListener(PO3Module.Event_Notify, function (e: Event) {
+            let resultText
+            let action = e.action
+            if (action == POProfileModule.ACTION_BATTERY_PO) {
+                resultText = "Get battery information successfully.\n"
+                let battery = e[POProfileModule.BATTERY_PO]
+                resultText += "battery = " + battery
+            } else if (action == POProfileModule.ACTION_LIVEDA_PO) {
+                resultText = "The live data information:"
+                let waves = e[POProfileModule.PULSE_WAVE_PO]
+                resultText += "\nplus wave = " + waves
+                let pi = e[POProfileModule.PI_PO]
+                resultText += "\npi = " + pi
+                let plusStrength = e[POProfileModule.PULSE_STRENGTH_PO]
+                resultText += "\nplus strength = " + plusStrength
+                let bloodOxygen = e[POProfileModule.BLOOD_OXYGEN_PO]
+                resultText += "\nblood oxygen = " + bloodOxygen
+                let plusRate = e[POProfileModule.PULSE_RATE_PO]
+                resultText += "\nplus rate = " + plusRate
+            } else if (action == POProfileModule.ACTION_RESULTDATA_PO) {
+                resultText = "The result data information:"
+                let dataId = e[POProfileModule.DATAID]
+                resultText += "\ndata id = " + dataId
+                let waves = e[POProfileModule.PULSE_WAVE_PO]
+                resultText += "\nplus wave = " + waves
+                let pi = e[POProfileModule.PI_PO]
+                resultText += "\npi = " + pi
+                let plusStrength = e[POProfileModule.PULSE_STRENGTH_PO]
+                resultText += "\nplus strength = " + plusStrength
+                let bloodOxygen = e[POProfileModule.BLOOD_OXYGEN_PO]
+                resultText += "\nblood oxygen = " + bloodOxygen
+                let plusRate = e[POProfileModule.PULSE_RATE_PO]
+                resultText += "\nplus rate = " + plusRate
+            } else if (action == POProfileModule.ACTION_OFFLINEDATA_PO) {
+                let offlineData = e[POProfileModule.OFFLINEDATA_PO]
+                resultText = "Get offline data successfully.\nThere is(are) " + offlineData.length
+                    + " data(s) in total:\n"
+                for (let i = 0; i < offlineData.length; i++) {
+                    let dataInfo = offlineData[i]
+                    let dataId = dataInfo[POProfileModule.DATAID]
+                    let data = dataInfo[POProfileModule.MEASURE_DATE_PO]
+                    let waves = dataInfo[POProfileModule.PULSE_WAVE_PO]
+                    let plusRate = dataInfo[POProfileModule.PULSE_RATE_PO]
+                    let bloodOxygen = dataInfo[POProfileModule.BLOOD_OXYGEN_PO]
+                    resultText += "---------------------------------------------------------------"
+                    resultText += "\ndataId = " + dataId
+                    resultText += "\ndata = " + data
+                    resultText += "\nwaves = " + waves
+                    resultText += "\nplusRate = " + plusRate
+                    resultText += "\nbloodOxygen = " + bloodOxygen
+                }
+            } else if (action == POProfileModule.ACTION_NO_OFFLINEDATA_PO) {
+                resultText = "No History Data."
+            } else if (action == POProfileModule.ACTION_ERROR_PO) {
+                resultText = "Error happens: " + JSON.stringify(e)
+            } else {
+                resultText = JSON.stringify(e)
+            }
+            self.setState({resultText: resultText})
+        });
     }
 
-    _getBattery() {
-        PO3Module.getBattery(this.props.mac)
-    }
-    _getOfflineData() {
-        PO3Module.getHistoryData(this.props.mac)
-    }
-    _disconnect() {
-        PO3Module.disconnect(this.props.mac)
+    componentWillUnmount() {
+        this.disconnectListener.remove()
+        this.notifyListener.remove()
     }
 }

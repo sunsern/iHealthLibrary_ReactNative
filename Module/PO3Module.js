@@ -14,12 +14,11 @@ var PO3Module = {
      * Get the PO3 battery status
      * Attentation: Please register to receive event(list of action: POProfileModule.ACTION_BATTERY_PO) before call the api.
      *
-     * @param {string} mac
+     * @param {string} mac The mac address for blood pressure monitor
      * @return Event('ACTION_BATTERY_PO') with a Map object.<br/>
      * @api public
      */
-    getBattery: function (//The mac address for blood pressure monitor
-        mac: string): void {
+    getBattery: function (mac: string): void {
         RCTModule.getBattery(mac)
     },
 
@@ -28,13 +27,12 @@ var PO3Module = {
      * Attentation: Please register to receive event(list of action: POProfileModule.ACTION_LIVEDA_PO,
      * POProfileModule.ACTION_RESULTDATA_PO) before call the api.
      *
-     * @param {string} mac
+     * @param {string} mac The mac address for blood pressure monitor
      * @return Event('ACTION_LIVEDA_PO') with a Map object.<br/>
      *        Event('ACTION_RESULTDATA_PO') with a Map object.<br/>
      * @api public
      */
-    startMeasure: function (//The mac address for blood pressure monitor
-        mac: string): void {
+    startMeasure: function (mac: string): void {
         RCTModule.startMeasure(mac)
     },
 
@@ -43,22 +41,20 @@ var PO3Module = {
      * Attentation: Please register to receive event(list of action: POProfileModule.ACTION_OFFLINEDATA_PO,
      * POProfileModule.ACTION_NO_OFFLINEDATA_PO) before call the api.
      *
-     * @param {string} mac
+     * @param {string} mac The mac address for blood pressure monitor
      * @return Event('ACTION_OFFLINEDATA_PO') with a Map object.<br/>
      *        Event('ACTION_NO_OFFLINEDATA_PO') with a Map object.<br/>
      * @api publics
      */
-    getHistoryData: function (//The mac address for blood pressure monitor
-        mac: string): void {
+    getHistoryData: function (mac: string): void {
         RCTModule.getHistoryData(mac)
     },
 
     /**
      * Disconnect the PO3
-     * @param mac
+     * @param mac The mac address for blood pressure monitor
      */
-    disconnect: function (//The mac address for blood pressure monitor
-        mac: string): void {
+    disconnect: function (mac: string): void {
         RCTModule.disconnect(mac)
     }
 }
