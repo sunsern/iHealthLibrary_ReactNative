@@ -96,7 +96,7 @@ export default class AMView extends Component {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => {
-                                AM4Module.reset(this.props.mac, 0)
+                                AM4Module.reset(this.props.mac)
                             }}>
                             <Text style={styles.buttonText}>
                                 reset
@@ -334,7 +334,7 @@ export default class AMView extends Component {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => {
-                                AM3SModule.reset(this.props.mac, 0)
+                                AM3SModule.reset(this.props.mac)
                             }}>
                             <Text style={styles.buttonText}>
                                 reset
