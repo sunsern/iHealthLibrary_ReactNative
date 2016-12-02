@@ -2,7 +2,7 @@
 
 ##Install  
 ```
- npm install ihealthlibrary-react-native  
+ npm install @ihealth/ihealthlibrary-react-native  
 ```
 
 
@@ -58,5 +58,6 @@ import {
 	Stop Measure: BP5Module.stopMeasure(mac)  
 ```
 ##Example
-
+    
+[Click this link](https://github.com/iHealthDeviceLabs/iHealthLibrary_ReactNative/tree/master/Example)
 
