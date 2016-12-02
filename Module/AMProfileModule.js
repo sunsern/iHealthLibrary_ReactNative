@@ -14,9 +14,42 @@ var RCTModule = NativeModules.AMProfileModule
 module.exports = {
     // Actions
     /**
-     * Action for error
+     * The action value of event indicating the error of AM device.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_ERROR_AM</td></tr>
+     * <tr><td>AMProfileModule.ERROR_NUM_AM</td><td>AMProfileModule.ERROR_ID_ILLEGAL_ARGUMENT(400) indicates parameter error.<br/>AMProfileModule.ERROR_ID_VERSION_NOT_SUPPORT(402) indicates version not support error.</td></tr>
+     * <tr><td>AMProfileModule.ERROR_DESCRIPTION_AM</td><td>Detailed description of the error</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "error_am",<br/>
+	 * &nbsp; &nbsp; "error": 400,<br/>
+	 * &nbsp; &nbsp; "description": "setAlarmClock() parameter min should be in the range [0, 59]."<br/>
+	 * }<br/>
      */
     ACTION_ERROR_AM: RCTModule.ACTION_ERROR_AM,
+    /**
+     * The action value of event indicating reset AM device finish.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_RESET_AM</td></tr>
+     * <tr><td>AMProfileModule.ERROR_NUM_AM</td><td>AMProfileModule.ERROR_ID_ILLEGAL_ARGUMENT(400) indicates parameter error.<br/>AMProfileModule.ERROR_ID_VERSION_NOT_SUPPORT(402) indicates version not support error.</td></tr>
+     * <tr><td>AMProfileModule.ERROR_DESCRIPTION_AM</td><td>Detailed description of the error</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "error_am",<br/>
+	 * &nbsp; &nbsp; "error": 400,<br/>
+	 * &nbsp; &nbsp; "description": "setAlarmClock() parameter min should be in the range [0, 59]."<br/>
+	 * }<br/>
+     */
     ACTION_RESET_AM: RCTModule.ACTION_RESET_AM,
     ACTION_USERID_AM: RCTModule.ACTION_USERID_AM,
     ACTION_SET_USERID_SUCCESS_AM: RCTModule.ACTION_SET_USERID_SUCCESS_AM,
@@ -51,9 +84,27 @@ module.exports = {
     ACTION_GET_PICTURE_AM: RCTModule.ACTION_GET_PICTURE_AM,
 
     // Keys:
+    /**
+     * The key of error ID number of AM device.<br/>
+     * <b>Value:</b>
+     * <ul>
+     * <li>{@link module:AMProfileModule.ERROR_ID_ILLEGAL_ARGUMENT AMProfileModule.ERROR_ID_ILLEGAL_ARGUMENT(400)} indicates parameter error.</li>
+     * <li>{@link module:AMProfileModule.ERROR_ID_VERSION_NOT_SUPPORT AMProfileModule.ERROR_ID_VERSION_NOT_SUPPORT(402)} indicates version not support error.</li>
+     * </ul>
+     */
     ERROR_NUM_AM: RCTModule.ERROR_NUM_AM,
+    /**
+     * The error ID indicates parameter error(400).
+     */
     ERROR_ID_ILLEGAL_ARGUMENT: RCTModule.ERROR_ID_ILLEGAL_ARGUMENT,
+    /**
+     * The error ID indicates version not support error(402).
+     */
     ERROR_ID_VERSION_NOT_SUPPORT: RCTModule.ERROR_ID_VERSION_NOT_SUPPORT,
+    /**
+     * The key of error description.("description")<br/>
+     * The value string will show the detail description of the error.
+     */
     ERROR_DESCRIPTION_AM: RCTModule.ERROR_DESCRIPTION_AM,
     RESET_AM: RCTModule.RESET_AM,
     USERID_AM: RCTModule.USERID_AM,
