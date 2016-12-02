@@ -7,87 +7,87 @@
 var {NativeModules} = require('react-native');
 
 var RCTModule = NativeModules.AM3SModule
-
-var AM3SModule = {
+/**
+ * @module AM3SModule
+ */
+module.exports = {
     /**
      * Notify event type for AM3S
      */
     Event_Notify: RCTModule.Event_Notify,
-    getIdps: function (mac: String) {
+    getIdps: function (mac) {
         RCTModule.getIdps(mac)
     },
-    reset: function (mac: String, id: int) {
-        RCTModule.reset(mac, id)
+    reset: function (mac) {
+        RCTModule.reset(mac)
     },
-    getUserId: function (mac: String) {
+    getUserId: function (mac) {
         RCTModule.getUserId(mac)
     },
-    getAlarmClockNum: function (mac: String) {
+    getAlarmClockNum: function (mac) {
         RCTModule.getAlarmClockNum(mac)
     },
-    getAlarmClockDetail: function (mac: String, alarmIDArray: Array) {
+    getAlarmClockDetail: function (mac, alarmIDArray) {
         RCTModule.getAlarmClockDetail(mac, alarmIDArray)
     },
-    setAlarmClock: function (mac: String, id: int, hour: int, min: int, isRepeat: boolean, weekArray: Array, isOn: boolean) {
+    setAlarmClock: function (mac, id, hour, min, isRepeat, weekArray, isOn) {
         RCTModule.setAlarmClock(mac, id, hour, min, isRepeat, weekArray, isOn)
     },
-    deleteAlarmClock: function (mac: String, id: int) {
+    deleteAlarmClock: function (mac, id) {
         RCTModule.deleteAlarmClock(mac, id)
     },
-    getActivityRemind: function (mac: String) {
+    getActivityRemind: function (mac) {
         RCTModule.getActivityRemind(mac)
     },
-    setActivityRemind: function (mac: String, hour: int, min: int, isOn: boolean) {
+    setActivityRemind: function (mac, hour, min, isOn) {
         RCTModule.setActivityRemind(mac, hour, min, isOn)
     },
-    queryAMState: function (mac: String) {
+    queryAMState: function (mac) {
         RCTModule.queryAMState(mac)
     },
-    setUserId: function (mac: String, id: int) {
+    setUserId: function (mac, id) {
         RCTModule.setUserId(mac, id)
     },
-    getUserInfo: function (mac: String) {
+    getUserInfo: function (mac) {
         RCTModule.getUserInfo(mac)
     },
-    setUserBmr: function (mac: String, bmr: int) {
+    setUserBmr: function (mac, bmr) {
         RCTModule.setUserBmr(mac, bmr)
     },
-    syncActivityData: function (mac: String) {
+    syncActivityData: function (mac) {
         RCTModule.syncActivityData(mac)
     },
-    syncSleepData: function (mac: String) {
+    syncSleepData: function (mac) {
         RCTModule.syncSleepData(mac)
     },
-    syncRealData: function (mac: String) {
+    syncRealData: function (mac) {
         RCTModule.syncRealData(mac)
     },
-    syncRealTime: function (mac: String) {
+    syncRealTime: function (mac) {
         RCTModule.syncRealTime(mac)
     },
-    setHourMode: function (mac: String, hourMode: int) {
+    setHourMode: function (mac, hourMode) {
         RCTModule.setHourMode(mac, hourMode)
     },
-    getHourMode: function (mac: String) {
+    getHourMode: function (mac) {
         RCTModule.getHourMode(mac)
     },
-    disconnect: function (mac: String) {
+    disconnect: function (mac) {
         RCTModule.disconnect(mac)
     },
-    setUserInfo: function (mac: String, age: int, height: int, weight: float, gender: int, unit: int, target: int, activityLevel: int) {
+    setUserInfo: function (mac, age, height, weight: float, gender, unit, target, activityLevel) {
         RCTModule.setUserInfo(mac, age, height, weight, gender, unit, target, activityLevel)
     },
-    syncStageReportData: function (mac: String) {
+    syncStageReportData: function (mac) {
         RCTModule.syncStageReportData(mac)
     },
-    sendRandom: function (mac: String) {
+    sendRandom: function (mac) {
         RCTModule.sendRandom(mac)
     },
-    getPicture: function (mac: String) {
+    getPicture: function (mac) {
         RCTModule.getPicture(mac)
     },
-    setPicture: function (mac: String, index: int) {
+    setPicture: function (mac, index) {
         RCTModule.setPicture(mac, index)
     }
 }
-
-module.exports = AM3SModule

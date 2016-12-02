@@ -12,7 +12,6 @@ import {
     Picker,
     View,
     Button,
-    TouchableNativeFeedback,
     TouchableOpacity,
     DeviceEventEmitter,
     ScrollView
@@ -128,71 +127,63 @@ export default class BP7SView extends Component {
             <View style={styles.container}>
 
                 <ScrollView style={styles.contentContainer}>
-                    <TouchableNativeFeedback
+                    <TouchableOpacity
 
+                        style={styles.button}
                         onPress={() => this._getDeviceIDPS()}>
 
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                获得IDPS
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            获得IDPS
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
 
-                    <TouchableNativeFeedback
+                    <TouchableOpacity
 
+                        style={styles.button}
                         onPress={() => this._getFunctionInfo()}>
 
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                获得下位机信息
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            获得下位机信息
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
 
-                    <TouchableNativeFeedback
-
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => this._getBattery()}>
 
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                获得电量
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            获得电量
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
 
-                    <TouchableNativeFeedback
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => this._startMeasure()}>
 
-                        <View style={styles.button}>
-
-                            <Text style={styles.buttonText}>
-                                获得离线数据数量
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            获得离线数据数量
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
-                    <TouchableNativeFeedback
-
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => this._stopMeasure()}>
 
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                获得离线数据
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            获得离线数据
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
 
-                    <View style={{flexDirection: 'row',marginTop: 10}}>
+                    <View style={{flexDirection: 'row', marginTop: 10}}>
 
 
                         <Picker
@@ -224,40 +215,40 @@ export default class BP7SView extends Component {
                             </Text>
 
 
-
                         </TouchableOpacity>
 
 
                     </View>
 
 
-                    <TouchableNativeFeedback
-
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => this._setAngle()}>
 
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                设置角度
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            设置角度
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
 
-                    <TouchableNativeFeedback
-
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => this._disConnect()}>
 
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                断开连接
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            断开连接
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
 
                 </ScrollView>
+
+                <TouchableOpacity
+                    style={{backgroundColor: '#000000', height: 3}}>
+                </TouchableOpacity>
+
 
                 <TipView ref='tipView'/>
 
@@ -266,7 +257,6 @@ export default class BP7SView extends Component {
 
 
         )
-            ;
 
 
     }

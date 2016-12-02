@@ -12,7 +12,7 @@ import {
     Text,
     View,
     Button,
-    TouchableNativeFeedback,
+    TouchableOpacity,
     DeviceEventEmitter,
     ScrollView
 } from 'react-native';
@@ -23,7 +23,6 @@ import {
     BP550BTModule,
     BPProfileModule
 } from 'ihealthlibrary-react-native'
-
 
 
 var styles = StyleSheet.create({
@@ -79,12 +78,10 @@ class TipView extends Component {
 }
 
 
-
 export default class BP550BTView extends Component {
 
     constructor(props) {
         super(props);
-
 
 
     }
@@ -130,84 +127,78 @@ export default class BP550BTView extends Component {
             <View style={styles.container}>
 
                 <ScrollView style={styles.contentContainer}>
-                    <TouchableNativeFeedback
+                    <TouchableOpacity
 
+                        style={styles.button}
                         onPress={() => this._getDeviceIDPS()}>
 
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                获得IDPS
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            获得IDPS
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
 
-                    <TouchableNativeFeedback
-
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => this._getFunctionInfo()}>
 
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                获得下位机信息
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            获得下位机信息
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
 
-                    <TouchableNativeFeedback
-
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => this._getBattery()}>
 
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                获得电量
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            获得电量
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
 
-                    <TouchableNativeFeedback
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => this._startMeasure()}>
 
-                        <View style={styles.button}>
 
-                            <Text style={styles.buttonText}>
-                                获得离线数据数量
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            获得离线数据数量
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
-                    <TouchableNativeFeedback
-
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => this._stopMeasure()}>
 
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                获得离线数据
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            获得离线数据
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
 
-                    <TouchableNativeFeedback
-
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => this._disConnect()}>
 
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                断开连接
-                            </Text>
-                        </View>
+                        <Text style={styles.buttonText}>
+                            断开连接
+                        </Text>
 
 
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
 
                 </ScrollView>
+
+                <TouchableOpacity
+                    style={{backgroundColor: '#000000', height: 3}}>
+                </TouchableOpacity>
 
                 <TipView ref='tipView'/>
 
@@ -231,7 +222,7 @@ export default class BP550BTView extends Component {
             self.props.navigator.pop();
         });
         this.notifyListener = DeviceEventEmitter.addListener(BP550BTModule.Event_Notify, function (e: Event) {
-            console.info('BP5View', 'addListener_DeviceDisconnect',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
+            console.info('BP5View', 'addListener_DeviceDisconnect', "Action = " + e.action + '\n' + "Message = " + JSON.stringify(e));
             if (e.action === BPProfileModule.ACTION_ERROR_BP) {
                 self.refs.TipView.setState({tip: JSON.stringify(e)});
             }
@@ -249,7 +240,6 @@ export default class BP550BTView extends Component {
             }
 
         });
-
 
 
     }
