@@ -46,16 +46,56 @@ import {
 
 ##Demo Api
 ```
-	Discovery: iHealthDeviceManagerModule.startDiscovery(iHealthDeviceManagerModule.BP5)  
+	Discovery: 
+	
+	//Add listener for event
+	DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Scan_Device, function (e: Event) {
+            // handle event.
+            console.log('~~~' + JSON.stringify(e))
+        });
+        
+    //Call the api
+	iHealthDeviceManagerModule.startDiscovery(iHealthDeviceManagerModule.BP5)  
 ```
 ```
-	Connect: iHealthDeviceManagerModule.connectDevice(mac,type)  
+	Connect: 
+	
+	//Add listener for event
+	DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Connected, function (e: Event) {
+            // handle event.
+            console.log('~~~' + JSON.stringify(e))
+        });
+    DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Connect_Failed, function (e: Event) {
+            // handle event.
+            console.log('~~~' + JSON.stringify(e))
+        });
+        
+    //Call the api
+	iHealthDeviceManagerModule.connectDevice(mac,type)  
 ```
 ```
-	Start Measure: BP5Module.startMeasure(mac)  
+	Start Measure:
+	
+	//Add listener for event
+	DeviceEventEmitter.addListener(BP5Module.Event_Notify, function (e: Event) {
+            // handle event.
+            console.log('~~~' + JSON.stringify(e))
+        });
+        
+    //Call the api
+	 BP5Module.startMeasure(mac)  
 ```
 ```
-	Stop Measure: BP5Module.stopMeasure(mac)  
+	Stop Measure: 
+	
+	//Add listener for event
+	DeviceEventEmitter.addListener(BP5Module.Event_Notify, function (e: Event) {
+            // handle event.
+            console.log('~~~' + JSON.stringify(e))
+        });
+        
+    //Call the api
+	BP5Module.stopMeasure(mac)  
 ```
 ##Example
     
