@@ -11,7 +11,7 @@
 1. android/settings.gradle    
 
 	include ':ihealthlibrary-react-native' 
-	project(':ihealthlibrary-react-native').projectDir = new File(rootProject.projectDir,'../node_modules/ihealthlibrary-react-native/android')
+	project(':ihealthlibrary-react-native').projectDir = new File(rootProject.projectDir,'../node_modules/@ihealth/ihealthlibrary-react-native/android')
 
 2. android/app/build.gradle
 	compile project(':ihealthlibrary-react-native')
@@ -23,6 +23,14 @@
 		   new iHealthDeviceManagerPackage()       
 	 	);  
 	}   
+```
+
+##Configure module for iOS
+```
+1. Open your iOS project, add node_modules/@ihealth/ihealthlibrary-react-native/ios/ReactNativeIOSLibrary.xcodeproj to libraries
+
+2. Under 'Build Phases' --  'Link Binary With Libraries', add libReactNativeIOSLibrary.a
+ 
 ```
 
 	  
