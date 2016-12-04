@@ -9,6 +9,9 @@
 #import "iHealthDeviceManagerModule.h"
 #import "AMHeader.h"
 #import "BPHeader.h"
+#import "HSHeader.h"
+#import "BGHeader.h"
+#import "POHeader.h"
 @implementation iHealthDeviceManagerModule
 
 @synthesize bridge = _bridge;
@@ -24,6 +27,8 @@ RCT_EXPORT_MODULE()
     if (self=[super init])
     {
         
+         [ScanDeviceController commandGetInstance];
+        
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:AM3Discover object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:AM3ConnectNoti object:nil];
         
@@ -36,15 +41,20 @@ RCT_EXPORT_MODULE()
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:BP3LDiscover object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BP3LConnectNoti object:nil];
         
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:HS4Discover object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:HS4ConnectNoti object:nil];
+        
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:PO3Discover object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:PO3ConnectNoti object:nil];
+        
+         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:BP5ConnectNoti object:nil];
+        
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BP5ConnectNoti object:nil];
-
-        [ScanDeviceController commandGetInstance];
+       
         [AM3Controller shareIHAM3Controller];
         [AM3SController shareIHAM3SController];
         [AM4Controller shareIHAM4Controller];
         [BP3LController shareBP3LController];
-        [BP5Controller shareBP5Controller];
-        [BP7Controller shareBP7Controller];
         
     }
     return self;
@@ -55,9 +65,12 @@ RCT_EXPORT_MODULE()
 -(void)deviceDiscover:(NSNotification*)info {
     
     NSLog(@"Native: device discover %@", info);
+    
     NSDictionary* userInfo = [info userInfo];
+    if(userInfo[@"SerialNumber"]!=nil){
     NSDictionary* deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":[self constantsToExport][userInfo[@"DeviceName"]]};
     [self.bridge.eventDispatcher sendDeviceEventWithName:@"ScanDevice" body:deviceInfo];
+    }
     
 }
 -(void)deviceConnect:(NSNotification*)info {
