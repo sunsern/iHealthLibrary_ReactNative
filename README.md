@@ -74,7 +74,7 @@ import {
 	iHealthDeviceManagerModule.connectDevice(mac,type)  
 ```
 ```
-	Start Measure:
+	Start/Stop Measure:
 	
 	//Add listener for event
 	DeviceEventEmitter.addListener(BP5Module.Event_Notify, function (e: Event) {
@@ -84,19 +84,9 @@ import {
         
     //Call the api
 	 BP5Module.startMeasure(mac)  
+	 BP5Module.stopMeasure(mac)
 ```
-```
-	Stop Measure: 
-	
-	//Add listener for event
-	DeviceEventEmitter.addListener(BP5Module.Event_Notify, function (e: Event) {
-            // handle event.
-            console.log('~~~' + JSON.stringify(e))
-        });
-        
-    //Call the api
-	BP5Module.stopMeasure(mac)  
-```
+
 ##Example
     
 [Click this link](https://github.com/iHealthDeviceLabs/iHealthLibrary_ReactNative/tree/master/Example)
