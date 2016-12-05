@@ -254,6 +254,9 @@ export default class BP5View extends Component {
                     </TouchableOpacity>
                 </ScrollView>
 
+                <TouchableOpacity
+                    style={{backgroundColor:'#000000',height:3}}>
+                </TouchableOpacity>
 
                 <TipView ref="TipView"/>
             </View>

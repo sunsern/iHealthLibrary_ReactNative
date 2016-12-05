@@ -8,26 +8,210 @@ var {NativeModules} = require('react-native');
 
 var RCTModule = NativeModules.POProfileModule
 
-var POProfileModule = {
+/**
+ * @module POProfileModule
+ */
+module.exports = {
+    // Actions
+    /**
+     * The action value of event indicating the battery of PO3 device.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.BATTERY_PO POProfileModule.BATTERY_PO("battery")}</td></tr>
+     * </tbody>
+     * </table>
+     * <b>message example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "battery": 90<br/>
+     * }<br/>
+     */
     ACTION_BATTERY_PO: RCTModule.ACTION_BATTERY_PO,
-    BATTERY_PO: RCTModule.BATTERY_PO,
-
+    /**
+     * The action value of event indicating the start measure of PO3 device.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.PULSE_WAVE_PO POProfileModule.PULSE_WAVE_PO("pulseWave")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.PI_PO POProfileModule.PI_PO("pi")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.PULSE_STRENGTH_PO POProfileModule.PULSE_STRENGTH_PO("pulsestrength")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.BLOOD_OXYGEN_PO POProfileModule.BLOOD_OXYGEN_PO("bloodoxygen")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.PULSE_RATE_PO POProfileModule.PULSE_RATE_PO("heartrate")}</td></tr>
+     * </tbody>
+     * </table>
+     * <b>message example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "pulseWave": [2415,2371,2279],<br/>
+     * &nbsp; &nbsp; "pi": 0.03999999910593033,<br/>
+     * &nbsp; &nbsp; "pulsestrength": 6,<br/>
+     * &nbsp; &nbsp; "bloodoxygen": 70,<br/>
+     * &nbsp; &nbsp; "heartrate": 30<br/>
+     * }<br/>
+     */
     ACTION_LIVEDA_PO: RCTModule.ACTION_LIVEDA_PO,
-    PULSE_WAVE_PO: RCTModule.PULSE_WAVE_PO,
-    PI_PO: RCTModule.PI_PO,
-    PULSE_STRENGTH_PO: RCTModule.PULSE_STRENGTH_PO,
-    BLOOD_OXYGEN_PO: RCTModule.BLOOD_OXYGEN_PO,
-    PULSE_RATE_PO: RCTModule.PULSE_RATE_PO,
-
+    /**
+     * The action value of event indicating the stop measure of PO3 device.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.PULSE_WAVE_PO POProfileModule.PULSE_WAVE_PO("pulseWave")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.DATAID POProfileModule.DATAID("dataID")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.PI_PO POProfileModule.PI_PO("pi")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.PULSE_STRENGTH_PO POProfileModule.PULSE_STRENGTH_PO("pulsestrength")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.BLOOD_OXYGEN_PO POProfileModule.BLOOD_OXYGEN_PO("bloodoxygen")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.PULSE_RATE_PO POProfileModule.PULSE_RATE_PO("heartrate")}</td></tr>
+     * </tbody>
+     * </table>
+     * <b>message example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "pulseWave": [0,0,0],<br/>
+     * &nbsp; &nbsp; "dataID": 67FFC7A454148723718144A604D4152B,<br/>
+     * &nbsp; &nbsp; "pi": 0.0430000014603138,<br/>
+     * &nbsp; &nbsp; "pulsestrength": 0,<br/>
+     * &nbsp; &nbsp; "bloodoxygen": 99,<br/>
+     * &nbsp; &nbsp; "heartrate": 65<br/>
+     * }<br/>
+     */
     ACTION_RESULTDATA_PO: RCTModule.ACTION_RESULTDATA_PO,
-    DATAID: RCTModule.DATAID,
-
+    /**
+     * The action value of event indicating the history data of PO3 device.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.OFFLINEDATA_PO POProfileModule.OFFLINEDATA_PO("offlineData")}</td></tr>
+     * </tbody>
+     * </table>
+     */
     ACTION_OFFLINEDATA_PO: RCTModule.ACTION_OFFLINEDATA_PO,
-    OFFLINEDATA_PO: RCTModule.OFFLINEDATA_PO,
-    MEASURE_DATE_PO: RCTModule.MEASURE_DATE_PO,
-
+    /**
+     * The action value of event indicating the no history data of PO3 device.<br/>
+     * Callback indicating no historical data for Po device.<br/>
+     */
     ACTION_NO_OFFLINEDATA_PO: RCTModule.ACTION_NO_OFFLINEDATA_PO,
-    ACTION_ERROR_PO: RCTModule.ACTION_ERROR_PO
+    /**
+     * Callback indicating no the error for Po device.<br/>
+     */
+    ACTION_ERROR_PO: RCTModule.ACTION_ERROR_PO,
+
+    //Keys
+    /**
+     * The key of the power of battery for Po device.<br/>
+     * Returns the message Key corresponding relation:<br/>
+     * <ul>
+     * <li>
+     * BATTERY_PO ----> "battery".<br/>
+     * </li>
+     * </ul>
+     * <b>Value range:</b><br/>
+     * 0-100(0xff)
+     */
+    BATTERY_PO: RCTModule.BATTERY_PO,
+    /**
+     * The key of the pulse wave for Po device.<br/>
+     * Returns the message Key corresponding relation:<br/>
+     * <ul>
+     * <li>
+     * PULSE_WAVE_PO ----> "pulseWave".<br/>
+     * </li>
+     * </ul>
+     * <b>Example: </b><br/>
+     * [2415,2371,2279]
+     */
+    PULSE_WAVE_PO: RCTModule.PULSE_WAVE_PO,
+    /**
+     * The key of the PI data for Po device.<br/>
+     * Returns the message Key corresponding relation:<br/>
+     * <ul>
+     * <li>
+     * PI_PO ----> "pi".<br/>
+     * </li>
+     * </ul>
+     * <b>Example: </b><br/>
+     * 0.03999999910593033
+     */
+    PI_PO: RCTModule.PI_PO,
+    /**
+     * The key of the pulse strength data for Po device.<br/>
+     * Returns the message Key corresponding relation:<br/>
+     * <ul>
+     * <li>
+     * PULSE_STRENGTH_PO ----> "pulsestrength".<br/>
+     * </li>
+     * </ul>
+     * <b>Value range:</b><br/>
+     * 0-255(0xff)
+     */
+    PULSE_STRENGTH_PO: RCTModule.PULSE_STRENGTH_PO,
+    /**
+     * The key of the blood oxygen data for Po device.<br/>
+     * Returns the message Key corresponding relation:<br/>
+     * <ul>
+     * <li>
+     * BLOOD_OXYGEN_PO ----> "bloodoxygen".<br/>
+     * </li>
+     * </ul>
+     * <b>Value range:</b><br/>
+     * 0-255(0xFF)
+     */
+    BLOOD_OXYGEN_PO: RCTModule.BLOOD_OXYGEN_PO,
+    /**
+     * The key of the pulse rate data for Po device.<br/>
+     * Returns the message Key corresponding relation:<br/>
+     * <ul>
+     * <li>
+     * PULSE_RATE_PO ----> "heartrate".<br/>
+     * </li>
+     * </ul>
+     * <b>Value range:</b><br/>
+     * 0-255(0xFF)
+     */
+    PULSE_RATE_PO: RCTModule.PULSE_RATE_PO,
+    /**
+     * The key of the data id for Po device.<br/>
+     * Returns the message Key corresponding relation:<br/>
+     * <ul>
+     * <li>
+     * DATAID ----> "dataID".<br/>
+     * </li>
+     * </ul>
+     * <b>Example: </b><br/>
+     * 67FFC7A454148723718144A604D4152B
+     */
+    DATAID: RCTModule.DATAID,
+    /**
+     * The key of the historical data for Po device.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.DATAID POProfileModule.DATAID("dataID")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.MEASURE_DATE_PO POProfileModule.MEASURE_DATE_PO("measureDate")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.BLOOD_OXYGEN_PO POProfileModule.BLOOD_OXYGEN_PO("bloodoxygen")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.PULSE_RATE_PO POProfileModule.PULSE_RATE_PO("heartrate")}</td></tr>
+     * <tr><td>action</td><td>{@link module:POProfileModule.PULSE_WAVE_PO POProfileModule.PULSE_WAVE_PO("pulseWave")}</td></tr>
+     * </tbody>
+     * </table>
+     * <ul>
+     * <li>
+     * OFFLINEDATA_PO ----> "offlineData".<br/>
+     * </li>
+     * </ul>
+     */
+    OFFLINEDATA_PO: RCTModule.OFFLINEDATA_PO,
+    /**
+     * The key of the measure date for Po device.<br/>
+     * Returns the message Key corresponding relation:<br/>
+     * <ul>
+     * <li>
+     * MEASURE_DATE_PO ----> "measureDate".<br/>
+     * </li>
+     * </ul>
+     */
+    MEASURE_DATE_PO: RCTModule.MEASURE_DATE_PO
 }
 
 module.exports = POProfileModule

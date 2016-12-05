@@ -168,7 +168,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
         constants.put(KN550, iHealthDevicesManager.DISCOVERY_BP550BT);
         constants.put(HS4S, iHealthDevicesManager.DISCOVERY_HS4S);
 //        constants.put(HS6,);
-//        constants.put(BG1, );
+        constants.put(BG1, (double)110);
         constants.put(BG5, iHealthDevicesManager.DISCOVERY_BG5);
         constants.put(BG5L, iHealthDevicesManager.DISCOVERY_BG5l);
 

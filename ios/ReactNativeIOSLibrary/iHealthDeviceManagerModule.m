@@ -9,6 +9,9 @@
 #import "iHealthDeviceManagerModule.h"
 #import "AMHeader.h"
 #import "BPHeader.h"
+#import "HSHeader.h"
+#import "BGHeader.h"
+#import "POHeader.h"
 @implementation iHealthDeviceManagerModule
 
 @synthesize bridge = _bridge;
@@ -24,16 +27,34 @@ RCT_EXPORT_MODULE()
     if (self=[super init])
     {
         
+         [ScanDeviceController commandGetInstance];
+        
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:AM3Discover object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:AM3ConnectNoti object:nil];
+        
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:AM3SDiscover object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:AM3SConnectNoti object:nil];
+        
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:AM4Discover object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:AM4ConnectNoti object:nil];
         
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:BP3LDiscover object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BP3LConnectNoti object:nil];
         
-        [AM3SController shareIHAM3SController];
-        [BP3LController shareBP3LController];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:HS4Discover object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:HS4ConnectNoti object:nil];
         
-        [ScanDeviceController commandGetInstance];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:PO3Discover object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:PO3ConnectNoti object:nil];
+        
+         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:BP5ConnectNoti object:nil];
+        
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BP5ConnectNoti object:nil];
+       
+        [AM3Controller shareIHAM3Controller];
+        [AM3SController shareIHAM3SController];
+        [AM4Controller shareIHAM4Controller];
+        [BP3LController shareBP3LController];
         
     }
     return self;
@@ -44,14 +65,15 @@ RCT_EXPORT_MODULE()
 -(void)deviceDiscover:(NSNotification*)info {
     
     NSLog(@"Native: device discover %@", info);
-    //    [self.bridge.eventDispatcher sendAppEventWithName:@"ScanDevice" body:[info userInfo]];
+    
     NSDictionary* userInfo = [info userInfo];
+    if(userInfo[@"SerialNumber"]!=nil){
     NSDictionary* deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":[self constantsToExport][userInfo[@"DeviceName"]]};
     [self.bridge.eventDispatcher sendDeviceEventWithName:@"ScanDevice" body:deviceInfo];
+    }
     
 }
 -(void)deviceConnect:(NSNotification*)info {
-    //    [self.bridge.eventDispatcher sendAppEventWithName:@"DeviceConnected" body:[info userInfo]];
     NSDictionary* userInfo = [info userInfo];
     NSDictionary* deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":[self constantsToExport][userInfo[@"DeviceName"]]};
     [self.bridge.eventDispatcher sendDeviceEventWithName:@"DeviceConnected" body:deviceInfo];
@@ -62,19 +84,19 @@ RCT_EXPORT_MODULE()
 - (NSDictionary *)constantsToExport
 
 {
-    
-    BP3* bp3 = [[BP3LController shareBP3LController] getAllCurrentBP3LInstace].firstObject;
     return @{
-             @"AM3" : [NSNumber numberWithInt:HealthDeviceType_AM3],
-             @"AM3S" : [NSNumber numberWithInt:HealthDeviceType_AM3S],
-             @"AM4" : [NSNumber numberWithInt:HealthDeviceType_AM4],
-             @"BP3L" : [NSNumber numberWithInt:HealthDeviceType_BP3L],
-             @"BP7S" : [NSNumber numberWithInt:HealthDeviceType_BP7S],
-             @"KN550" : [NSNumber numberWithInt:HealthDeviceType_KN550BT],
-             @"HS4S" : [NSNumber numberWithInt:HealthDeviceType_HS4],
-             @"BG5L" : [NSNumber numberWithInt:HealthDeviceType_BG5L],
-             @"PO3" : [NSNumber numberWithInt:HealthDeviceType_PO3],
+             @"AM3" : @"AM3",
+             @"AM3S" :@"AM3S",
+             @"AM4" :@"AM4",
+             @"BP3L" :@"BP3L",
+             @"BP7S" : @"BP7S",
+             @"KN550" : @"KN550",
+             @"HS4S" :@"HS4S",
+             @"HS4" :@"HS4",
+             @"BG5L": @"BG5L",
+             @"PO3":@"PO3",
              @"BP5":@"BP5",
+             @"BP7":@"BP7",
              @"BG1":@"BG1",
              @"BG5":@"BG5",
              @"HS6":@"HS6",
@@ -90,30 +112,118 @@ RCT_EXPORT_MODULE()
 #pragma mark
 #pragma mark - Method
 
-RCT_EXPORT_METHOD(startDiscovery:(nonnull NSNumber *)deviceType){
+RCT_EXPORT_METHOD(startDiscovery:(nonnull NSString *)deviceType){
     
     
-    [[ScanDeviceController commandGetInstance] commandScanDeviceType:[deviceType intValue]];
+    if ([deviceType isEqualToString:@"BP5"] ||[deviceType isEqualToString:@"BG1"] ||[deviceType isEqualToString:@"BG5"] ||[deviceType isEqualToString:@"HS6"] || [deviceType isEqualToString:@"BP7"]) {
+        
+        
+        
+    }else{
+        if ([deviceType isEqualToString:@"AM3"]) {
+            
+            [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_AM3];
+
+        }else if ([deviceType isEqualToString:@"AM3S"]){
+            
+             [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_AM3S];
+        }else if ([deviceType isEqualToString:@"AM4"]){
+            
+             [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_AM4];
+            
+        }else if ([deviceType isEqualToString:@"BP3L"]){
+            
+             [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_BP3L];
+        }else if ([deviceType isEqualToString:@"BP7S"]){
+            
+             [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_BP7S];
+        }else if ([deviceType isEqualToString:@"KN550"]){
+            
+             [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_KN550BT];
+        }else if ([deviceType isEqualToString:@"HS4S"] || [deviceType isEqualToString:@"HS4"]){
+            
+             [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_HS4];
+        }else if ([deviceType isEqualToString:@"BG5L"]){
+            
+             [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_BG5L];
+            
+        }else if ([deviceType isEqualToString:@"PO3"]){
+            
+             [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_PO3];
+            
+        }else{
+        
+        
+        
+        }
+        
+    }
+    
+   
     
     
     
 }
 
 
-RCT_EXPORT_METHOD(stopDiscovery:(nonnull NSNumber *)deviceType){
+RCT_EXPORT_METHOD(stopDiscovery:(nonnull NSString *)deviceType){
     
     
     [[ScanDeviceController commandGetInstance] commandStopScanDeviceType:[deviceType intValue]];
     
-    
-    //     [self.bridge.eventDispatcher sendAppEventWithName:@"ScanFinish" body:nil];
     [self.bridge.eventDispatcher sendDeviceEventWithName:@"ScanFinish" body:nil];
 }
 
-RCT_EXPORT_METHOD(connectDevice:(nonnull NSString *)mac type:(nonnull NSNumber *)deviceType){
+RCT_EXPORT_METHOD(connectDevice:(nonnull NSString *)mac type:(nonnull NSString *)deviceType){
     
     
-    [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:[deviceType intValue] andSerialNub:mac];
+    
+    
+    if ([deviceType isEqualToString:@"BP5"] ||[deviceType isEqualToString:@"BG1"] ||[deviceType isEqualToString:@"BG5"] ||[deviceType isEqualToString:@"HS6"] || [deviceType isEqualToString:@"BP7"]) {
+        
+        
+        
+    }else{
+        if ([deviceType isEqualToString:@"AM3"]) {
+            
+            [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_AM3 andSerialNub:mac];
+            
+        }else if ([deviceType isEqualToString:@"AM3S"]){
+            
+            [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_AM3S andSerialNub:mac];
+        }else if ([deviceType isEqualToString:@"AM4"]){
+            
+             [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_AM4 andSerialNub:mac];
+            
+        }else if ([deviceType isEqualToString:@"BP3L"]){
+            
+            [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_BP3L andSerialNub:mac];
+        }else if ([deviceType isEqualToString:@"BP7S"]){
+            
+             [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_BP7S andSerialNub:mac];
+        }else if ([deviceType isEqualToString:@"KN550"]){
+            
+            [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_KN550BT andSerialNub:mac];
+        }else if ([deviceType isEqualToString:@"HS4S"] || [deviceType isEqualToString:@"HS4"]){
+            
+             [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_HS4 andSerialNub:mac];
+        }else if ([deviceType isEqualToString:@"BG5L"]){
+            
+            [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_BG5L andSerialNub:mac];
+            
+        }else if ([deviceType isEqualToString:@"PO3"]){
+            
+             [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_PO3 andSerialNub:mac];
+            
+        }else{
+            
+            
+            
+        }
+        
+    }
+    
+
     
     
     

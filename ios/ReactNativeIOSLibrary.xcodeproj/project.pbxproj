@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18260F581DF15E4A003A107E /* libAMGenerateSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18260F571DF15E4A003A107E /* libAMGenerateSDK.a */; };
 		182D028B1DE57A2F00E9B783 /* iHealthDeviceManagerModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 182D028A1DE57A2F00E9B783 /* iHealthDeviceManagerModule.m */; };
 		1875101F1DE5E374005E66B1 /* BPProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1875101E1DE5E374005E66B1 /* BPProfileModule.m */; };
 		187510221DE5E399005E66B1 /* BP550BTModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 187510211DE5E399005E66B1 /* BP550BTModule.m */; };
@@ -16,7 +17,6 @@
 		1875102E1DE5E411005E66B1 /* AMProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1875102D1DE5E410005E66B1 /* AMProfileModule.m */; };
 		187510311DE5E424005E66B1 /* AM4Module.m in Sources */ = {isa = PBXBuildFile; fileRef = 187510301DE5E424005E66B1 /* AM4Module.m */; };
 		187510341DE5E439005E66B1 /* AM3SModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 187510331DE5E439005E66B1 /* AM3SModule.m */; };
-		187510811DE5E6A5005E66B1 /* ihealthSDK2.0.7.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 187510701DE5E6A5005E66B1 /* ihealthSDK2.0.7.5.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +32,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		18260F571DF15E4A003A107E /* libAMGenerateSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAMGenerateSDK.a; sourceTree = "<group>"; };
 		182D01FA1DE565EC00E9B783 /* libReactNativeIOSLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libReactNativeIOSLibrary.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		182D02891DE57A2F00E9B783 /* iHealthDeviceManagerModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iHealthDeviceManagerModule.h; sourceTree = "<group>"; };
 		182D028A1DE57A2F00E9B783 /* iHealthDeviceManagerModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iHealthDeviceManagerModule.m; sourceTree = "<group>"; };
@@ -109,7 +110,6 @@
 		1875106D1DE5E6A5005E66B1 /* HSHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSHeader.h; sourceTree = "<group>"; };
 		1875106E1DE5E6A5005E66B1 /* HSMacroFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSMacroFile.h; sourceTree = "<group>"; };
 		1875106F1DE5E6A5005E66B1 /* iHealthHS6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iHealthHS6.h; sourceTree = "<group>"; };
-		187510701DE5E6A5005E66B1 /* ihealthSDK2.0.7.5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = ihealthSDK2.0.7.5.a; sourceTree = "<group>"; };
 		187510711DE5E6A5005E66B1 /* KD723.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KD723.h; sourceTree = "<group>"; };
 		187510721DE5E6A5005E66B1 /* KD723Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KD723Controller.h; sourceTree = "<group>"; };
 		187510731DE5E6A5005E66B1 /* KD926.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KD926.h; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				187510811DE5E6A5005E66B1 /* ihealthSDK2.0.7.5.a in Frameworks */,
+				18260F581DF15E4A003A107E /* libAMGenerateSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,9 +243,9 @@
 				1875106D1DE5E6A5005E66B1 /* HSHeader.h */,
 				1875106E1DE5E6A5005E66B1 /* HSMacroFile.h */,
 				1875106F1DE5E6A5005E66B1 /* iHealthHS6.h */,
-				187510701DE5E6A5005E66B1 /* ihealthSDK2.0.7.5.a */,
 				187510711DE5E6A5005E66B1 /* KD723.h */,
 				187510721DE5E6A5005E66B1 /* KD723Controller.h */,
+				18260F571DF15E4A003A107E /* libAMGenerateSDK.a */,
 				187510731DE5E6A5005E66B1 /* KD926.h */,
 				187510741DE5E6A5005E66B1 /* KD926Controller.h */,
 				187510751DE5E6A5005E66B1 /* KN550BT.h */,
