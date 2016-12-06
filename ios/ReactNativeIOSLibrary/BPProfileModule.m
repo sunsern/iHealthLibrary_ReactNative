@@ -20,13 +20,13 @@ RCT_EXPORT_MODULE()
 - (NSDictionary *)constantsToExport
 {
     return @{
-             @"Action_Error":@"Action_Error",
-             @"Action_Battery":@"Action_Battery",
-             @"Action_Zeroing":@"Action_Zeroing",
-             @"Action_ZeroOver":@"Action_ZeroOver",
-             @"Action_Pressure":@"Action_Pressure",
-             @"Action_PulseWave":@"Action_PulseWave",
-             @"Action_Result":@"Action_Result",
+             @"ACTION_ERROR_BP":@"ACTION_ERROR_BP",
+             @"ACTION_BATTERY_BP":@"ACTION_BATTERY_BP",
+             @"ACTION_ZOREING_BP":@"ACTION_ZOREING_BP",
+             @"ACTION_ZOREOVER_BP":@"ACTION_ZOREOVER_BP",
+             @"ACTION_ONLINE_PRESSURE_BP":@"ACTION_ONLINE_PRESSURE_BP",
+             @"ACTION_ONLINE_PULSEWAVE_BP":@"ACTION_ONLINE_PULSEWAVE_BP",
+             @"ACTION_ONLINE_RESULT_BP":@"ACTION_ONLINE_RESULT_BP",
              @"Action_getOffLineDataNum":@"Action_getOffLineDataNum",
              @"Action_getOffLineData":@"Action_getOffLineData",
              @"Action_getFunctionInfo":@"Action_getFunctionInfo",
@@ -34,7 +34,7 @@ RCT_EXPORT_MODULE()
              @"Action_setAngleSuccess":@"Action_setAngleSuccess",
              @"Action_enableOffline":@"Action_enableOffline",
              @"Action_disEnableOffline":@"Action_disEnableOffline",
-             @"Action_interrupted":@"Action_interrupted",
+             @"ACTION_INTERRUPTED_BP":@"ACTION_INTERRUPTED_BP",
              @"Action_is_enable_offline":@"Action_is_enable_offline"
              };
 };
