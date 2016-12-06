@@ -2,8 +2,8 @@
 //  BP3LModule.m
 //  ReactNativeIOSLibrary
 //
-//  Created by daiqingquan on 2016/11/23.
-//  Copyright © 2016年 daiqingquan. All rights reserved.
+//  Created by Liu Yanbo on 2016/12/05.
+//  Copyright © 2016年 Liu Yanbo. All rights reserved.
 //
 
 #import "BP3LModule.h"
