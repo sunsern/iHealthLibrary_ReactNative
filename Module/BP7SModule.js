@@ -112,7 +112,7 @@ module.exports = {
      *     <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
      *          <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
      *          <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_HISTORICAL_DATA_BP BPProfileModule.ACTION_HISTORICAL_DATA_BP("historicaldata_bp")}</td></tr>
-     *          <tr><td>{@link module:BPProfileModule.HISTORICAL_DATA_BP BPProfileModule.HISTORICAL_DATA_BP("data")}</td><td>Array of history Data. <br/> e.g.  </td></tr>
+     *          <tr><td>{@link module:BPProfileModule.HISTORICAL_DATA_BP BPProfileModule.HISTORICAL_DATA_BP("data")}</td><td>Array of history Data. <br/> e.g. {"data":[{"time":"2016-12-7 0:11:00","sys":136,"dia":76,"heartRate":64,"arrhythmia":0,"hsd":false,"startAngle":64,"measureAngleChange":58,"chooseHand":1,"dataID":"6D7756186EF4356F3C58D3933CD2437A"}]} </td></tr>
      *          <tr><td>{@link module:BPProfileModule.MEASUREMENT_DATE_BP BPProfileModule.MEASUREMENT_DATE_BP("time")}</td><td>Measuring time. <br/> e.g. 2016-12-6 22:27:00</td></tr>
      *          <tr><td>{@link module:BPProfileModule.HIGH_BLOOD_PRESSURE_BP BPProfileModule.HIGH_BLOOD_PRESSURE_BP("sys")}</td><td>The high pressure for blood pressure. <br/> e.g. 127</td></tr>
      *          <tr><td>{@link module:BPProfileModule.LOW_BLOOD_PRESSURE_BP BPProfileModule.LOW_BLOOD_PRESSURE_BP("dia")}</td><td>The low pressure for blood pressure. <br/> e.g. 80</td></tr>
