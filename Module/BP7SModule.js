@@ -7,9 +7,13 @@
 
 var { NativeModules } = require('react-native');
 
-var RCTModule = NativeModules.BP7SModule
+var RCTModule = NativeModules.BP7SModule;
 
-var BP7SModule = {
+/**
+ * @module BP7SModule
+ */
+
+module.exports = {
 
     /**
      * Notify event type for BP7S.
@@ -17,15 +21,38 @@ var BP7SModule = {
     Event_Notify: RCTModule.Event_Notify,
 
     /**
-     * get battery of BP7S
-     * Attentation: Please register to receive event(BPProfileModule.Action_Battery) before call the api.
+     * Get the BP7S device's battery.
+     * <ul>
+     *     <li>This is an asynchronous call, it will return immediately.</li>
+     *     <li>If get successfully, following event will be emit:<br/>
+     *     {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}<br/>
+     *     The key and value will be as below:
+     *     <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *          <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *          <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_BATTERY_BP BPProfileModule.ACTION_BATTERY_BP("battery_bp")}</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.BATTERY_BP BPProfileModule.BATTERY_BP("battery")}</td><td>Battery status.<br/> e.g. 90</td></tr>
+     *     </table>
+     *     </li>
      *
-     * @param {string} mac
-     * @return Event('Action_Battery') with a Map object.<br/>
-     * eg.
-     * @api public
+     *     <li>
+     *         If error happens, following event will be emit:</br>
+     *         {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}</br>
+     *         The key and value will be as below:
+     *         <table style="width:100px" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *             <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *             <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_ERROR_BP BPProfileModule.ACTION_ERROR_BP("error_bp")}</td></tr>
+     *             <tr><td>{@link module:BPProfileModule.ERROR_NUM_BP BPProfileModule.ERROR_NUM_BP("error")}</td><td>the error of Bp device.<br/> e.g. 400</td></tr>
+     *         </table>
+     *     </li>
+     *
+     *     <li>
+     *         <b>Attention</b>, if you want to be notified, it is mandatory to call following method before you call this method:<br/>
+     *         <b>DeviceEventEmitter.addListener(BP7SModule.Event_Notify, function (e: Event){});</b>
+     *     </li>
+     * </ul>
+     * @param {string} mac Device's mac address
      */
-    getBattery: function (mac: string): void {
+    getBattery: function (mac) {
 
         if (RCTModule != null) {
             RCTModule.getBattery(mac);
@@ -34,72 +61,222 @@ var BP7SModule = {
         }
 
     },
+
     /**
-     * get the num of offlineData
-     * Attentation: Please register to receive event(BPProfileModule.Action_getOffLineDataNum) before call the api.
+     * get offline data number.
+     * <ul>
+     *     <li>This is an asynchronous call, it will return immediately.</li>
+     *     <li>If get successfully, following event will be emit:<br/>
+     *     {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}<br/>
+     *     The key and value will be as below:
+     *     <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *          <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *          <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_HISTORICAL_NUM_BP BPProfileModule.ACTION_HISTORICAL_NUM_BP("offlinenum")}</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.HISTORICAL_NUM_BP BPProfileModule.HISTORICAL_NUM_BP("num")}</td><td>Offline data number. <br/> e.g. 2</td></tr>
+     *     </table>
+     *     </li>
      *
-     * @param {string} mac
-     * @return Event('Action_getOffLineDataNum') with a Map object.
-     * eg.
-     * @api public
+     *     <li>
+     *         If error happens, following event will be emit:</br>
+     *         {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}</br>
+     *         The key and value will be as below:
+     *         <table style="width:100px" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *             <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *             <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_ERROR_BP BPProfileModule.ACTION_ERROR_BP("error_bp")}</td></tr>
+     *             <tr><td>{@link module:BPProfileModule.ERROR_NUM_BP BPProfileModule.ERROR_NUM_BP("error")}</td><td>the error of Bp device.<br/> e.g. 400</td></tr>
+     *         </table>
+     *     </li>
+     *
+     *     <li>
+     *         <b>Attention</b>, if you want to be notified, it is mandatory to call following method before you call this method:<br/>
+     *         <b>DeviceEventEmitter.addListener(BP7SModule.Event_Notify, function (e: Event){});</b>
+     *     </li>
+     * </ul>
+     * @param {string} mac Device's mac address
      */
-    getOffLineNum:function (mac:string): void {
+    getOffLineNum:function (mac) {
         if (RCTModule != null) {
             RCTModule.getOffLineNum(mac);
         }else {
             console.log('~~~~~ RCTModule is null')
         }
     },
+
     /**
-     * get the offlineData
-     * Attentation: Please register to receive event(BPProfileModule.Action_getOffLineData) before call the api.
+     * get offline data number.
+     * <ul>
+     *     <li>This is an asynchronous call, it will return immediately.</li>
+     *     <li>If get successfully, following event will be emit:<br/>
+     *     {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}<br/>
+     *     The key and value will be as below:
+     *     <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *          <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *          <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_HISTORICAL_DATA_BP BPProfileModule.ACTION_HISTORICAL_DATA_BP("historicaldata_bp")}</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.HISTORICAL_DATA_BP BPProfileModule.HISTORICAL_DATA_BP("data")}</td><td>Array of history Data. <br/> e.g.  </td></tr>
+     *          <tr><td>{@link module:BPProfileModule.MEASUREMENT_DATE_BP BPProfileModule.MEASUREMENT_DATE_BP("time")}</td><td>Measuring time. <br/> e.g. 2016-12-6 22:27:00</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.HIGH_BLOOD_PRESSURE_BP BPProfileModule.HIGH_BLOOD_PRESSURE_BP("sys")}</td><td>The high pressure for blood pressure. <br/> e.g. 127</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.LOW_BLOOD_PRESSURE_BP BPProfileModule.LOW_BLOOD_PRESSURE_BP("dia")}</td><td>The low pressure for blood pressure. <br/> e.g. 80</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.PULSE_BP BPProfileModule.PULSE_BP("heartRate")}</td><td>Blood pressure pulse.<br/> e.g. 77</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.MEASUREMENT_AHR_BP BPProfileModule.MEASUREMENT_AHR_BP("arrhythmia")}</td><td>The key of measurement is arrhythmia or not. <br/> e.g. true</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.MEASUREMENT_HSD_BP BPProfileModule.MEASUREMENT_HSD_BP("hsd")}</td><td>The key of hemodynamic stability diagnosis, that Determines.<br/> e.g. false</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.MEASUREMENT_STRAT_ANGLE_BP BPProfileModule.MEASUREMENT_STRAT_ANGLE_BP("startAngle")}</td><td>The angle when start measure.<br/> e.g. 40</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.MEASUREMENT_ANGLE_CHANGE_BP BPProfileModule.MEASUREMENT_ANGLE_CHANGE_BP("measureAngleChange")}</td><td>The change angle when measuring.<br/> e.g. 10</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.MEASUREMENT_HAND_BP BPProfileModule.MEASUREMENT_HAND_BP("chooseHand")}</td><td>The hand which is measured.<br/> e.g. 0</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.DATAID BPProfileModule.DATAID("dataID")}</td><td>return blood pressure data id. <br/> e.g. 9F78D808BAB380CC8B8DA5F2DECA24F3</td></tr>
+     *     </table>
+     *     </li>
      *
-     * @param {string} mac
-     * @return Event('Action_getOffLineData') with a Map object.
-     * eg.
-     * @api public
+     *     <li>
+     *         If error happens, following event will be emit:</br>
+     *         {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}</br>
+     *         The key and value will be as below:
+     *         <table style="width:100px" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *             <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *             <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_ERROR_BP BPProfileModule.ACTION_ERROR_BP("error_bp")}</td></tr>
+     *             <tr><td>{@link module:BPProfileModule.ERROR_NUM_BP BPProfileModule.ERROR_NUM_BP("error")}</td><td>the error of Bp device.<br/> e.g. 400</td></tr>
+     *         </table>
+     *     </li>
+     *
+     *     <li>
+     *         <b>Attention</b>, if you want to be notified, it is mandatory to call following method before you call this method:<br/>
+     *         <b>DeviceEventEmitter.addListener(BP7SModule.Event_Notify, function (e: Event){});</b>
+     *     </li>
+     * </ul>
+     * @param {string} mac Device's mac address
      */
-    getOffLineData:function (mac:string): void {
+    getOffLineData:function (mac) {
         if (RCTModule != null) {
             RCTModule.getOffLineData(mac);
         }else {
             console.log('~~~~~ RCTModule is null')
         }
     },
+
     /**
-     * set the unit of device
-     * Attentation: Please register to receive event(BPProfileModule.Action_setUnitSuccess) before call the api.
+     * Set BP7S device unit.
+     * <ul>
+     *     <li>This is an asynchronous call, it will return immediately.</li>
+     *     <li>If get successfully, following event will be emit:<br/>
+     *     {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}<br/>
+     *     The key and value will be as below:
+     *     <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *          <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *          <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_SET_UNIT_SUCCESS_BP BPProfileModule.ACTION_SET_UNIT_SUCCESS_BP("set_unit_success")}</td></tr>
+     *     </table>
+     *     </li>
      *
-     * @param {string} mac
-     * @param {number} unit
-     * @return Event('Action_setUnitSuccess') with a Map object.
-     * eg.
-     * @api public
+     *     <li>
+     *         If error happens, following event will be emit:</br>
+     *         {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}</br>
+     *         The key and value will be as below:
+     *         <table style="width:100px" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *             <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *             <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_ERROR_BP BPProfileModule.ACTION_ERROR_BP("error_bp")}</td></tr>
+     *             <tr><td>{@link module:BPProfileModule.ERROR_NUM_BP BPProfileModule.ERROR_NUM_BP("error")}</td><td>the error of Bp device.<br/> e.g. 400</td></tr>
+     *         </table>
+     *     </li>
+     *
+     *     <li>
+     *         <b>Attention</b>, if you want to be notified, it is mandatory to call following method before you call this method:<br/>
+     *         <b>DeviceEventEmitter.addListener(BP7SModule.Event_Notify, function (e: Event){});</b>
+     *     </li>
+     * </ul>
+     * @param {string} mac Device's mac address
+     * @param {int} unit 0:mmHg,1:kPa
      */
-    setUnit:function (mac:string, unit:number): void{
+    setUnit:function (mac, unit){
         if (RCTModule != null) {
             RCTModule.setUnit(mac,unit);
         }else {
             console.log('~~~~~ RCTModule is null')
         }
     },
-    angleSet:function (mac:string, leftUpper:number, leftLow:number, rightUpper:number, rightLow:number): void{
+
+    /**
+     * Set BP7S device angle.
+     * <ul>
+     *     <li>This is an asynchronous call, it will return immediately.</li>
+     *     <li>If get successfully, following event will be emit:<br/>
+     *     {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}<br/>
+     *     The key and value will be as below:
+     *     <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *          <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *          <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_SET_ANGLE_SUCCESS_BP BPProfileModule.ACTION_SET_ANGLE_SUCCESS_BP("set_angle_success")}</td></tr>
+     *     </table>
+     *     </li>
+     *
+     *     <li>
+     *         If error happens, following event will be emit:</br>
+     *         {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}</br>
+     *         The key and value will be as below:
+     *         <table style="width:100px" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *             <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *             <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_ERROR_BP BPProfileModule.ACTION_ERROR_BP("error_bp")}</td></tr>
+     *             <tr><td>{@link module:BPProfileModule.ERROR_NUM_BP BPProfileModule.ERROR_NUM_BP("error")}</td><td>the error of Bp device.<br/> e.g. 400</td></tr>
+     *         </table>
+     *     </li>
+     *
+     *     <li>
+     *         <b>Attention</b>, if you want to be notified, it is mandatory to call following method before you call this method:<br/>
+     *         <b>DeviceEventEmitter.addListener(BP7SModule.Event_Notify, function (e: Event){});</b>
+     *     </li>
+     * </ul>
+     * @param {string} mac Device's mac address
+     * @param {int} leftUpper the maximum measure angle of left hand, the maximum value must less than 90.
+     * @param {int} leftLows the minimum measure angle of left hand, the minimum value must more than 0, and less than leftUpper.
+     * @param {int} rightUpper the maximum measure angle of right hand, the maximum value must less than 90.
+     * @param {int} rightLow the minimum measure angle of right hand, the minimum value must more than 0, and less than rightUpper.
+     *
+     */
+    angleSet:function (mac, leftUpper, leftLows, rightUpper, rightLow) {
         if (RCTModule != null) {
             RCTModule.angleSet(mac,leftUpper,leftLow,rightUpper,rightLow);
         }else {
             console.log('~~~~~ RCTModule is null')
         }
     },
+
     /**
-     * Synchronize the system time to BP device and get function of device
-     * Attentation: Please register to receive event(BPProfileModule.Action_getFunctionInfo) before call the api.
+     * Get the BP7S device's functionInfo.
+     * <ul>
+     *     <li>This is an asynchronous call, it will return immediately.</li>
+     *     <li>If get successfully, following event will be emit:<br/>
+     *     {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}<br/>
+     *     The key and value will be as below:
+     *     <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *          <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *          <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_FUNCTION_INFORMATION_BP BPProfileModule.ACTION_FUNCTION_INFORMATION_BP("function_info_bp")}</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.FUNCTION_IS_UPAIR_MEASURE BPProfileModule.FUNCTION_IS_UPAIR_MEASURE("upAirMeasureFlg")}</td><td>The way to measure is up air or low air, up is "true", low is "false".<br/> e.g. false</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.FUNCTION_IS_ARM_MEASURE BPProfileModule.FUNCTION_IS_ARM_MEASURE("armMeasureFlg")}</td><td>device is arm or wrist, arm is "true", wrist is "false".<br/> e.g. true</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.FUNCTION_HAVE_ANGLE_SENSOR BPProfileModule.FUNCTION_HAVE_ANGLE_SENSOR("haveAngleSensor")}</td><td>device has angle sensor or not, have is "true", otherwise is "false"device has angle sensor or not, have is "true", otherwise is "false".<br/> e.g. false</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.FUNCTION_HAVE_OFFLINE BPProfileModule.FUNCTION_HAVE_OFFLINE("haveOffline")}</td><td>device has offline-measure function or not, have is "true", otherwise is "false".<br/> e.g. true</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.FUNCTION_HAVE_HSD BPProfileModule.FUNCTION_HAVE_HSD("haveHSD")}</td><td>device had HSD function or not, have is "true", otherwise is "false".<br/> e.g. false</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.FUNCTION_HAVE_ANGLE_SETTING BPProfileModule.FUNCTION_HAVE_ANGLE_SETTING("haveAngleSet")}</td><td>device has angle setting function or not, have is "true", otherwise is "false".<br/> e.g. true</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.FUNCTION_IS_MULTI_UPLOAD BPProfileModule.FUNCTION_IS_MULTI_UPLOAD("mutableUpload")}</td><td>device is multi upload or single upload, multi is "true", single is "false".<br/> e.g. true</td></tr>
+     *          <tr><td>{@link module:BPProfileModule.FUNCTION_HAVE_SELF_UPDATE BPProfileModule.FUNCTION_HAVE_SELF_UPDATE("selfUpdate")}</td><td>device had self update function or not, have is "true", otherwise is "false".<br/> e.g. false</td></tr>
+     *     </table>
+     *     </li>
      *
-     * @param {string} mac
-     * @return Event('Action_getFunctionInfo') with a Map object.
-     * eg.
-     * @api public
+     *     <li>
+     *         If error happens, following event will be emit:</br>
+     *         {@link module:BP7SModule.Event_Notify BP7SModule.Event_Notify("event_notify_bp7s")}</br>
+     *         The key and value will be as below:
+     *         <table style="width:100px" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *             <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *             <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_ERROR_BP BPProfileModule.ACTION_ERROR_BP("error_bp")}</td></tr>
+     *             <tr><td>{@link module:BPProfileModule.ERROR_NUM_BP BPProfileModule.ERROR_NUM_BP("error")}</td><td>the error of Bp device.<br/> e.g. 400</td></tr>
+     *         </table>
+     *     </li>
+     *
+     *     <li>
+     *         <b>Attention</b>, if you want to be notified, it is mandatory to call following method before you call this method:<br/>
+     *         <b>DeviceEventEmitter.addListener(BP7SModule.Event_Notify, function (e: Event){});</b>
+     *     </li>
+     * </ul>
+     * @param {string} mac Device's mac address
      */
-    getFunctionInfo:function (mac:string): void {
+
+    getFunctionInfo:function (mac) {
         if (RCTModule != null) {
             RCTModule.getFunctionInfo(mac);
         }else {
@@ -107,9 +284,14 @@ var BP7SModule = {
         }
     },
 
-    //disconnect with BP7S device
 
-    disconnect: function (mac: string): void {
+    /**
+     * Disconnect the BP7S
+     *
+     * @param {string} mac Device's mac address
+     */
+
+    disconnect: function (mac) {
 
         if (RCTModule != null) {
             RCTModule.disconnect(mac);
@@ -120,5 +302,3 @@ var BP7SModule = {
 
 
 }
-
-module.exports = BP7SModule
