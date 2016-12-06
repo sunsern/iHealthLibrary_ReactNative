@@ -204,7 +204,7 @@ export default class BP3LView extends Component {
         this.notifyListener = DeviceEventEmitter.addListener(BP3LModule.Event_Notify, function (e: Event) {
             console.info('BP5View', 'addListener_DeviceDisconnect', "Action = " + e.action + '\n' + "Message = " + JSON.stringify(e));
             if (e.action === BPProfileModule.ACTION_ERROR_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                self.refs.tipView.setState({tip: JSON.stringify(e)});
             }
             else if (e.action === BPProfileModule.ACTION_BATTERY_BP) {
                 let battery = e.battery;
