@@ -230,7 +230,7 @@ module.exports = {
      */
     angleSet:function (mac, leftUpper, leftLows, rightUpper, rightLow) {
         if (RCTModule != null) {
-            RCTModule.angleSet(mac,leftUpper,leftLow,rightUpper,rightLow);
+            RCTModule.angleSet(mac,leftUpper,leftLows,rightUpper,rightLow);
         }else {
             console.log('~~~~~ RCTModule is null')
         }
@@ -301,4 +301,4 @@ module.exports = {
     }
 
 
-}
+};

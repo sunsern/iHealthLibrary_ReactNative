@@ -65,11 +65,11 @@
 
 /**
  * Set time format and nation
+ * @param timeFormatAndNation AM4TimeFormat_hh,AM4TimeFormat_HH,AM4TimeFormat_NoEuropeAndhh,AM4TimeFormat_EuropeAndhh,AM4TimeFormat_NoEuropeAndHH,AM4TimeFormat_EuropeAndHH
  * @param setTimeFormatBlock True: Success， False: Failed.
  * @param errorBlock Communication error codes, see AM4 error descriptions.
  */
--(void)commandAM4SetTimeFormatAndNation:(DisposeAM4TimeFormatAndNationSettingBlock)setTimeFormatBlock withErrorBlock:(DisposeAM4ErrorBlock)errorBlock;
-
+-(void)commandAM4SetTimeFormatAndNation:(AM4TimeFormatAndNation)timeFormatAndNation withFinishResult:(DisposeAM4TimeFormatAndNationSettingBlock)setTimeFormatBlock withErrorBlock:(DisposeAM4ErrorBlock)errorBlock;
 /**
  * Binding AM4 to user,Account binding requires an active internet connection.
  * @param userID userID, ranging from 1 – 2147483647.
@@ -232,7 +232,7 @@
 
 /**
  * Set BMR
- * @param bmr
+ * @param bmr ranging from 0 – 5000.
  * @param finishResultBlock True: Delete successful，False: Failed
  * @param errorBlock Communication error codes, see AM4 error descriptions.
  */

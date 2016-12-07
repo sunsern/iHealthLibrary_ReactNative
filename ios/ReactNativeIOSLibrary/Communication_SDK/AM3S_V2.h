@@ -66,10 +66,12 @@
 
 /**
  * Set time format and nation
+ * @param timeFormatAndNation AM3STimeFormat_hh,AM3STimeFormat_HH,AM3STimeFormat_NoEuropeAndhh,AM3STimeFormat_EuropeAndhh,AM3STimeFormat_NoEuropeAndHH,AM3STimeFormat_EuropeAndHH,
  * @param setTimeFormatBlock True: Success， False: Failed.
  * @param errorBlock Communication error codes, see AM3S error descriptions.
+ * @Notice  Notice: Firmware version 1.0.0 and above supports AM3STimeFormat_NoEuropeAndhh,AM3STimeFormat_EuropeAndhh,AM3STimeFormat_NoEuropeAndHH,AM3STimeFormat_EuropeAndHH,
  */
--(void)commandAM3SSetTimeFormatAndNation:(DisposeAM3STimeFormatAndNationSettingBlock)setTimeFormatBlock withErrorBlock:(DisposeAM3SErrorBlock)errorBlock;
+-(void)commandAM3SSetTimeFormatAndNation:(AM3STimeFormatAndNation)timeFormatAndNation withFinishResult:(DisposeAM3STimeFormatAndNationSettingBlock)setTimeFormatBlock withErrorBlock:(DisposeAM3SErrorBlock)errorBlock;
 
 /**
  * Binding AM3S to user,Account binding requires an active internet connection.
@@ -218,7 +220,7 @@
 
 /**
  * Set BMR
- * @param bmr
+ * @param bmr ranging from 0 – 5000.
  * @param finishResultBlock True: Delete successful，False: Failed
  * @param errorBlock Communication error codes, see AM3S error descriptions.
  */
