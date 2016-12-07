@@ -53,15 +53,6 @@ class MainView extends Component {
 
     startDiscovery() {
         console.info('scan device ------'+this.state.type)
-
-        if (this.state.type==iHealthDeviceManagerModule.BG1) {
-            console.warn('device type BG1')
-            this.props.navigator.push({
-                                            name: "DeviceView",
-                                            type: "BG1",
-                                            mac: ""
-                                        })
-        }
         
         if (this.state.scanStatus) {
             console.info('正在扫描设备')
