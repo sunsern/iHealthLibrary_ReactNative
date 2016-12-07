@@ -8,7 +8,10 @@ var { NativeModules } = require('react-native');
 
 var RCTModule = NativeModules.BPProfileModule
 
-var BPProfile = {
+/**
+ * @module BPProfileModule
+ */
+module.exports = {
 
     /**
      * The action of callback indicates the error of BP device.
@@ -74,7 +77,15 @@ var BPProfile = {
      */
     ACTION_HISTORICAL_DATA_BP:RCTModule.ACTION_HISTORICAL_DATA_BP,
 
+    HISTORICAL_DATA_BP:RCTModule.HISTORICAL_DATA_BP,
+
     MEASUREMENT_DATE_BP:RCTModule.MEASUREMENT_DATE_BP,
+
+    MEASUREMENT_STRAT_ANGLE_BP:RCTModule.MEASUREMENT_STRAT_ANGLE_BP,
+
+    MEASUREMENT_ANGLE_CHANGE_BP:RCTModule.MEASUREMENT_ANGLE_CHANGE_BP,
+
+    MEASUREMENT_HAND_BP:RCTModule.MEASUREMENT_HAND_BP,
 
 
     /**
@@ -128,4 +139,3 @@ var BPProfile = {
 }
 
 
-module.exports = BPProfile

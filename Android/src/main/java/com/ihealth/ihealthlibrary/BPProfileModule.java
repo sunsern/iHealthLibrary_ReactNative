@@ -50,7 +50,11 @@ public class BPProfileModule extends ReactContextBaseJavaModule {
 
 
     private static final String ACTION_HISTORICAL_DATA_BP = "ACTION_HISTORICAL_DATA_BP";
+    private static final String HISTORICAL_DATA_BP = "HISTORICAL_DATA_BP";
     private static final String MEASUREMENT_DATE_BP = "MEASUREMENT_DATE_BP";
+    private static final String MEASUREMENT_STRAT_ANGLE_BP = "MEASUREMENT_STRAT_ANGLE_BP";
+    private static final String MEASUREMENT_ANGLE_CHANGE_BP = "MEASUREMENT_ANGLE_CHANGE_BP";
+    private static final String MEASUREMENT_HAND_BP = "MEASUREMENT_HAND_BP";
 
     private static final String ACTION_FUNCTION_INFORMATION_BP = "ACTION_FUNCTION_INFORMATION_BP";
     private static final String FUNCTION_IS_UPAIR_MEASURE = "FUNCTION_IS_UPAIR_MEASURE";
@@ -115,7 +119,12 @@ public class BPProfileModule extends ReactContextBaseJavaModule {
         constants.put(HISTORICAL_NUM_BP, BpProfile.HISTORICAL_NUM_BP);
 
         constants.put(ACTION_HISTORICAL_DATA_BP,BpProfile.ACTION_HISTORICAL_DATA_BP);
+        constants.put(HISTORICAL_DATA_BP, BpProfile.HISTORICAL_DATA_BP);
         constants.put(MEASUREMENT_DATE_BP, BpProfile.MEASUREMENT_DATE_BP);
+        constants.put(MEASUREMENT_STRAT_ANGLE_BP,BpProfile.MEASUREMENT_STRAT_ANGLE_BP);
+        constants.put(MEASUREMENT_ANGLE_CHANGE_BP,BpProfile.MEASUREMENT_ANGLE_CHANGE_BP);
+        constants.put(MEASUREMENT_HAND_BP,BpProfile.MEASUREMENT_HAND_BP);
+
 
         constants.put(ACTION_FUNCTION_INFORMATION_BP,BpProfile.ACTION_FUNCTION_INFORMATION_BP);
         constants.put(FUNCTION_IS_UPAIR_MEASURE, BpProfile.FUNCTION_IS_UPAIR_MEASURE);
