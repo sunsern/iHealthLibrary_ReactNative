@@ -331,7 +331,7 @@ module.exports = {
     },
 
     /**
-     * get offline data number.
+     * get offline data.
      * <ul>
      *     <li>This is an asynchronous call, it will return immediately.</li>
      *     <li>If get successfully, following event will be emit:<br/>
