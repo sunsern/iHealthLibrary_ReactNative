@@ -13,7 +13,7 @@ var RCTModule = NativeModules.AM4Module
  */
 module.exports = {
     /**
-     * Notify event type for AM4
+     * Notify event type for AM4.("event_notify_am4")
      */
     Event_Notify: RCTModule.Event_Notify,
     /**

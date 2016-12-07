@@ -714,8 +714,9 @@ module.exports = {
      * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
      * <tbody>
      * <tr><td>Key</td><td>Value</td></tr>
-     * <tr><td>action</td><td>AMProfileModule.ACTION_SET_PICTURE_SUCCESS_AM</td></tr>
+     * <tr><td>action</td><td>{@link module:AMProfileModule.ACTION_SET_PICTURE_SUCCESS_AM AMProfileModule.ACTION_SET_USERINFO_SUCCESS_AM("set_userinfo_success_am")}</td></tr>
      * </tbody>
+     * </table>
      * </table>
      * <b>Example:</b><br/>
      * {<br/>
@@ -729,7 +730,8 @@ module.exports = {
      * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
      * <tbody>
      * <tr><td>Key</td><td>Value</td></tr>
-     * <tr><td>action</td><td>AMProfileModule.ACTION_GET_PICTURE_AM</td></tr>
+     * <tr><td>action</td><td>{@link module:AMProfileModule.ACTION_GET_PICTURE_AM AMProfileModule.ACTION_GET_PICTURE_AM("get_picture_am")}</td></tr>
+     * <tr><td>{@link module:AMProfileModule.GET_PICTURE_AM AMProfileModule.GET_PICTURE_AM("get_picture_am)}</td><td>The picture index.<br/><b>Value:</b><br/><ul><li>0 indicates the frog picture.</li><li>1 indicates the default picture.</li></ul></td></tr>
      * </tbody>
      * </table>
      * <b>Example:</b><br/>
