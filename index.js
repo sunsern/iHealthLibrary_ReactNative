@@ -21,9 +21,12 @@ var Component = {
     AM4Module: require('./Module/AM4Module'),
     AMProfileModule: require('./Module/AMProfileModule'),
     PO3Module: require('./Module/PO3Module'),
-    POProfileModule: require('./Module/POProfileModule')
+    POProfileModule: require('./Module/POProfileModule'),
+    HS4SModule: require('./Module/HS4SModule'),
+    HSProfileModule: require('./Module/HSProfileModule'),
+    BG1Module: require('./Module/BG1Module'),
+    BG1ProfileModule: require('./Module/BG1ProfileModule')
 
 }
-
 
 module.exports = Component;

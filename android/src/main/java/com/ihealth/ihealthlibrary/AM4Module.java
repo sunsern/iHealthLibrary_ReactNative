@@ -72,10 +72,10 @@ public class AM4Module extends iHealthBaseModule {
     }
 
     @ReactMethod
-    public void reset(String mac, int id) {
+    public void reset(String mac) {
         Am4Control control = getControl(mac);
         if (control != null) {
-            control.reset(id);
+            control.reset(1);
         } else {
             Log.e(TAG, "Can not find AM4 Control mac:" + mac);
         }

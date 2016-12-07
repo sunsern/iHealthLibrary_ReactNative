@@ -13,25 +13,31 @@ import {
 
 import {
     iHealthDeviceManagerModule,
-    BP5Module,
-    BPProfileModule
+    HS4SModule,
+    HSProfileModule
 } from 'ihealthlibrary-react-native'
-
-import Log from './Log'
-
-let log = new Log;
 
 var styles = StyleSheet.create({
     container: {
+        flex: 1,
         margin: 20,
-        marginTop: 50
+        marginTop: 60
     },
-    contentContainer: {
-        height: 400,
+    // 导航栏
+    heading: {
+        height: 44,
+        alignItems: 'center',
+        justifyContent: 'center', // 内容居中显示
+        marginBottom: 10
+    },
+    // 导航栏文字
+    headText: {
+        color: '#ff5555',
+        fontSize: 22
     },
     // 按钮
     button: {
-        height: 60,
+        height: 45,
         marginTop: 10,
         justifyContent: 'center', // 内容居中显示
         backgroundColor: '#eedddd',
@@ -50,117 +56,129 @@ var styles = StyleSheet.create({
     },
 });
 
-
-class TipView extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            tip: ''
-        };
-    }
-
-    render() {
-        log.info('TipView', 'render()', null);
-        return (
-            <View>
-                <Text> Tip: {this.state.tip} </Text>
-            </View>
-        )
-    }
-
-}
-
 export default class HS4SView extends Component {
 
     constructor(props) {
-        super(props);
-
-        var error_Listener = null;
-        var connectionListener = null;
-        var notifyListener = null;
-    }
-
-    componentWillMount() {
-        log.info('HS4SView', 'componentWillMount', null);
-        this._addListener();
-
-    }
-
-    componentWillUnmount() {
-        log.info('HS4SView', 'componentWillUnmount', null);
-        this._removeListener();
-    }
-
-
-
-    _addListener() {
-        let self = this;
-
-        this.error_Listener = DeviceEventEmitter.addListener(POProfileModule.ACTION_ERROR_PO, function (e: Error) {
-            log.info('HS4SView', 'addListener_ACTION_ERROR_HS', JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)});
-        });
-        this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.DeviceDisconnect, function (e: Event) {
-            // handle event.
-            log.info('HS4SView', 'addListener_DeviceDisconnect', JSON.stringify(e));
-            self.props.navigator.pop();
-        });
-        this.notifyListener = DeviceEventEmitter.addListener(PO3Module.Event_Notify, function (e: Event) {
-            log.info('HS4SView', e.action, JSON.stringify(e));
-            self.refs.TipView.setState({tip: JSON.stringify(e)});
-        });
-    }
-
-    _removeListener() {
-        //Unregister  event
-        if (this.connectionListener) {
-            this.connectionListener.remove()
-        }
-        if (this.notifyListener) {
-            this.notifyListener.remove()
+        super(props)
+        this.state = {
+            resultText: ""
         }
     }
 
     render() {
-
         return (
             <View style={styles.container}>
-
+                <ScrollView
+                    style={{height: 100, paddingBottom: 10}}>
+                    <Text>{this.state.resultText}</Text>
+                </ScrollView>
                 <ScrollView style={styles.contentContainer}>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._measureOnline()}>
+                        onPress={() => {
+                            HS4SModule.startMeasure(this.props.mac)
+                        }}>
                         <Text style={styles.buttonText}>
-                            开始测量
+                            Start Measure
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._getOfflineData()}>
+                        onPress={() => {
+                            HS4SModule.getHistoryData(this.props.mac)
+                        }}>
                         <Text style={styles.buttonText}>
-                            获得离线数据
+                            Get History Data
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._disconnect()}>
+                        onPress={() => {
+                            HS4SModule.disconnect(this.props.mac)
+                        }}>
                         <Text style={styles.buttonText}>
-                            断开连接
+                            Disconnect
                         </Text>
                     </TouchableOpacity>
                 </ScrollView>
-                <TipView ref="TipView"/>
             </View>
         )
     }
 
-    _measureOnline() {
-        HS4SModule.measureOnline(this.props.mac, 1, 1)
+    componentDidMount() {
+        let self = this
+
+        this.disconnectListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Disconnect, function (e: Event) {
+            // handle event.
+            if (e.mac == self.props.mac) {
+                self.props.navigator.pop()
+            }
+        });
+
+        this.notifyListener = DeviceEventEmitter.addListener(HS4SModule.Event_Notify, function (e: Event) {
+            let resultText
+            let action = e.action
+            if (action == HSProfileModule.ACTION_LIVEDATA_HS) {
+                resultText = "The live data information:"
+                let value = e[HSProfileModule.LIVEDATA_HS]
+                resultText += "\nvalue = " + value
+            } else if (action == HSProfileModule.ACTION_ONLINE_RESULT_HS) {
+                resultText = "The result data information:"
+                let dataId = e[HSProfileModule.DATAID]
+                resultText += "\ndata id = " + dataId
+                let weight = e[HSProfileModule.WEIGHT_HS]
+                resultText += "\nweight = " + weight
+                let fat = e[HSProfileModule.FAT_HS]
+                resultText += "\nfat = " + fat
+                let water = e[HSProfileModule.WATER_HS]
+                resultText += "\nwater = " + water
+                let muscle = e[HSProfileModule.MUSCLE_HS]
+                resultText += "\nmuscle = " + muscle
+                let skeleton = e[HSProfileModule.SKELETON_HS]
+                resultText += "\nskeleton = " + skeleton
+                let fateLevel = e[HSProfileModule.FATELEVEL_HS]
+                resultText += "\nfate level = " + fateLevel
+                let DCI = e[HSProfileModule.DCI_HS]
+                resultText += "\nDCI = " + DCI
+            } else if (action == HSProfileModule.ACTION_HISTORICAL_DATA_HS) {
+                let offlineData = e[HSProfileModule.HISTORDATA__HS]
+                resultText = "Get offline data successfully.\nThere is(are) " + offlineData.length
+                    + " data(s) in total:\n"
+                for (let i = 0; i < offlineData.length; i++) {
+                    let dataInfo = offlineData[i]
+                    let dataId = dataInfo[HSProfileModule.DATAID]
+                    let date = dataInfo[HSProfileModule.MEASUREMENT_DATE_HS]
+                    let weight = dataInfo[HSProfileModule.WEIGHT_HS]
+                    let fat = dataInfo[HSProfileModule.FAT_HS]
+                    let water = dataInfo[HSProfileModule.WATER_HS]
+                    let muscle = dataInfo[HSProfileModule.MUSCLE_HS]
+                    let skeleton = dataInfo[HSProfileModule.SKELETON_HS]
+                    let fateLevel = dataInfo[HSProfileModule.FATELEVEL_HS]
+                    let DCI = dataInfo[HSProfileModule.DCI_HS]
+                    resultText += "---------------------------------------------------------------"
+                    resultText += "\ndataId = " + dataId
+                    resultText += "\ndate = " + date
+                    resultText += "\nweight = " + weight
+                    resultText += "\nfat = " + fat
+                    resultText += "\nwater = " + water
+                    resultText += "\nmuscle = " + muscle
+                    resultText += "\nskeleton = " + skeleton
+                    resultText += "\nfate level = " + fateLevel
+                    resultText += "\nDCI = " + DCI
+                }
+            } else if (action == HSProfileModule.ACTION_NO_HISTORICALDATA) {
+                resultText = "No History Data."
+            } else if (action == HSProfileModule.ACTION_ERROR_HS) {
+                resultText = "Error happens: " + JSON.stringify(e)
+            } else {
+                resultText = JSON.stringify(e)
+            }
+            self.setState({resultText: resultText})
+        });
     }
-    _getOfflineData() {
-        HS4SModule.getOfflineData(this.props.mac)
-    }
-    _disconnect() {
-        HS4SModule.disconnect(this.props.mac)
+
+    componentWillUnmount() {
+        this.disconnectListener.remove()
+        this.notifyListener.remove()
     }
 }

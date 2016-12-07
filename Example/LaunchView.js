@@ -25,6 +25,7 @@ import BP550BTView from './BP550BTView';
 import BP7SView from './BP7SView';
 import PO3View from './PO3View';
 import HS4SView from './HS4SView';
+import BG1View from './BG1View';
 
 import {
     iHealthDeviceManagerModule
@@ -51,6 +52,17 @@ class MainView extends Component {
 
 
     startDiscovery() {
+        console.info('scan device ------'+this.state.type)
+
+        if (this.state.type==iHealthDeviceManagerModule.BG1) {
+            console.warn('device type BG1')
+            this.props.navigator.push({
+                                            name: "DeviceView",
+                                            type: "BG1",
+                                            mac: ""
+                                        })
+        }
+        
         if (this.state.scanStatus) {
             console.info('正在扫描设备')
         } else {
@@ -226,8 +238,10 @@ class MainView extends Component {
                         <Picker.Item label='PO3' value={iHealthDeviceManagerModule.PO3}/>
                         <Picker.Item label='HS4S' value={iHealthDeviceManagerModule.HS4S}/>
                         <Picker.Item label='HS6' value={iHealthDeviceManagerModule.HS6}/>
+                        <Picker.Item label='BG1' value={iHealthDeviceManagerModule.BG1}/>
                         <Picker.Item label='BG5' value={iHealthDeviceManagerModule.BG5}/>
                         <Picker.Item label='BG5L' value={iHealthDeviceManagerModule.BG5L}/>
+
 
                     </Picker>
 
@@ -338,7 +352,7 @@ export default class LaunchView extends Component {
         } else if (route.name == 'DeviceView') {
             switch (route.type) {
                 case "BP5":
-                    return <BP5View navigator={navigator} mac={route.mac}/>
+                    return <BP5View navigator={navigator} mac={route.mac} type={route.type}/>
                     break;
                 case "AM4":
                 case "AM3S":
@@ -354,6 +368,8 @@ export default class LaunchView extends Component {
                     return <PO3View navigator={navigator} mac={route.mac} type={route.type}/>
                 case "HS4S":
                     return <HS4SView navigator={navigator} mac={route.mac} type={route.type}/>
+                case "BG1":
+                    return <BG1View navigator={navigator} mac={route.mac} type={route.type}/>
                 default:
                     console.warn('Not implemented yet, type = ' + route.type)
                     break;

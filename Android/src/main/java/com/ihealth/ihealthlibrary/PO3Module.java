@@ -1,6 +1,7 @@
 package com.ihealth.ihealthlibrary;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -48,9 +49,7 @@ public class PO3Module extends iHealthBaseModule {
         if (po3Control != null) {
             po3Control.getBattery();
         } else {
-            WritableMap params = Arguments.createMap();
-            params.putInt("ErrorID", 400);
-            sendEvent("Error", params);
+            Log.e(TAG, "Can not find PO3 Control mac:" + mac);
         }
     }
 
@@ -60,9 +59,7 @@ public class PO3Module extends iHealthBaseModule {
         if (po3Control != null) {
             po3Control.startMeasure();
         } else {
-            WritableMap params = Arguments.createMap();
-            params.putInt("ErrorID", 400);
-            sendEvent("Error", params);
+            Log.e(TAG, "Can not find PO3 Control mac:" + mac);
         }
     }
 
@@ -72,9 +69,7 @@ public class PO3Module extends iHealthBaseModule {
         if (po3Control != null) {
             po3Control.getHistoryData();
         } else {
-            WritableMap params = Arguments.createMap();
-            params.putInt("ErrorID", 400);
-            sendEvent("Error", params);
+            Log.e(TAG, "Can not find PO3 Control mac:" + mac);
         }
     }
 
@@ -84,9 +79,7 @@ public class PO3Module extends iHealthBaseModule {
         if (po3Control != null) {
             po3Control.disconnect();
         } else {
-            WritableMap params = Arguments.createMap();
-            params.putInt("ErrorID", 400);
-            sendEvent("Error", params);
+            Log.e(TAG, "Can not find PO3 Control mac:" + mac);
         }
     }
 

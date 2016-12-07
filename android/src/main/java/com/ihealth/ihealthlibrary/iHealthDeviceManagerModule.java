@@ -1,5 +1,10 @@
 package com.ihealth.ihealthlibrary;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
@@ -8,8 +13,13 @@ import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
+import com.ihealth.communication.control.Bg1Control;
+import com.ihealth.communication.control.Bg1Profile;
 import com.ihealth.communication.manager.iHealthDevicesCallback;
 import com.ihealth.communication.manager.iHealthDevicesManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +67,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
         reactContext.addLifecycleEventListener(this);
         iHealthDevicesManager.getInstance().init(reactContext);
         callbackId = iHealthDevicesManager.getInstance().registerClientCallback(miHealthDevicesCallback);
+        Bg1Control.getInstance().init(reactContext, "", 0, true);
     }
 
     private iHealthDevicesCallback miHealthDevicesCallback = new iHealthDevicesCallback() {
@@ -141,8 +152,10 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
             case iHealthDevicesManager.TYPE_BG1:
                 break;
             case iHealthDevicesManager.TYPE_BG5:
+            module = getReactApplicationContext().getNativeModule(BG5Module.class);
                 break;
             case iHealthDevicesManager.TYPE_BG5l:
+            module = getReactApplicationContext().getNativeModule(BG5LModule.class);
                 break;
             default:
                 module = null;
@@ -168,7 +181,7 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
         constants.put(KN550, iHealthDevicesManager.DISCOVERY_BP550BT);
         constants.put(HS4S, iHealthDevicesManager.DISCOVERY_HS4S);
 //        constants.put(HS6,);
-//        constants.put(BG1, );
+        constants.put(BG1, (double) 110);
         constants.put(BG5, iHealthDevicesManager.DISCOVERY_BG5);
         constants.put(BG5L, iHealthDevicesManager.DISCOVERY_BG5l);
 
@@ -203,11 +216,16 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
     public void onHostDestroy() {
         iHealthDevicesManager.getInstance().destroy();
         Log.e(TAG, "onHostDestroy");
+        unRegisterReceiver();
     }
 
     @ReactMethod
     public void startDiscovery(double type) {
-        iHealthDevicesManager.getInstance().startDiscovery((long) type);
+        if (type == 110) {
+            registerReceiver();//scan BG1
+        } else {
+            iHealthDevicesManager.getInstance().startDiscovery((long) type);
+        }
     }
 
     @ReactMethod
@@ -217,7 +235,11 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
 
     @ReactMethod
     public void connectDevice(String mac, String type) {
-        iHealthDevicesManager.getInstance().connectDevice("", mac, type);
+        if (type.equals("BG1")) {
+            Bg1Control.getInstance().connect();
+        } else {
+            iHealthDevicesManager.getInstance().connectDevice("", mac, type);
+        }
     }
 
     @ReactMethod
@@ -237,4 +259,95 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
     public void handleNotify(String mac, String deviceType, String action, String message) {
         //Do nothing
     }
+
+
+    private void registerReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
+        intentFilter.addAction(Bg1Profile.ACTION_BG1_CONNECT_RESULT);
+        intentFilter.addAction(Bg1Profile.ACTION_BG1_SENDCODE_RESULT);
+        intentFilter.addAction(Bg1Profile.ACTION_BG1_MEASURE_ERROR);
+        intentFilter.addAction(Bg1Profile.ACTION_BG1_MEASURE_STANDBY);
+        intentFilter.addAction(Bg1Profile.ACTION_BG1_MEASURE_RESULT);
+        intentFilter.addAction(Bg1Profile.ACTION_BG1_MEASURE_STRIP_IN);
+        intentFilter.addAction(Bg1Profile.ACTION_BG1_MEASURE_GET_BLOOD);
+        intentFilter.addAction(Bg1Profile.ACTION_BG1_MEASURE_STRIP_OUT);
+        mContext.registerReceiver(broadcastReceiver, intentFilter);
+    }
+
+    private void unRegisterReceiver() {
+        mContext.unregisterReceiver(broadcastReceiver);
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (!TextUtils.isEmpty(intent.getAction())) {
+                iHealthBaseModule module = getReactApplicationContext().getNativeModule(BG1Module.class);
+                WritableMap params = Arguments.createMap();
+                params.putString("action", intent.getAction());
+                params.putString("mac", "");
+                params.putString("type", "BG1");
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    switch (intent.getAction()) {
+                        case Intent.ACTION_HEADSET_PLUG:
+                            Log.e(TAG, "headset state -----> " + intent.getExtras().getInt("state"));
+                            Log.e(TAG, "has microphone ----> " + intent.getExtras().getInt("microphone"));
+                            Log.e(TAG, "headset name ------> " + intent.getExtras().getString("name"));
+
+                            jsonObject.put("state", intent.getExtras().getInt("state"));
+                            Utils.jsonToMap(jsonObject.toString(), params);
+
+                            if (intent.getExtras().getInt("state") == 1) {
+                                sendEvent(Event_Scan_Device, params);
+                            } else {
+                                sendEvent(Event_Device_Disconnect, params);
+                                Bg1Control.getInstance().disconnect();
+                                module.handleNotify("", "BG1", Event_Device_Disconnect, jsonObject.toString());
+
+                            }
+                            sendEvent(Event_Scan_Finish, null);
+
+                            break;
+                        case Bg1Profile.ACTION_BG1_CONNECT_RESULT:
+                            int connectFlag = intent.getIntExtra(Bg1Profile.BG1_CONNECT_RESULT, -1);
+                            jsonObject.put(Bg1Profile.BG1_CONNECT_RESULT, connectFlag);
+                            Utils.jsonToMap(jsonObject.toString(), params);
+                            if (connectFlag == 0) {
+                                sendEvent(Event_Device_Connected, params);
+                            } else {
+                                sendEvent(Event_Device_Connect_Failed, params);
+                            }
+                            break;
+                        case Bg1Profile.ACTION_BG1_SENDCODE_RESULT:
+                            int sendCodeFlag = intent.getIntExtra(Bg1Profile.BG1_SENDCODE_RESULT, -1);
+                            jsonObject.put(Bg1Profile.BG1_SENDCODE_RESULT, sendCodeFlag);
+                            //Utils.jsonToMap(jsonObject.toString(), params);
+
+                            module.handleNotify("", "BG1", Bg1Profile.ACTION_BG1_SENDCODE_RESULT, jsonObject.toString());
+                            break;
+                        case Bg1Profile.ACTION_BG1_MEASURE_ERROR:
+                            int errorNumber = intent.getIntExtra(Bg1Profile.BG1_MEASURE_ERROR, -1);
+                            jsonObject.put(Bg1Profile.BG1_MEASURE_ERROR, errorNumber);
+                            module.handleNotify("", "BG1", Bg1Profile.ACTION_BG1_MEASURE_ERROR, jsonObject.toString());
+                            break;
+
+                        case Bg1Profile.ACTION_BG1_MEASURE_RESULT:
+                            int measureResult = intent.getIntExtra(Bg1Profile.BG1_MEASURE_RESULT, -1);
+                            jsonObject.put(Bg1Profile.BG1_MEASURE_RESULT, measureResult);
+                            module.handleNotify("", "BG1", Bg1Profile.ACTION_BG1_MEASURE_RESULT, jsonObject.toString());
+                            break;
+
+                        default:
+                            module.handleNotify("", "BG1", intent.getAction(), jsonObject.toString());
+                            break;
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 }
