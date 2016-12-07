@@ -194,7 +194,7 @@ typedef enum{
 
 
 typedef enum{
-    AM3STimeFormat_hh,//12
+    AM3STimeFormat_hh = 0,//12
     AM3STimeFormat_HH,//24
     AM3STimeFormat_NoEuropeAndhh,
     AM3STimeFormat_EuropeAndhh,

@@ -53,11 +53,12 @@
 
 /**
  * Set time format and nation
+ * @param timeFormat  AM3TimeFormat_hh,AM3TimeFormat_HH
  * @param setTimeFormatBlock True: Success， False: Failed.
  * @param errorBlock Communication error codes, see AM3 error descriptions.
  * @Notice  Notice: Firmware version 1.1.9 and above supports this function
  */
--(void)commandAM3SetTimeFormat:(DisposeAM3TimeFormatSettingBlock)setTimeFormatBlock withErrorBlock:(DisposeAM3ErrorBlock)errorBlock;
+-(void)commandAM3SetTimeFormatAndNation:(AM3TimeFormat)timeFormat withFinishResult:(DisposeAM3TimeFormatSettingBlock)setTimeFormatBlock withErrorBlock:(DisposeAM3ErrorBlock)errorBlock;
 
 /**
  * Binding AM3 to user,Account binding requires an active internet connection.
@@ -196,7 +197,7 @@
 
 /**
  * Set BMR
- * @param bmr 
+ * @param bmr ranging from 0 – 5000.
  * @param finishResultBlock True: Delete successful，False: Failed
  * @param errorBlock Communication error codes, see AM3 error descriptions.
  * @Notice  Notice: Firmware version 1.0.2 and above supports this function
