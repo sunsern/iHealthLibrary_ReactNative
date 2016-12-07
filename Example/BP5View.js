@@ -48,29 +48,15 @@ var styles = StyleSheet.create({
 });
 
 
-class TipView extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            tip: ''
-        };
-    }
 
-    render() {
-        console.info('TipView', 'render()', null);
-        return (
-            <View>
-                <Text> Tip: {this.state.tip} </Text>
-            </View>
-        )
-    }
-
-}
 
 export default class BP5View extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            resultText:''
+        }
 
     }
 
@@ -82,23 +68,6 @@ export default class BP5View extends Component {
 
     componentDidMount() {
         console.info('BP5View', 'componentDidMount', null);
-    }
-
-
-    componentWillReceiveProps() {
-        console.info('BP5View', 'componentWillReceiveProps', null);
-    }
-
-    shouldComponentUpdate() {
-        console.info('BP5View', 'shouldComponentUpdate', null);
-    }
-
-    componentWillUpdate() {
-        console.info('BP5View', 'componentWillUpdate', null);
-    }
-
-    componentDidUpdate() {
-        console.info('BP5View', 'componentDidUpdate', null);
     }
 
     componentWillUnmount() {
@@ -119,46 +88,102 @@ export default class BP5View extends Component {
         this.notifyListener = DeviceEventEmitter.addListener(BP5Module.Event_Notify, function (e: Event) {
 
             console.info('BP5View', 'addListener_DeviceDisconnect',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
+            let result = "";
             if (e.action === BPProfileModule.ACTION_ERROR_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                let errorNum = e[BPProfileModule.ERROR_NUM_BP];
+                result = "错误编号：" + "\nErrorNum = " + errorNum;
             }
             else if (e.action === BPProfileModule.ACTION_BATTERY_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                let battery = e[BPProfileModule.BATTERY_BP];
+                result = "电池电量：" +"\nBattery = " + battery;
             }
             else if (e.action === BPProfileModule.ACTION_ZOREING_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                result = "浮零中：" + "\nBP device is zeroing"
             }
             else if (e.action === BPProfileModule.ACTION_ZOREOVER_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                result = "浮零结束：" +"\nBP device is zero over"
             }
             else if (e.action === BPProfileModule.ACTION_ONLINE_PRESSURE_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                let pressure = e[BPProfileModule.BLOOD_PRESSURE_BP];
+                result = "当前压力值：" + "\npressure = " + pressure;
             }
             else if (e.action === BPProfileModule.ACTION_ONLINE_PULSEWAVE_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                let pressure = e[BPProfileModule.BLOOD_PRESSURE_BP];
+                let heartbeat = e[BPProfileModule.FLAG_HEARTBEAT_BP];
+                let wave = e[BPProfileModule.PULSEWAVE_BP];
+
+                result = "当前压力值及小波：" + "\npressure = " + pressure +
+                    "\nheartbeat = " + heartbeat +
+                    "\nwave = " + wave;
             }
             else if (e.action === BPProfileModule.ACTION_ONLINE_RESULT_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                let sys = e[BPProfileModule.HIGH_BLOOD_PRESSURE_BP];
+                let dia = e[BPProfileModule.HIGH_BLOOD_PRESSURE_BP];
+                let heartRate = e[BPProfileModule.PULSE_BP];
+                let arrhythmia = e[BPProfileModule.MEASUREMENT_AHR_BP];
+                let hsd = e[BPProfileModule.MEASUREMENT_HSD_BP];
+                let dataID = e[BPProfileModule.DATAID];
+
+                result = "结果值：" + "\nsys = " + sys +
+                    "\ndia = " + dia +
+                    "\nheartRate = " + heartRate +
+                    "\narrhythmia = " + arrhythmia +
+                    "\nhsd = " + hsd +
+                    "\ndataID = " + dataID;
             }
             else if (e.action === BPProfileModule.ACTION_HISTORICAL_NUM_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                let offlineNum = e[BPProfileModule.HISTORICAL_NUM_BP];
+                result = "离线数据数量：" + "\nofflineNum = " + offlineNum;
             }
             else if (e.action === BPProfileModule.ACTION_HISTORICAL_DATA_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+
+                let dataArray = e[BPProfileModule.HISTORICAL_DATA_BP];
+                if (dataArray.length === 0) {
+                    result = "There is not offline data in device"
+                }else {
+                    result  = "离线数据：";
+                    for (let i = 0; i < dataArray.length; i++) {
+                        let offlineData = dataArray[i];
+
+                        let time = offlineData[BPProfileModule.HISTORICAL_DATA_BP];
+                        let sys = offlineData[BPProfileModule.HIGH_BLOOD_PRESSURE_BP];
+                        let dia = offlineData[BPProfileModule.LOW_BLOOD_PRESSURE_BP];
+                        let heartRate = offlineData[BPProfileModule.PULSE_BP];
+                        let arrhythmia = offlineData[BPProfileModule.MEASUREMENT_AHR_BP];
+                        let hsd = offlineData[BPProfileModule.MEASUREMENT_HSD_BP];
+                        let dataID = offlineData[BPProfileModule.DATAID];
+
+                        result += "\n---------------------------------------------------------------"
+                        result += "\ntime = " + time +
+                            "\nsys = " + sys +
+                            "\ndia = " + dia +
+                            "\nheartRate" + heartRate +
+                            "\narrhythmia = " + arrhythmia +
+                            "\nhsd = " + hsd +
+                            "\ndataID = " + dataID;
+                    }
+                }
+
+
+
             }
             else if (e.action === BPProfileModule.ACTION_ENABLE_OFFLINE_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                result = "\nEnable device can measure offline"
             }
             else if (e.action === BPProfileModule.ACTION_DISENABLE_OFFLINE_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                result = "\nDisEnable device can measure offline"
             }
             else if (e.action === BPProfileModule.ACTION_IS_ENABLE_OFFLINE) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                let isEnableOffline = e[BPProfileModule.IS_ENABLE_OFFLINE];
+                result = "\nisEnableOffline = " + isEnableOffline;
             }
             else if (e.action === BPProfileModule.ACTION_INTERRUPTED_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                result = "\nInterrupt measure"
+            }else {
+                result = "\nHaven't suitable action and message = " + JSON.stringify(e);
             }
 
+            self.setState({resultText: result});
 
 
         });
@@ -258,14 +283,18 @@ export default class BP5View extends Component {
                     style={{backgroundColor:'#000000',height:3}}>
                 </TouchableOpacity>
 
-                <TipView ref="TipView"/>
+                <ScrollView
+                    style={{height: 150, paddingBottom: 10}}>
+                    <Text>{this.state.resultText}</Text>
+                </ScrollView>
+
             </View>
         )
     }
     _getDeviceIDPS() {
         iHealthDeviceManagerModule.getDevicesIDPS(this.props.mac, (e) => {
             console.info('deviceInfo:' + JSON.stringify(e));
-            this.refs.TipView.setState({tip: JSON.stringify(e)})
+            this.setState({resultText: JSON.stringify(e)})
         })
     }
     _startMeasure() {
