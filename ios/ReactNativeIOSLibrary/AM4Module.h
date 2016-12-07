@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface AM4Module : NSObject
+#import "RCTBridgeModule.h"
+#import "RCTBridge.h"
+#import "RCTEventDispatcher.h"
+@interface AM4Module : NSObject<RCTBridgeModule>
 
 @end
