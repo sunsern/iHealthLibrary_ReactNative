@@ -24,7 +24,8 @@ var Component = {
     POProfileModule: require('./Module/POProfileModule'),
     HS4SModule: require('./Module/HS4SModule'),
     HSProfileModule: require('./Module/HSProfileModule'),
-    BG1Module: require('./Module/BG1Module')
+    BG1Module: require('./Module/BG1Module'),
+    BG1ProfileModule: require('./Module/BG1ProfileModule')
 
 }
 
