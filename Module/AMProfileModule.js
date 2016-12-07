@@ -27,9 +27,9 @@ module.exports = {
      * <b>Example:</b><br/>
      * {<br/>
      * &nbsp; &nbsp; "action": "error_am",<br/>
-	 * &nbsp; &nbsp; "error": 400,<br/>
-	 * &nbsp; &nbsp; "description": "setAlarmClock() parameter min should be in the range [0, 59]."<br/>
-	 * }<br/>
+     * &nbsp; &nbsp; "error": 400,<br/>
+     * &nbsp; &nbsp; "description": "setAlarmClock() parameter min should be in the range [0, 59]."<br/>
+     * }<br/>
      */
     ACTION_ERROR_AM: RCTModule.ACTION_ERROR_AM,
     /**
@@ -39,40 +39,166 @@ module.exports = {
      * <tbody>
      * <tr><td>Key</td><td>Value</td></tr>
      * <tr><td>action</td><td>AMProfileModule.ACTION_RESET_AM</td></tr>
-     * <tr><td>AMProfileModule.ERROR_NUM_AM</td><td>AMProfileModule.ERROR_ID_ILLEGAL_ARGUMENT(400) indicates parameter error.<br/>AMProfileModule.ERROR_ID_VERSION_NOT_SUPPORT(402) indicates version not support error.</td></tr>
-     * <tr><td>AMProfileModule.ERROR_DESCRIPTION_AM</td><td>Detailed description of the error</td></tr>
+     * <tr><td>AMProfileModule.RESET_AM</td><td>0 indicates reset failed.<br/>1 indicates reset successfully.</td></tr>
      * </tbody>
      * </table>
      * <b>Example:</b><br/>
      * {<br/>
-     * &nbsp; &nbsp; "action": "error_am",<br/>
-	 * &nbsp; &nbsp; "error": 400,<br/>
-	 * &nbsp; &nbsp; "description": "setAlarmClock() parameter min should be in the range [0, 59]."<br/>
-	 * }<br/>
+     * &nbsp; &nbsp; "action": "reset_am",<br/>
+     * &nbsp; &nbsp; "reset": 1<br/>
+     * }<br/>
      */
     ACTION_RESET_AM: RCTModule.ACTION_RESET_AM,
+    /**
+     * The action value of event indicating get user's ID successfully.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_USERID_AM</td></tr>
+     * <tr><td>AMProfileModule.USERID_AM</td><td>User's ID</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "userid_am",<br/>
+     * &nbsp; &nbsp; "userid": 123456<br/>
+     * }<br/>
+     */
     ACTION_USERID_AM: RCTModule.ACTION_USERID_AM,
+    /**
+     * The action value of event indicating set user's ID successfully.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_SET_USERID_SUCCESS_AM</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "set_userid_success_am",<br/>
+     * }<br/>
+     */
     ACTION_SET_USERID_SUCCESS_AM: RCTModule.ACTION_SET_USERID_SUCCESS_AM,
     ACTION_SYNC_TIME_SUCCESS_AM: RCTModule.ACTION_SYNC_TIME_SUCCESS_AM,
+    /**
+     * The action value of event indicating set user's information successfully.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_SET_USERINFO_SUCCESS_AM</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "set_userinfo_success_am",<br/>
+     * }<br/>
+     */
     ACTION_SET_USERINFO_SUCCESS_AM: RCTModule.ACTION_SET_USERINFO_SUCCESS_AM,
     ACTION_GET_USERINFO_AM: RCTModule.ACTION_GET_USERINFO_AM,
     ACTION_GET_ALARMNUM_AM: RCTModule.ACTION_GET_ALARMNUM_AM,
     ACTION_GET_ALARMINFO_AM: RCTModule.ACTION_GET_ALARMINFO_AM,
+    /**
+     * The action value of event indicating set/unset alarm successfully.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_SET_ALARMINFO_SUCCESS_AM</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "set_alarminfo_success_am",<br/>
+     * }<br/>
+     */
     ACTION_SET_ALARMINFO_SUCCESS_AM: RCTModule.ACTION_SET_ALARMINFO_SUCCESS_AM,
     ACTION_DELETE_ALARM_SUCCESS_AM: RCTModule.ACTION_DELETE_ALARM_SUCCESS_AM,
     ACTION_GET_ACTIVITY_REMIND_AM: RCTModule.ACTION_GET_ACTIVITY_REMIND_AM,
+    /**
+     * The action value of event indicating set/unset activity remind successfully.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_SET_ACTIVITYREMIND_SUCCESS_AM</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "set_activityremind_success_am",<br/>
+     * }<br/>
+     */
     ACTION_SET_ACTIVITYREMIND_SUCCESS_AM: RCTModule.ACTION_SET_ACTIVITYREMIND_SUCCESS_AM,
     ACTION_SYNC_ACTIVITY_DATA_AM: RCTModule.ACTION_SYNC_ACTIVITY_DATA_AM,
     ACTION_SYNC_SLEEP_DATA_AM: RCTModule.ACTION_SYNC_SLEEP_DATA_AM,
     ACTION_SYNC_STAGE_DATA_AM: RCTModule.ACTION_SYNC_STAGE_DATA_AM,
     ACTION_QUERY_STATE_AM: RCTModule.ACTION_QUERY_STATE_AM,
     ACTION_SYNC_REAL_DATA_AM: RCTModule.ACTION_SYNC_REAL_DATA_AM,
+    /**
+     * The action value of event indicating set user's basal metabolic rate successfully.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_SET_BMR_SUCCESS_AM</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "set_bmr_success_am",<br/>
+     * }<br/>
+     */
     ACTION_SET_BMR_SUCCESS_AM: RCTModule.ACTION_SET_BMR_SUCCESS_AM,
     ACTION_GET_SWIMINFO_AM: RCTModule.ACTION_GET_SWIMINFO_AM,
+    /**
+     * The action value of event indicating set swim information successfully.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_SET_SWIMINFO_AM</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "set_swiminfo_am",<br/>
+     * }<br/>
+     */
     ACTION_SET_SWIMINFO_AM: RCTModule.ACTION_SET_SWIMINFO_AM,
     ACTION_GET_RANDOM_AM: RCTModule.ACTION_GET_RANDOM_AM,
+    /**
+     * The action value of event indicating set swim information successfully.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_SET_HOUR_MODE_SUCCESS_AM</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "set_hour_mode_success_am",<br/>
+     * }<br/>
+     */
     ACTION_SET_HOUR_MODE_SUCCESS_AM: RCTModule.ACTION_SET_HOUR_MODE_SUCCESS_AM,
     ACTION_GET_HOUR_MODE_AM: RCTModule.ACTION_GET_HOUR_MODE_AM,
+    /**
+     * The action value of event indicating set swim information successfully.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_SET_DEVICE_MODE_AM</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "set_device_mode_am",<br/>
+     * }<br/>
+     */
     ACTION_SET_DEVICE_MODE_AM: RCTModule.ACTION_SET_DEVICE_MODE_AM,
     ACTION_CLOUD_BINDING_AM_SUCCESS: RCTModule.ACTION_CLOUD_BINDING_AM_SUCCESS,
     ACTION_CLOUD_BINDING_AM_FAIL: RCTModule.ACTION_CLOUD_BINDING_AM_FAIL,
@@ -80,6 +206,20 @@ module.exports = {
     ACTION_CLOUD_UNBINDING_AM_FAIL: RCTModule.ACTION_CLOUD_UNBINDING_AM_FAIL,
     ACTION_CLOUD_SEARCH_AM: RCTModule.ACTION_CLOUD_SEARCH_AM,
     ACTION_CLOUD_SEARCH_FAIL_AM: RCTModule.ACTION_CLOUD_SEARCH_FAIL_AM,
+    /**
+     * The action value of event indicating set swim information successfully.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>AMProfileModule.ACTION_SET_PICTURE_SUCCESS_AM</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "set_picture_success_am",<br/>
+     * }<br/>
+     */
     ACTION_SET_PICTURE_SUCCESS_AM: RCTModule.ACTION_SET_PICTURE_SUCCESS_AM,
     ACTION_GET_PICTURE_AM: RCTModule.ACTION_GET_PICTURE_AM,
 

@@ -352,7 +352,7 @@ export default class LaunchView extends Component {
         } else if (route.name == 'DeviceView') {
             switch (route.type) {
                 case "BP5":
-                    return <BP5View navigator={navigator} mac={route.mac}/>
+                    return <BP5View navigator={navigator} mac={route.mac} type={route.type}/>
                     break;
                 case "AM4":
                 case "AM3S":

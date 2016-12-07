@@ -39,18 +39,6 @@ public class HS4SModule extends iHealthBaseModule {
         return map;
     }
 
-    @Override
-    public void handleNotify(String mac, String deviceType, String action, String message) {
-        WritableMap params = Arguments.createMap();
-        params.putString("action", action);
-        params.putString("mac", mac);
-        params.putString("type", deviceType);
-        if (!TextUtils.isEmpty(message)) {
-            Utils.jsonToMap(message, params);
-        }
-        sendEvent(EVENT_NOTIFY, params);
-    }
-
     private static Hs4sControl getControl(String mac) {
         return iHealthDevicesManager.getInstance().getHs4sControl(mac);
     }
@@ -73,5 +61,27 @@ public class HS4SModule extends iHealthBaseModule {
         } else {
             Log.e(TAG, "Can not find HS4S Control mac:" + mac);
         }
+    }
+
+    @ReactMethod
+    public void disconnect(String mac) {
+        Hs4sControl hs4sControl = getControl(mac);
+        if (hs4sControl != null) {
+            hs4sControl.disconnect();
+        } else {
+            Log.e(TAG, "Can not find HS4S Control mac:" + mac);
+        }
+    }
+
+    @Override
+    public void handleNotify(String mac, String deviceType, String action, String message) {
+        WritableMap params = Arguments.createMap();
+        params.putString("action", action);
+        params.putString("mac", mac);
+        params.putString("type", deviceType);
+        if (!TextUtils.isEmpty(message)) {
+            Utils.jsonToMap(message, params);
+        }
+        sendEvent(EVENT_NOTIFY, params);
     }
 }

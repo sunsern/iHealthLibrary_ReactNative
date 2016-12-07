@@ -141,8 +141,10 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
             case iHealthDevicesManager.TYPE_BG1:
                 break;
             case iHealthDevicesManager.TYPE_BG5:
+            module = getReactApplicationContext().getNativeModule(BG5Module.class);
                 break;
             case iHealthDevicesManager.TYPE_BG5l:
+            module = getReactApplicationContext().getNativeModule(BG5LModule.class);
                 break;
             default:
                 module = null;
