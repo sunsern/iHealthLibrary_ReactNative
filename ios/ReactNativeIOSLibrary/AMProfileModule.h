@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#define EVENT_NOTIFY @"event_notify_am4"
 
 @interface AMProfileModule : NSObject
 
