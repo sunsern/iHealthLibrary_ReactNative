@@ -5,6 +5,9 @@ var { NativeModules } = require('react-native');
 
 var RCTModule = NativeModules.BG1Module
 
+/**
+ * @module BG1Module
+ */
 var BG1Module = {
 
     /**
@@ -12,59 +15,34 @@ var BG1Module = {
      */
     Event_Notify: RCTModule.Event_Notify,
 
-    /**
-     * Init the controller.
-     *
-     * @param context  Context.
-     * @param userName UserName
-     * @param filter   0
-     * @param showUI   Whether show a toast when modify system volume.
-     *                 <p>
-     *                 If true,some device may show a system toast to let the user know
-     *                 "Listening at high volume for long periods(Continuing to increase the volume)
-     *                 may damage your hearing." and then let user choose "OK" to
-     *                 have a better experience with iHealth Align.
-     *                 <p>
-     *                 value true is recommended to have a better iHealth Align compatibility.
+     /**
+     * Send code to bg1 device
+     * 
+     * @param {string} QRCode
+     * @return Event ('ACTION_BG1_SENDCODE_RESULT') with a Map object.<br/>
      */
-    init: function (userName:string,filter:number,showUI: boolean): void {
-
+	sendCode: function(QRCode: string): void {
         if (RCTModule != null) {
-            RCTModule.init(userName,filter,showUI);
+            RCTModule.sendCode(QRCode);
         }else {
             console.log('~~~~~ RCTModule is null')
         }
-
-    },
-    /**
-    * connect BG1 device
-    *
-    */
-	connect: function(): void {
-		RCTModule.connect()
 	},
-
+    
     /**
-     * Send code to bg1 device
+     * Parse bottle info from QRCode, include strip expire time,strip number,bottle id
      *
-     * @param QRCode
+     * @param {string} QRCode
+     * @return json string. {"bottleInfo":[{"bottleId":"4294967295","overDate":"2099-12-16","stripNum":"255"}]} <br/>
      */
-	sendCode: function(
-		QRCode: string
-	): void {
-		RCTModule.sendCode(QRCode)
-	},
-    /**
-    * disconnect BG1 device
-    *
-    */
-    disconnect: function (): void {
+    getBottleInfoFromQR: function(QRCode: string): void {
         if (RCTModule != null) {
-            RCTModule.disconnect();
+            RCTModule.getBottleInfoFromQR(QRCode);
         }else {
             console.log('~~~~~ RCTModule is null')
         }
     }
+
 }
 
 module.exports = BG1Module

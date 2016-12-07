@@ -80,7 +80,7 @@ module.exports = {
      * <tr><td>Key</td><td>Value</td></tr>
      * <tr><td>action</td><td>{@link module:POProfileModule.ACTION_RESULTDATA_PO POProfileModule.ACTION_RESULTDATA_PO("resultData_po")}</td></tr>
      * <tr><td>{@link module:POProfileModule.PULSE_WAVE_PO POProfileModule.ACTION_LIVEDA_PO("pulseWave")}</td><td>Pulse Wave, e.g. [0,0,0]</td></tr>
-     * <tr><td>{@link module:POProfileModule.DATAID POProfileModule.DATAID("dataID")}</td><td>Pulse Wave, e.g. 67FFC7A454148723718144A604D4152B</td></tr>
+     * <tr><td>{@link module:POProfileModule.DATAID POProfileModule.DATAID("dataID")}</td><td>The data id, e.g. 67FFC7A454148723718144A604D4152B</td></tr>
      * <tr><td>{@link module:POProfileModule.PI_PO POProfileModule.ACTION_LIVEDA_PO("pi")}</td><td>PI, e.g. 0.0430000014603138</td></tr>
      * <tr><td>{@link module:POProfileModule.PULSE_STRENGTH_PO POProfileModule.ACTION_LIVEDA_PO("pulsestrength")}</td><td>Pulse Strength, e.g. 0</td><</tr>
      * <tr><td>{@link module:POProfileModule.BLOOD_OXYGEN_PO POProfileModule.ACTION_LIVEDA_PO("bloodoxygen")}</td><td>Blood Oxygen, e.g. 98</td></tr>

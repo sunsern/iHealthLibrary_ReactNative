@@ -163,13 +163,13 @@ export default class PO3View extends Component {
                 for (let i = 0; i < offlineData.length; i++) {
                     let dataInfo = offlineData[i]
                     let dataId = dataInfo[POProfileModule.DATAID]
-                    let data = dataInfo[POProfileModule.MEASURE_DATE_PO]
+                    let date = dataInfo[POProfileModule.MEASURE_DATE_PO]
                     let waves = dataInfo[POProfileModule.PULSE_WAVE_PO]
                     let plusRate = dataInfo[POProfileModule.PULSE_RATE_PO]
                     let bloodOxygen = dataInfo[POProfileModule.BLOOD_OXYGEN_PO]
                     resultText += "---------------------------------------------------------------"
                     resultText += "\ndataId = " + dataId
-                    resultText += "\ndata = " + data
+                    resultText += "\ndate = " + date
                     resultText += "\nwaves = " + waves
                     resultText += "\nplusRate = " + plusRate
                     resultText += "\nbloodOxygen = " + bloodOxygen
