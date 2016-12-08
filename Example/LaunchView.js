@@ -222,7 +222,7 @@ class MainView extends Component {
 
                         <Picker.Item label='BP5' value={iHealthDeviceManagerModule.BP5}/>
                         <Picker.Item label='BP3L' value={iHealthDeviceManagerModule.BP3L}/>
-                        <Picker.Item label='KN550' value={iHealthDeviceManagerModule.KN550}/>
+                        <Picker.Item label='KN-550BT' value={iHealthDeviceManagerModule.KN550}/>
                         <Picker.Item label='BP7S' value={iHealthDeviceManagerModule.BP7S}/>
                         <Picker.Item label='AM3S' value={iHealthDeviceManagerModule.AM3S}/>
                         <Picker.Item label='AM4' value={iHealthDeviceManagerModule.AM4}/>
@@ -351,7 +351,7 @@ export default class LaunchView extends Component {
                     break;
                 case "BP3L":
                     return <BP3LView navigator={navigator} mac={route.mac} type={route.type}/>
-                case "550bt":
+                case "KN-550BT":
                     return <BP550BTView navigator={navigator} mac={route.mac} type={route.type}/>
                 case "BP7S":
                     return <BP7SView navigator={navigator} mac={route.mac} type={route.type}/>
