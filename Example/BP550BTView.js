@@ -54,34 +54,15 @@ var styles = StyleSheet.create({
     },
 });
 
-class TipView extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            tip: ''
-        }
-
-    }
-
-    render() {
-        return (
-            <View>
-                <Text>
-                    Tip: {this.state.tip}
-                </Text>
-            </View>
-        )
-    }
-
-
-}
 
 
 export default class BP550BTView extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            resultText:''
+        }
 
 
     }
@@ -93,23 +74,6 @@ export default class BP550BTView extends Component {
 
     componentDidMount() {
         console.info('BP550BTView', 'componentDidMount()');
-    }
-
-
-    componentWillReceiveProps() {
-        console.info('BP550BTView', 'componentWillReceiveProps()');
-    }
-
-    shouldComponentUpdate() {
-        console.info('BP550BTView', 'shouldComponentUpdate()');
-    }
-
-    componentWillUpdate() {
-        console.info('BP550BTView', 'componentWillUpdate()');
-    }
-
-    componentDidUpdate() {
-        console.info('BP550BTView', 'componentDidUpdate()');
     }
 
     componentWillUnmount() {
@@ -200,7 +164,10 @@ export default class BP550BTView extends Component {
                     style={{backgroundColor: '#000000', height: 3}}>
                 </TouchableOpacity>
 
-                <TipView ref='tipView'/>
+                <ScrollView
+                    style={{height: 150, paddingBottom: 10}}>
+                    <Text>{this.state.resultText}</Text>
+                </ScrollView>
 
             </View>
 
@@ -215,6 +182,7 @@ export default class BP550BTView extends Component {
 
 
         let self = this;
+        let result = "";
 
         this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Disconnect, function (e: Event) {
             // handle event.
@@ -223,22 +191,72 @@ export default class BP550BTView extends Component {
         });
         this.notifyListener = DeviceEventEmitter.addListener(BP550BTModule.Event_Notify, function (e: Event) {
             console.info('BP5View', 'addListener_DeviceDisconnect', "Action = " + e.action + '\n' + "Message = " + JSON.stringify(e));
+
             if (e.action === BPProfileModule.ACTION_ERROR_BP) {
-                self.refs.TipView.setState({tip: JSON.stringify(e)});
+                let errorNum = e[BPProfileModule.ERROR_NUM_BP];
+                result = "错误编号：" + "\nErrorNum = " + errorNum;
             }
             else if (e.action === BPProfileModule.ACTION_BATTERY_BP) {
-                self.refs.tipView.setState({tip: JSON.stringify(e)});
+                let battery = e[BPProfileModule.BATTERY_BP];
+                result = "电池电量：" + "\nBattery = " + battery;
             }
             else if (e.action === BPProfileModule.ACTION_HISTORICAL_NUM_BP) {
-                self.refs.tipView.setState({tip: JSON.stringify(e)});
+                let offlineNum = e[BPProfileModule.HISTORICAL_NUM_BP];
+                result = "离线数据：" + "\nofflineNum = " + offlineNum;
             }
             else if (e.action === BPProfileModule.ACTION_HISTORICAL_DATA_BP) {
-                self.refs.tipView.setState({tip: JSON.stringify(e)});
-            }
-            else if (e.action === BPProfileModule.ACTION_FUNCTION_INFORMATION_BP) {
-                self.refs.tipView.setState({tip: JSON.stringify(e)});
+
+                let dataArray = e[BPProfileModule.HISTORICAL_DATA_BP];
+                if (dataArray == undefined) {
+                    result = "There is not offline data in device"
+                }else {
+                    result = "离线数据：";
+                    for (let i = 0; i < dataArray.length; i++) {
+                        let offlineData = dataArray[i];
+
+                        let time = offlineData[BPProfileModule.HISTORICAL_DATA_BP];
+                        let sys = offlineData[BPProfileModule.HIGH_BLOOD_PRESSURE_BP];
+                        let dia = offlineData[BPProfileModule.LOW_BLOOD_PRESSURE_BP];
+                        let heartRate = offlineData[BPProfileModule.PULSE_BP];
+                        let arrhythmia = offlineData[BPProfileModule.MEASUREMENT_AHR_BP];
+                        let hsd = offlineData[BPProfileModule.MEASUREMENT_HSD_BP];
+                        let dataID = offlineData[BPProfileModule.DATAID];
+
+                        result += "\n---------------------------------------------------------------";
+                        result += "\ntime = " + time +
+                            "\nsys = " + sys +
+                            "\ndia = " + dia +
+                            "\nheartRate" + heartRate +
+                            "\narrhythmia = " + arrhythmia +
+                            "\nhsd = " + hsd +
+                            "\ndataID = " + dataID;
+                    }
+                }
+            } else if (e.action === BPProfileModule.ACTION_HISTORICAL_OVER_BP) {
+                result += "\n---------------------------------------------------------------";
+                result += "\n 离线数据上传结束"
+            } else if (e.action === BPProfileModule.ACTION_FUNCTION_INFORMATION_BP) {
+
+                let upAirMeasureFlg = e[BPProfileModule.FUNCTION_IS_UPAIR_MEASURE];
+                let armMeasureFlg = e[BPProfileModule.FUNCTION_IS_ARM_MEASURE];
+                let haveAngleSensor = e[BPProfileModule.FUNCTION_HAVE_ANGLE_SENSOR];
+                let haveOffline = e[BPProfileModule.FUNCTION_HAVE_OFFLINE];
+                let haveHSD = e[BPProfileModule.FUNCTION_IS_UPAIR_MEASURE];
+                let haveAngleSet = e[BPProfileModule.FUNCTION_HAVE_ANGLE_SETTING];
+                let mutableUpload = e[BPProfileModule.FUNCTION_IS_MULTI_UPLOAD];
+                let selfUpdate = e[BPProfileModule.FUNCTION_HAVE_SELF_UPDATE];
+
+                result += "设备功能信息：" + "\nupAirMeasureFlg = " + upAirMeasureFlg +
+                    "\narmMeasureFlg = " + armMeasureFlg +
+                    "\nhaveAngleSensor = " + haveAngleSensor +
+                    "\nhaveOffline" + haveOffline +
+                    "\nhaveHSD = " + haveHSD +
+                    "\nhaveAngleSet = " + haveAngleSet +
+                    "\nmutableUpload = " + mutableUpload +
+                    "\nselfUpdate = " + selfUpdate
             }
 
+            self.setState({resultText: result});
         });
 
 
@@ -258,7 +276,7 @@ export default class BP550BTView extends Component {
     _getDeviceIDPS() {
         iHealthDeviceManagerModule.getDevicesIDPS(this.props.mac, (e) => {
             console.info('deviceInfo:' + JSON.stringify(e));
-            this.refs.tipView.setState({tip: JSON.stringify(e)})
+            this.setState({resultText: JSON.stringify(e)});
         })
     }
 
