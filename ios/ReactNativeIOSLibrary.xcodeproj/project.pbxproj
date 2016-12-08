@@ -17,6 +17,8 @@
 		1875102E1DE5E411005E66B1 /* AMProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1875102D1DE5E410005E66B1 /* AMProfileModule.m */; };
 		187510311DE5E424005E66B1 /* AM4Module.m in Sources */ = {isa = PBXBuildFile; fileRef = 187510301DE5E424005E66B1 /* AM4Module.m */; };
 		187510341DE5E439005E66B1 /* AM3SModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 187510331DE5E439005E66B1 /* AM3SModule.m */; };
+		AF1B3F141DF9482100DFDB23 /* HS4SModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1B3F111DF9482100DFDB23 /* HS4SModule.m */; };
+		AF1B3F151DF9482100DFDB23 /* HSProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1B3F131DF9482100DFDB23 /* HSProfileModule.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -126,6 +128,10 @@
 		1875107E1DE5E6A5005E66B1 /* SDKCommToolClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDKCommToolClass.h; sourceTree = "<group>"; };
 		1875107F1DE5E6A5005E66B1 /* SDKUpdateDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDKUpdateDevice.h; sourceTree = "<group>"; };
 		187510801DE5E6A5005E66B1 /* WifiSetWifiClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiSetWifiClass.h; sourceTree = "<group>"; };
+		AF1B3F101DF9482100DFDB23 /* HS4SModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HS4SModule.h; sourceTree = "<group>"; };
+		AF1B3F111DF9482100DFDB23 /* HS4SModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HS4SModule.m; sourceTree = "<group>"; };
+		AF1B3F121DF9482100DFDB23 /* HSProfileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSProfileModule.h; sourceTree = "<group>"; };
+		AF1B3F131DF9482100DFDB23 /* HSProfileModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSProfileModule.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +165,10 @@
 		182D01FC1DE565EC00E9B783 /* ReactNativeIOSLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				AF1B3F101DF9482100DFDB23 /* HS4SModule.h */,
+				AF1B3F111DF9482100DFDB23 /* HS4SModule.m */,
+				AF1B3F121DF9482100DFDB23 /* HSProfileModule.h */,
+				AF1B3F131DF9482100DFDB23 /* HSProfileModule.m */,
 				182D02891DE57A2F00E9B783 /* iHealthDeviceManagerModule.h */,
 				182D028A1DE57A2F00E9B783 /* iHealthDeviceManagerModule.m */,
 				1875101D1DE5E374005E66B1 /* BPProfileModule.h */,
@@ -327,10 +337,12 @@
 				1875102E1DE5E411005E66B1 /* AMProfileModule.m in Sources */,
 				1875102B1DE5E3FB005E66B1 /* BP3LModule.m in Sources */,
 				182D028B1DE57A2F00E9B783 /* iHealthDeviceManagerModule.m in Sources */,
+				AF1B3F151DF9482100DFDB23 /* HSProfileModule.m in Sources */,
 				187510251DE5E3CA005E66B1 /* BP7SModule.m in Sources */,
 				1875101F1DE5E374005E66B1 /* BPProfileModule.m in Sources */,
 				187510221DE5E399005E66B1 /* BP550BTModule.m in Sources */,
 				187510341DE5E439005E66B1 /* AM3SModule.m in Sources */,
+				AF1B3F141DF9482100DFDB23 /* HS4SModule.m in Sources */,
 				187510311DE5E424005E66B1 /* AM4Module.m in Sources */,
 				187510281DE5E3E3005E66B1 /* BP5Module.m in Sources */,
 			);
