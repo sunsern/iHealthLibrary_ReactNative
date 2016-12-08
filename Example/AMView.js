@@ -867,7 +867,7 @@ export default class AMView extends Component {
                         modeString = "Except europe 24 hour mode"
                         break;
                 }
-                resultText = "Set get mode successfully\nmode = " + modeString
+                resultText = "Get hour mode successfully\nmode = " + modeString
             } else if (action == AMProfileModule.ACTION_SET_PICTURE_SUCCESS_AM) {
                 resultText = "Set picture successfully."
             } else if (action == AMProfileModule.ACTION_GET_PICTURE_AM) {

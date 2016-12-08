@@ -216,7 +216,9 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
     public void onHostDestroy() {
         iHealthDevicesManager.getInstance().destroy();
         Log.e(TAG, "onHostDestroy");
-        unRegisterReceiver();
+        if (mBroadcastReceiverRegistered) {
+            unRegisterReceiver();
+        }
     }
 
     @ReactMethod
@@ -273,12 +275,15 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
         intentFilter.addAction(Bg1Profile.ACTION_BG1_MEASURE_GET_BLOOD);
         intentFilter.addAction(Bg1Profile.ACTION_BG1_MEASURE_STRIP_OUT);
         mContext.registerReceiver(broadcastReceiver, intentFilter);
+        mBroadcastReceiverRegistered = true;
     }
 
     private void unRegisterReceiver() {
         mContext.unregisterReceiver(broadcastReceiver);
+        mBroadcastReceiverRegistered = false;
     }
 
+    private boolean mBroadcastReceiverRegistered = false;
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
