@@ -26,6 +26,7 @@ import BP7SView from './BP7SView';
 import PO3View from './PO3View';
 import HS4SView from './HS4SView';
 import BG1View from './BG1View';
+import HS6View from './HS6View';
 
 import {
     iHealthDeviceManagerModule
@@ -47,15 +48,20 @@ class MainView extends Component {
     authenConfigureInfo() {
         this.removeListener()
         this.addListener()
-        iHealthDeviceManagerModule.authenConfigureInfo( 'jing@q.aaa', '', '')
+        iHealthDeviceManagerModule.authenConfigureInfo('jing@q.aaa', '', '')
     }
 
 
     startDiscovery() {
-        console.info('scan device ------'+this.state.type)
-        
+        console.info('scan device ------' + this.state.type)
+
         if (this.state.scanStatus) {
             console.info('正在扫描设备')
+        } else if (this.state.type == iHealthDeviceManagerModule.HS6) {
+            this.props.navigator.push({
+                name: "DeviceView",
+                type: "HS6"
+            })
         } else {
             this.setState({pickerEnabled: false, scanStatus: true});
             this.removeListener()
@@ -92,7 +98,7 @@ class MainView extends Component {
         this.scanFinishListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Scan_Finish, function (e: Event) {
             // handle event.
             console.log('~~~ScanFinish')
-            self.setState({pickerEnabled: true, scanStatus:false})
+            self.setState({pickerEnabled: true, scanStatus: false})
         });
 
         this.connectSuccessListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Connected, function (e: Event) {
@@ -114,7 +120,7 @@ class MainView extends Component {
 
     removeListener() {
         //Unregister  event
-        if(this.authenListener) {
+        if (this.authenListener) {
             this.authenListener.remove()
         }
         if (this.scanListener) {
@@ -195,19 +201,19 @@ class MainView extends Component {
             <View style={styles.container}>
 
                 <TouchableOpacity
-                        style={{
-                            height: 60,
-                            justifyContent: 'center', // 内容居中显示
-                            backgroundColor: '#eedddd',
-                            alignItems: 'center',
-                        }}
-                        onPress={() => this.authenConfigureInfo()}>
-                        <Text style={styles.buttonText}>
-                            认证SDK
-                        </Text>
+                    style={{
+                        height: 60,
+                        justifyContent: 'center', // 内容居中显示
+                        backgroundColor: '#eedddd',
+                        alignItems: 'center',
+                    }}
+                    onPress={() => this.authenConfigureInfo()}>
+                    <Text style={styles.buttonText}>
+                        认证SDK
+                    </Text>
                 </TouchableOpacity>
 
-                <View style={{flexDirection: 'row', marginTop:5}}>
+                <View style={{flexDirection: 'row', marginTop: 5}}>
 
                     <Picker
                         style={{flex: 1, height: 60}}
@@ -361,6 +367,8 @@ export default class LaunchView extends Component {
                     return <HS4SView navigator={navigator} mac={route.mac} type={route.type}/>
                 case "BG1":
                     return <BG1View navigator={navigator} mac={route.mac} type={route.type}/>
+                case "HS6":
+                    return <HS6View navigator={navigator} type={route.type}/>
                 default:
                     console.warn('Not implemented yet, type = ' + route.type)
                     break;
