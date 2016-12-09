@@ -127,7 +127,7 @@ export default class BP550BTView extends Component {
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._startMeasure()}>
+                        onPress={() => this._getOffLineNum()}>
 
 
                         <Text style={styles.buttonText}>
@@ -138,7 +138,7 @@ export default class BP550BTView extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._stopMeasure()}>
+                        onPress={() => this._getOffLineData()}>
 
                         <Text style={styles.buttonText}>
                             获得离线数据
@@ -285,12 +285,12 @@ export default class BP550BTView extends Component {
         BP550BTModule.getFunctionInfo(this.props.mac);
     }
 
-    _startMeasure() {
+    _getOffLineNum() {
 
         BP550BTModule.getOffLineNum(this.props.mac);
     }
 
-    _stopMeasure() {
+    _getOffLineData() {
         BP550BTModule.getOffLineData(this.props.mac);
     }
 

@@ -131,7 +131,7 @@ export default class BP7SView extends Component {
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._startMeasure()}>
+                        onPress={() => this._getOffLineNum()}>
 
                         <Text style={styles.buttonText}>
                             获得离线数据数量
@@ -141,7 +141,7 @@ export default class BP7SView extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._stopMeasure()}>
+                        onPress={() => this._getOffLineData()}>
 
                         <Text style={styles.buttonText}>
                             获得离线数据
@@ -356,12 +356,12 @@ export default class BP7SView extends Component {
         BP7SModule.getFunctionInfo(this.props.mac);
     }
 
-    _startMeasure() {
+    _getOffLineNum() {
 
         BP7SModule.getOffLineNum(this.props.mac);
     }
 
-    _stopMeasure() {
+    _getOffLineData() {
         BP7SModule.getOffLineData(this.props.mac);
     }
 
