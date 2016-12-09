@@ -380,6 +380,20 @@ module.exports = {
 
 
     /**
+     * The action value of event indicates historical data update over <br/>
+     * The key and value will be as below: <br/>
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *      <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *      <tr><td>action</td><td>{@link module:BPProfileModule.ACTION_HISTORICAL_OVER_BP BPProfileModule.ACTION_HISTORICAL_OVER_BP("get_historical_over_bp")}</td></tr>
+     * </table>
+     * <b>message example:</b><br/>
+     * <b>null</b>
+     *
+     */
+    ACTION_HISTORICAL_OVER_BP:RCTModule.ACTION_HISTORICAL_OVER_BP,
+
+
+    /**
      * The action value of event indicates the function information data of bp devices. <br/>
      * The key and value will be as below: <br/>
      * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">

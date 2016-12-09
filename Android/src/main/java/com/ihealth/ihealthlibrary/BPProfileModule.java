@@ -56,6 +56,8 @@ public class BPProfileModule extends ReactContextBaseJavaModule {
     private static final String MEASUREMENT_ANGLE_CHANGE_BP = "MEASUREMENT_ANGLE_CHANGE_BP";
     private static final String MEASUREMENT_HAND_BP = "MEASUREMENT_HAND_BP";
 
+    private static final String ACTION_HISTORICAL_OVER_BP = "ACTION_HISTORICAL_OVER_BP";
+
     private static final String ACTION_FUNCTION_INFORMATION_BP = "ACTION_FUNCTION_INFORMATION_BP";
     private static final String FUNCTION_IS_UPAIR_MEASURE = "FUNCTION_IS_UPAIR_MEASURE";
     private static final String FUNCTION_IS_ARM_MEASURE = "FUNCTION_IS_ARM_MEASURE";
@@ -125,6 +127,7 @@ public class BPProfileModule extends ReactContextBaseJavaModule {
         constants.put(MEASUREMENT_ANGLE_CHANGE_BP,BpProfile.MEASUREMENT_ANGLE_CHANGE_BP);
         constants.put(MEASUREMENT_HAND_BP,BpProfile.MEASUREMENT_HAND_BP);
 
+        constants.put(ACTION_HISTORICAL_OVER_BP,BpProfile.ACTION_HISTORICAL_OVER_BP);
 
         constants.put(ACTION_FUNCTION_INFORMATION_BP,BpProfile.ACTION_FUNCTION_INFORMATION_BP);
         constants.put(FUNCTION_IS_UPAIR_MEASURE, BpProfile.FUNCTION_IS_UPAIR_MEASURE);
