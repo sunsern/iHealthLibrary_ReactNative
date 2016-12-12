@@ -74,8 +74,14 @@ RCT_EXPORT_MODULE()
     NSLog(@"Native: device discover %@", info);
     
     NSDictionary* userInfo = [info userInfo];
-    if(userInfo[@"SerialNumber"] != nil){
-        NSDictionary* deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":[self constantsToExport][userInfo[@"DeviceName"]]};
+    NSString* deviceName = userInfo[@"DeviceName"];
+    NSString* serialNumber = userInfo[@"SerialNumber"];
+    NSString* deviceId = userInfo[@"ID"];
+    if(serialNumber.length > 0){
+        NSDictionary* deviceInfo = @{@"mac":serialNumber,@"type":[self constantsToExport][deviceName]};
+        [self.bridge.eventDispatcher sendDeviceEventWithName:@"ScanDevice" body:deviceInfo];
+    }else if (deviceId.length > 0){
+        NSDictionary* deviceInfo = @{@"mac":deviceId,@"type":[self constantsToExport][deviceName]};
         [self.bridge.eventDispatcher sendDeviceEventWithName:@"ScanDevice" body:deviceInfo];
     }
     

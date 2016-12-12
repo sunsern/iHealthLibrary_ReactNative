@@ -48,15 +48,15 @@ RCT_EXPORT_METHOD(getFunctionInfo:(nonnull NSString *)mac){
         [[self getDeviceWithMac:mac] commandFounction:^(NSDictionary *dic) {
             
             NSDictionary* response = @{
-                                       @"action":@"ACTION_FUNCTION_INFORMATION_BP",
-                                       @"FUNCTION_IS_UPAIR_MEASURE":dic[@"upAirMeasureFlg"],
-                                       @"FUNCTION_IS_ARM_MEASURE":dic[@"armMeasureFlg"],
-                                       @"FUNCTION_HAVE_ANGLE_SENSOR":dic[@"haveAngleSensor"],
-                                       @"FUNCTION_HAVE_OFFLINE":dic[@"haveOffline"],
-                                       @"FUNCTION_HAVE_ANGLE_SETTING":dic[@"haveAngleSet"],
-                                       @"FUNCTION_IS_MULTI_UPLOAD":dic[@"mutableUpload"],
-                                       @"FUNCTION_HAVE_SELF_UPDATE":dic[@"selfUpdate"],
-                                       //haveHSD
+                                       kACTION:kACTION_FUNCTION_INFORMATION_BP,
+                                       kFUNCTION_IS_UPAIR_MEASURE:dic[@"upAirMeasureFlg"],
+                                       kFUNCTION_IS_ARM_MEASURE:dic[@"armMeasureFlg"],
+                                       kFUNCTION_HAVE_ANGLE_SENSOR:dic[@"haveAngleSensor"],
+                                       kFUNCTION_HAVE_OFFLINE:dic[@"haveOffline"],
+                                       kFUNCTION_HAVE_ANGLE_SETTING:dic[@"haveAngleSet"],
+                                       kFUNCTION_IS_MULTI_UPLOAD:dic[@"mutableUpload"],
+                                       kFUNCTION_HAVE_SELF_UPDATE:dic[@"selfUpdate"],
+                                       kFUNCTION_HAVE_HSD:dic[@"haveHSD"]
                                        };
             [self sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
@@ -76,8 +76,8 @@ RCT_EXPORT_METHOD(getOffLineNum:(nonnull NSString *)mac){
     if ([self getDeviceWithMac:mac]!=nil) {
         [[self getDeviceWithMac:mac] commandTransferMemorytotalCount:^(NSNumber *num) {
             NSDictionary* response = @{
-                                       @"action":@"ACTION_HISTORICAL_NUM_BP",
-                                       @"HISTORICAL_NUM_BP":num,
+                                       kACTION:kACTION_HISTORICAL_NUM_BP,
+                                       kHISTORICAL_NUM_BP:num,
                                        };
             [self sendEventWithDict:response];
 
@@ -103,8 +103,8 @@ RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
             }
         } totalCount:^(NSNumber *num) {
             NSDictionary* response = @{
-                                       @"action":@"ACTION_HISTORICAL_NUM_BP",
-                                       @"HISTORICAL_NUM_BP":num,
+                                       kACTION:kACTION_HISTORICAL_NUM_BP,
+                                       kHISTORICAL_NUM_BP:num,
                                        };
             [self sendEventWithDict:response];
         } pregress:^(NSNumber *pregress) {
@@ -112,8 +112,8 @@ RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
         } dataArray:^(NSArray *array) {
             NSLog(@"dataArray %@",array);
             NSDictionary* response = @{
-                                       @"action":@"ACTION_HISTORICAL_DATA_BP",
-                                       @"HISTORICAL_DATA_BP":array,
+                                       kACTION:kACTION_HISTORICAL_DATA_BP,
+                                       kHISTORICAL_DATA_BP:array,
                                        };
             [self sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
@@ -134,8 +134,8 @@ RCT_EXPORT_METHOD(getBattery:(nonnull NSString *)mac){
         [[self getDeviceWithMac:mac] commandEnergy:^(NSNumber *energyValue) {
             NSLog(@"energyValue %@",energyValue);
             NSDictionary* response = @{
-                                       @"action":@"ACTION_BATTERY_BP",
-                                       @"BATTERY_BP":energyValue,
+                                       kACTION:kACTION_BATTERY_BP,
+                                       kBATTERY_BP:energyValue,
                                        };
             [self sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
@@ -199,7 +199,7 @@ RCT_EXPORT_METHOD(disconnect:(nonnull NSString *)mac){
 }
 
 - (void)sendErrorWithCode:(NSInteger)errorCode{
-    [self sendEventWithDict:@{@"action":@"ACTION_ERROR_BP",@"ERROR_NUM_BP":@(errorCode)}];
+    [self sendEventWithDict:@{kACTION:kACTION_ERROR_BP,kERROR_NUM_BP:@(errorCode)}];
 }
 
 - (void)sendEventWithDict:(NSDictionary*)dict{
