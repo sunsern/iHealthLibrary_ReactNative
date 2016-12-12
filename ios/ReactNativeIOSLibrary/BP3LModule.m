@@ -46,7 +46,7 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
-        [[self getDeviceWithMac:mac] commandStartMeasureWithUser:@"heds@12.com" clientID:@"2a8387e3f4e94407a3a767a72dfd52ea" clientSecret:@"fd5e845c47944a818bc511fb7edb0a77" Authentication:^(UserAuthenResult result) {
+        [[self getDeviceWithMac:mac] commandStartMeasureWithUser:nil clientID:nil clientSecret:nil Authentication:^(UserAuthenResult result) {
             NSLog(@"authen %d",result);
             if (result != UserAuthen_LoginSuccess) {
                 [self sendErrorWithCode:result];
