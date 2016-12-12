@@ -240,7 +240,7 @@ export default class AMView extends Component {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => {
-                                AM4Module.setHourMode(this.props.mac, 0)
+                                AM4Module.setHourMode(this.props.mac, AMProfileModule.AM_SET_24_HOUR_MODE)
                             }}>
                             <Text style={styles.buttonText}>
                                 setHourMode
@@ -258,7 +258,7 @@ export default class AMView extends Component {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => {
-                                AM4Module.setUserInfo(this.props.mac, 25, 183, 80, 0, 0, 1000, 1, 30)
+                                AM4Module.setUserInfo(this.props.mac, 25, 183, 80, AMProfileModule.AM_SET_MALE, AMProfileModule.AM_SET_UNIT_METRIC, 10000, 1, 30)
                             }}>
                             <Text style={styles.buttonText}>
                                 setUserInfo
@@ -478,7 +478,7 @@ export default class AMView extends Component {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => {
-                                AM3SModule.setHourMode(this.props.mac, 0)
+                                AM3SModule.setHourMode(this.props.mac, AMProfileModule.AM_SET_24_HOUR_MODE)
                             }}>
                             <Text style={styles.buttonText}>
                                 setHourMode
@@ -496,7 +496,7 @@ export default class AMView extends Component {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => {
-                                AM3SModule.setUserInfo(this.props.mac, 25, 183, 80, 0, 0, 1000, 1)
+                                AM3SModule.setUserInfo(this.props.mac, 25, 183, 80, AMProfileModule.AM_SET_MALE, AMProfileModule.AM_SET_UNIT_METRIC, 10000, 1)
                             }}>
                             <Text style={styles.buttonText}>
                                 setUserInfo
@@ -852,7 +852,7 @@ export default class AMView extends Component {
                         modeString = "12 hour mode"
                         break;
                     case AMProfileModule.AM_SET_24_HOUR_MODE:
-                        modeString = "23 hour mode"
+                        modeString = "24 hour mode"
                         break;
                     case AMProfileModule.AM_SET_EUROPE_12_HOUR_MODE:
                         modeString = "Europe 12 hour mode"
