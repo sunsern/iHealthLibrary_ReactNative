@@ -10,6 +10,11 @@
 #import "RCTBridgeModule.h"
 @interface POProfileModule : NSObject<RCTBridgeModule>
 
-- (NSDictionary *)constantsToExport;
+
+
+#define POACTION @"action"
+#define PO_BATTERY @"BATTERY_PO"
+
+
 
 @end
