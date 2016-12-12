@@ -88,7 +88,7 @@ public class BG1ProfileModule extends ReactContextBaseJavaModule {
      * {@link #BG1_MEASURE_RESULT}
      * </li>
      */
-    private static final String ACTION_BG1_MEASURE_RESULT = "action_measure_result_for_bg1";
+    private static final String ACTION_BG1_MEASURE_RESULT = "ACTION_BG1_MEASURE_RESULT";
 
     /**
      * The measure result

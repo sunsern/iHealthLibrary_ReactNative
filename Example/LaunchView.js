@@ -263,6 +263,7 @@ class MainView extends Component {
                 <Text style={styles.headText}> 扫描列表 </Text>
                 <SimpleListView
                     ref='discoverListView'
+                    style={{backgroundColor: '#fafafa'}}
                     navigator={this.props.navigator}
                     getData={() => {
                         return discoverDeviceArray
@@ -296,6 +297,7 @@ class MainView extends Component {
 
                 <SimpleListView
                     ref='connectedListView'
+                    style={{backgroundColor: '#fafafa'}}
                     navigator={this.props.navigator}
                     getData={() => {
                         return connectedDeviceArray
@@ -435,7 +437,8 @@ export default class LaunchView extends Component {
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 75
+        backgroundColor: '#fafafa',
+        paddingTop: 75,
     },
     // 导航栏
     heading: {
@@ -447,7 +450,8 @@ var styles = StyleSheet.create({
     // 导航栏文字
     headText: {
         color: '#ff5555',
-        fontSize: 22
+        fontSize: 22,
+        backgroundColor: '#fafafa',
     },
     // 按钮
     button: {
