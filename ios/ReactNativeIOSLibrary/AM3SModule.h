@@ -10,6 +10,8 @@
 #import "RCTBridgeModule.h"
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
+#define EVENT_NOTIFY @"event_notify_am3s"
+
 @interface AM3SModule : NSObject<RCTBridgeModule>
 
 @end

@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#define EVENT_NOTIFY @"event_notify_am4"
+#import "RCTBridgeModule.h"
 
-@interface AMProfileModule : NSObject
+@interface AMProfileModule : NSObject<RCTBridgeModule>
 
 @end
