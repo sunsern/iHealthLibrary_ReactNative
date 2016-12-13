@@ -17,23 +17,49 @@ RCT_EXPORT_MODULE()
 
 -(NSDictionary *)constantsToExport{
     return @{
-             @"Action_Error_HS": @"Action_Error_HS",
-             @"Action_Online_Result_HS": @"Action_Online_Result_HS",
-             @"Action_Historical_Data_HS": @"Action_Historical_Data_HS",
-             @"Action_Historical_Num_HS": @"Action_Historical_Num_HS",
-             @"Action_No_HistoricalData": @"Action_No_HistoricalData",
-             @"Action_Battery_HS": @"Action_Battery_HS",
-             @"Action_LiveData_HS": @"Action_LiveData_HS",
-             @"Action_StableData_HS":@"Action_StableData_HS",
-             @"Action_ImpedanceData_HS":@"Action_ImpedanceData_HS",
-             @"Action_Mangement_HS":@"Action_Mangement_HS",
-             @"Action_AddUser_HS":@"Action_AddUser_HS",
-             @"Action_DeleteUser_HS":@"Action_DeleteUser_HS",
-             @"Action_UpdateUser_HS":@"Action_UpdateUser_HS",
-             @"Action_SettingWifi":@"Action_SettingWifi",
-             @"Action_SetWifi_Success":@"Action_SetWifi_Success",
-             @"Action_SetWifi_Fail":@"Action_SetWifi_Fail",
-             @"Action_SetWifi_Unknow":@"Action_SetWifi_Unknow",
+             @"ACTION_LIVEDATA_HS" : @"ACTION_LIVEDATA_HS",
+             @"LIVEDATA_HS" : @"LIVEDATA_HS",
+             
+             @"ACTION_ONLINE_RESULT_HS" : @"ACTION_ONLINE_RESULT_HS",
+             @"DATAID" : @"DATAID",
+             @"WEIGHT_HS" : @"WEIGHT_HS",
+             @"FAT_HS" : @"FAT_HS",
+             @"WATER_HS" : @"WATER_HS",
+             @"MUSCLE_HS" : @"MUSCLE_HS",
+             @"SKELETON_HS" : @"SKELETON_HS",
+             @"FATELEVEL_HS" : @"FATELEVEL_HS",
+             @"DCI_HS" : @"DCI_HS",
+             
+             
+             @"ACTION_HISTORICAL_DATA_HS" : @"ACTION_HISTORICAL_DATA_HS",
+             @"HISTORYDATA__HS" : @"HISTORYDATA__HS",
+             @"MEASUREMENT_DATE_HS" : @"MEASUREMENT_DATE_HS",
+             @"ACTION_NO_HISTORICALDATA" : @"ACTION_NO_HISTORICALDATA",
+             
+             @"ACTION_ERROR_HS" : @"ACTION_ERROR_HS",
+             
+           //HS6
+             @"ACTION_HS6_SETWIFI":@"ACTION_HS6_SETWIFI",
+             @"SETWIFI_RESULT":@"SETWIFI_RESULT",
+             
+             @"ACTION_HS6_BIND":@"ACTION_HS6_BIND",
+             @"HS6_BIND_EXTRA":@"HS6_BIND_EXTRA",
+             @"BIND_HS6_RESULT":@"BIND_HS6_RESULT",
+             @"HS6_MODEL":@"HS6_MODEL",
+             @"HS6_POSITION":@"HS6_POSITION",
+             @"HS6_SETTED_WIFI":@"HS6_SETTED_WIFI",
+             
+             @"ACTION_HS6_UNBIND":@"ACTION_HS6_UNBIND",
+             @"HS6_UNBIND_RESULT":@"HS6_UNBIND_RESULT",
+             
+             @"ACTION_HS6_GET_TOKEN":@"ACTION_HS6_GET_TOKEN",
+             @"GET_TOKEN_RESULT":@"GET_TOKEN_RESULT",
+             
+             @"ACTION_HS6_SET_UNIT":@"ACTION_HS6_SET_UNIT",
+             @"SET_UNIT_RESULT":@"SET_UNIT_RESULT",
+             
+             @"ACTION_HS6_ERROR":@"ACTION_HS6_ERROR",
+             @"HS6_ERROR":@"HS6_ERROR",
              
              
              };

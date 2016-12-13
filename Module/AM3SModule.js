@@ -727,12 +727,12 @@ module.exports = {
      * @param {string} mac Device's mac address
      * @param {number} hourMode The value should be one of following:
      *                 <ul>
-     *                 <li>AMProfileModule.AM_SET_12_HOUR_MODE</li>
-     *                 <li>AMProfileModule.AM_SET_24_HOUR_MODE</li>
-     *                 <li>AMProfileModule.AM_SET_EXCEPT_EUROPE_12_HOUR_MODE</li>
-     *                 <li>AMProfileModule.AM_SET_EUROPE_12_HOUR_MODE</li>
-     *                 <li>AMProfileModule.AM_SET_EXCEPT_EUROPE_24_HOUR_MODE</li>
-     *                 <li>AMProfileModule.AM_SET_EUROPE_24_HOUR_MODE</li>
+     *                 <li>{@link module:AMProfileModule.AM_SET_12_HOUR_MODE AMProfileModule.AM_SET_12_HOUR_MODE(0)}</li>
+     *                 <li>{@link module:AMProfileModule.AM_SET_24_HOUR_MODE AMProfileModule.AM_SET_24_HOUR_MODE(1)}</li>
+     *                 <li>{@link module:AMProfileModule.AM_SET_EXCEPT_EUROPE_12_HOUR_MODE AMProfileModule.AM_SET_EXCEPT_EUROPE_12_HOUR_MODE(2)}</li>
+     *                 <li>{@link module:AMProfileModule.AM_SET_EUROPE_12_HOUR_MODE AMProfileModule.AM_SET_EUROPE_12_HOUR_MODE(3)}</li>
+     *                 <li>{@link module:AMProfileModule.AM_SET_EXCEPT_EUROPE_24_HOUR_MODE AMProfileModule.AM_SET_EXCEPT_EUROPE_24_HOUR_MODE(4)}</li>
+     *                 <li>{@link module:AMProfileModule.AM_SET_EUROPE_24_HOUR_MODE AMProfileModule.AM_SET_EUROPE_24_HOUR_MODE(5)}</li>
      *                 </ul>
      */
     setHourMode: function (mac, hourMode) {
@@ -823,14 +823,14 @@ module.exports = {
      * @param {number} gender User's gender<br/>
      *                      <b>Value:</b>
      *                      <ul>
-     *                      <li>AMProfileModule.AM_SET_FEMALE</li>
-     *                      <li>AMProfileModule.AM_SET_MALE</li>
+     *                      <li>{@link module:AMProfileModule.AM_SET_FEMALE AMProfileModule.AM_SET_FEMALE(0)}</li>
+     *                      <li>{@link module:AMProfileModule.AM_SET_MALE AMProfileModule.AM_SET_MALE(1)}</li>
      *                      </ul>
      * @param {number} unit Distance's unit type(kilometre or miles)<br/>
      *                      <b>Value:</b>
      *                      <ul>
-     *                      <li>AMProfileModule.AM_SET_UNIT_IMPERIAL_STANDARD (miles)</li>
-     *                      <li>AMProfileModule.AM_SET_UNIT_METRIC (kilometre)</li>
+     *                      <li>{@link module:AMProfileModule.AM_SET_UNIT_IMPERIAL_STANDARD AMProfileModule.AM_SET_UNIT_IMPERIAL_STANDARD(0)} (miles)</li>
+     *                      <li>{@link module:AMProfileModule.AM_SET_UNIT_METRIC AMProfileModule.AM_SET_UNIT_METRIC(1)} (kilometre)</li>
      *                      </ul>
      * @param {number} target The goal of maximum steps<br/>
      *                      <b>Range:</b> [4, 65535(0xFFFF)]

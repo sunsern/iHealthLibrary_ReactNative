@@ -19,6 +19,7 @@
 		187510341DE5E439005E66B1 /* AM3SModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 187510331DE5E439005E66B1 /* AM3SModule.m */; };
 		AF1B3F141DF9482100DFDB23 /* HS4SModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1B3F111DF9482100DFDB23 /* HS4SModule.m */; };
 		AF1B3F151DF9482100DFDB23 /* HSProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1B3F131DF9482100DFDB23 /* HSProfileModule.m */; };
+		AF1B3F3A1DFE72BD00DFDB23 /* HS6Module.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1B3F391DFE72BD00DFDB23 /* HS6Module.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -132,6 +133,8 @@
 		AF1B3F111DF9482100DFDB23 /* HS4SModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HS4SModule.m; sourceTree = "<group>"; };
 		AF1B3F121DF9482100DFDB23 /* HSProfileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSProfileModule.h; sourceTree = "<group>"; };
 		AF1B3F131DF9482100DFDB23 /* HSProfileModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSProfileModule.m; sourceTree = "<group>"; };
+		AF1B3F381DFE72BD00DFDB23 /* HS6Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HS6Module.h; sourceTree = "<group>"; };
+		AF1B3F391DFE72BD00DFDB23 /* HS6Module.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HS6Module.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +170,8 @@
 			children = (
 				AF1B3F101DF9482100DFDB23 /* HS4SModule.h */,
 				AF1B3F111DF9482100DFDB23 /* HS4SModule.m */,
+				AF1B3F381DFE72BD00DFDB23 /* HS6Module.h */,
+				AF1B3F391DFE72BD00DFDB23 /* HS6Module.m */,
 				AF1B3F121DF9482100DFDB23 /* HSProfileModule.h */,
 				AF1B3F131DF9482100DFDB23 /* HSProfileModule.m */,
 				182D02891DE57A2F00E9B783 /* iHealthDeviceManagerModule.h */,
@@ -343,6 +348,7 @@
 				187510221DE5E399005E66B1 /* BP550BTModule.m in Sources */,
 				187510341DE5E439005E66B1 /* AM3SModule.m in Sources */,
 				AF1B3F141DF9482100DFDB23 /* HS4SModule.m in Sources */,
+				AF1B3F3A1DFE72BD00DFDB23 /* HS6Module.m in Sources */,
 				187510311DE5E424005E66B1 /* AM4Module.m in Sources */,
 				187510281DE5E3E3005E66B1 /* BP5Module.m in Sources */,
 			);
