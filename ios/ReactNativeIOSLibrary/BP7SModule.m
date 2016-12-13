@@ -111,9 +111,26 @@ RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
             NSLog(@"pregress %@",pregress);
         } dataArray:^(NSArray *array) {
             NSLog(@"dataArray %@",array);
+            NSMutableArray* historyDataArray = [NSMutableArray array];
+            for (NSDictionary* dataDict in array) {
+                if ([dataDict isKindOfClass:[NSDictionary class]]) {
+                    NSDictionary* historyDataDict = @{
+                                                      kHISTORICAL_DATA_BP:dataDict[@"time"],
+                                                      kHIGH_BLOOD_PRESSURE_BP:dataDict[@"sys"],
+                                                      kLOW_BLOOD_PRESSURE_BP:dataDict[@"dia"],
+                                                      kPULSE_BP:dataDict[@"heartRate"],
+                                                      kMEASUREMENT_AHR_BP:dataDict[@"irregular"],
+                                                      kMEASUREMENT_HSD_BP:dataDict[@"hsdValue"],
+                                                      kMEASUREMENT_ANGLE_CHANGE_BP:dataDict[@"measureAngleChange"],
+                                                      kMEASUREMENT_HAND_BP:dataDict[@"chooseHand"],
+                                                      kDATAID:dataDict[@"dataID"]
+                                                      };
+                    [historyDataArray addObject:historyDataDict];
+                }
+            }
             NSDictionary* response = @{
                                        kACTION:kACTION_HISTORICAL_DATA_BP,
-                                       kHISTORICAL_DATA_BP:array,
+                                       kHISTORICAL_DATA_BP:[historyDataArray copy]
                                        };
             [self sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
