@@ -48,8 +48,9 @@ class MainView extends Component {
         };
         AsyncStorage.getItem(STORAGE_KEY_DISCOVERY_TYPE, (err, type)=> {
             if (err == null) {
+                let typNum = parseInt(type)
                 this.setState({
-                    type: parseInt(type)
+                    type: isNaN(typNum) ? type : typNum
                 })
             }
         })
