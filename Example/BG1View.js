@@ -1,6 +1,3 @@
-/**
- * Created by zhangxu on 16/11/11.
- */
 import React, {Component, PropTypes} from 'react';
 import {
     View,
@@ -121,7 +118,7 @@ export default class BG1View extends Component {
 
         this.notifyListener = DeviceEventEmitter.addListener(BG1Module.Event_Notify, function (e: Event) {
 
-            console.info('BG1View', 'Event_Notify',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
+            console.info('BG1View', BG1Module.Event_Notify ,'Action = ' +  e.action , 'Message =' + JSON.stringify(e));
             
             if(e.action===BG1ProfileModule.ACTION_BG1_SENDCODE_RESULT) {
                 console.info(JSON.stringify(e));
@@ -153,11 +150,6 @@ export default class BG1View extends Component {
         }
     }
 
-    // _connect() {
-    //     console.info('----------------------------connect bg1 device------------------------------')
-    //     BG1Module.connect();
-    // }
-
     _sendCode() {
         BG1Module.sendCode(this.state.QRCode);
     }
@@ -165,11 +157,6 @@ export default class BG1View extends Component {
     _getBottleInfoFromQR() {
        BG1Module.getBottleInfoFromQR(this.state.QRCode);
     }
-
-    // _disconnect() {
-    //     console.info('----------------------------disconnect bg1 device------------------------------')
-    //     BG1Module.disconnect();
-    // }
 
 
     render() {
