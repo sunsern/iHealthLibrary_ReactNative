@@ -115,7 +115,7 @@ RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
             for (NSDictionary* dataDict in array) {
                 if ([dataDict isKindOfClass:[NSDictionary class]]) {
                     NSDictionary* historyDataDict = @{
-                                                      kHISTORICAL_DATA_BP:dataDict[@"time"],
+                                                      kMEASUREMENT_DATE_BP:dataDict[@"time"],
                                                       kHIGH_BLOOD_PRESSURE_BP:dataDict[@"sys"],
                                                       kLOW_BLOOD_PRESSURE_BP:dataDict[@"dia"],
                                                       kPULSE_BP:dataDict[@"heartRate"],
