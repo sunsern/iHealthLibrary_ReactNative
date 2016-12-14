@@ -116,7 +116,7 @@ module.exports = {
      * Returns the message Key corresponding relation:<br/>
      * <ul>
      * <li>
-     * PI_PO ----> "pi".<br/>
+     * BIND_HS6_RESULT ----> "bindResult".<br/>
      * </li>
      * </ul>
      * <b>1 bind success; 2 the scale has no empty position ;3 bind fail</b>
