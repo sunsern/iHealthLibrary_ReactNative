@@ -9,6 +9,34 @@ import {
 
 /**
  * Created by Jeepend on 13/12/2016.
+ * AlertDialog for you, you only need to implement the <b>following 2 methods</b>:
+ * <ul>
+ * <li>getView(), you need to return a renderable component to be rendered as the content view of the dialog.</li>
+ * <li>onClick(index), this callback method will be called when you click the buttons of the dialog, index will be 0 if you click left button, 1 if right.</li>
+ * </ul>
+ * When you want to show/hide the dialog, you should call <b> this method:</b>
+ * <ul>
+ * <li>setModalVisible(visible), pass true if you want to show the dialog, false to hide it.</li>
+ * </ul>
+ * <b>Example:</b>
+ * &lt;AlertDialog
+ * &nbsp; &nbsp; ref="dialog"
+ * &nbsp; &nbsp; title="Select Type"
+ * &nbsp; &nbsp; leftButtonText="Cancel"
+ * &nbsp; &nbsp; rightButtonText="Confirm"
+ * &nbsp; &nbsp; getView={() =&gt; {
+ * &nbsp; &nbsp; &nbsp; &nbsp; return (
+ * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;Text&gt;This is content of the dialog.&lt;/Text&gt;
+ * &nbsp; &nbsp; &nbsp; &nbsp; )
+ * &nbsp; &nbsp; }}
+ * &nbsp; &nbsp; onClick={(index) =&gt; {
+ * &nbsp; &nbsp; &nbsp; &nbsp; if (index == 0) {
+ * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; console.warn("Left button clicked!")
+ * &nbsp; &nbsp; &nbsp; &nbsp; } else if (index == 1) {
+ * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; console.warn("Right button clicked!")
+ * &nbsp; &nbsp; &nbsp; &nbsp; }
+ * &nbsp; &nbsp; }}
+ * /&gt;
  */
 export class AlertDialog extends Component {
     BUTTON_INDEX_LEFT = 0
@@ -37,77 +65,49 @@ export class AlertDialog extends Component {
     }
 
     render() {
-        var Platform = require('Platform');
-        if (Platform.OS === 'android') {
-            return (
-                <Modal
-                    style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}
-                    animationType={"slide"}
-                    transparent={true}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        this.setState({
-                            modalVisible: false
-                        })
-                    }}>
-                    <View style={styles.modalStyle}>
-                        <View style={styles.subView}>
-                            <Text style={styles.titleText}>{this.props.title}</Text>
-                            {this.props.getView()}
-                            <View style={styles.horizontalLine}/>
-                            <View style={styles.buttonView}>
-                                <TouchableOpacity underlayColor='transparent'
-                                                  style={styles.buttonStyle}
-                                                  onPress={this.onLeftButtonClick.bind(this)}>
-                                    <Text style={styles.buttonText}>{this.props.leftButtonText}</Text>
-                                </TouchableOpacity>
-                                <View style={styles.verticalLine}/>
-                                <TouchableOpacity underlayColor='transparent'
-                                                  style={styles.buttonStyle}
-                                                  onPress={this.onRightButtonClick.bind(this)}>
-                                    <Text style={styles.buttonText}>{this.props.rightButtonText}</Text>
-                                </TouchableOpacity>
-                            </View>
+        return (
+            <Modal
+                style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}
+                animationType={"slide"}
+                transparent={true}
+                visible={this.state.modalVisible}
+                onRequestClose={() => {
+                    this.setState({
+                        modalVisible: false
+                    })
+                }}>
+                <View style={styles.modalStyle}>
+                    <View style={styles.subView}>
+                        <Text style={styles.titleText}>{this.props.title}</Text>
+                        {this.props.getView()}
+                        {this.getHorizontalLine()}
+                        <View style={styles.buttonView}>
+                            <TouchableOpacity underlayColor='transparent'
+                                              style={styles.buttonStyle}
+                                              onPress={this.onLeftButtonClick.bind(this)}>
+                                <Text style={styles.buttonText}>{this.props.leftButtonText}</Text>
+                            </TouchableOpacity>
+                            <View style={styles.verticalLine}/>
+                            <TouchableOpacity underlayColor='transparent'
+                                              style={styles.buttonStyle}
+                                              onPress={this.onRightButtonClick.bind(this)}>
+                                <Text style={styles.buttonText}>{this.props.rightButtonText}</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
-                </Modal>
-            )
-        } else {
-            return (
-                <Modal
-                    style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}
-                    animationType={"slide"}
-                    transparent={true}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        this.setState({
-                            modalVisible: false
-                        })
-                    }}>
-                    <View style={styles.modalStyle}>
-                        <View style={styles.subView}>
-                            <Text style={styles.titleText}>{this.props.title}</Text>
-                            {this.props.getView()}
-                            <View style={styles.horizontalLineIOS}/>
-                            <View style={styles.buttonView}>
-                                <TouchableOpacity underlayColor='transparent'
-                                                  style={styles.buttonStyle}
-                                                  onPress={this.onLeftButtonClick.bind(this)}>
-                                    <Text style={styles.buttonText}>{this.props.leftButtonText}</Text>
-                                </TouchableOpacity>
-                                <View style={styles.verticalLine}/>
-                                <TouchableOpacity underlayColor='transparent'
-                                                  style={styles.buttonStyle}
-                                                  onPress={this.onRightButtonClick.bind(this)}>
-                                    <Text style={styles.buttonText}>{this.props.rightButtonText}</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
-            )
-        }
+                </View>
+            </Modal>
+        )
 
+    }
+
+    getHorizontalLine() {
+        let Platform = require('Platform')
+        if (Platform.OS === 'android') {
+            return (<View style={styles.horizontalLine}/>)
+        } else {
+            return (<View style={styles.horizontalLineIOS}/>)
+        }
     }
 }
 ;
