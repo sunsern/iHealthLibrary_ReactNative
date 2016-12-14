@@ -80,7 +80,17 @@ export class AlertDialog extends Component {
                     <View style={styles.subView}>
                         <Text style={styles.titleText}>{this.props.title}</Text>
                         {this.props.getView()}
-                        {this.getHorizontalLine()}
+                        {
+                            // Immediately Invoked Function Expression format
+                            (() => {
+                                let Platform = require('Platform')
+                                if (Platform.OS === 'android') {
+                                    return (<View style={styles.horizontalLine}/>)
+                                } else {
+                                    return (<View style={styles.horizontalLineIOS}/>)
+                                }
+                            })()
+                        }
                         <View style={styles.buttonView}>
                             <TouchableOpacity underlayColor='transparent'
                                               style={styles.buttonStyle}
@@ -99,15 +109,6 @@ export class AlertDialog extends Component {
             </Modal>
         )
 
-    }
-
-    getHorizontalLine() {
-        let Platform = require('Platform')
-        if (Platform.OS === 'android') {
-            return (<View style={styles.horizontalLine}/>)
-        } else {
-            return (<View style={styles.horizontalLineIOS}/>)
-        }
     }
 }
 ;
