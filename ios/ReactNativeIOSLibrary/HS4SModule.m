@@ -63,7 +63,7 @@ RCT_EXPORT_MODULE()
 #pragma mark
 #pragma mark - Method
 
-RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString*)mac :(nonnull int*)unit :(nonnull int*)userId){
+RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString*)mac :(nonnull NSNumber*)unit :(nonnull NSNumber*)userId){
     if ([self getHS4WithMac:mac] != nil) {
         HealthUser* healthUser = [[HealthUser alloc] init];
         healthUser.userID = [iHealthDeviceManagerModule autherizedUserID];
@@ -81,7 +81,7 @@ RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString*)mac :(nonnull int*)unit :(no
              [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } MemorryData:^(NSArray *historyDataArray) {
-            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_HISTORICAL_DATA_HS",@"historyArray":[NSArray arrayWithObjects:historyDataArray, nil]};
+            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_HISTORICAL_DATA_HS",@"HISTORYDATA__HS":[NSArray arrayWithObjects:historyDataArray, nil]};
             
              [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
@@ -113,11 +113,11 @@ RCT_EXPORT_METHOD(measuereOnline:(nonnull NSString*)mac){
             }
             
         } Weight:^(NSNumber *unStableWeight) {
-            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_LIVEDATA_HS",@"UnstableWeight":[NSNumber numberWithInteger:unStableWeight]};
+            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_LIVEDATA_HS",@"LIVEDATA_HS":[NSNumber numberWithInteger:unStableWeight]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } StableWeight:^(NSDictionary *StableWeightDic) {
-            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_ONLINE_RESULT_HS",@"stableWeight":[NSDictionary dictionaryWithObjectsAndKeys:StableWeightDic, nil]};
+            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_ONLINE_RESULT_HS",@"WEIGHT_HS":[NSDictionary dictionaryWithObjectsAndKeys:StableWeightDic, nil]};
             
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             

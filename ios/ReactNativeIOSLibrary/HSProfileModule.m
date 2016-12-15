@@ -37,6 +37,10 @@ RCT_EXPORT_MODULE()
              @"ACTION_NO_HISTORICALDATA" : @"ACTION_NO_HISTORICALDATA",
              
              @"ACTION_ERROR_HS" : @"ACTION_ERROR_HS",
+             @"ERROR_NUM_HS" : @"ERROR_NUM_HS",
+             @"ERROR_ID_ILLEGAL_ARGUMENT" : @"ERROR_ID_ILLEGAL_ARGUMENT",
+             @"ERROR_ID_WIFI_DISABLED" : @"ERROR_ID_WIFI_DISABLED",
+             @"ERROR_DESCRIPTION_HS" : @"ERROR_DESCRIPTION_HS",
              
            //HS6
              @"ACTION_HS6_SETWIFI":@"ACTION_HS6_SETWIFI",
