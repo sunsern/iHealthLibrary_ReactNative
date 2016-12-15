@@ -11,6 +11,9 @@
 #import "BPMacroFile.h"
 #import "BP3LController.h"
 #import "BP3L.h"
+
+#define EVENT_NOTIFY @"BP3L.MODULE.NOTIFY"
+
 @implementation BP3LModule
 @synthesize bridge = _bridge;
 RCT_EXPORT_MODULE()
@@ -18,7 +21,7 @@ RCT_EXPORT_MODULE()
 - (NSDictionary *)constantsToExport
 {
     return @{
-             @"Event_Notify":@"BP3L.MODULE.NOTIFY",
+             @"Event_Notify":EVENT_NOTIFY,
              
              };
 }
@@ -160,7 +163,7 @@ RCT_EXPORT_METHOD(disconnect:(nonnull NSString *)mac){
 }
 
 - (void)sendEventWithDict:(NSDictionary*)dict{
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"BP3L.MODULE.NOTIFY"  body:dict];
+    [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:dict];
 }
 
 @end

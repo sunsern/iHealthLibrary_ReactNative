@@ -12,6 +12,8 @@
 #import "AM4Controller.h"
 #import "AM4.h"
 
+#define EVENT_NOTIFY @"event_notify_am4"
+
 @implementation AM4Module
 @synthesize bridge = _bridge;
 

@@ -11,6 +11,9 @@
 #import "AMMacroFile.h"
 #import "AM3SController_V2.h"
 #import "AM3S_V2.h"
+
+#define EVENT_NOTIFY @"event_notify_am3s"
+
 @implementation AM3SModule
 @synthesize bridge = _bridge;
 

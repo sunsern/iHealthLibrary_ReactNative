@@ -11,8 +11,6 @@
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
 
-#define EVENT_NOTIFY @"event_notify_am4"
-
 @interface AM4Module : NSObject<RCTBridgeModule>
 
 @end

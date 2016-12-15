@@ -11,6 +11,9 @@
 #import "BPMacroFile.h"
 #import "BP7SController.h"
 #import "BP7S.h"
+
+#define EVENT_NOTIFY @"BP7S.MODULE.NOTIFY"
+
 @implementation BP7SModule
 @synthesize bridge = _bridge;
 RCT_EXPORT_MODULE()
@@ -18,7 +21,7 @@ RCT_EXPORT_MODULE()
 - (NSDictionary *)constantsToExport
 {
     return @{
-             @"Event_Notify":@"BP7S.MODULE.NOTIFY",
+             @"Event_Notify":EVENT_NOTIFY,
              
              };
 }
@@ -170,7 +173,9 @@ RCT_EXPORT_METHOD(getBattery:(nonnull NSString *)mac){
 RCT_EXPORT_METHOD(setUnit:(nonnull NSString *)mac unit:(nonnull NSNumber*)unit){
     
     if ([self getDeviceWithMac:mac]!=nil) {
-        [[self getDeviceWithMac:mac] commandSetUnit:[unit integerValue] > 0 ? @"kPa" : @"mmHg" errorBlock:^(BPDeviceError error) {
+        [[self getDeviceWithMac:mac] commandSetUnit:[unit integerValue] > 0 ? @"kPa" : @"mmHg" disposeSetReslut:^{
+            
+        } errorBlock:^(BPDeviceError error) {
             NSLog(@"error %d",error);
             [self sendErrorWithCode:error];
         }];
@@ -191,7 +196,10 @@ RCT_EXPORT_METHOD(angleSet:(nonnull NSString *)mac hl:(nonnull NSNumber*)hl ll:(
                                @"highAngleForRight":hr,
                                @"lowAngleForRight":lr
                                };
-        [[self getDeviceWithMac:mac] commandSetAngle:dict errorBlock:^(BPDeviceError error) {
+
+        [[self getDeviceWithMac:mac] commandSetAngle:dict disposeSetReslut:^{
+            
+        } errorBlock:^(BPDeviceError error) {
             NSLog(@"error %d",error);
             [self sendErrorWithCode:error];
         }];
@@ -220,7 +228,7 @@ RCT_EXPORT_METHOD(disconnect:(nonnull NSString *)mac){
 }
 
 - (void)sendEventWithDict:(NSDictionary*)dict{
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"BP7S.MODULE.NOTIFY"  body:dict];
+    [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:dict];
 }
 
 
