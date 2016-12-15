@@ -10,6 +10,10 @@ import com.ihealth.communication.control.Bg1Control;
 import com.ihealth.communication.control.Bg1Profile;
 import com.ihealth.communication.utils.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,9 +61,28 @@ public class BG1Module extends iHealthBaseModule {
     public void getBottleInfoFromQR(String QRCode) {
         String result = Bg1Control.getBottleInfoFromQR(QRCode);
         Log.v(TAG, "code info = " + result);
+
+        JSONObject resultJsonStr = new JSONObject();
+
+        try {
+            JSONArray jsonArray = new JSONObject(result).getJSONArray("bottleInfo");
+            resultJsonStr.put("strip_num", ((JSONObject) jsonArray.get(0)).getString("stripNum"));
+            resultJsonStr.put("expire_time", ((JSONObject) jsonArray.get(0)).getString("overDate"));
+            resultJsonStr.put("bottle_id", ((JSONObject) jsonArray.get(0)).getString("bottleId"));
+
+        } catch (JSONException e) {
+            try {
+                resultJsonStr.put("description","QRCode format error");
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+
         WritableMap params = Arguments.createMap();
-        if (!TextUtils.isEmpty(result)) {
-            Utils.jsonToMap(result, params);
+        params.putString("action", "action_code_analysis");
+        if (!TextUtils.isEmpty(resultJsonStr.toString())) {
+            Utils.jsonToMap(resultJsonStr.toString(), params);
         }
         sendEvent(EVENT_NOTIFY, params);
     }
@@ -84,7 +107,7 @@ public class BG1Module extends iHealthBaseModule {
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
-        constants.put("Event_Notify",EVENT_NOTIFY);
+        constants.put("Event_Notify", EVENT_NOTIFY);
 
         return constants;
     }

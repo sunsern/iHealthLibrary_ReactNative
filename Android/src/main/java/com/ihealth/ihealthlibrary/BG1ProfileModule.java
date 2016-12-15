@@ -112,6 +112,28 @@ public class BG1ProfileModule extends ReactContextBaseJavaModule {
      */
     private static final String DATA_ID = "DATA_ID";
 
+    /**
+     * Callback indicating the code analysis result.
+     */
+    private static final String ACTION_CODE_ANALYSIS = "ACTION_CODE_ANALYSIS";
+
+
+    /**
+     * the strip number
+     */
+    private static final String STRIP_NUM_BG = "STRIP_NUM_BG";
+
+
+    /**
+     * the expire time
+     */
+    private static final String STRIP_EXPIRETIME_BG = "DATA_ID";
+
+
+    /**
+     * the bottle id
+     */
+    private static final String BOTTLEID_BG = "BOTTLEID_BG";
 
     /**
      * @return the name of this module. This will be the name used to {@code require()} this module
@@ -144,6 +166,10 @@ public class BG1ProfileModule extends ReactContextBaseJavaModule {
         constants.put(ACTION_BG1_MEASURE_STRIP_OUT, Bg1Profile.ACTION_BG1_MEASURE_STRIP_OUT);
         constants.put(ACTION_BG1_MEASURE_STANDBY, Bg1Profile.ACTION_BG1_MEASURE_STANDBY);
         constants.put(DATA_ID, Bg1Profile.DATA_ID);
+        constants.put(ACTION_CODE_ANALYSIS, "action_code_analysis");
+        constants.put(STRIP_NUM_BG, "strip_num");
+        constants.put(STRIP_EXPIRETIME_BG, "expire_time");
+        constants.put(BOTTLEID_BG, "bottle_id");
         return constants;
     }
 }
