@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "RCTBridgeModule.h"
 
-@interface HSProfileModule : NSObject
+@interface HSProfileModule : NSObject<RCTBridgeModule>
 
 @end
