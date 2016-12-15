@@ -7,8 +7,11 @@
 //
 
 #import "AMProfileModule.h"
-
+                
 @implementation AMProfileModule
+
+RCT_EXPORT_MODULE()
+
 #pragma mark
 #pragma mark - constantsToExport
 
@@ -55,7 +58,6 @@
              @"ACTION_CLOUD_UNBINDING_AM_FAIL":@"cloud_unbind_am_fail",
              @"ACTION_CLOUD_SEARCH_AM":@"cloud_search_am",
              @"ACTION_CLOUD_SEARCH_FAIL_AM":@"cloud_search_fail",
-             
             
              
              
@@ -147,26 +149,22 @@
              @"GET_PICTURE_AM":@"get_picture_am",
 
              
-             @"AM_SWITCH_OPEN":@"AM_SWITCH_OPEN",
-             @"AM_SWITCH_CLOSE":@"AM_SWITCH_CLOSE",
-             @"AM_SWITCH_REPEAT":@"AM_SWITCH_REPEAT",
-             @"AM_SEITCH_NOT_REPEAT":@"AM_SEITCH_NOT_REPEAT",
-             @"AM_SET_MALE":@"AM_SET_MALE",
-             @"AM_SET_FEMALE":@"AM_SET_FEMALE",
-             @"AM_SET_UNIT_METRIC":@"AM_SET_UNIT_METRIC",
-             @"AM_SET_UNIT_IMPERIAL_STANDARD":@"AM_SET_UNIT_IMPERIAL_STANDARD",
-             @"AM_SET_12_HOUR_MODE":@"AM_SET_12_HOUR_MODE",
-             @"AM_SET_24_HOUR_MODE":@"AM_SET_24_HOUR_MODE",
-             @"AM_SET_EUROPE_12_HOUR_MODE":@"AM_SET_EUROPE_12_HOUR_MODE",
-             @"AM_SET_EUROPE_24_HOUR_MODE":@"AM_SET_EUROPE_24_HOUR_MODE",
-             @"AM_SET_EXCEPT_EUROPE_12_HOUR_MODE":@"AM_SET_EXCEPT_EUROPE_12_HOUR_MODE",
-             @"AM_SET_EXCEPT_EUROPE_24_HOUR_MODE":@"AM_SET_EXCEPT_EUROPE_24_HOUR_MODE",
+        
+             @"AM_SET_MALE":@1,
+             @"AM_SET_FEMALE":@0,
+             @"AM_SET_UNIT_METRIC":@1,
+             @"AM_SET_UNIT_IMPERIAL_STANDARD":@0,
+             @"AM_SET_12_HOUR_MODE":@0,
+             @"AM_SET_24_HOUR_MODE":@1,
+             @"AM_SET_EUROPE_12_HOUR_MODE":@3,
+             @"AM_SET_EUROPE_24_HOUR_MODE":@5,
+             @"AM_SET_EXCEPT_EUROPE_12_HOUR_MODE":@2,
+             @"AM_SET_EXCEPT_EUROPE_24_HOUR_MODE":@4,
              @"GET_HOUR_MODE_AM":@"hourtype",
-             @"AM_DEVICE_MODE_SLEEP":@"AM_DEVICE_MODE_SLEEP",
-             @"AM_DEVICE_MODE_ACTIVITY":@"AM_DEVICE_MODE_ACTIVITY",
-             @"AM_DEVICE_MODE_FLIGHT":@"AM_DEVICE_MODE_FLIGHT",
-             @"AM_DEVICE_MODE_DRIVING":@"AM_DEVICE_MODE_DRIVING",
-             @"CLOUD_SEARCH_AM":@"CLOUD_SEARCH_AM",
+             @"AM_DEVICE_MODE_SLEEP":@0,
+             @"AM_DEVICE_MODE_ACTIVITY":@1,
+             @"AM_DEVICE_MODE_FLIGHT":@2,
+             @"AM_DEVICE_MODE_DRIVING":@3,
              };
 };
 

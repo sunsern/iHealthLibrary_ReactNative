@@ -8,7 +8,7 @@ var RCTModule = NativeModules.BG1ProfileModule
 /**
  * @module BG1ProfileModule
  */
-var BG1ProfileModule = {
+module.exports = {
     /**
      * Callback indicating the send code result of bg1 device.
      * <ul>
@@ -108,5 +108,3 @@ var BG1ProfileModule = {
     
 
 }
-
-module.exports = BG1ProfileModule

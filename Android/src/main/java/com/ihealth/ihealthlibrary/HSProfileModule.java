@@ -37,6 +37,10 @@ public class HSProfileModule extends ReactContextBaseJavaModule {
     private static final String ACTION_NO_HISTORICALDATA = "ACTION_NO_HISTORICALDATA";
 
     private static final String ACTION_ERROR_HS = "ACTION_ERROR_HS";
+    private static final String ERROR_NUM_HS = "ERROR_NUM_HS";
+    private static final String ERROR_ID_ILLEGAL_ARGUMENT = "ERROR_ID_ILLEGAL_ARGUMENT";
+    private static final String ERROR_ID_WIFI_DISABLED = "ERROR_ID_WIFI_DISABLED";
+    private static final String ERROR_DESCRIPTION_HS = "ERROR_DESCRIPTION_HS";
 
     public HSProfileModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -71,6 +75,10 @@ public class HSProfileModule extends ReactContextBaseJavaModule {
         constants.put(ACTION_NO_HISTORICALDATA, HsProfile.ACTION_NO_HISTORICALDATA);
 
         constants.put(ACTION_ERROR_HS, HsProfile.ACTION_ERROR_HS);
+        constants.put(ERROR_NUM_HS, HsProfile.ERROR_NUM_HS);
+        constants.put(ERROR_ID_ILLEGAL_ARGUMENT, HsProfile.ERROR_ID_ILLEGAL_ARGUMENT);
+        constants.put(ERROR_ID_WIFI_DISABLED, HsProfile.ERROR_ID_WIFI_DISABLED);
+        constants.put(ERROR_DESCRIPTION_HS, HsProfile.ERROR_DESCRIPTION_HS);
 
         return constants;
     }

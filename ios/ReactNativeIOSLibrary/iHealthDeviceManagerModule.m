@@ -59,7 +59,7 @@ RCT_EXPORT_MODULE()
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BP5ConnectNoti object:nil];
        
         [AM3Controller shareIHAM3Controller];
-        [AM3SController shareIHAM3SController];
+        [AM3SController_V2 shareIHAM3SController];
         [AM4Controller shareIHAM4Controller];
         [BP3LController shareBP3LController];
         

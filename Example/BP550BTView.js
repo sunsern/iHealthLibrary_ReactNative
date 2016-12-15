@@ -214,7 +214,7 @@ export default class BP550BTView extends Component {
                     for (let i = 0; i < dataArray.length; i++) {
                         let offlineData = dataArray[i];
 
-                        let time = offlineData[BPProfileModule.HISTORICAL_DATA_BP];
+                        let time = offlineData[BPProfileModule.MEASUREMENT_DATE_BP];
                         let sys = offlineData[BPProfileModule.HIGH_BLOOD_PRESSURE_BP];
                         let dia = offlineData[BPProfileModule.LOW_BLOOD_PRESSURE_BP];
                         let heartRate = offlineData[BPProfileModule.PULSE_BP];
@@ -241,7 +241,7 @@ export default class BP550BTView extends Component {
                 let armMeasureFlg = e[BPProfileModule.FUNCTION_IS_ARM_MEASURE];
                 let haveAngleSensor = e[BPProfileModule.FUNCTION_HAVE_ANGLE_SENSOR];
                 let haveOffline = e[BPProfileModule.FUNCTION_HAVE_OFFLINE];
-                let haveHSD = e[BPProfileModule.FUNCTION_IS_UPAIR_MEASURE];
+                let haveHSD = e[BPProfileModule.FUNCTION_HAVE_HSD];
                 let haveAngleSet = e[BPProfileModule.FUNCTION_HAVE_ANGLE_SETTING];
                 let mutableUpload = e[BPProfileModule.FUNCTION_IS_MULTI_UPLOAD];
                 let selfUpdate = e[BPProfileModule.FUNCTION_HAVE_SELF_UPDATE];

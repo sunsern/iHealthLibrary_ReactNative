@@ -37,9 +37,9 @@ RCT_EXPORT_MODULE()
              @"ACTION_SET_ANGLE_SUCCESS_BP":kACTION_SET_ANGLE_SUCCESS_BP,
              @"ACTION_INTERRUPTED_BP":kACTION_INTERRUPTED_BP,
              
-             @"Action_enableOffline":@"Action_enableOffline",
-             @"Action_disEnableOffline":@"Action_disEnableOffline",
-             @"Action_is_enable_offline":@"Action_is_enable_offline",
+             @"ACTION_ENABLE_OFFLINE_BP":kACTION_ENABLE_OFFLINE_BP,
+             @"ACTION_DISENABLE_OFFLINE_BP":kACTION_DISENABLE_OFFLINE_BP,
+             @"ACTION_IS_ENABLE_OFFLINE":kACTION_IS_ENABLE_OFFLINE,
              
              @"ERROR_NUM_BP":kERROR_NUM_BP,
              @"BATTERY_BP":kBATTERY_BP,
@@ -49,9 +49,14 @@ RCT_EXPORT_MODULE()
              @"HIGH_BLOOD_PRESSURE_BP":kHIGH_BLOOD_PRESSURE_BP,
              @"LOW_BLOOD_PRESSURE_BP":kLOW_BLOOD_PRESSURE_BP,
              @"PULSE_BP":kPULSE_BP,
+             @"MEASUREMENT_DATE_BP":kMEASUREMENT_DATE_BP,
              @"MEASUREMENT_AHR_BP":kMEASUREMENT_AHR_BP,
              @"MEASUREMENT_HSD_BP":kMEASUREMENT_HSD_BP,
+             @"MEASUREMENT_STRAT_ANGLE_BP":kMEASUREMENT_STRAT_ANGLE_BP,
+             @"MEASUREMENT_ANGLE_CHANGE_BP":kMEASUREMENT_ANGLE_CHANGE_BP,
+             @"MEASUREMENT_HAND_BP":kMEASUREMENT_HAND_BP,
              @"DATAID":kDATAID,
+             @"IS_ENABLE_OFFLINE":kIS_ENABLE_OFFLINE,
              
              @"HISTORICAL_NUM_BP":kHISTORICAL_NUM_BP,
              @"HISTORICAL_DATA_BP":kHISTORICAL_DATA_BP,
@@ -63,6 +68,7 @@ RCT_EXPORT_MODULE()
              @"FUNCTION_HAVE_ANGLE_SETTING":kFUNCTION_HAVE_ANGLE_SETTING,
              @"FUNCTION_IS_MULTI_UPLOAD":kFUNCTION_IS_MULTI_UPLOAD,
              @"FUNCTION_HAVE_SELF_UPDATE":kFUNCTION_HAVE_SELF_UPDATE,
+             @"FUNCTION_HAVE_HSD":kFUNCTION_HAVE_HSD
              };
 };
 

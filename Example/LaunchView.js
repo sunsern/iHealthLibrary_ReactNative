@@ -9,7 +9,8 @@ import {
     ListView,
     DeviceEventEmitter,
     TouchableHighlight,
-    Picker
+    Picker,
+    AsyncStorage
 
 } from 'react-native';
 
@@ -18,6 +19,10 @@ import BP5View from './BP5View';
 import {
     SimpleListView
 } from './SimpleListView';
+
+import {
+    AlertDialog
+} from './AlertDialog';
 
 import AMView from './AMView';
 import BP3LView from './BP3LView';
@@ -32,16 +37,23 @@ import {
     iHealthDeviceManagerModule
 } from 'ihealthlibrary-react-native'
 
-
+var STORAGE_KEY_DISCOVERY_TYPE = '@iHealthReactNative:keyDiscoveryType';
 class MainView extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             type: iHealthDeviceManagerModule.BP5,
             pickerEnabled: true,
             scanStatus: false
         };
+        AsyncStorage.getItem(STORAGE_KEY_DISCOVERY_TYPE, (err, type)=> {
+            if (err == null) {
+                let typNum = parseInt(type)
+                this.setState({
+                    type: isNaN(typNum) ? type : typNum
+                })
+            }
+        })
     }
 
 
@@ -199,7 +211,52 @@ class MainView extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <AlertDialog
+                    ref="dialog"
+                    title="Select Type"
+                    leftButtonText="Cancel"
+                    rightButtonText="Start"
+                    getView={() => {
+                        return (
+                            <Picker
+                                style={{flex: 1}}
+                                selectedValue={this.state.type}
+                                onValueChange={(value) => {
+                                    this.setState({type: value})
+                                }}
+                                enabled={this.state.pickerEnabled}
+                                mode="dropdown"
+                                //when mode is dialog will work
+                                prompt="choese device to discovery">
 
+                                <Picker.Item label='BP5' value={iHealthDeviceManagerModule.BP5}/>
+                                <Picker.Item label='BP3L' value={iHealthDeviceManagerModule.BP3L}/>
+                                <Picker.Item label='KN-550BT' value={iHealthDeviceManagerModule.KN550}/>
+                                <Picker.Item label='BP7S' value={iHealthDeviceManagerModule.BP7S}/>
+                                <Picker.Item label='AM3S' value={iHealthDeviceManagerModule.AM3S}/>
+                                <Picker.Item label='AM4' value={iHealthDeviceManagerModule.AM4}/>
+                                <Picker.Item label='PO3' value={iHealthDeviceManagerModule.PO3}/>
+                                <Picker.Item label='HS4S' value={iHealthDeviceManagerModule.HS4S}/>
+                                <Picker.Item label='HS6' value={iHealthDeviceManagerModule.HS6}/>
+                                <Picker.Item label='BG1' value={iHealthDeviceManagerModule.BG1}/>
+                                <Picker.Item label='BG5' value={iHealthDeviceManagerModule.BG5}/>
+                                <Picker.Item label='BG5L' value={iHealthDeviceManagerModule.BG5L}/>
+
+
+                            </Picker>
+                        )
+                    }}
+                    onClick={(index) => {
+                        if (index == 1) {
+                            this.startDiscovery()
+                            try{
+                                AsyncStorage.setItem(STORAGE_KEY_DISCOVERY_TYPE, this.state.type.toString());
+                            } catch(error) {
+                                console.warn('AsyncStorage error : ' + error.message)
+                            }
+                        }
+                    }}
+                />
                 <TouchableOpacity
                     style={{
                         height: 60,
@@ -213,51 +270,22 @@ class MainView extends Component {
                     </Text>
                 </TouchableOpacity>
 
-                <View style={{flexDirection: 'row', marginTop: 5}}>
+                <TouchableOpacity
 
-                    <Picker
-                        style={{flex: 1, height: 60}}
-                        selectedValue={this.state.type}
-                        onValueChange={(value) => {
-                            this.setState({type: value})
-                        }}
-                        enabled={this.state.pickerEnabled}
-                        mode="dropdown"
-                        //when mode is dialog will work
-                        prompt="choese device to discovery">
-
-                        <Picker.Item label='BP5' value={iHealthDeviceManagerModule.BP5}/>
-                        <Picker.Item label='BP3L' value={iHealthDeviceManagerModule.BP3L}/>
-                        <Picker.Item label='KN-550BT' value={iHealthDeviceManagerModule.KN550}/>
-                        <Picker.Item label='BP7S' value={iHealthDeviceManagerModule.BP7S}/>
-                        <Picker.Item label='AM3S' value={iHealthDeviceManagerModule.AM3S}/>
-                        <Picker.Item label='AM4' value={iHealthDeviceManagerModule.AM4}/>
-                        <Picker.Item label='PO3' value={iHealthDeviceManagerModule.PO3}/>
-                        <Picker.Item label='HS4S' value={iHealthDeviceManagerModule.HS4S}/>
-                        <Picker.Item label='HS6' value={iHealthDeviceManagerModule.HS6}/>
-                        <Picker.Item label='BG1' value={iHealthDeviceManagerModule.BG1}/>
-                        <Picker.Item label='BG5' value={iHealthDeviceManagerModule.BG5}/>
-                        <Picker.Item label='BG5L' value={iHealthDeviceManagerModule.BG5L}/>
-
-
-                    </Picker>
-
-
-                    <TouchableOpacity
-
-                        style={{
-                            height: 60,
-                            justifyContent: 'center', // 内容居中显示
-                            backgroundColor: '#eedddd',
-                            alignItems: 'center',
-                            flex: 2
-                        }}
-                        onPress={() => this.startDiscovery()}>
-                        <Text style={styles.buttonText}>
-                            扫描设备
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                    style={{
+                        height: 60,
+                        marginTop: 5,
+                        justifyContent: 'center', // 内容居中显示
+                        backgroundColor: '#eedddd',
+                        alignItems: 'center',
+                    }}
+                    onPress={() => {
+                        this.refs.dialog.setModalVisible(true)
+                    }}>
+                    <Text style={styles.buttonText}>
+                        扫描设备
+                    </Text>
+                </TouchableOpacity>
 
 
                 <Text style={styles.headText}> 扫描列表 </Text>
