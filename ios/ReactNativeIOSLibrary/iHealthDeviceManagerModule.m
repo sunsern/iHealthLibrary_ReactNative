@@ -250,10 +250,6 @@ RCT_EXPORT_METHOD(connectDevice:(nonnull NSString *)mac type:(nonnull NSString *
         
     }
     
-
-    
-    
-    
 }
 
 
@@ -273,28 +269,27 @@ RCT_EXPORT_METHOD(authenConfigureInfo:(NSString *)userID clientID:(NSString *)cl
     currentUser.clientID = clientID;
     currentUser.clientSecret = clientSecret;
     [[IHSDKCloudUser commandGetSDKUserInstance] commandSDKUserLogin:currentUser UserValidationSuccess:^(UserAuthenResult result) {
-        [self authenResult:YES userID:userID clientID:clientID clientSecret:clientSecret];
+        [self authenResult:result userID:userID clientID:clientID clientSecret:clientSecret];
     } UserValidationReturn:^(NSString *userID) {
         
     } DisposeErrorBlock:^(UserAuthenResult errorID) {
         if (errorID == UserAuthen_UserInvalidateRight) {
-            [self authenResult:YES userID:userID clientID:clientID clientSecret:clientSecret];
+            [self authenResult:UserAuthen_LoginSuccess userID:userID clientID:clientID clientSecret:clientSecret];
         }else{
-            [self authenResult:NO userID:userID clientID:clientID clientSecret:clientSecret];
+            [self authenResult:errorID userID:userID clientID:clientID clientSecret:clientSecret];
         }
         
     }];
 }
 
-- (void)authenResult:(BOOL)success userID:(NSString*)userID clientID:(NSString*)clientID clientSecret:(NSString*)clientSecret{
-    if (success) {
+- (void)authenResult:(UserAuthenResult)result userID:(NSString*)userID clientID:(NSString*)clientID clientSecret:(NSString*)clientSecret{
+    if (result <= UserAuthen_TrySuccess) {
         NSArray* userInfo = @[userID,clientID,clientSecret];
         [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:FetchUserInfo];
-        [self.bridge.eventDispatcher sendDeviceEventWithName:@"Event_Authenticate_Result" body:@"success"];
     }else{
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:FetchUserInfo];
-        [self.bridge.eventDispatcher sendDeviceEventWithName:@"Event_Authenticate_Result" body:@"fail"];
     }
+    [self.bridge.eventDispatcher sendDeviceEventWithName:@"Event_Authenticate_Result" body:@{@"authen":@(result)}];
 }
 
 + (NSArray*)userInfos{
