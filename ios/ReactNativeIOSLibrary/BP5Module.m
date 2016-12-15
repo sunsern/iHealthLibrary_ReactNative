@@ -12,6 +12,7 @@
 #import "BPMacroFile.h"
 #import "BP5Controller.h"
 #import "BP5.h"
+#import "iHealthDeviceManagerModule.h"
 @implementation BP5Module
 
 
@@ -70,7 +71,7 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
     
     if ([self getBP5WithMac:mac]!=nil) {
-        [[self getBP5WithMac:mac] commandStartMeasureWithUser:nil clientID:nil clientSecret:nil Authentication:^(UserAuthenResult result) {
+        [[self getBP5WithMac:mac] commandStartMeasureWithUser:[iHealthDeviceManagerModule autherizedUserID] clientID:[iHealthDeviceManagerModule autherizedClientID] clientSecret:[iHealthDeviceManagerModule autherizedClientSecret] Authentication:^(UserAuthenResult result) {
             
         } pressure:^(NSArray *pressureArr) {
             
