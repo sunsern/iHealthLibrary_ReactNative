@@ -11,7 +11,7 @@
 #import "BPMacroFile.h"
 #import "BP7SController.h"
 #import "BP7S.h"
-
+#import "iHealthDeviceManagerModule.h"
 #define EVENT_NOTIFY @"BP7S.MODULE.NOTIFY"
 
 @implementation BP7SModule
@@ -99,7 +99,7 @@ RCT_EXPORT_METHOD(getOffLineNum:(nonnull NSString *)mac){
 RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
-        [[self getDeviceWithMac:mac] commandTransferMemoryDataWithUser:nil clientID:nil clientSecret:nil Authentication:^(UserAuthenResult result) {
+        [[self getDeviceWithMac:mac] commandTransferMemoryDataWithUser:[iHealthDeviceManagerModule autherizedUserID] clientID:[iHealthDeviceManagerModule autherizedClientID] clientSecret:[iHealthDeviceManagerModule autherizedClientSecret] Authentication:^(UserAuthenResult result) {
             NSLog(@"authen %d",result );
             if (result != UserAuthen_LoginSuccess) {
                 [self sendErrorWithCode:result];
@@ -174,7 +174,11 @@ RCT_EXPORT_METHOD(setUnit:(nonnull NSString *)mac unit:(nonnull NSNumber*)unit){
     
     if ([self getDeviceWithMac:mac]!=nil) {
         [[self getDeviceWithMac:mac] commandSetUnit:[unit integerValue] > 0 ? @"kPa" : @"mmHg" disposeSetReslut:^{
-            
+            NSLog(@"set unit success");
+            NSDictionary* response = @{
+                                       kACTION:kACTION_SET_UNIT_SUCCESS_BP,
+                                       };
+            [self sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
             NSLog(@"error %d",error);
             [self sendErrorWithCode:error];
@@ -198,7 +202,10 @@ RCT_EXPORT_METHOD(angleSet:(nonnull NSString *)mac hl:(nonnull NSNumber*)hl ll:(
                                };
 
         [[self getDeviceWithMac:mac] commandSetAngle:dict disposeSetReslut:^{
-            
+            NSDictionary* response = @{
+                                       kACTION:kACTION_SET_ANGLE_SUCCESS_BP,
+                                       };
+            [self sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
             NSLog(@"error %d",error);
             [self sendErrorWithCode:error];

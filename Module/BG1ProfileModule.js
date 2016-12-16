@@ -104,7 +104,28 @@ module.exports = {
     /**
      * the data id
      */
-    DATA_ID:RCTModule.DATA_ID
+    DATA_ID:RCTModule.DATA_ID,
     
+
+    /**
+     * Callback indicating the code analysis result.
+     */
+    ACTION_CODE_ANALYSIS:RCTModule.ACTION_CODE_ANALYSIS,
+
+
+    /**
+     * the strip number
+     */
+    STRIP_NUM_BG:RCTModule.STRIP_NUM_BG,
+
+    /**
+     * the expire time
+     */
+    STRIP_EXPIRETIME_BG:RCTModule.STRIP_EXPIRETIME_BG,
+
+    /**
+     * the bottle id
+     */
+    BOTTLEID_BG:RCTModule.BOTTLEID_BG
 
 }

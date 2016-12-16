@@ -129,6 +129,7 @@
 		1875107E1DE5E6A5005E66B1 /* SDKCommToolClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDKCommToolClass.h; sourceTree = "<group>"; };
 		1875107F1DE5E6A5005E66B1 /* SDKUpdateDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDKUpdateDevice.h; sourceTree = "<group>"; };
 		187510801DE5E6A5005E66B1 /* WifiSetWifiClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiSetWifiClass.h; sourceTree = "<group>"; };
+		8C17D1CB1E0274B700DF0A88 /* IHSDKCloudUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IHSDKCloudUser.h; sourceTree = "<group>"; };
 		AF1B3F101DF9482100DFDB23 /* HS4SModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HS4SModule.h; sourceTree = "<group>"; };
 		AF1B3F111DF9482100DFDB23 /* HS4SModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HS4SModule.m; sourceTree = "<group>"; };
 		AF1B3F121DF9482100DFDB23 /* HSProfileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSProfileModule.h; sourceTree = "<group>"; };
@@ -200,6 +201,7 @@
 		187510351DE5E6A5005E66B1 /* Communication_SDK */ = {
 			isa = PBXGroup;
 			children = (
+				8C17D1CB1E0274B700DF0A88 /* IHSDKCloudUser.h */,
 				187510361DE5E6A5005E66B1 /* ABI.h */,
 				187510371DE5E6A5005E66B1 /* ABIController.h */,
 				187510381DE5E6A5005E66B1 /* ABPM.h */,

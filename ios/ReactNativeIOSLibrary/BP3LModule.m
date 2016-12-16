@@ -11,7 +11,7 @@
 #import "BPMacroFile.h"
 #import "BP3LController.h"
 #import "BP3L.h"
-
+#import "iHealthDeviceManagerModule.h"
 #define EVENT_NOTIFY @"BP3L.MODULE.NOTIFY"
 
 @implementation BP3LModule
@@ -49,7 +49,7 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
-        [[self getDeviceWithMac:mac] commandStartMeasureWithUser:nil clientID:nil clientSecret:nil Authentication:^(UserAuthenResult result) {
+        [[self getDeviceWithMac:mac] commandStartMeasureWithUser:[iHealthDeviceManagerModule autherizedUserID] clientID:[iHealthDeviceManagerModule autherizedClientID] clientSecret:[iHealthDeviceManagerModule autherizedClientSecret] Authentication:^(UserAuthenResult result) {
             NSLog(@"authen %d",result);
             if (result != UserAuthen_LoginSuccess) {
                 [self sendErrorWithCode:result];

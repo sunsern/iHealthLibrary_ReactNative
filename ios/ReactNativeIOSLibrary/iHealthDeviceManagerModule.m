@@ -12,11 +12,12 @@
 #import "HSHeader.h"
 #import "BGHeader.h"
 #import "POHeader.h"
+#import "IHSDKCloudUser.h"
 @implementation iHealthDeviceManagerModule
 
 @synthesize bridge = _bridge;
 
-
+#define FetchUserInfo @"com.rn.ihealth.dm.userinfo"
 
 RCT_EXPORT_MODULE()
 
@@ -108,6 +109,8 @@ RCT_EXPORT_MODULE()
 - (NSDictionary *)constantsToExport
 
 {
+    
+
     return @{
              @"AM3" : @"AM3",
              @"AM3S" :@"AM3S",
@@ -128,8 +131,8 @@ RCT_EXPORT_MODULE()
              @"Event_Scan_Finish":@"ScanFinish",
              @"Event_Device_Connected":@"DeviceConnected",
              @"Event_Device_Connect_Failed":@"DeviceConnectFailed",
-             @"Event_Device_Disconnect":@"DeviceDisconnect"
-             
+             @"Event_Device_Disconnect":@"DeviceDisconnect",
+             @"Event_Authenticate_Result":@"Event_Authenticate_Result"
              };
 };
 
@@ -247,10 +250,6 @@ RCT_EXPORT_METHOD(connectDevice:(nonnull NSString *)mac type:(nonnull NSString *
         
     }
     
-
-    
-    
-    
 }
 
 
@@ -263,6 +262,56 @@ RCT_EXPORT_METHOD(getDevicesIDPS:(nonnull NSString *)mac){
     
 }
 
+RCT_EXPORT_METHOD(authenConfigureInfo:(NSString *)userID clientID:(NSString *)clientID clientSecret:(NSString *)clientSecret){
+    
+    HealthUser *currentUser = [[HealthUser alloc]init];
+    currentUser.userID = userID;
+    currentUser.clientID = clientID;
+    currentUser.clientSecret = clientSecret;
+    [[IHSDKCloudUser commandGetSDKUserInstance] commandSDKUserLogin:currentUser UserValidationSuccess:^(UserAuthenResult result) {
+        [self authenResult:result userID:userID clientID:clientID clientSecret:clientSecret];
+    } UserValidationReturn:^(NSString *userID) {
+        
+    } DisposeErrorBlock:^(UserAuthenResult errorID) {
+        if (errorID == UserAuthen_UserInvalidateRight) {
+            [self authenResult:UserAuthen_LoginSuccess userID:userID clientID:clientID clientSecret:clientSecret];
+        }else{
+            [self authenResult:errorID userID:userID clientID:clientID clientSecret:clientSecret];
+        }
+        
+    }];
+}
+
+- (void)authenResult:(UserAuthenResult)result userID:(NSString*)userID clientID:(NSString*)clientID clientSecret:(NSString*)clientSecret{
+    if (result <= UserAuthen_TrySuccess) {
+        NSArray* userInfo = @[userID,clientID,clientSecret];
+        [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:FetchUserInfo];
+    }else{
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:FetchUserInfo];
+    }
+    [self.bridge.eventDispatcher sendDeviceEventWithName:@"Event_Authenticate_Result" body:@{@"authen":@(result)}];
+}
+
++ (NSArray*)userInfos{
+    NSArray* userInfos = [[NSUserDefaults standardUserDefaults] objectForKey:FetchUserInfo];
+    if (userInfos.count == 3) {
+        return userInfos;
+    }else{
+        return nil;
+    }
+}
+
++ (NSString*)autherizedUserID{
+    return [[self userInfos] objectAtIndex:0];
+}
+
++ (NSString*)autherizedClientID{
+    return [[self userInfos] objectAtIndex:1];
+}
+
++ (NSString*)autherizedClientSecret{
+    return [[self userInfos] objectAtIndex:2];
+}
 
 
 @end
