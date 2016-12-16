@@ -32,6 +32,8 @@ import PO3View from './PO3View';
 import HS4SView from './HS4SView';
 import BG1View from './BG1View';
 import HS6View from './HS6View';
+import BG5View from './BG5View';
+import BG5LView from './BG5LView';
 
 import {
     iHealthDeviceManagerModule
@@ -398,7 +400,11 @@ export default class LaunchView extends Component {
                 case "BG1":
                     return <BG1View navigator={navigator} mac={route.mac} type={route.type}/>
                 case "HS6":
-                    return <HS6View navigator={navigator} type={route.type}/>
+                    return <HS6View navigator={navigator} mac={route.mac} type={route.type}/>
+                case "BG5":
+                    return <BG5View navigator={navigator} mac={route.mac} type={route.type}/>
+                case "BG5L":
+                    return <BG5LView navigator={navigator} mac={route.mac} type={route.type}/>
                 default:
                     console.warn('Not implemented yet, type = ' + route.type)
                     break;

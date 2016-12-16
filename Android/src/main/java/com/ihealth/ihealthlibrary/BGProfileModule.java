@@ -31,6 +31,11 @@ public class BGProfileModule extends ReactContextBaseJavaModule {
     private static final String ACTION_SET_BOTTLEID = "ACTION_SET_BOTTLEID";
     private static final String ACTION_GET_BOTTLEID = "ACTION_GET_BOTTLEID";
     private static final String ACTION_ERROR_BG = "ACTION_ERROR_BG";
+    private static final String ACTION_STRIP_IN = "ACTION_STRIP_IN";
+    private static final String ACTION_STRIP_OUT = "ACTION_STRIP_OUT";
+    private static final String ACTION_GET_BLOOD = "ACTION_GET_BLOOD";
+    private static final String ACTION_ONLINE_RESULT_BG = "ACTION_ONLINE_RESULT_BG";
+
 
     private static final String KEEP_LINK = "KEEP_LINK";
     private static final String SET_TIME = "SET_TIME";
@@ -47,6 +52,8 @@ public class BGProfileModule extends ReactContextBaseJavaModule {
     private static final String GET_BOTTLEID = "GET_BOTTLEID";
     private static final String ERROR_NUM_BG = "ERROR_NUM_BG";
     private static final String ERROR_DESCRIPTION_BG = "ERROR_DESCRIPTION_BG";
+    private static final String ONLINE_RESULT_BG = "ONLINE_RESULT_BG";
+    private static final String DATA_ID = "DATA_ID";
 
 
     public BGProfileModule(ReactApplicationContext reactContext) {
@@ -77,6 +84,11 @@ public class BGProfileModule extends ReactContextBaseJavaModule {
         constants.put(ACTION_SET_BOTTLEID, Bg5Profile.ACTION_SET_BOTTLE_ID_SUCCESS);
         constants.put(ACTION_GET_BOTTLEID, Bg5Profile.ACTION_GET_BOTTLEID);
         constants.put(ACTION_ERROR_BG, Bg5Profile.ACTION_ERROR_BG);
+        constants.put(ACTION_STRIP_IN, Bg5Profile.ACTION_STRIP_IN);
+        constants.put(ACTION_STRIP_OUT, Bg5Profile.ACTION_STRIP_OUT);
+        constants.put(ACTION_GET_BLOOD, Bg5Profile.ACTION_GET_BLOOD);
+        constants.put(ACTION_ONLINE_RESULT_BG, Bg5Profile.ACTION_ONLINE_RESULT_BG);
+
 
         constants.put(KEEP_LINK, Bg5Profile.KEEP_LINK);
         constants.put(SET_TIME, Bg5Profile.SET_TIME);
@@ -92,7 +104,9 @@ public class BGProfileModule extends ReactContextBaseJavaModule {
         constants.put(GET_BOTTLEID, Bg5Profile.GET_BOTTLEID);
 //        constants.put(SET_BOTTLEID, Bg5Profile.SET_BOTTLEID);
         constants.put(ERROR_NUM_BG, Bg5Profile.ERROR_NUM_BG);
-//        constants.put(ERROR_DESCRIPTION_BG, Bg5Profile.ERROR_DESCRIPTION_BG);
+        constants.put(ERROR_DESCRIPTION_BG, Bg5Profile.ERROR_DESCRIPTION_BG);
+        constants.put(ONLINE_RESULT_BG, Bg5Profile.ONLINE_RESULT_BG);
+        constants.put(DATA_ID, Bg5Profile.DATA_ID);
 
         return constants;
     }

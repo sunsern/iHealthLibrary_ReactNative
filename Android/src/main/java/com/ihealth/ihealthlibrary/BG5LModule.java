@@ -129,17 +129,17 @@ public class BG5LModule extends iHealthBaseModule {
         }
     }
 
-    @ReactMethod
-    public void setBottleMessage(String mac, String QRCode) {
-        Bg5lControl bg5lControl = iHealthDevicesManager.getInstance().getBG5lControl(mac);
-        if (bg5lControl != null) {
-            bg5lControl.setBottleMessage(QRCode);
-        } else {
-            WritableMap params = Arguments.createMap();
-            params.putInt("errorid", 400);
-            sendEvent(EVENT_NOTIFY, params);
-        }
-    }
+//    @ReactMethod
+//    public void setBottleMessage(String mac, String QRCode) {
+//        Bg5lControl bg5lControl = iHealthDevicesManager.getInstance().getBG5lControl(mac);
+//        if (bg5lControl != null) {
+//            bg5lControl.setBottleMessage(QRCode);
+//        } else {
+//            WritableMap params = Arguments.createMap();
+//            params.putInt("errorid", 400);
+//            sendEvent(EVENT_NOTIFY, params);
+//        }
+//    }
 
 //    @ReactMethod
 //    public void setBottleMessage(String mac , String QRCode, final int stripNum, final String overDate) {
@@ -152,6 +152,18 @@ public class BG5LModule extends iHealthBaseModule {
 //            iHealthDeviceManagerModule.sendEvent("Error", params);
 //        }
 //    }
+
+    @ReactMethod
+    public void setBottleMessageWithInfo(String mac, double stripType, double measureType, String QRCode, double stripNum, String overDate){
+        Bg5lControl bg5lControl = iHealthDevicesManager.getInstance().getBG5lControl(mac);
+        if(bg5lControl != null){
+            bg5lControl.setBottleMessageWithInfo((int)stripType, (int)measureType, QRCode, (int)stripNum, overDate);
+        }else{
+            WritableMap params = Arguments.createMap();
+            params.putInt("errorid", 400);
+            sendEvent(EVENT_NOTIFY, params);
+        }
+    }
 
     @ReactMethod
     public void getBottleMessage(String mac) {

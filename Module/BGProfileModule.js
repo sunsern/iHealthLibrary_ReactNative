@@ -253,6 +253,74 @@ module.exports = {
 
 
     /**
+     * The action value of event indicating the result of strip was put in the devices.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>BGProfileModule.ACTION_STRIP_IN</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "action_measure_strip_in",<br/>
+	 * }<br/>
+     */
+    ACTION_STRIP_IN: RCTModule.ACTION_STRIP_IN,
+
+    /**
+     * The action value of event indicating the result of strip out of the devices.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>BGProfileModule.ACTION_STRIP_OUT</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "action_measure_strip_out",<br/>
+	 * }<br/>
+     */
+    ACTION_STRIP_OUT: RCTModule.ACTION_STRIP_OUT,
+
+    /**
+     * The action value of event indicating the result of get the blood.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>BGProfileModule.ACTION_GET_BLOOD</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "action_measure_get_blood",<br/>
+	 * }<br/>
+     */
+    ACTION_GET_BLOOD: RCTModule.ACTION_GET_BLOOD,
+
+    /**
+     * The action value of event indicating the result of get measure value from devices.<br/>
+     * The key and value will be as below:
+     * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     * <tbody>
+     * <tr><td>Key</td><td>Value</td></tr>
+     * <tr><td>action</td><td>BGProfileModule.ACTION_ONLINE_RESULT_BG</td></tr>
+     * <tr><td>BGProfileModule.ONLINE_RESULT_BG</td><td>The bg value measured by device</td></tr>
+     * <tr><td>BGProfileModule.dataID</td><td>The dataID measured by device</td></tr>
+     * </tbody>
+     * </table>
+     * <b>Example:</b><br/>
+     * {<br/>
+     * &nbsp; &nbsp; "action": "action_value_bg",<br/>
+	 * &nbsp; &nbsp; "result": 155 <br/>
+	 * &nbsp; &nbsp; "dataID": 123456789ABCDE <br/>
+	 * }<br/>
+     */
+    ACTION_ONLINE_RESULT_BG: RCTModule.ACTION_ONLINE_RESULT_BG,
+
+    /**
      * The error num means different error.
      * <p>0:Battery is low.</p>
      * <p>1:Glucose test result is out of the measurement range.</p>
@@ -279,10 +347,10 @@ module.exports = {
      */
     ERROR_NUM_BG: RCTModule.ERROR_NUM_BG,
 
-    // /**
-    //  * The error discription.
-    //  */
-    // // ERROR_DESCRIPTION_BG: RCTModule.ERROR_DESCRIPTION_BG,
+    /**
+     * The error discription.
+     */
+    ERROR_DESCRIPTION_BG: RCTModule.ERROR_DESCRIPTION_BG,
 
     /**
      * Keep link value.
@@ -348,4 +416,14 @@ module.exports = {
      * Get bottle ID value.
      */
     GET_BOTTLEID: RCTModule.GET_BOTTLEID,
+
+    /**
+     * The bg value measured by device
+     */
+    ONLINE_RESULT_BG: RCTModule.ONLINE_RESULT_BG,
+
+    /**
+     * The dataID measured by device
+     */
+    DATA_ID: RCTModule.DATA_ID,
 }
