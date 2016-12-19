@@ -11,6 +11,7 @@
 #import "HSMacroFile.h"
 #import "iHealthHS6.h"
 #import "HealthUser.h"
+#import "iHealthDeviceManagerModule.h"
 
 #define EVENT_NOTIFY @"Event_Notify"
 
@@ -37,18 +38,12 @@ RCT_EXPORT_MODULE()
 }
 
 - (void)sendEventWithAction:(NSString*)actionName keyString:(NSString*)key valueString:(id)value{
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"HS4.MODULE.NOTIFY"  body:@{@"action":actionName,key:value}];
+    [self.bridge.eventDispatcher sendDeviceEventWithName:@"HS6.MODULE.NOTIFY"  body:@{@"action":actionName,key:value}];
 }
 
 #pragma mark
 #pragma mark - Method
-RCT_EXPORT_METHOD(initHs6:(nonnull NSString*)userName){
-
-    
-    }
-
-
-
+//设置Wifi
 RCT_EXPORT_METHOD(setWifi:(nonnull NSString*)ssid :(nonnull NSString*)password){
     
     HealthUser *user =[[HealthUser alloc]init];
@@ -72,9 +67,12 @@ RCT_EXPORT_METHOD(setWifi:(nonnull NSString*)ssid :(nonnull NSString*)password){
         }];
     }
        }
-
+//绑定设备
 RCT_EXPORT_METHOD(bindDeviceHS6:(nonnull NSString*)birthday :(nonnull NSNumber*)weight :(nonnull NSNumber*)height :(nonnull NSNumber*)isSporter :(nonnull NSNumber*)gender :(nonnull NSString*)serialNumber){
     HealthUser *user = [[HealthUser alloc]init];
+    user.userID = [iHealthDeviceManagerModule autherizedUserID];
+    user.clientID = [iHealthDeviceManagerModule autherizedClientID];
+    user.clientSecret = [iHealthDeviceManagerModule autherizedClientSecret];
     if ([self getHs6WithUser:user]) {
         [[self getHs6WithUser:user]cloudCommandUserBinedQRDeviceWithUser:user deviceID:nil BlockHS6UserAuthentication:^(UserAuthenResult result) {
             NSLog(@"UserAuthenResult:%d",result);
@@ -91,9 +89,13 @@ RCT_EXPORT_METHOD(bindDeviceHS6:(nonnull NSString*)birthday :(nonnull NSNumber*)
         }];
     }
 }
-
+//解绑
 RCT_EXPORT_METHOD(unBindDeviceHS6:(nonnull NSString*)serialNumber){
     HealthUser *user = [[HealthUser alloc]init];
+    user.userID = [iHealthDeviceManagerModule autherizedUserID];
+    user.clientID = [iHealthDeviceManagerModule autherizedClientID];
+    user.clientSecret = [iHealthDeviceManagerModule autherizedClientSecret];
+
     if ([self getHs6WithUser:user] != nil) {
         [[self getHs6WithUser:user]cloudCommandUserDisBinedQRDeviceForUser:user withDeviceID:nil disBinedResult:^(NSArray *resultArray) {
             NSDictionary *deviceInf = @{@"user":user,@"ACTION_HS6_UNBIND":@"ACTION_HS6_UNBIND",@"HS6_UNBIND_RESULT":[NSDictionary dictionaryWithObjectsAndKeys:resultArray, nil]};
@@ -105,9 +107,13 @@ RCT_EXPORT_METHOD(unBindDeviceHS6:(nonnull NSString*)serialNumber){
         }];
     }
 }
-
+//获取OpenAPI
 RCT_EXPORT_METHOD(getToken:(nonnull NSString*)clientId :(nonnull NSString*)clientSecret :(nonnull NSString*)username :(nonnull NSString*)clientPara){
     HealthUser *user = [[HealthUser alloc]init];
+    user.userID = [iHealthDeviceManagerModule autherizedUserID];
+    user.clientID = [iHealthDeviceManagerModule autherizedClientID];
+    user.clientSecret = [iHealthDeviceManagerModule autherizedClientSecret];
+
     if ([self getHs6WithUser:user] != nil) {
         [[self getHs6WithUser:user]commandHS6GetOpenAPITokenWithUser:user withSuccessBlock:^(NSDictionary *openAPIInfoDic) {
             NSDictionary *deviceInf = @{@"user":user,@"ACTION_HS6_GET_TOKEN":@"ACTION_HS6_GET_TOKEN",@"GET_TOKEN_RESULT":[NSDictionary dictionaryWithObjectsAndKeys:openAPIInfoDic, nil]};
@@ -117,9 +123,13 @@ RCT_EXPORT_METHOD(getToken:(nonnull NSString*)clientId :(nonnull NSString*)clien
         }];
     }
 }
-
+//设置单位
 RCT_EXPORT_METHOD(setUnit:(nonnull NSString*)username :(nonnull NSNumber*)unitType){
     HealthUser *user = [[HealthUser alloc]init];
+    user.userID = [iHealthDeviceManagerModule autherizedUserID];
+    user.clientID = [iHealthDeviceManagerModule autherizedClientID];
+    user.clientSecret = [iHealthDeviceManagerModule autherizedClientSecret];
+
     if ([self getHs6WithUser:user] != nil) {
         [[self getHs6WithUser:user]commandHS6WithUser:user withSyncWeightUnit:IHHS6SDKUnitWeight_lbs withSuccessBlock:^(BOOL syncWeightUnit) {
             NSDictionary *deviceInf = @{@"user":user,@"ACTION_HS6_SET_UNIT":@"ACTION_HS6_SET_UNIT",@"SET_UNIT_RESULT":[NSNumber numberWithBool:syncWeightUnit]};
