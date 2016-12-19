@@ -77,11 +77,11 @@ module.exports = {
     },
 
     /**
-     * Get the value of historical data in the PO3.
+     * Get the value of historical data in the HS4S.
      * <ul>
      * <li>This is an asynchronous call, it will return immediately.</li>
      * <li>If get successfully, following event will be emit:<br/>
-     * {@link module:PO3Module.Event_Notify PO3Module.Event_Notify("event_notify_po3")}<br/>
+     * {@link module:HS4SModule.Event_Notify HS4SModule.Event_Notify("event_notify_hs4s")}<br/>
      * The key and value will be as below:
      * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
      * <tbody>

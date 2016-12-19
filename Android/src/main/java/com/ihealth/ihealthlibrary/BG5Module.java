@@ -47,8 +47,10 @@ public class BG5Module extends iHealthBaseModule {
     public void holdLink(String mac) {
         Bg5Control bg5Control = iHealthDevicesManager.getInstance().getBg5Control(mac);
         if (bg5Control != null) {
+            Log.v("aa",  "bg5Control != null " );
             bg5Control.holdLink();
         } else {
+            Log.v("aa",  "bg5Control == null " );
             WritableMap params = Arguments.createMap();
             params.putInt("errorid", 400);
             sendEvent(EVENT_NOTIFY, params);
@@ -127,17 +129,17 @@ public class BG5Module extends iHealthBaseModule {
         }
     }
 
-    @ReactMethod
-    public void setBottleMessage(String mac, String QRCode) {
-        Bg5Control bg5Control = iHealthDevicesManager.getInstance().getBg5Control(mac);
-        if (bg5Control != null) {
-            bg5Control.setBottleMessage(QRCode);
-        } else {
-            WritableMap params = Arguments.createMap();
-            params.putInt("errorid", 400);
-            sendEvent(EVENT_NOTIFY, params);
-        }
-    }
+//    @ReactMethod
+//    public void setBottleMessage(String mac, String QRCode) {
+//        Bg5Control bg5Control = iHealthDevicesManager.getInstance().getBg5Control(mac);
+//        if (bg5Control != null) {
+//            bg5Control.setBottleMessage(QRCode);
+//        } else {
+//            WritableMap params = Arguments.createMap();
+//            params.putInt("errorid", 400);
+//            sendEvent(EVENT_NOTIFY, params);
+//        }
+//    }
 
 //    @ReactMethod
 //    public void setBottleMessage(String mac , String QRCode, final int stripNum, final String overDate) {
@@ -150,6 +152,18 @@ public class BG5Module extends iHealthBaseModule {
 //            iHealthDeviceManagerModule.sendEvent("Error", params);
 //        }
 //    }
+
+    @ReactMethod
+    public void setBottleMessageWithInfo(String mac, int stripType, int measureType, String QRCode, int stripNum, String overDate){
+        Bg5Control bg5Control = iHealthDevicesManager.getInstance().getBg5Control(mac);
+        if(bg5Control != null){
+            bg5Control.setBottleMessageWithInfo(stripType, measureType, QRCode, stripNum, overDate);
+        }else{
+            WritableMap params = Arguments.createMap();
+            params.putInt("errorid", 400);
+            sendEvent(EVENT_NOTIFY, params);
+        }
+    }
 
     @ReactMethod
     public void getBottleMessage(String mac) {

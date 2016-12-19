@@ -25,7 +25,9 @@ var Component = {
     HS4SModule: require('./Module/HS4SModule'),
     HSProfileModule: require('./Module/HSProfileModule'),
     BG1Module: require('./Module/BG1Module'),
-    BG1ProfileModule: require('./Module/BG1ProfileModule')
+    BG1ProfileModule: require('./Module/BG1ProfileModule'),
+    HS6Module: require('./Module/HS6Module'),
+    HS6ProfileModule: require('./Module/HS6ProfileModule'),
 
 }
 

@@ -253,8 +253,22 @@ module.exports = {
      * <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
      * <tbody>
      * <tr><td>Key</td><td>Value</td></tr>
-     * <tr><td>{@link module:HSProfileModule.ERROR_ID_ILLEGAL_ARGUMENT HSProfileModule.ERROR_ID_ILLEGAL_ARGUMENT}</td><td>indicates parameter error("400")</td></tr>
-     * <tr><td>{@link module:HSProfileModule.ERROR_ID_WIFI_DISABLED HSProfileModule.ERROR_ID_WIFI_DISABLED}</td><td>indicates wifi is disabled("500")</td></tr>
+     * <tr><td>1</td><td>Battery level is low.</td></tr>
+     * <tr><td>2</td><td>The Scale failed to initialize.</td></tr>
+     * <tr><td>3</td><td>Maximum weight has been exceeded.</td></tr>
+     * <tr><td>4</td><td>The Scale can't capture a steady reading.</td></tr>
+     * <tr><td>5</td><td>Bluetooth connection error.</td></tr>
+     * <tr><td>6</td><td>Movement while measuring.</td></tr>
+     * <tr><td>7</td><td>Invalidate.</td></tr>
+     * <tr><td>8</td><td>Scale memory access error.</td></tr>
+     * <tr><td>9</td><td>No memory.</td></tr>
+     * <tr><td>10</td><td>Device disconnect.</td></tr>
+     * <tr><td>11</td><td>Communication error.</td></tr>
+     * <tr><td>12</td><td>HS4DeviceRecWeightError.</td></tr>
+     * <tr><td>13</td><td>Failed to create measurement connections.</td></tr>
+     * <tr><td>14</td><td>Instruction timeout.</td></tr>
+     * <tr><td>{@link module:HSProfileModule.ERROR_ID_ILLEGAL_ARGUMENT 400}</td><td>indicates parameter error("400")</td></tr>
+     * <tr><td>{@link module:HSProfileModule.ERROR_ID_WIFI_DISABLED 500}</td><td>indicates wifi is disabled("500")</td></tr>
      * </tbody>
      * </table>
      * Returns the message Key corresponding relation:<br/>

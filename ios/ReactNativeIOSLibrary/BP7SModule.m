@@ -11,6 +11,9 @@
 #import "BPMacroFile.h"
 #import "BP7SController.h"
 #import "BP7S.h"
+#import "iHealthDeviceManagerModule.h"
+#define EVENT_NOTIFY @"BP7S.MODULE.NOTIFY"
+
 @implementation BP7SModule
 @synthesize bridge = _bridge;
 RCT_EXPORT_MODULE()
@@ -18,7 +21,7 @@ RCT_EXPORT_MODULE()
 - (NSDictionary *)constantsToExport
 {
     return @{
-             @"Event_Notify":@"BP7S.MODULE.NOTIFY",
+             @"Event_Notify":EVENT_NOTIFY,
              
              };
 }
@@ -46,7 +49,19 @@ RCT_EXPORT_METHOD(getFunctionInfo:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
         [[self getDeviceWithMac:mac] commandFounction:^(NSDictionary *dic) {
-            [self sendEventWithAction:@"ACTION_FUNCTION_INFORMATION_BP" keyString:@"function" valueString:dic];
+            
+            NSDictionary* response = @{
+                                       kACTION:kACTION_FUNCTION_INFORMATION_BP,
+                                       kFUNCTION_IS_UPAIR_MEASURE:dic[@"upAirMeasureFlg"],
+                                       kFUNCTION_IS_ARM_MEASURE:dic[@"armMeasureFlg"],
+                                       kFUNCTION_HAVE_ANGLE_SENSOR:dic[@"haveAngleSensor"],
+                                       kFUNCTION_HAVE_OFFLINE:dic[@"haveOffline"],
+                                       kFUNCTION_HAVE_ANGLE_SETTING:dic[@"haveAngleSet"],
+                                       kFUNCTION_IS_MULTI_UPLOAD:dic[@"mutableUpload"],
+                                       kFUNCTION_HAVE_SELF_UPDATE:dic[@"selfUpdate"],
+                                       kFUNCTION_HAVE_HSD:dic[@"haveHSD"]
+                                       };
+            [self sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
             [self sendErrorWithCode:error];
         }];
@@ -58,12 +73,172 @@ RCT_EXPORT_METHOD(getFunctionInfo:(nonnull NSString *)mac){
     
 }
 
-- (void)sendErrorWithCode:(NSInteger)errorCode{
-    [self sendEventWithAction:@"ACTION_ERROR_BP" keyString:@"value" valueString:@(errorCode)];
+//getOffLineNum
+RCT_EXPORT_METHOD(getOffLineNum:(nonnull NSString *)mac){
+    
+    if ([self getDeviceWithMac:mac]!=nil) {
+        [[self getDeviceWithMac:mac] commandTransferMemorytotalCount:^(NSNumber *num) {
+            NSDictionary* response = @{
+                                       kACTION:kACTION_HISTORICAL_NUM_BP,
+                                       kHISTORICAL_NUM_BP:num,
+                                       };
+            [self sendEventWithDict:response];
+
+        } errorBlock:^(BPDeviceError error) {
+            [self sendErrorWithCode:error];
+        }];
+    }else{
+        NSLog(@"error %d",BPDidDisconnect);
+        [self sendErrorWithCode:BPDidDisconnect];
+    }
+    
+    
 }
 
-- (void)sendEventWithAction:(NSString*)actionName keyString:(NSString*)key valueString:(id)value{
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"BP7S.MODULE.NOTIFY"  body:@{@"action":actionName,key:value}];
+//getOffLineData
+RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
+    
+    if ([self getDeviceWithMac:mac]!=nil) {
+        [[self getDeviceWithMac:mac] commandTransferMemoryDataWithUser:[iHealthDeviceManagerModule autherizedUserID] clientID:[iHealthDeviceManagerModule autherizedClientID] clientSecret:[iHealthDeviceManagerModule autherizedClientSecret] Authentication:^(UserAuthenResult result) {
+            NSLog(@"authen %d",result );
+            if (result != UserAuthen_LoginSuccess) {
+                [self sendErrorWithCode:result];
+            }
+        } totalCount:^(NSNumber *num) {
+            NSDictionary* response = @{
+                                       kACTION:kACTION_HISTORICAL_NUM_BP,
+                                       kHISTORICAL_NUM_BP:num,
+                                       };
+            [self sendEventWithDict:response];
+        } pregress:^(NSNumber *pregress) {
+            NSLog(@"pregress %@",pregress);
+        } dataArray:^(NSArray *array) {
+            NSLog(@"dataArray %@",array);
+            NSMutableArray* historyDataArray = [NSMutableArray array];
+            for (NSDictionary* dataDict in array) {
+                if ([dataDict isKindOfClass:[NSDictionary class]]) {
+                    NSDictionary* historyDataDict = @{
+                                                      kMEASUREMENT_DATE_BP:dataDict[@"time"],
+                                                      kHIGH_BLOOD_PRESSURE_BP:dataDict[@"sys"],
+                                                      kLOW_BLOOD_PRESSURE_BP:dataDict[@"dia"],
+                                                      kPULSE_BP:dataDict[@"heartRate"],
+                                                      kMEASUREMENT_AHR_BP:dataDict[@"irregular"],
+                                                      kMEASUREMENT_HSD_BP:dataDict[@"hsdValue"],
+                                                      kMEASUREMENT_ANGLE_CHANGE_BP:dataDict[@"measureAngleChange"],
+                                                      kMEASUREMENT_HAND_BP:dataDict[@"chooseHand"],
+                                                      kDATAID:dataDict[@"dataID"]
+                                                      };
+                    [historyDataArray addObject:historyDataDict];
+                }
+            }
+            NSDictionary* response = @{
+                                       kACTION:kACTION_HISTORICAL_DATA_BP,
+                                       kHISTORICAL_DATA_BP:[historyDataArray copy]
+                                       };
+            [self sendEventWithDict:response];
+        } errorBlock:^(BPDeviceError error) {
+            NSLog(@"error %d",error);
+            [self sendErrorWithCode:error];
+        }];
+    }else{
+        NSLog(@"error %d",BPDidDisconnect);
+        [self sendErrorWithCode:BPDidDisconnect];
+    }
+    
+    
 }
+//getBattery
+RCT_EXPORT_METHOD(getBattery:(nonnull NSString *)mac){
+    
+    if ([self getDeviceWithMac:mac]!=nil) {
+        [[self getDeviceWithMac:mac] commandEnergy:^(NSNumber *energyValue) {
+            NSLog(@"energyValue %@",energyValue);
+            NSDictionary* response = @{
+                                       kACTION:kACTION_BATTERY_BP,
+                                       kBATTERY_BP:energyValue,
+                                       };
+            [self sendEventWithDict:response];
+        } errorBlock:^(BPDeviceError error) {
+            NSLog(@"error %d",error);
+            [self sendErrorWithCode:error];
+        }];
+    }else{
+        NSLog(@"error %d",BPDidDisconnect);
+        [self sendErrorWithCode:BPDidDisconnect];
+    }
+    
+    
+}
+//setUnit
+RCT_EXPORT_METHOD(setUnit:(nonnull NSString *)mac unit:(nonnull NSNumber*)unit){
+    
+    if ([self getDeviceWithMac:mac]!=nil) {
+        [[self getDeviceWithMac:mac] commandSetUnit:[unit integerValue] > 0 ? @"kPa" : @"mmHg" disposeSetReslut:^{
+            NSLog(@"set unit success");
+            NSDictionary* response = @{
+                                       kACTION:kACTION_SET_UNIT_SUCCESS_BP,
+                                       };
+            [self sendEventWithDict:response];
+        } errorBlock:^(BPDeviceError error) {
+            NSLog(@"error %d",error);
+            [self sendErrorWithCode:error];
+        }];
+    }else{
+        NSLog(@"error %d",BPDidDisconnect);
+        [self sendErrorWithCode:BPDidDisconnect];
+    }
+    
+    
+}
+//angleSet
+RCT_EXPORT_METHOD(angleSet:(nonnull NSString *)mac hl:(nonnull NSNumber*)hl ll:(nonnull NSNumber*)ll hr:(nonnull NSNumber*)hr lr:(nonnull NSNumber*)lr){
+    
+    if ([self getDeviceWithMac:mac]!=nil) {
+        NSDictionary* dict = @{
+                               @"highAngleForLeft":hl,
+                                @"lowAngleForLeft":ll,
+                               @"highAngleForRight":hr,
+                               @"lowAngleForRight":lr
+                               };
+
+        [[self getDeviceWithMac:mac] commandSetAngle:dict disposeSetReslut:^{
+            NSDictionary* response = @{
+                                       kACTION:kACTION_SET_ANGLE_SUCCESS_BP,
+                                       };
+            [self sendEventWithDict:response];
+        } errorBlock:^(BPDeviceError error) {
+            NSLog(@"error %d",error);
+            [self sendErrorWithCode:error];
+        }];
+    }else{
+        NSLog(@"error %d",BPDidDisconnect);
+        [self sendErrorWithCode:BPDidDisconnect];
+    }
+    
+    
+}
+
+RCT_EXPORT_METHOD(disconnect:(nonnull NSString *)mac){
+    
+    if ([self getDeviceWithMac:mac]!=nil) {
+        [[self getDeviceWithMac:mac] commandDisconnectDevice];
+    }else{
+        NSLog(@"error %d",BPDidDisconnect);
+        [self sendErrorWithCode:BPDidDisconnect];
+    }
+    
+    
+}
+
+- (void)sendErrorWithCode:(NSInteger)errorCode{
+    [self sendEventWithDict:@{kACTION:kACTION_ERROR_BP,kERROR_NUM_BP:@(errorCode)}];
+}
+
+- (void)sendEventWithDict:(NSDictionary*)dict{
+    [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:dict];
+}
+
+
+
 
 @end

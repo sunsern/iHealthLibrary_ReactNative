@@ -11,7 +11,7 @@
 #import "HSMacroFile.h"
 #import "HS4Controller.h"
 #import "HS4.h"
-
+#import "iHealthDeviceManagerModule.h"
 
 #define EVENT_NOTIFY @"Event_Notify"
 
@@ -63,30 +63,36 @@ RCT_EXPORT_MODULE()
 #pragma mark
 #pragma mark - Method
 
-RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString*)mac :(nonnull int*)unit :(nonnull int*)userId){
+RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString*)mac :(nonnull NSNumber*)unit :(nonnull NSNumber*)userId){
     if ([self getHS4WithMac:mac] != nil) {
-        [[self getHS4WithMac:mac]commandTransferMemorryWithUser:nil memoryData:^(NSDictionary *startDataDictionary) {
+        HealthUser* healthUser = [[HealthUser alloc] init];
+        healthUser.userID = [iHealthDeviceManagerModule autherizedUserID];
+        healthUser.clientID = [iHealthDeviceManagerModule autherizedClientID];
+        healthUser.clientSecret = [iHealthDeviceManagerModule autherizedClientSecret];
+        [[self getHS4WithMac:mac]commandTransferMemorryWithUser:healthUser memoryData:^(NSDictionary *startDataDictionary) {
             NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"Action_DataDictionary_HS",@"dictionary":[NSDictionary dictionaryWithObjectsAndKeys:startDataDictionary, nil]};
             
              [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } DisposeProgress:^(NSNumber *progress) {
+            NSLog(@"progress:d%",progress);
             NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"Action_Tansport_Porgress_HS",@"Progress":[NSNumber numberWithInteger:progress]};
             
              [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } MemorryData:^(NSArray *historyDataArray) {
-            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"Action_Historical_Data_HS",@"historyArray":[NSArray arrayWithObjects:historyDataArray, nil]};
+            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_HISTORICAL_DATA_HS",@"HISTORYDATA__HS":[NSArray arrayWithObjects:historyDataArray, nil]};
             
              [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } FinishTransmission:^{
+            NSLog(@"FinishTransmission");
             NSDictionary *deviceInfo = @{@"mac":mac};
             
              [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } DisposeErrorBlock:^(HS4DeviceError errorID) {
-            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"Action_Error_HS",@"error":[NSNumber numberWithInteger:errorID]};
+            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_ERROR_HS",@"error":[NSNumber numberWithInteger:errorID]};
             
              [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }];
@@ -96,24 +102,39 @@ RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString*)mac :(nonnull int*)unit :(no
 
 RCT_EXPORT_METHOD(measuereOnline:(nonnull NSString*)mac){
     if ([self getHS4WithMac:mac] != nil) {
-        [[self getHS4WithMac:mac]commandMeasureWithUint:HSUnit_Kg andUser:nil Authentication:^(UserAuthenResult result) {
+        HealthUser* healthUser = [[HealthUser alloc] init];
+        healthUser.userID = [iHealthDeviceManagerModule autherizedUserID];
+        healthUser.clientID = [iHealthDeviceManagerModule autherizedClientID];
+        healthUser.clientSecret = [iHealthDeviceManagerModule autherizedClientSecret];
+        [[self getHS4WithMac:mac]commandMeasureWithUint:HSUnit_Kg andUser:healthUser Authentication:^(UserAuthenResult result) {
+            NSLog(@"UserAuthenResult:%d",result);
+            if (result != UserAuthen_LoginSuccess) {
+                [self sendErrorWithCode:result];
+            }
             
         } Weight:^(NSNumber *unStableWeight) {
-            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"Action_LiveData_HS",@"UnstableWeight":[NSNumber numberWithInteger:unStableWeight]};
+            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_LIVEDATA_HS",@"LIVEDATA_HS":[NSNumber numberWithInteger:unStableWeight]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } StableWeight:^(NSDictionary *StableWeightDic) {
-            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"Action_StableData_HS",@"stableWeight":[NSDictionary dictionaryWithObjectsAndKeys:StableWeightDic, nil]};
+            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_ONLINE_RESULT_HS",@"WEIGHT_HS":[NSDictionary dictionaryWithObjectsAndKeys:StableWeightDic, nil]};
             
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } DisposeErrorBlock:^(HS4DeviceError errorID) {
-            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"Action_Error_HS",@"error":[NSNumber numberWithInteger:errorID]};
+            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_ERROR_HS",@"error":[NSNumber numberWithInteger:errorID]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }];
     }
 
 }
 
+- (void)sendErrorWithCode:(NSInteger)errorCode{
+    [self sendEventWithAction:@"ACTION_ERROR_HS" keyString:@"value" valueString:@(errorCode)];
+}
+
+- (void)sendEventWithAction:(NSString*)actionName keyString:(NSString*)key valueString:(id)value{
+    [self.bridge.eventDispatcher sendDeviceEventWithName:@"HS4.MODULE.NOTIFY"  body:@{@"action":actionName,key:value}];
+}
 
 @end

@@ -19,6 +19,7 @@
 		187510341DE5E439005E66B1 /* AM3SModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 187510331DE5E439005E66B1 /* AM3SModule.m */; };
 		AF1B3F141DF9482100DFDB23 /* HS4SModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1B3F111DF9482100DFDB23 /* HS4SModule.m */; };
 		AF1B3F151DF9482100DFDB23 /* HSProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1B3F131DF9482100DFDB23 /* HSProfileModule.m */; };
+		AF1B3F3A1DFE72BD00DFDB23 /* HS6Module.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1B3F391DFE72BD00DFDB23 /* HS6Module.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -128,10 +129,13 @@
 		1875107E1DE5E6A5005E66B1 /* SDKCommToolClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDKCommToolClass.h; sourceTree = "<group>"; };
 		1875107F1DE5E6A5005E66B1 /* SDKUpdateDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDKUpdateDevice.h; sourceTree = "<group>"; };
 		187510801DE5E6A5005E66B1 /* WifiSetWifiClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiSetWifiClass.h; sourceTree = "<group>"; };
+		8C17D1CB1E0274B700DF0A88 /* IHSDKCloudUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IHSDKCloudUser.h; sourceTree = "<group>"; };
 		AF1B3F101DF9482100DFDB23 /* HS4SModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HS4SModule.h; sourceTree = "<group>"; };
 		AF1B3F111DF9482100DFDB23 /* HS4SModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HS4SModule.m; sourceTree = "<group>"; };
 		AF1B3F121DF9482100DFDB23 /* HSProfileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSProfileModule.h; sourceTree = "<group>"; };
 		AF1B3F131DF9482100DFDB23 /* HSProfileModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSProfileModule.m; sourceTree = "<group>"; };
+		AF1B3F381DFE72BD00DFDB23 /* HS6Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HS6Module.h; sourceTree = "<group>"; };
+		AF1B3F391DFE72BD00DFDB23 /* HS6Module.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HS6Module.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +171,8 @@
 			children = (
 				AF1B3F101DF9482100DFDB23 /* HS4SModule.h */,
 				AF1B3F111DF9482100DFDB23 /* HS4SModule.m */,
+				AF1B3F381DFE72BD00DFDB23 /* HS6Module.h */,
+				AF1B3F391DFE72BD00DFDB23 /* HS6Module.m */,
 				AF1B3F121DF9482100DFDB23 /* HSProfileModule.h */,
 				AF1B3F131DF9482100DFDB23 /* HSProfileModule.m */,
 				182D02891DE57A2F00E9B783 /* iHealthDeviceManagerModule.h */,
@@ -195,6 +201,7 @@
 		187510351DE5E6A5005E66B1 /* Communication_SDK */ = {
 			isa = PBXGroup;
 			children = (
+				8C17D1CB1E0274B700DF0A88 /* IHSDKCloudUser.h */,
 				187510361DE5E6A5005E66B1 /* ABI.h */,
 				187510371DE5E6A5005E66B1 /* ABIController.h */,
 				187510381DE5E6A5005E66B1 /* ABPM.h */,
@@ -343,6 +350,7 @@
 				187510221DE5E399005E66B1 /* BP550BTModule.m in Sources */,
 				187510341DE5E439005E66B1 /* AM3SModule.m in Sources */,
 				AF1B3F141DF9482100DFDB23 /* HS4SModule.m in Sources */,
+				AF1B3F3A1DFE72BD00DFDB23 /* HS6Module.m in Sources */,
 				187510311DE5E424005E66B1 /* AM4Module.m in Sources */,
 				187510281DE5E3E3005E66B1 /* BP5Module.m in Sources */,
 			);

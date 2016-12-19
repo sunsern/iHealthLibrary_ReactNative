@@ -8,7 +8,7 @@ var RCTModule = NativeModules.BG1ProfileModule
 /**
  * @module BG1ProfileModule
  */
-var BG1ProfileModule = {
+module.exports = {
     /**
      * Callback indicating the send code result of bg1 device.
      * <ul>
@@ -104,9 +104,28 @@ var BG1ProfileModule = {
     /**
      * the data id
      */
-    DATA_ID:RCTModule.DATA_ID
+    DATA_ID:RCTModule.DATA_ID,
     
 
-}
+    /**
+     * Callback indicating the code analysis result.
+     */
+    ACTION_CODE_ANALYSIS:RCTModule.ACTION_CODE_ANALYSIS,
 
-module.exports = BG1ProfileModule
+
+    /**
+     * the strip number
+     */
+    STRIP_NUM_BG:RCTModule.STRIP_NUM_BG,
+
+    /**
+     * the expire time
+     */
+    STRIP_EXPIRETIME_BG:RCTModule.STRIP_EXPIRETIME_BG,
+
+    /**
+     * the bottle id
+     */
+    BOTTLEID_BG:RCTModule.BOTTLEID_BG
+
+}

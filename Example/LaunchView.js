@@ -9,7 +9,8 @@ import {
     ListView,
     DeviceEventEmitter,
     TouchableHighlight,
-    Picker
+    Picker,
+    AsyncStorage
 
 } from 'react-native';
 
@@ -19,6 +20,10 @@ import {
     SimpleListView
 } from './SimpleListView';
 
+import {
+    AlertDialog
+} from './AlertDialog';
+
 import AMView from './AMView';
 import BP3LView from './BP3LView';
 import BP550BTView from './BP550BTView';
@@ -26,36 +31,51 @@ import BP7SView from './BP7SView';
 import PO3View from './PO3View';
 import HS4SView from './HS4SView';
 import BG1View from './BG1View';
+import HS6View from './HS6View';
+import BG5View from './BG5View';
+import BG5LView from './BG5LView';
 
 import {
     iHealthDeviceManagerModule
 } from 'ihealthlibrary-react-native'
 
-
+var STORAGE_KEY_DISCOVERY_TYPE = '@iHealthReactNative:keyDiscoveryType';
 class MainView extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             type: iHealthDeviceManagerModule.BP5,
             pickerEnabled: true,
             scanStatus: false
         };
+        AsyncStorage.getItem(STORAGE_KEY_DISCOVERY_TYPE, (err, type)=> {
+            if (err == null) {
+                let typNum = parseInt(type)
+                this.setState({
+                    type: isNaN(typNum) ? type : typNum
+                })
+            }
+        })
     }
 
 
     authenConfigureInfo() {
         this.removeListener()
         this.addListener()
-        iHealthDeviceManagerModule.authenConfigureInfo( 'jing@q.aaa', '', '')
+        iHealthDeviceManagerModule.authenConfigureInfo('jing@q.aaa', '', '')
     }
 
 
     startDiscovery() {
-        console.info('scan device ------'+this.state.type)
-        
+        console.info('scan device ------' + this.state.type)
+
         if (this.state.scanStatus) {
             console.info('正在扫描设备')
+        } else if (this.state.type == iHealthDeviceManagerModule.HS6) {
+            this.props.navigator.push({
+                name: "DeviceView",
+                type: "HS6"
+            })
         } else {
             this.setState({pickerEnabled: false, scanStatus: true});
             this.removeListener()
@@ -92,7 +112,7 @@ class MainView extends Component {
         this.scanFinishListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Scan_Finish, function (e: Event) {
             // handle event.
             console.log('~~~ScanFinish')
-            self.setState({pickerEnabled: true, scanStatus:false})
+            self.setState({pickerEnabled: true, scanStatus: false})
         });
 
         this.connectSuccessListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Connected, function (e: Event) {
@@ -114,7 +134,7 @@ class MainView extends Component {
 
     removeListener() {
         //Unregister  event
-        if(this.authenListener) {
+        if (this.authenListener) {
             this.authenListener.remove()
         }
         if (this.scanListener) {
@@ -193,70 +213,87 @@ class MainView extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <AlertDialog
+                    ref="dialog"
+                    title="Select Type"
+                    leftButtonText="Cancel"
+                    rightButtonText="Start"
+                    getView={() => {
+                        return (
+                            <Picker
+                                style={{flex: 1}}
+                                selectedValue={this.state.type}
+                                onValueChange={(value) => {
+                                    this.setState({type: value})
+                                }}
+                                enabled={this.state.pickerEnabled}
+                                mode="dropdown"
+                                //when mode is dialog will work
+                                prompt="choese device to discovery">
 
+                                <Picker.Item label='BP5' value={iHealthDeviceManagerModule.BP5}/>
+                                <Picker.Item label='BP3L' value={iHealthDeviceManagerModule.BP3L}/>
+                                <Picker.Item label='KN-550BT' value={iHealthDeviceManagerModule.KN550}/>
+                                <Picker.Item label='BP7S' value={iHealthDeviceManagerModule.BP7S}/>
+                                <Picker.Item label='AM3S' value={iHealthDeviceManagerModule.AM3S}/>
+                                <Picker.Item label='AM4' value={iHealthDeviceManagerModule.AM4}/>
+                                <Picker.Item label='PO3' value={iHealthDeviceManagerModule.PO3}/>
+                                <Picker.Item label='HS4S' value={iHealthDeviceManagerModule.HS4S}/>
+                                <Picker.Item label='HS6' value={iHealthDeviceManagerModule.HS6}/>
+                                <Picker.Item label='BG1' value={iHealthDeviceManagerModule.BG1}/>
+                                <Picker.Item label='BG5' value={iHealthDeviceManagerModule.BG5}/>
+                                <Picker.Item label='BG5L' value={iHealthDeviceManagerModule.BG5L}/>
+
+
+                            </Picker>
+                        )
+                    }}
+                    onClick={(index) => {
+                        if (index == 1) {
+                            this.startDiscovery()
+                            try{
+                                AsyncStorage.setItem(STORAGE_KEY_DISCOVERY_TYPE, this.state.type.toString());
+                            } catch(error) {
+                                console.warn('AsyncStorage error : ' + error.message)
+                            }
+                        }
+                    }}
+                />
                 <TouchableOpacity
-                        style={{
-                            height: 60,
-                            justifyContent: 'center', // 内容居中显示
-                            backgroundColor: '#eedddd',
-                            alignItems: 'center',
-                        }}
-                        onPress={() => this.authenConfigureInfo()}>
-                        <Text style={styles.buttonText}>
-                            认证SDK
-                        </Text>
+                    style={{
+                        height: 60,
+                        justifyContent: 'center', // 内容居中显示
+                        backgroundColor: '#eedddd',
+                        alignItems: 'center',
+                    }}
+                    onPress={() => this.authenConfigureInfo()}>
+                    <Text style={styles.buttonText}>
+                        认证SDK
+                    </Text>
                 </TouchableOpacity>
 
-                <View style={{flexDirection: 'row', marginTop:5}}>
+                <TouchableOpacity
 
-                    <Picker
-                        style={{flex: 1, height: 60}}
-                        selectedValue={this.state.type}
-                        onValueChange={(value) => {
-                            this.setState({type: value})
-                        }}
-                        enabled={this.state.pickerEnabled}
-                        mode="dropdown"
-                        //when mode is dialog will work
-                        prompt="choese device to discovery">
-
-                        <Picker.Item label='BP5' value={iHealthDeviceManagerModule.BP5}/>
-                        <Picker.Item label='BP3L' value={iHealthDeviceManagerModule.BP3L}/>
-                        <Picker.Item label='KN-550BT' value={iHealthDeviceManagerModule.KN550}/>
-                        <Picker.Item label='BP7S' value={iHealthDeviceManagerModule.BP7S}/>
-                        <Picker.Item label='AM3S' value={iHealthDeviceManagerModule.AM3S}/>
-                        <Picker.Item label='AM4' value={iHealthDeviceManagerModule.AM4}/>
-                        <Picker.Item label='PO3' value={iHealthDeviceManagerModule.PO3}/>
-                        <Picker.Item label='HS4S' value={iHealthDeviceManagerModule.HS4S}/>
-                        <Picker.Item label='HS6' value={iHealthDeviceManagerModule.HS6}/>
-                        <Picker.Item label='BG1' value={iHealthDeviceManagerModule.BG1}/>
-                        <Picker.Item label='BG5' value={iHealthDeviceManagerModule.BG5}/>
-                        <Picker.Item label='BG5L' value={iHealthDeviceManagerModule.BG5L}/>
-
-
-                    </Picker>
-
-
-                    <TouchableOpacity
-
-                        style={{
-                            height: 60,
-                            justifyContent: 'center', // 内容居中显示
-                            backgroundColor: '#eedddd',
-                            alignItems: 'center',
-                            flex: 2
-                        }}
-                        onPress={() => this.startDiscovery()}>
-                        <Text style={styles.buttonText}>
-                            扫描设备
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                    style={{
+                        height: 60,
+                        marginTop: 5,
+                        justifyContent: 'center', // 内容居中显示
+                        backgroundColor: '#eedddd',
+                        alignItems: 'center',
+                    }}
+                    onPress={() => {
+                        this.refs.dialog.setModalVisible(true)
+                    }}>
+                    <Text style={styles.buttonText}>
+                        扫描设备
+                    </Text>
+                </TouchableOpacity>
 
 
                 <Text style={styles.headText}> 扫描列表 </Text>
                 <SimpleListView
                     ref='discoverListView'
+                    style={{backgroundColor: '#fafafa'}}
                     navigator={this.props.navigator}
                     getData={() => {
                         return discoverDeviceArray
@@ -290,6 +327,7 @@ class MainView extends Component {
 
                 <SimpleListView
                     ref='connectedListView'
+                    style={{backgroundColor: '#fafafa'}}
                     navigator={this.props.navigator}
                     getData={() => {
                         return connectedDeviceArray
@@ -361,6 +399,12 @@ export default class LaunchView extends Component {
                     return <HS4SView navigator={navigator} mac={route.mac} type={route.type}/>
                 case "BG1":
                     return <BG1View navigator={navigator} mac={route.mac} type={route.type}/>
+                case "HS6":
+                    return <HS6View navigator={navigator} mac={route.mac} type={route.type}/>
+                case "BG5":
+                    return <BG5View navigator={navigator} mac={route.mac} type={route.type}/>
+                case "BG5L":
+                    return <BG5LView navigator={navigator} mac={route.mac} type={route.type}/>
                 default:
                     console.warn('Not implemented yet, type = ' + route.type)
                     break;
@@ -427,7 +471,8 @@ export default class LaunchView extends Component {
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 75
+        backgroundColor: '#fafafa',
+        paddingTop: 75,
     },
     // 导航栏
     heading: {
@@ -439,7 +484,8 @@ var styles = StyleSheet.create({
     // 导航栏文字
     headText: {
         color: '#ff5555',
-        fontSize: 22
+        fontSize: 22,
+        backgroundColor: '#fafafa',
     },
     // 按钮
     button: {

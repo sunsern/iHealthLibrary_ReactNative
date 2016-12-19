@@ -1,5 +1,5 @@
 /**
- * Created by zhangxu on 16/11/11.
+ * Created by lixuesong on 16/11/11.
  */
 import React, {Component, PropTypes} from 'react';
 import {
@@ -128,18 +128,18 @@ export default class HS4SView extends Component {
                 resultText += "\ndata id = " + dataId
                 let weight = e[HSProfileModule.WEIGHT_HS]
                 resultText += "\nweight = " + weight
-                let fat = e[HSProfileModule.FAT_HS]
-                resultText += "\nfat = " + fat
-                let water = e[HSProfileModule.WATER_HS]
-                resultText += "\nwater = " + water
-                let muscle = e[HSProfileModule.MUSCLE_HS]
-                resultText += "\nmuscle = " + muscle
-                let skeleton = e[HSProfileModule.SKELETON_HS]
-                resultText += "\nskeleton = " + skeleton
-                let fateLevel = e[HSProfileModule.FATELEVEL_HS]
-                resultText += "\nfate level = " + fateLevel
-                let DCI = e[HSProfileModule.DCI_HS]
-                resultText += "\nDCI = " + DCI
+                // let fat = e[HSProfileModule.FAT_HS]
+                // resultText += "\nfat = " + fat
+                // let water = e[HSProfileModule.WATER_HS]
+                // resultText += "\nwater = " + water
+                // let muscle = e[HSProfileModule.MUSCLE_HS]
+                // resultText += "\nmuscle = " + muscle
+                // let skeleton = e[HSProfileModule.SKELETON_HS]
+                // resultText += "\nskeleton = " + skeleton
+                // let fateLevel = e[HSProfileModule.FATELEVEL_HS]
+                // resultText += "\nfate level = " + fateLevel
+                // let DCI = e[HSProfileModule.DCI_HS]
+                // resultText += "\nDCI = " + DCI
             } else if (action == HSProfileModule.ACTION_HISTORICAL_DATA_HS) {
                 let offlineData = e[HSProfileModule.HISTORDATA__HS]
                 resultText = "Get offline data successfully.\nThere is(are) " + offlineData.length
@@ -148,23 +148,23 @@ export default class HS4SView extends Component {
                     let dataInfo = offlineData[i]
                     let dataId = dataInfo[HSProfileModule.DATAID]
                     let date = dataInfo[HSProfileModule.MEASUREMENT_DATE_HS]
-                    let weight = dataInfo[HSProfileModule.WEIGHT_HS]
-                    let fat = dataInfo[HSProfileModule.FAT_HS]
-                    let water = dataInfo[HSProfileModule.WATER_HS]
-                    let muscle = dataInfo[HSProfileModule.MUSCLE_HS]
-                    let skeleton = dataInfo[HSProfileModule.SKELETON_HS]
-                    let fateLevel = dataInfo[HSProfileModule.FATELEVEL_HS]
-                    let DCI = dataInfo[HSProfileModule.DCI_HS]
+                    // let weight = dataInfo[HSProfileModule.WEIGHT_HS]
+                    // let fat = dataInfo[HSProfileModule.FAT_HS]
+                    // let water = dataInfo[HSProfileModule.WATER_HS]
+                    // let muscle = dataInfo[HSProfileModule.MUSCLE_HS]
+                    // let skeleton = dataInfo[HSProfileModule.SKELETON_HS]
+                    // let fateLevel = dataInfo[HSProfileModule.FATELEVEL_HS]
+                    // let DCI = dataInfo[HSProfileModule.DCI_HS]
                     resultText += "---------------------------------------------------------------"
                     resultText += "\ndataId = " + dataId
                     resultText += "\ndate = " + date
                     resultText += "\nweight = " + weight
-                    resultText += "\nfat = " + fat
-                    resultText += "\nwater = " + water
-                    resultText += "\nmuscle = " + muscle
-                    resultText += "\nskeleton = " + skeleton
-                    resultText += "\nfate level = " + fateLevel
-                    resultText += "\nDCI = " + DCI
+                    // resultText += "\nfat = " + fat
+                    // resultText += "\nwater = " + water
+                    // resultText += "\nmuscle = " + muscle
+                    // resultText += "\nskeleton = " + skeleton
+                    // resultText += "\nfate level = " + fateLevel
+                    // resultText += "\nDCI = " + DCI
                 }
             } else if (action == HSProfileModule.ACTION_NO_HISTORICALDATA) {
                 resultText = "No History Data."

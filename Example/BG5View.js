@@ -84,49 +84,63 @@ export default class BG5View extends Component {
         this.notifyListerner = DeviceEventEmitter.addListener(BG5Module.Event_Notify, function (e: Event) {
             console.info('BG5View', 'addListener_NotifyLinstener', "Action = " + e.action + '\n' + "Message = " + JSON.stringify(e));
             if (e.action == BGProfileModule.ACTION_KEEP_LINK) {
-                resultText = e[BGProfileModule.KEEP_LINK]? 'Keep link success':'Keep link fail';
+                resultText = e[BGProfileModule.KEEP_LINK] ? 'Keep link success' : 'Keep link fail';
             }
             else if (e.action == BGProfileModule.ACTION_GET_BATTERY) {
                 console.info('BG5View', BGProfileModule.GET_BATTERY + JSON.stringify(e));
                 resultText = 'bg5 battery : ' + e[BGProfileModule.GET_BATTERY];
             }
             else if (e.action == BGProfileModule.ACTION_SET_TIME) {
-                resultText = e[BGProfileModule.SET_TIME]? 'Set time success':'Set time fail'
+                resultText = e[BGProfileModule.SET_TIME] ? 'Set time success' : 'Set time fail'
             }
             else if (e.action == BGProfileModule.ACTION_SET_UNIT) {
-                resultText = e[BGProfileModule.SET_UNIT] == true? 'Set unit success':'Set unit fail'
+                resultText = e[BGProfileModule.SET_UNIT] == true ? 'Set unit success' : 'Set unit fail'
             }
             else if (e.action == BGProfileModule.ACTION_START_MEASURE) {
-                resultText = e[BGProfileModule.START_MEASURE] == true? 'Start measure success':'Start measure fail'
-            }
-            else if (e.action == BGProfileModule.ACTION_GET_OFFLINEDATA_COUNT) {
-                resultText = 'Offline data count : ' + e[BGProfileModule.GET_OFFLINEDATA_COUNT];
+                resultText = e[BGProfileModule.START_MEASURE] == true ? 'Start measure success' : 'Start measure fail'
             }
             else if (e.action == BGProfileModule.ACTION_GET_OFFLINEDATA) {
                 resultText = 'Offline data : ' + e[BGProfileModule.GET_OFFLINEDATA];
             }
+            else if (e.action == BGProfileModule.ACTION_GET_OFFLINEDATA_COUNT) {
+                console.info('Offline ' + e.action);
+                resultText = 'Offline data count 111 : ' + e[BGProfileModule.GET_OFFLINEDATA_COUNT];
+            }
             else if (e.action == BGProfileModule.ACTION_DELETE_OFFLINEDATA) {
-                resultText = e[BGProfileModule.DELETE_OFFLINEDATA] == true? 'Delete success':'Delete fail'
+                resultText = e[BGProfileModule.DELETE_OFFLINEDATA] == true ? 'Delete success' : 'Delete fail'
             }
             else if (e.action == BGProfileModule.ACTION_SET_BOTTLEMESSAGE) {
-                resultText = e[BGProfileModule.SET_BOTTLEMESSAGE] == true? 'Set bottle message success':'Set bottle message fail'
+                resultText = e[BGProfileModule.SET_BOTTLEMESSAGE] == true ? 'Set bottle message success' : 'Set bottle message fail'
             }
             else if (e.action == BGProfileModule.ACTION_GET_BOTTLEMESSAGE) {
-                resultText = 'Expire time : ' + e[BGProfileModule.GET_EXPIRECTIME] +"  ";
+                resultText = 'Expire time : ' + e[BGProfileModule.GET_EXPIRECTIME] + "  ";
                 resultText += 'UserID : ' + e[BGProfileModule.GET_USENUM];
             }
             else if (e.action == BGProfileModule.ACTION_SET_BOTTLEID) {
-                resultText = e[BGProfileModule.SET_BOTTLEMESSAGE] == true? 'Set bottleID success':'Set bottleID fail'
+                resultText = e[BGProfileModule.SET_BOTTLEMESSAGE] == true ? 'Set bottleID success' : 'Set bottleID fail'
             }
             else if (e.action == BGProfileModule.ACTION_GET_BOTTLEID) {
                 resultText = 'BottleID is : ' + e[BGProfileModule.GET_BOTTLEID];
             }
+            else if (e.action == BGProfileModule.ACTION_STRIP_IN) {
+                resultText = 'get the strip in ';
+            }
+            else if (e.action == BGProfileModule.ACTION_STRIP_OUT) {
+                resultText = 'get the strip out ';
+            }
+            else if (e.action == BGProfileModule.ACTION_GET_BLOOD) {
+                resultText = 'get the blood ';
+            }
+            else if (e.action == BGProfileModule.ACTION_ONLINE_RESULT_BG) {
+                // onDeviceNotify(010203000003, BG5L, action_value_bg, {"result":146,"dataID":"3E995A712827354FB660B89A06B2AB99"})
+                resultText = 'measure result : ' + e[BGProfileModule.ONLINE_RESULT_BG] + ' dataID : ' + e[BGProfileModule.DATA_ID];
+            }
             else if (e.action == BGProfileModule.ACTION_ERROR_BG) {
                 let errorNumber = e[BGProfileModule.ERROR_NUM_BG]
-                // let errorDescription = e[BGProfileModule.ERROR_DESCRIPTION_BG]
-                resultText = "Error happens:\nerrorNumber = " + errorNumber;
-                // + "\nDescreption: " + errorDescription
-            } else {
+                let errorDescription = e[BGProfileModule.ERROR_DESCRIPTION_BG]
+                resultText = "Error happens:\nerrorNumber = " + errorNumber + "\nDescreption: " + errorDescription;
+            }
+            else {
                 resultText = JSON.stringify(e)
             }
             console.info('BG5View', resultText);
@@ -182,9 +196,10 @@ export default class BG5View extends Component {
         BG5Module.deleteOfflineData(this.props.mac);
     }
 
-    setBottleMessage(QR) {
-        console.log("  BG5 setBottleMessage  " + QR);
-        BG5Module.setBottleMessage(this.props.mac, QR);
+    setBottleMessage(stripType, measureType, QRCode, stripNum, overDate) {
+        console.log("  BG5 setBottleMessage  " + "stripType= " + stripType + " measureType="+measureType + " QRCode="
+                + QRCode + " stripNum=" +stripNum + " overDate="+overDate);
+        BG5Module.setBottleMessage(this.props.mac, stripType, measureType, QRCode , stripNum, overDate);
     }
 
     getBottleMessage() {
@@ -269,7 +284,7 @@ export default class BG5View extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this.setBottleMessage("02323C641E3114322D0800A064646464646464646464FA012261000E1CCC")}>
+                        onPress={() => this.setBottleMessage(2,1,"",0,"")}>
                         <Text style={styles.buttonText}>
                             设置试瓶信息
                         </Text>

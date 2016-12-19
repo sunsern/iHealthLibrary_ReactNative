@@ -348,12 +348,16 @@ module.exports = {
      * DeviceEventEmitter.addListener(BG5LModule.Event_Notify, function (e: Event){});
      * </li>
      * </ul>
-     * @param {string} mac Device's mac address
-     * @param {number} QR the QR code set to deivce
+     * @param {string} mac: Device's mac address
+     * @param {number} stripType: GDH code or GOD code
+     * @param {number} measureType: Blood measure or Liquid measure
+     * @param {number} QR: the QR code set to deivce
+     * @param {number} stripNum: the left count of strip
+     * @param {string} overDateR: the expire time of the strip
      */
-    setBottleMessage: function (mac, QR){
+    setBottleMessage: function (mac, stripType, measureType, QRCode, stripNum, overDate){
         if (RCTModule != null) {
-            RCTModule.setBottleMessage(mac, QR);
+            RCTModule.setBottleMessageWithInfo(mac, stripType, measureType, QRCode, stripNum, overDate);
         } else {
             console.log('~~~~~ BG5L setBottleMessage RCTModule is null')
         }

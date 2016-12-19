@@ -11,17 +11,19 @@
 #import "AMMacroFile.h"
 #import "AM3SController_V2.h"
 #import "AM3S_V2.h"
+
+#define EVENT_NOTIFY @"event_notify_am3s"
+
 @implementation AM3SModule
+@synthesize bridge = _bridge;
 
 RCT_EXPORT_MODULE()
 - (NSDictionary *)constantsToExport
 {
     return @{
-             @"EVENT_NOTIFY": EVENT_NOTIFY
+             @"Event_Notify": EVENT_NOTIFY
              
              };
-    
-    
 }
 
 #pragma mark
@@ -46,7 +48,7 @@ RCT_EXPORT_MODULE()
     NSArray *amDeviceArray = [controller getAllCurrentAM3SInstace];
     
     for(AM3S_V2 *tempAM3S in amDeviceArray){
-        if([mac isEqualToString:tempAM3S.currentUUID]){
+        if([mac isEqualToString:tempAM3S.serialNumber]){
             
             return tempAM3S;
             break;
@@ -67,9 +69,14 @@ RCT_EXPORT_MODULE()
     AM3S_V2 *AMInstance = [amDeviceArray objectAtIndex:0];
 }
 
-
-#pragma mark
+-(void)DeviceDisConnectForAM3S:(NSNotification *)tempNoti{
+    AM3SController_V2 *controller = [AM3SController_V2 shareIHAM3SController];
+    
+    
+}
 #pragma mark - Method
+
+#pragma mark-恢复出厂
 RCT_EXPORT_METHOD(reset:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -86,7 +93,7 @@ RCT_EXPORT_METHOD(reset:(nonnull NSString *)mac){
         }];
     }
 }
-
+#pragma mark - 得到用户ID
 RCT_EXPORT_METHOD(getUserId:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -104,7 +111,7 @@ RCT_EXPORT_METHOD(getUserId:(nonnull NSString *)mac){
         
     }
 }
-
+#pragma mark - 设置用户ID
 RCT_EXPORT_METHOD(setUserId:(nonnull NSString *)mac :(nonnull NSNumber *)uesrID){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -120,7 +127,7 @@ RCT_EXPORT_METHOD(setUserId:(nonnull NSString *)mac :(nonnull NSNumber *)uesrID)
         }];
     }
 }
-
+#pragma mark - 同步时间
 RCT_EXPORT_METHOD(syncRealTime:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -136,7 +143,7 @@ RCT_EXPORT_METHOD(syncRealTime:(nonnull NSString *)mac){
         }];
     }
 }
-
+#pragma mark - 设置用户信息
 RCT_EXPORT_METHOD(setUserInfo:(nonnull NSString *)mac :(nonnull NSNumber *)age :(nonnull NSNumber *)height :(nonnull NSNumber *)weight :(nonnull NSNumber *)gender :(nonnull NSNumber *)unit :(nonnull NSNumber *)target :(nonnull NSNumber *)activityLevel){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -164,14 +171,14 @@ RCT_EXPORT_METHOD(setUserInfo:(nonnull NSString *)mac :(nonnull NSNumber *)age :
         }];
     }
 }
-
+#pragma mark - 得到用户信息
 RCT_EXPORT_METHOD(getUserInfo:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
         
         [[self getAM3SWithMac:mac] commandAM3SGetUserInfo:^(NSDictionary *userInfo) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"get_userinfo_am",@"age":[userInfo valueForKey:@"Age"],@"step":[userInfo valueForKey:@"Step"],@"height":[userInfo valueForKey:@"Height"],@"gender":[userInfo valueForKey:@"Gender"],@"weight":[userInfo valueForKey:@"Weight"],@"unit":[userInfo valueForKey:@"Unit"],@"target1":[userInfo valueForKey:@"TotalStep1"],@"target2":[userInfo valueForKey:@"TotalStep2"],@"target3":[userInfo valueForKey:@"TotalStep3"],@"swim_target":[userInfo valueForKey:@"SwimmingGoal"]};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"get_userinfo_am",@"age":[userInfo valueForKey:@"Age"],@"step":[userInfo valueForKey:@"Step"],@"height":[userInfo valueForKey:@"Height"],@"gender":[userInfo valueForKey:@"Gender"],@"weight":[userInfo valueForKey:@"Weight"],@"unit":[userInfo valueForKey:@"Unit"],@"target1":[userInfo valueForKey:@"TotalStep1"],@"target2":[userInfo valueForKey:@"TotalStep2"],@"target3":[userInfo valueForKey:@"TotalStep3"]};
             
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
@@ -182,7 +189,7 @@ RCT_EXPORT_METHOD(getUserInfo:(nonnull NSString *)mac){
         }];
     }
 }
-
+#pragma mark - 得到闹钟个数
 RCT_EXPORT_METHOD(getAlarmClockNum:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -208,8 +215,8 @@ RCT_EXPORT_METHOD(getAlarmClockNum:(nonnull NSString *)mac){
         }];
     }
 }
-
-RCT_EXPORT_METHOD(getAlarmClockDetail:(nonnull NSString *)mac){
+#pragma mark - 得到闹钟信息
+RCT_EXPORT_METHOD(getAlarmClockDetail:(nonnull NSString *)mac :(nonnull NSArray *)alarmIDS){
     
     if ([self getAM3SWithMac:mac]!=nil) {
         
@@ -221,27 +228,45 @@ RCT_EXPORT_METHOD(getAlarmClockDetail:(nonnull NSString *)mac){
                 
                 for (NSDictionary *dic in totoalAlarmArray) {
                     
+                    
                     NSMutableDictionary *alartDic = [[NSMutableDictionary alloc]init];
-                    [alartDic setValue:[dic valueForKey:@"AlarmId"] forKey:@"alarmid"];
-                    [alartDic setValue:[dic valueForKey:@"Time"] forKey:@"time"];
-                    [alartDic setValue:[dic valueForKey:@"IsRepeat"] forKey:@"repeat"];
                     
-                    NSMutableDictionary * weekDic = [[NSMutableDictionary alloc]init];
-                    [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:0] forKey:@"sun"];
-                    [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:1] forKey:@"mon"];
-                    [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:2] forKey:@"tue"];
-                    [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:3] forKey:@"wed"];
-                    [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:4] forKey:@"thu"];
-                    [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:5] forKey:@"fri"];
-                    [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:6] forKey:@"sat"];
-                    
-                    [alartDic setValue:weekDic forKey:@"get_alarm_week"];
-                    [alartDic setValue:[dic valueForKey:@"Switch"] forKey:@"switch"];
-                    
-                    [alarmInfoArray addObject:alartDic];
+                    for (NSNumber * alarmID in alarmIDS) {
+                        
+                        NSNumber *deviceAlarmID = [dic valueForKey:@"AlarmId"];
+                        
+                        if(deviceAlarmID.intValue == alarmID.intValue){
+                            
+                            [alartDic setValue:[dic valueForKey:@"AlarmId"] forKey:@"alarmid"];
+                            
+                            NSDate *date = [dic valueForKey:@"Time"];
+                            NSDateFormatter *dateFormater=[[NSDateFormatter alloc]init];
+                            [dateFormater setTimeZone:[NSTimeZone defaultTimeZone]];
+                            [dateFormater setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+                            [dateFormater setDateFormat:@"HH:mm"];
+                            NSString *dateString = [dateFormater stringFromDate:date];
+                            
+                            [alartDic setValue:dateString forKey:@"time"];
+                            [alartDic setValue:[dic valueForKey:@"IsRepeat"] forKey:@"repeat"];
+                            
+                            NSMutableDictionary * weekDic = [[NSMutableDictionary alloc]init];
+                            [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:0] forKey:@"sun"];
+                            [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:1] forKey:@"mon"];
+                            [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:2] forKey:@"tue"];
+                            [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:3] forKey:@"wed"];
+                            [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:4] forKey:@"thu"];
+                            [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:5] forKey:@"fri"];
+                            [weekDic setValue:[[dic valueForKey:@"Week"] objectAtIndex:6] forKey:@"sat"];
+                            
+                            [alartDic setValue:weekDic forKey:@"get_alarm_week"];
+                            [alartDic setValue:[dic valueForKey:@"Switch"] forKey:@"switch"];
+                            [alarmInfoArray addObject:alartDic];
+                            
+                        }
+                    }
                 }
+                
             }
-            
             NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"get_alarminfo_am",@"alarmclockdetail":alarmInfoArray};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
@@ -251,36 +276,21 @@ RCT_EXPORT_METHOD(getAlarmClockDetail:(nonnull NSString *)mac){
         }];
     }
 }
-
-RCT_EXPORT_METHOD(setAlarmClock:(nonnull NSString *)mac :(nonnull NSNumber *)alarmID :(nonnull NSNumber *)hour :(nonnull NSNumber *)min :(nonnull  BOOL*)isRepeat :(nonnull NSArray *)weekArray :(nonnull BOOL *)isOn){
-    
-    if ([self getAM3SWithMac:mac]!=nil) {
+#pragma mark - 设置闹钟信息
+RCT_EXPORT_METHOD(setAlarmClock:(nonnull NSString *)mac :(nonnull NSNumber *)alarmID :(nonnull NSNumber *)hour :(nonnull NSNumber *)min :(nonnull  NSNumber*)isRepeat :(nonnull NSArray *)weekArray :(nonnull NSNumber *)isOn){
         
-        NSDateFormatter *formater=[[NSDateFormatter alloc]init];
-        [formater setTimeZone:[NSTimeZone defaultTimeZone]];
-        [formater setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
-        [formater setDateFormat:@"HH-mm"];
-        NSString * timeStr = [NSString stringWithFormat:@"%@-%@",hour,min];
-        NSDate *date = [formater dateFromString:timeStr];
+        if ([self getAM3SWithMac:mac]!=nil) {
+            
+            NSDateFormatter *formater=[[NSDateFormatter alloc]init];
+            [formater setTimeZone:[NSTimeZone defaultTimeZone]];
+            [formater setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+            [formater setDateFormat:@"HH-mm"];
+            NSString * timeStr = [NSString stringWithFormat:@"%@-%@",hour,min];
+            NSDate *date = [formater dateFromString:timeStr];
+            
+            
+            NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:alarmID,@"AlarmId",date,@"Time",isRepeat,@"IsRepeat",weekArray,@"Week",isOn,@"Switch", nil];
         
-        NSMutableArray *weeksArray = [[NSMutableArray alloc]init];
-        NSNumber *SUNDAY = [weekArray valueForKey:@"sun"];
-        NSNumber *MONDAY = [weekArray valueForKey:@"mon"];
-        NSNumber *TUESDAY = [weekArray valueForKey:@"tue"];
-        NSNumber *WEDNESDAY = [weekArray valueForKey:@"wed"];
-        NSNumber *THURSDAY = [weekArray valueForKey:@"thu"];
-        NSNumber *FRIDAY = [weekArray valueForKey:@"fri"];
-        NSNumber *SATURDAY = [weekArray valueForKey:@"sat"];
-        
-        [weeksArray addObject:SUNDAY];
-        [weeksArray addObject:MONDAY];
-        [weeksArray addObject:TUESDAY];
-        [weeksArray addObject:WEDNESDAY];
-        [weeksArray addObject:THURSDAY];
-        [weeksArray addObject:FRIDAY];
-        [weeksArray addObject:SATURDAY];
-        
-        NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:alarmID,@"AlarmId",date,@"Time",isRepeat,@"IsRepeat",weeksArray,@"Week",isOn,@"Switch", nil];
         
         [[self getAM3SWithMac:mac] commandAM3SSetAlarmDictionary:dic withFinishResult:^(BOOL resetSuc) {
             NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"set_alarminfo_success_am"};
@@ -293,7 +303,7 @@ RCT_EXPORT_METHOD(setAlarmClock:(nonnull NSString *)mac :(nonnull NSNumber *)ala
         }];
     }
 }
-
+#pragma mark - 删除闹钟信息
 RCT_EXPORT_METHOD(deleteAlarmClock:(nonnull NSString *)mac :(nonnull NSNumber *)alarmID){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -309,7 +319,7 @@ RCT_EXPORT_METHOD(deleteAlarmClock:(nonnull NSString *)mac :(nonnull NSNumber *)
         }];
     }
 }
-
+#pragma mark - 查询提醒信息
 RCT_EXPORT_METHOD(getActivityRemind:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -317,7 +327,16 @@ RCT_EXPORT_METHOD(getActivityRemind:(nonnull NSString *)mac){
         [[self getAM3SWithMac:mac] commandAM3SGetReminderInfo:^(NSArray *remindInfo) {
             
             NSDictionary *dic = [remindInfo objectAtIndex:0];
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"get_activity_remind_am",@"time":[dic valueForKey:@"Time"],@"switch":[dic valueForKey:@"Switch"]};
+            
+            NSDate *date = [dic valueForKey:@"Time"];
+            NSDateFormatter *dateFormater=[[NSDateFormatter alloc]init];
+            [dateFormater setTimeZone:[NSTimeZone defaultTimeZone]];
+            [dateFormater setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+            [dateFormater setDateFormat:@"HH:mm"];
+            NSString *dateString = [dateFormater stringFromDate:date];
+            
+            
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"get_activity_remind_am",@"time":dateString,@"switch":[dic valueForKey:@"Switch"]};
             
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
@@ -327,8 +346,8 @@ RCT_EXPORT_METHOD(getActivityRemind:(nonnull NSString *)mac){
         }];
     }
 }
-
-RCT_EXPORT_METHOD(setActivityRemind:(nonnull NSString *)mac :(nonnull NSNumber *)hour :(nonnull NSNumber *)min :(nonnull BOOL *)isOn){
+#pragma mark - 设置提醒信息
+RCT_EXPORT_METHOD(setActivityRemind:(nonnull NSString *)mac :(nonnull NSNumber *)hour :(nonnull NSNumber *)min :(nonnull NSNumber *)isOn){
     
     if ([self getAM3SWithMac:mac]!=nil) {
         
@@ -352,7 +371,7 @@ RCT_EXPORT_METHOD(setActivityRemind:(nonnull NSString *)mac :(nonnull NSNumber *
         }];
     }
 }
-
+#pragma mark - 同步运动
 RCT_EXPORT_METHOD(syncActivityData:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -380,7 +399,7 @@ RCT_EXPORT_METHOD(syncActivityData:(nonnull NSString *)mac){
             NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
             
             NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"sync_activity_data_am",@"activity":array};
-            
+
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } withActiveFinishTransmission:^{
@@ -392,7 +411,7 @@ RCT_EXPORT_METHOD(syncActivityData:(nonnull NSString *)mac){
         }];
     }
 }
-
+#pragma mark - 同步睡眠
 RCT_EXPORT_METHOD(syncSleepData:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -422,6 +441,7 @@ RCT_EXPORT_METHOD(syncSleepData:(nonnull NSString *)mac){
             NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
             
             NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"sync_sleep_data_am",@"sleep":array};
+
             
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
@@ -434,8 +454,8 @@ RCT_EXPORT_METHOD(syncSleepData:(nonnull NSString *)mac){
         }];
     }
 }
-
-RCT_EXPORT_METHOD(syncStageReprotData:(nonnull NSString *)mac){
+#pragma mark - 同步阶段性
+RCT_EXPORT_METHOD(syncStageReportData:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
         
@@ -466,7 +486,7 @@ RCT_EXPORT_METHOD(syncStageReprotData:(nonnull NSString *)mac){
             NSArray *sleepArray = [measureDataArray filteredArrayUsingPredicate:predicateSleep];
             if (sleepArray.count != 0)
             {
-                for (NSDictionary *dic in workoutArray) {
+                for (NSDictionary *dic in sleepArray) {
                     
                     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc]init];
                     [dictionary setValue:@"sleep" forKey:@"type"];
@@ -480,7 +500,6 @@ RCT_EXPORT_METHOD(syncStageReprotData:(nonnull NSString *)mac){
             }
             
             NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"sync_stage_data_am",@"stage_data":lastArray};
-            
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
             
@@ -496,7 +515,7 @@ RCT_EXPORT_METHOD(syncStageReprotData:(nonnull NSString *)mac){
         }];
     }
 }
-
+#pragma mark - 同步阶实时数据
 RCT_EXPORT_METHOD(syncRealData:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -512,7 +531,7 @@ RCT_EXPORT_METHOD(syncRealData:(nonnull NSString *)mac){
         }];
     }
 }
-
+#pragma mark - 查询状态
 RCT_EXPORT_METHOD(queryAMState:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -534,7 +553,7 @@ RCT_EXPORT_METHOD(queryAMState:(nonnull NSString *)mac){
         }];
     }
 }
-
+#pragma mark - 设置BMR
 RCT_EXPORT_METHOD(setUserBmr:(nonnull NSString *)mac :(nonnull NSNumber *)bmr){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -551,7 +570,7 @@ RCT_EXPORT_METHOD(setUserBmr:(nonnull NSString *)mac :(nonnull NSNumber *)bmr){
         }];
     }
 }
-
+#pragma mark - 随机数
 RCT_EXPORT_METHOD(sendRandom:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -566,7 +585,7 @@ RCT_EXPORT_METHOD(sendRandom:(nonnull NSString *)mac){
         }];
     }
 }
-
+#pragma mark - 断开
 RCT_EXPORT_METHOD(disconnect:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
@@ -582,29 +601,36 @@ RCT_EXPORT_METHOD(disconnect:(nonnull NSString *)mac){
     }
 }
 
-RCT_EXPORT_METHOD(setHourMode:(nonnull NSString *)mac){
+
+
+
+#pragma mark-设置小时制
+RCT_EXPORT_METHOD(setHourMode:(nonnull NSString *)mac :(nonnull  NSNumber*)hourMode){
     
     if ([self getAM3SWithMac:mac]!=nil) {
         
-        [[self getAM3SWithMac:mac] commandAM3SSetTimeFormatAndNation:^(BOOL resetSuc) {
-            
+        AM3STimeFormatAndNation formatAndNation;
+        formatAndNation = hourMode.intValue;
+        
+        [[self getAM3SWithMac:mac]commandAM3SSetTimeFormatAndNation:hourMode.intValue withFinishResult:^(BOOL resetSuc) {
             NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"set_hour_mode_success_am"};
             
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+
         } withErrorBlock:^(AM3SErrorID errorID) {
             NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"error_am",@"error":[NSNumber numberWithInteger:errorID]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }];
     }
 }
-
+#pragma mark-得到小时制
 RCT_EXPORT_METHOD(getHourMode:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
         
         [[self getAM3SWithMac:mac] commandAM3SGetTimeFormatAndNation:^(AM3STimeFormatAndNation timeFormatAndNation) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"get_hour_mode_am"};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"get_hour_mode_am",@"hourtype":[NSNumber numberWithInt:timeFormatAndNation]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         } withErrorBlock:^(AM3SErrorID errorID) {
             NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"error_am",@"error":[NSNumber numberWithInteger:errorID]};
@@ -613,14 +639,15 @@ RCT_EXPORT_METHOD(getHourMode:(nonnull NSString *)mac){
     }
 }
 
-
-
-
+#pragma mark-设置图片
 RCT_EXPORT_METHOD(setPicture:(nonnull NSString *)mac :(nonnull NSNumber *)index){
     
     if ([self getAM3SWithMac:mac]!=nil) {
         
-        [[self getAM3SWithMac:mac] commandAM3SSetPicture:index withFinishResult:^(BOOL resetSuc) {
+        AM3SPicture piction;
+        piction = index.intValue;
+        
+        [[self getAM3SWithMac:mac] commandAM3SSetPicture:piction withFinishResult:^(BOOL resetSuc) {
             
             NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"set_picture_success_am"};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
@@ -631,11 +658,13 @@ RCT_EXPORT_METHOD(setPicture:(nonnull NSString *)mac :(nonnull NSNumber *)index)
     }
 }
 
+#pragma mark-得到图片
 RCT_EXPORT_METHOD(getPicture:(nonnull NSString *)mac){
     
     if ([self getAM3SWithMac:mac]!=nil) {
         
         [[self getAM3SWithMac:mac] commandAM3SGetPicture:^(AM3SPicture picture) {
+           
             NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"get_picture_am",@"get_picture_am":[NSNumber numberWithInt:picture]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         } withErrorBlock:^(AM3SErrorID errorID) {
