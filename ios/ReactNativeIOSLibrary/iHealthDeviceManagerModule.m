@@ -168,7 +168,7 @@ RCT_EXPORT_MODULE()
 
 -(void)deviceConnectFailed:(NSNotification*)info {
     NSDictionary* userInfo = [info userInfo];
-    if([userInfo[@"DeviceName"]!=nil && [userInfo[@"Type"]!=nil){
+    if(userInfo[@"DeviceName"]!=nil && userInfo[@"Type"]!=nil){
     
         NSDictionary* deviceInfo = [[NSDictionary alloc]init];
         if ([userInfo[@"DeviceName"] isEqualToString:@"BG5"]&&[userInfo[@"Type"] isEqual:@2])
@@ -316,7 +316,7 @@ RCT_EXPORT_METHOD(connectDevice:(nonnull NSString *)mac type:(nonnull NSString *
             } DisposeBGErrorBlock:^(NSNumber *errorID) {
                
                 NSDictionary* deviceInfo = @{@"mac":@"",@"action":@"action_measure_error_for_bg1",@"action_measure_error_for_bg1":errorID};
-                [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+                [self.bridge.eventDispatcher sendDeviceEventWithName:@"event_notify_bg1" body:deviceInfo];
                 
             }];
         }
