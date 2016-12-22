@@ -1,5 +1,5 @@
 //
-//  BP550BTModule.h
+//  BG5Module.h
 //  ReactNativeIOSLibrary
 //
 //  Created by daiqingquan on 2016/11/23.
@@ -10,11 +10,10 @@
 #import "RCTBridgeModule.h"
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
-#import "ScanDeviceController.h"
-#import "ConnectDeviceController.h"
-@interface BP550BTModule : NSObject<RCTBridgeModule>
-{
+@interface BG5Module : NSObject<RCTBridgeModule>
 
-}
+
+
+
 
 @end

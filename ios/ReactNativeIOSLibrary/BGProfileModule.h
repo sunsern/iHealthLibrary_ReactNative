@@ -1,5 +1,5 @@
 //
-//  BP550BTModule.h
+//  BGProfileModule.h
 //  ReactNativeIOSLibrary
 //
 //  Created by daiqingquan on 2016/11/23.
@@ -8,13 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RCTBridgeModule.h"
-#import "RCTBridge.h"
-#import "RCTEventDispatcher.h"
-#import "ScanDeviceController.h"
-#import "ConnectDeviceController.h"
-@interface BP550BTModule : NSObject<RCTBridgeModule>
-{
+@interface BGProfileModule : NSObject<RCTBridgeModule>
 
-}
 
 @end

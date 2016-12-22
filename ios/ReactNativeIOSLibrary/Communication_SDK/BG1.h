@@ -53,6 +53,8 @@ typedef enum {
     
 }
 
+@property(nonatomic, retain) NSNumber* reactNativeFlg;  //reactNative开关，YES时不走SDK认证等，NO走SDK所有流程。
+
 /**
  * Initialization for BG1 Instance.
  */
@@ -68,8 +70,43 @@ typedef enum {
 
 -(void)commandConnectBGwithDeviceModel:(NSNumber *)bg1Model DisposeDiscoverBlock:(DisposeDiscoverBGBlock)disposeDiscoverBGBlock DisposeBGIDPSBlock:(DisposeBGIDPSBlock)disposeBGIDPSBlock DisposeConnectBGBlock:(DisposeConnectBGBlock)disposeConnectBGBlock DisposeBGErrorBlock:(DisposeBGErrorBlock)disposeBGErrorBlock;
 
+
 /**
- * Establish connection and start BG measurement.
+ * Establish connection and start BG measurement.(New)
+ * @param userID  The only user label, is indicated by form of email address.
+ * @param clientID
+ * @param clientSecret  'clientID' and 'clientSecret' are the only user label, will be achieved after the register of SDK application. Please contact louie@ihealthlabs.com for the registration.
+ * @param unitstate   BGUnit_mmolPL stands for mmol/L, BGUnit_mgPmL stands for mg/dL.
+ * @param disposeAuthenticationBlock This block returns results after  the verification of userID,clientID,clientSecret.
+ * Results:
+ *      a)	UserAuthen_RegisterSuccess, new register successes.
+ *      b)	UserAuthen_LoginSuccess, user logs in successfully.
+ *      c)	UserAuthen_CombinedSuccess, user has been recognised as iHealth user, the measurement via SDK could be activated, the result data belongs to the user.
+ *      d)	UserAuthen_TrySuccess, network error, the measurement is only for testing, SDK is not fully functional.
+ *      e)	UserAuthen_InvalidateUserInfo, the verification of userID/clientID/clientSecret failed.
+ *      f)	UserAuthen_SDKInvalidateRight, the application has not been authorised.
+ *      g)	UserAuthen_UserInvalidateRight, the user has not been authorised.
+ *      h)	UserAuthen_InternetError, network error, verification    failed.
+ *   -- PS:
+ *      1. the measurement via SDK is functional in the case from a) to d).
+ *      2. the measurement via SDK will be determined in the case from e) to h), please contact iHealth support team, louie@ihealthlabs.com
+ *      3. “iHealth Disclaimer” will pop up and need to be proved by the user when SDK is activated for the first time.
+ *      4. if iHealth SDK has been using without internet, there is only 10-day try out because the SDK can not be certified.
+ * @param testType Set the measure test type,@1 is Blood Test,@2 is CTL Test.
+ * @param codeType Set the code type,@1 is GOD,@2 is GDH.
+ * @param codeStrips The code String gets by scanning the QR code.
+ * @param disposeBGSendCodeBlock   If the QR code is accepted, yes means accepted, no means deny.
+ * @param disposeBGStripInBlock  This block returns yes means the strips slide into the BG meter.
+ * @param disposeBGBloodBlock  This block returns yes means the blood drop has beed sensed from the strip.
+ * @param disposeBGResultBlock  Returns the measurement by the unit of mg/dL, range from 20-600.
+ * @param disposeBGStripOutBlock  This block returns yes means the strip has been pulled out.
+ * @param disposeBGErrorBlock  This block returns error codes,please refer to error codes list in BGMacroFile.
+ */
+-(void)commandCreateBGtestWithUser:(NSString *)userID clientID:(NSString *)clientID clientSecret:(NSString *)clientSecret Authentication:(DisposeAuthenticationBlock)disposeAuthenticationBlock WithMeasureType:(BGMeasureMode)testType CodeType:(BGCodeMode)codeType CodeString:(NSString*)codeStrips DisposeBGSendCodeBlock:(DisposeBGSendCodeBlock)disposeBGSendCodeBlock DisposeBGStripInBlock:(DisposeBGStripInBlock)disposeBGStripInBlock DisposeBGBloodBlock:(DisposeBGBloodBlock)disposeBGBloodBlock DisposeBGResultBlock:(DisposeBGResultBlock)disposeBGResultBlock DisposeBGStripOutBlock:(DisposeBGStripOutBlock)disposeBGStripOutBlock DisposeBGErrorBlock:(DisposeBGErrorBlock)disposeBGErrorBlock;
+
+
+/**
+ * Establish connection and start BG measurement.(Deprecated since 2016/12/15,-- use the up new send code with type function instead.)
  * @param userID  The only user label, is indicated by form of email address.
  * @param clientID
  * @param clientSecret  'clientID' and 'clientSecret' are the only user label, will be achieved after the register of SDK application. Please contact louie@ihealthlabs.com for the registration.
