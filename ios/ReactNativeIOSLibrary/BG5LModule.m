@@ -110,13 +110,13 @@ RCT_EXPORT_METHOD(getBattery:(nonnull NSString *)mac){
             
         } DisposeErrorBlock:^(NSNumber *errorID) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":errorID};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":errorID};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }];
         
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@100 };
+        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100 };
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         
     }
@@ -135,12 +135,12 @@ RCT_EXPORT_METHOD(setTime:(nonnull NSString *)mac){
             
         } DisposeBGErrorBlock:^(NSNumber *errorID) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":errorID};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":errorID};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }];
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@100 };
+        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100 };
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         
     }
@@ -161,7 +161,7 @@ RCT_EXPORT_METHOD(setUnit:(nonnull NSString *)mac :(nonnull NSNumber *)type){
         }
         else
         {
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@400 };
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@400 };
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             return;
         }
@@ -173,13 +173,13 @@ RCT_EXPORT_METHOD(setUnit:(nonnull NSString *)mac :(nonnull NSNumber *)type){
             
         } DisposeBGErrorBlock:^(NSNumber *errorID) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":errorID};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":errorID};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }];
         
     }else{
     
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@100 };
+        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100 };
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         
     }
@@ -200,13 +200,13 @@ RCT_EXPORT_METHOD(getBottleId:(nonnull NSString *)mac){
             
         } DisposeBGErrorBlock:^(NSNumber *errorID) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":errorID};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":errorID};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }];
          
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@100 };
+        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100 };
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         
     }
@@ -233,7 +233,7 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac :(nonnull NSNumber *)test
         else
         {
             //输入参数错误
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@400};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@400};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }
         
@@ -274,14 +274,14 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac :(nonnull NSNumber *)test
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } DisposeBGErrorBlock:^(NSNumber *errorID) {
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":errorID};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":errorID};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }];
         
         
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@100 };
+        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100 };
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
     }
     
@@ -320,14 +320,14 @@ RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString *)mac){
             
         } DisposeBGErrorBlock:^(NSNumber *errorID) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":errorID};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":errorID};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         }];
         
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@100 };
+        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100 };
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         
     }
@@ -345,7 +345,7 @@ RCT_EXPORT_METHOD(deleteOfflineData:(nonnull NSString *)mac){
     }else{
         
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@100 };
+        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100 };
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
     }
     
@@ -356,7 +356,7 @@ RCT_EXPORT_METHOD(setBottleMessageWithInfo:(nonnull NSString *)mac :(nonnull NSN
     if ([self getBG5LWithMac:mac]!=nil) {
         
         if (QR ==nil || QR.length<30) {
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@400};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@400};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
             return;
@@ -440,7 +440,7 @@ RCT_EXPORT_METHOD(setBottleMessageWithInfo:(nonnull NSString *)mac :(nonnull NSN
                     [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
                     
                 } DisposeBGErrorBlock:^(NSNumber *errorID) {
-                    NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":errorID};
+                    NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":errorID};
                     [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
                 }];
                 
@@ -455,14 +455,14 @@ RCT_EXPORT_METHOD(setBottleMessageWithInfo:(nonnull NSString *)mac :(nonnull NSN
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } DisposeBGErrorBlock:^(NSNumber *errorID) {
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":errorID};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":errorID};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }];
         
         
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@100 };
+        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100 };
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         
     }
@@ -489,13 +489,13 @@ RCT_EXPORT_METHOD(getBottleMessage:(nonnull NSString *)mac){
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } DisposeBGErrorBlock:^(NSNumber *errorID) {
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":errorID};
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":errorID};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }];
         
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@100 };
+        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100 };
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         
     }
@@ -527,7 +527,7 @@ RCT_EXPORT_METHOD(codeAnalysis:(nonnull NSString *)mac :(nonnull NSString *)QR){
         
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@100};
+        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100};
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         
     }
@@ -544,7 +544,7 @@ RCT_EXPORT_METHOD(disConnect:(nonnull NSString *)mac){
     
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error":@100 };
+        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100 };
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
     }
     
