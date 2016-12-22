@@ -199,7 +199,7 @@ RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
                 
             }
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"historicaldata_bp",@"history":[NSArray arrayWithArray:tempArr] };
+            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"historicaldata_bp",@"data":[NSArray arrayWithArray:tempArr] };
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } errorBlock:^(BPDeviceError error) {
