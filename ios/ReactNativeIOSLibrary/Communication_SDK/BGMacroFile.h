@@ -134,11 +134,6 @@ typedef void (^DisposeBGBatteryBlock)(NSNumber* energy);
 typedef void (^DisposeBGDeviceTime)(NSDictionary* timeInfo);
 
 
-typedef void (^DisposeSendBG5DataBlock)();
-
-typedef void (^DisposeSendBG5LDataBlock)();
-
-
 #define BGSDKRightApi  @"OpenApiBG"
 
 #define BG3ConnectNoti @"BG3ConnectNoti"

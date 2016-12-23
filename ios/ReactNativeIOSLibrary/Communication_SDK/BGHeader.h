@@ -18,8 +18,8 @@
 #import "BG5Controller.h"
 #import "BG5L.h"
 #import "BG5LController.h"
-//#import "BGContinua.h"
-//#import "BGContinuaController.h"
+#import "BGContinua.h"
+#import "BGContinuaController.h"
 
 
 #endif

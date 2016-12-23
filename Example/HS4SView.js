@@ -76,7 +76,7 @@ export default class HS4SView extends Component {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
-                            HS4SModule.startMeasure(this.props.mac)
+                            HS4SModule.measureOnline(this.props.mac, 1, 123)
                         }}>
                         <Text style={styles.buttonText}>
                             Start Measure
@@ -85,7 +85,7 @@ export default class HS4SView extends Component {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
-                            HS4SModule.getHistoryData(this.props.mac)
+                            HS4SModule.getOfflineData(this.props.mac)
                         }}>
                         <Text style={styles.buttonText}>
                             Get History Data

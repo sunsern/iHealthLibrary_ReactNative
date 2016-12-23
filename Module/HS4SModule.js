@@ -71,9 +71,11 @@ module.exports = {
      * </li>
      * </ul>
      * @param {string} mac Device's mac address
+     * @param {string} unit Device's unit
+     * @param {string} userId user id
      */
-    startMeasure: function (mac) {
-        RCTModule.startMeasure(mac)
+    measureOnline: function (mac, unit, userId) {
+        RCTModule.measureOnline(mac, unit, userId)
     },
 
     /**
@@ -123,8 +125,8 @@ module.exports = {
      * </ul>
      * @param {string} mac Device's mac address
      */
-    getHistoryData: function (mac) {
-        RCTModule.getHistoryData(mac)
+    getOfflineData: function (mac) {
+        RCTModule.getOfflineData(mac)
     },
     /**
      * Disconnect the HS4S

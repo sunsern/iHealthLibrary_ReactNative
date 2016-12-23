@@ -106,4 +106,9 @@ typedef void(^BlockDelPortResult)(BOOL result);
  */
 -(void)commandSetUploadUserID:(NSNumber *)userID setUserIDBlock:(BlockSetUserID)setResult errorBlock:(BlockError)error;
 
+/**
+ * Synchronize time
+ */
+-(void)commandSynchronizeTime;
+
 @end

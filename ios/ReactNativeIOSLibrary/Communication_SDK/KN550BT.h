@@ -18,7 +18,7 @@
     BlockDeviceFounction _blockFounction;
     BlockBlueSet _blockBlueSet;
     BlockAngle _blockAngle;
-    
+  
     BlockXioaboWithHeart _blockXiaoboArr;
     BlockXioaboNoHeart _blockXiaoboArrNoHeart;
     BlockPressure _blockPressureArr;
@@ -57,18 +57,17 @@
     BOOL selfUpdateFlg;      //是否自升级
     
     NSMutableArray *totalHistoryArray;
-}
+ }
 
 @property (strong, nonatomic) NSString *currentUUID;
 //‘serialNumber’ is for separating different device when multiple device have been connected.
 @property (strong, nonatomic) NSString *serialNumber;
 @property (strong, nonatomic) NSTimer *startMeasureTimer;
-@property(strong, nonatomic) NSNumber* reactNativeFlg;  //reactNative开关，YES时不走SDK认证等，NO走SDK所有流程。
 
 #pragma mark - Hypogenous query
 /**
- * Synchronize time and judge if the device supports the function of up Air Measurement, arm Measurement, Angle Sensor, Angle Setting, HSD, Offline Memory, mutable Groups Upload, Self Upgrade. ‘True’ means yes or on, ‘False’ means no or off.
- * @param function  A block to return the function and states that the device supports.
+  * Synchronize time and judge if the device supports the function of up Air Measurement, arm Measurement, Angle Sensor, Angle Setting, HSD, Offline Memory, mutable Groups Upload, Self Upgrade. ‘True’ means yes or on, ‘False’ means no or off.
+ * @param Function  A block to return the function and states that the device supports.
  * @param error  A block to refer ‘error’ in ‘Establish measurement connection’ in KN550BT.
  */
 -(void)commandFounction:(BlockDeviceFounction)founction errorBlock:(BlockError)error;
@@ -83,7 +82,7 @@
 
 /**
  * Upload offline data total Count.
- * @param totalCount: item quantity of total data
+ * @param  TotalCount: item quantity of total data
  * @param error  A block to return the error
  */
 -(void)commandTransferMemorytotalCount:(BlockBachCount)totalCount errorBlock:(BlockError)error;
@@ -106,9 +105,9 @@
  *  --PS:
  *  The measurement via SDK will be operated in the case of 1-4, and will be terminated if any of 5-8 occurs. The interface needs to be re-called after analyzing the return parameters.
  *  @Notice   By the first time of new user register via SDK, ‘iHealth disclaimer’ will pop up automatically, and require the user agrees to continue. SDK application requires Internet connection; there is 10-day tryout if SDK cannot connect Internet, SDK is fully functional during tryout period, but will be terminated without verification through Internet after 10 days.
- * @param  totalCount: item quantity of total data
- * @param  progress: upload completion ratio , from 0.0 to 1.0 or 0%~100％, 100% means upload completed.
- * @param  uploadDataArray:	offline data set, including measurement time, systolic pressure, diastolic pressure, pulse rate, irregular judgment. corresponding KEY is time, sys, dia, heartRate, irregular
+ * @param  TotalCount: item quantity of total data
+ * @param  Progress: upload completion ratio , from 0.0 to 1.0 or 0%~100％, 100% means upload completed.
+ * @param  UploadDataArray:	offline data set, including measurement time, systolic pressure, diastolic pressure, pulse rate, irregular judgment. corresponding KEY is time, sys, dia, heartRate, irregular
  * @param error   error codes.
  * Specification:
  *   1.  BPError0 = 0: Unable to take measurements due to arm/wrist movements.
