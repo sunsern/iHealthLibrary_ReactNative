@@ -13,7 +13,7 @@
 #import "HS4.h"
 #import "iHealthDeviceManagerModule.h"
 
-#define EVENT_NOTIFY @"Event_Notify"
+#define EVENT_NOTIFY @"HS4.MODULE.NOTIFY" @"Event_Notify"
 
 @implementation HS4SModule
 
@@ -24,7 +24,7 @@ RCT_EXPORT_MODULE()
 
 -(NSDictionary *)constantsToExport{
     return @{
-             EVENT_NOTIFY:@"HS4.MODULE.NOTIFY"
+             @"Event_Notify" :  EVENT_NOTIFY
              };
 }
 
@@ -113,16 +113,16 @@ RCT_EXPORT_METHOD(measuereOnline:(nonnull NSString*)mac){
             }
             
         } Weight:^(NSNumber *unStableWeight) {
-            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_LIVEDATA_HS",@"LIVEDATA_HS":[NSNumber numberWithInteger:unStableWeight]};
+            NSDictionary *deviceInfo = @{@"mac":mac,@"action":ACTION_LIVEDATA_HS,LIVEDATA_HS:[NSNumber numberWithInteger:unStableWeight]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } StableWeight:^(NSDictionary *StableWeightDic) {
-            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_ONLINE_RESULT_HS",@"WEIGHT_HS":[NSDictionary dictionaryWithObjectsAndKeys:StableWeightDic, nil]};
+            NSDictionary *deviceInfo = @{@"mac":mac,@"action":ACTION_ONLINE_RESULT_HS,WEIGHT_HS:[NSDictionary dictionaryWithObjectsAndKeys:StableWeightDic, nil]};
             
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
         } DisposeErrorBlock:^(HS4DeviceError errorID) {
-            NSDictionary *deviceInfo = @{@"mac":mac,@"action":@"ACTION_ERROR_HS",@"error":[NSNumber numberWithInteger:errorID]};
+            NSDictionary *deviceInfo = @{@"mac":mac,@"action":ACTION_ERROR_HS,ERROR_NUM_HS:[NSNumber numberWithInteger:errorID]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
         }];
     }
