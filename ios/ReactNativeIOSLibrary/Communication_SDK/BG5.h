@@ -16,7 +16,6 @@ typedef enum{
 }BG5DeviceError;
 
 
-
 @interface BG5 : NSObject{
 
     uint8_t allCodeBuf[170];
