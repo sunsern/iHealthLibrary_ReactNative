@@ -148,7 +148,7 @@ export default class HS4SView extends Component {
                     let dataInfo = offlineData[i]
                     let dataId = dataInfo[HSProfileModule.DATAID]
                     let date = dataInfo[HSProfileModule.MEASUREMENT_DATE_HS]
-                    // let weight = dataInfo[HSProfileModule.WEIGHT_HS]
+                    let weight = dataInfo[HSProfileModule.WEIGHT_HS]
                     // let fat = dataInfo[HSProfileModule.FAT_HS]
                     // let water = dataInfo[HSProfileModule.WATER_HS]
                     // let muscle = dataInfo[HSProfileModule.MUSCLE_HS]
