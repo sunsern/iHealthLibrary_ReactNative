@@ -29,6 +29,10 @@
     BlockBachArray _blockBachArray;
     BlockStopSuccess _blockStopSuccess;
     
+    BlockSetUnitSuccess _blockSetUnitSuccess;
+    BlockSetAngleSuccess _blockSetAngleSuccess;
+    
+    
     BlockUserAuthentication _blockUserAnthen;
     
     UIAlertView * Erroralert;
@@ -146,18 +150,20 @@
 /**
  * Set units for the Device
  * @param UnitName   The unit name string that BP7S show result should use, must be @"mmHg" or @"kPa".
+ * @param setResult  This block return means set success.
  * @param error  A block to return the error in set Unit communication.
  */
--(void)commandSetUnit:(NSString *)UnitName errorBlock:(BlockError)error;
+-(void)commandSetUnit:(NSString *)UnitName disposeSetReslut:(BlockSetUnitSuccess)setResult errorBlock:(BlockError)error;
 
 /**
  * Set the effective angle range for left hand measurement and right hand measurement to the Device
- * @param angleInfo   A dictionary set the max and mini effective angles for left hand measurement and right hand measurement,the angle values type is NSNumber, ranging from 0~255
+ * @param angleInfo   A dictionary set the max and mini effective angles for left hand measurement and right hand measurement,the angle values type is NSNumber, ranging from 0~90
      with the four keys are:
      @"highAngleForLeft", @"lowAngleForLeft", @"highAngleForRight", @"lowAngleForRight".
+ * @param setResult  This block return means set success.
  * @param error  A block to return the error in set angles communication.
  */
--(void)commandSetAngle:(NSDictionary *)angleInfo errorBlock:(BlockError)error;
+-(void)commandSetAngle:(NSDictionary *)angleInfo disposeSetReslut:(BlockSetAngleSuccess)setResult errorBlock:(BlockError)error;
 
 /**
  * Disconnect current device

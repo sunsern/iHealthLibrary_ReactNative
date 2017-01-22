@@ -76,7 +76,7 @@ export default class HS4SView extends Component {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
-                            HS4SModule.startMeasure(this.props.mac)
+                            HS4SModule.measureOnline(this.props.mac, 1, 123)
                         }}>
                         <Text style={styles.buttonText}>
                             Start Measure
@@ -85,7 +85,7 @@ export default class HS4SView extends Component {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
-                            HS4SModule.getHistoryData(this.props.mac)
+                            HS4SModule.getOfflineData(this.props.mac)
                         }}>
                         <Text style={styles.buttonText}>
                             Get History Data
@@ -148,7 +148,7 @@ export default class HS4SView extends Component {
                     let dataInfo = offlineData[i]
                     let dataId = dataInfo[HSProfileModule.DATAID]
                     let date = dataInfo[HSProfileModule.MEASUREMENT_DATE_HS]
-                    // let weight = dataInfo[HSProfileModule.WEIGHT_HS]
+                    let weight = dataInfo[HSProfileModule.WEIGHT_HS]
                     // let fat = dataInfo[HSProfileModule.FAT_HS]
                     // let water = dataInfo[HSProfileModule.WATER_HS]
                     // let muscle = dataInfo[HSProfileModule.MUSCLE_HS]

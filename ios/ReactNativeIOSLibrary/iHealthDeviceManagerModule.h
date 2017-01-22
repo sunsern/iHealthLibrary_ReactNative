@@ -13,6 +13,9 @@
 #import "ScanDeviceController.h"
 #import "ConnectDeviceController.h"
 @interface iHealthDeviceManagerModule : NSObject<RCTBridgeModule>
+{
+    NSDictionary *bg1IdpsDic;
+}
 
 + (NSString*)autherizedUserID;
 + (NSString*)autherizedClientID;

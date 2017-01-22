@@ -65,6 +65,8 @@ typedef void(^BlockAskMeasureTime)(NSDictionary *measureTimeDic);
 typedef void(^BlockSetMeasureTime)(NSDictionary *setResult);
 
 typedef void(^BlockStopSuccess)();
+typedef void(^BlockSetUnitSuccess)();
+typedef void(^BlockSetAngleSuccess)();
 
 typedef void (^BlockUserAuthentication)(UserAuthenResult result);//the result of userID verification
 typedef void(^BlockSetUserID)(BOOL finishFlag);

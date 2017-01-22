@@ -17,6 +17,11 @@
 		1875102E1DE5E411005E66B1 /* AMProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1875102D1DE5E410005E66B1 /* AMProfileModule.m */; };
 		187510311DE5E424005E66B1 /* AM4Module.m in Sources */ = {isa = PBXBuildFile; fileRef = 187510301DE5E424005E66B1 /* AM4Module.m */; };
 		187510341DE5E439005E66B1 /* AM3SModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 187510331DE5E439005E66B1 /* AM3SModule.m */; };
+		9F3D8E1B1E0B6CDB00BA44B1 /* BG1Module.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3D8E121E0B6CDB00BA44B1 /* BG1Module.m */; };
+		9F3D8E1C1E0B6CDB00BA44B1 /* BG1ProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3D8E141E0B6CDB00BA44B1 /* BG1ProfileModule.m */; };
+		9F3D8E1D1E0B6CDB00BA44B1 /* BG5LModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3D8E161E0B6CDB00BA44B1 /* BG5LModule.m */; };
+		9F3D8E1E1E0B6CDB00BA44B1 /* BG5Module.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3D8E181E0B6CDB00BA44B1 /* BG5Module.m */; };
+		9F3D8E1F1E0B6CDB00BA44B1 /* BGProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3D8E1A1E0B6CDB00BA44B1 /* BGProfileModule.m */; };
 		AF1B3F141DF9482100DFDB23 /* HS4SModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1B3F111DF9482100DFDB23 /* HS4SModule.m */; };
 		AF1B3F151DF9482100DFDB23 /* HSProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1B3F131DF9482100DFDB23 /* HSProfileModule.m */; };
 		AF1B3F3A1DFE72BD00DFDB23 /* HS6Module.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1B3F391DFE72BD00DFDB23 /* HS6Module.m */; };
@@ -130,6 +135,16 @@
 		1875107F1DE5E6A5005E66B1 /* SDKUpdateDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDKUpdateDevice.h; sourceTree = "<group>"; };
 		187510801DE5E6A5005E66B1 /* WifiSetWifiClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiSetWifiClass.h; sourceTree = "<group>"; };
 		8C17D1CB1E0274B700DF0A88 /* IHSDKCloudUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IHSDKCloudUser.h; sourceTree = "<group>"; };
+		9F3D8E111E0B6CDB00BA44B1 /* BG1Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BG1Module.h; sourceTree = "<group>"; };
+		9F3D8E121E0B6CDB00BA44B1 /* BG1Module.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BG1Module.m; sourceTree = "<group>"; };
+		9F3D8E131E0B6CDB00BA44B1 /* BG1ProfileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BG1ProfileModule.h; sourceTree = "<group>"; };
+		9F3D8E141E0B6CDB00BA44B1 /* BG1ProfileModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BG1ProfileModule.m; sourceTree = "<group>"; };
+		9F3D8E151E0B6CDB00BA44B1 /* BG5LModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BG5LModule.h; sourceTree = "<group>"; };
+		9F3D8E161E0B6CDB00BA44B1 /* BG5LModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BG5LModule.m; sourceTree = "<group>"; };
+		9F3D8E171E0B6CDB00BA44B1 /* BG5Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BG5Module.h; sourceTree = "<group>"; };
+		9F3D8E181E0B6CDB00BA44B1 /* BG5Module.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BG5Module.m; sourceTree = "<group>"; };
+		9F3D8E191E0B6CDB00BA44B1 /* BGProfileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGProfileModule.h; sourceTree = "<group>"; };
+		9F3D8E1A1E0B6CDB00BA44B1 /* BGProfileModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGProfileModule.m; sourceTree = "<group>"; };
 		AF1B3F101DF9482100DFDB23 /* HS4SModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HS4SModule.h; sourceTree = "<group>"; };
 		AF1B3F111DF9482100DFDB23 /* HS4SModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HS4SModule.m; sourceTree = "<group>"; };
 		AF1B3F121DF9482100DFDB23 /* HSProfileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSProfileModule.h; sourceTree = "<group>"; };
@@ -169,6 +184,16 @@
 		182D01FC1DE565EC00E9B783 /* ReactNativeIOSLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				9F3D8E111E0B6CDB00BA44B1 /* BG1Module.h */,
+				9F3D8E121E0B6CDB00BA44B1 /* BG1Module.m */,
+				9F3D8E131E0B6CDB00BA44B1 /* BG1ProfileModule.h */,
+				9F3D8E141E0B6CDB00BA44B1 /* BG1ProfileModule.m */,
+				9F3D8E151E0B6CDB00BA44B1 /* BG5LModule.h */,
+				9F3D8E161E0B6CDB00BA44B1 /* BG5LModule.m */,
+				9F3D8E171E0B6CDB00BA44B1 /* BG5Module.h */,
+				9F3D8E181E0B6CDB00BA44B1 /* BG5Module.m */,
+				9F3D8E191E0B6CDB00BA44B1 /* BGProfileModule.h */,
+				9F3D8E1A1E0B6CDB00BA44B1 /* BGProfileModule.m */,
 				AF1B3F101DF9482100DFDB23 /* HS4SModule.h */,
 				AF1B3F111DF9482100DFDB23 /* HS4SModule.m */,
 				AF1B3F381DFE72BD00DFDB23 /* HS6Module.h */,
@@ -341,15 +366,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F3D8E1C1E0B6CDB00BA44B1 /* BG1ProfileModule.m in Sources */,
 				1875102E1DE5E411005E66B1 /* AMProfileModule.m in Sources */,
 				1875102B1DE5E3FB005E66B1 /* BP3LModule.m in Sources */,
 				182D028B1DE57A2F00E9B783 /* iHealthDeviceManagerModule.m in Sources */,
 				AF1B3F151DF9482100DFDB23 /* HSProfileModule.m in Sources */,
 				187510251DE5E3CA005E66B1 /* BP7SModule.m in Sources */,
+				9F3D8E1B1E0B6CDB00BA44B1 /* BG1Module.m in Sources */,
 				1875101F1DE5E374005E66B1 /* BPProfileModule.m in Sources */,
 				187510221DE5E399005E66B1 /* BP550BTModule.m in Sources */,
+				9F3D8E1F1E0B6CDB00BA44B1 /* BGProfileModule.m in Sources */,
 				187510341DE5E439005E66B1 /* AM3SModule.m in Sources */,
+				9F3D8E1E1E0B6CDB00BA44B1 /* BG5Module.m in Sources */,
 				AF1B3F141DF9482100DFDB23 /* HS4SModule.m in Sources */,
+				9F3D8E1D1E0B6CDB00BA44B1 /* BG5LModule.m in Sources */,
 				AF1B3F3A1DFE72BD00DFDB23 /* HS6Module.m in Sources */,
 				187510311DE5E424005E66B1 /* AM4Module.m in Sources */,
 				187510281DE5E3E3005E66B1 /* BP5Module.m in Sources */,

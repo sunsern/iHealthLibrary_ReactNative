@@ -7,7 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RCTBridgeModule.h"
+#import "RCTBridge.h"
+#import "RCTEventDispatcher.h"
+#import "ScanDeviceController.h"
+#import "ConnectDeviceController.h"
+@interface BP550BTModule : NSObject<RCTBridgeModule>
+{
 
-@interface BP550BTModule : NSObject
+}
 
 @end

@@ -14,7 +14,5 @@
 #import "POMacroFile.h"
 #import "HealthUser.h"
 
-#import "POContinua.h"
-#import "POContinuaController.h"
 
 #endif

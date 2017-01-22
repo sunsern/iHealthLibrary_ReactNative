@@ -83,7 +83,7 @@
 
 
 /**
- * Get current angle(only for BP7)
+ * Get current angle(only for BP7，This function needs to be called before the call of the start measure function)
  * @param userID  The only identification for the user，by the form of email or cell phone #(cell-phone-# form is not supported temperately).
  * @param clientID  See param 'clientsecret'.
  * @param clientsecret  ‘clientID’ and ‘clientsecret’ are the only identification for user of SDK, are required registration from iHealth administrator, please email: lvjincan@ihealthlabs.com.cn.com for more information.
@@ -100,7 +100,7 @@
  *  --PS:
  *  The measurement via SDK will be operated in the case of 1-4, and will be terminated if any of 5-8 occurs. The interface needs to be re-called after analyzing the return parameters.
  *  @Notice   By the first time of new user register via SDK, ‘iHealth disclaimer’ will pop up automatically, and require the user agrees to continue. SDK application requires Internet connection; there is 10-day tryout if SDK cannot connect Internet, SDK is fully functional during tryout period, but will be terminated without verification through Internet after 10 days.
- * @param AngleInfo   Angle information, including angle、isLeftHand. ‘angle’ stands for the inclination angle of the device, from 0 to 180; ‘isLeftHand’ stands for the judgment if the device is on the left hand, ‘true’ means left hand, otherwise is right hand.
+ * @param AngleInfo   Angle information, including angle、isLeftHand. ‘angle’ stands for the inclination angle of the device, from 0 to 90; ‘isLeftHand’ stands for the judgment if the device is on the left hand, ‘true’ means left hand, otherwise is right hand.
  * @param Error:  error codes.
  * Specification:
  *   1.  BPError0 = 0: Unable to take measurements due to arm/wrist movements.

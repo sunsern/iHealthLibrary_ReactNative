@@ -96,7 +96,7 @@ export default class HS6View extends Component {
                             HS6Module.bindDeviceHS6("1999-11-12 11:29:10", 46.7, 160, 2, 1, "ACCF2337A94E")
                         }}>
                         <Text style={styles.buttonText}>
-                            Disconnect
+                            Bind Device
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -105,7 +105,7 @@ export default class HS6View extends Component {
                             HS6Module.unBindDeviceHS6("ACCF2337A94E")
                         }}>
                         <Text style={styles.buttonText}>
-                            Disconnect
+                            un Bind Device
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -114,7 +114,7 @@ export default class HS6View extends Component {
                             HS6Module.getToken("708bde5b65884f8d9e579e33e66e8e80", "38ff62374a0d4aacadaf0e4fb4ed1931", "anudroid.apk06@gmail.com", "random_str")
                         }}>
                         <Text style={styles.buttonText}>
-                            Disconnect
+                            Get Token
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -123,7 +123,7 @@ export default class HS6View extends Component {
                             HS6Module.setUnit("anudroid.apk06@gmail.com", 0)
                         }}>
                         <Text style={styles.buttonText}>
-                            Disconnect
+                            Set Unit
                         </Text>
                     </TouchableOpacity>
                 </ScrollView>

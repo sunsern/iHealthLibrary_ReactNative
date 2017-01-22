@@ -22,6 +22,11 @@ typedef enum {
 }BGMeasureMode;
 
 typedef enum {
+    BGCodeMode_GOD = 1,//BGCodeMode_GOD means GOD blood test strip.
+    BGCodeMode_GDH//BGCodeMode_GDH means GDH Blood test strip.
+}BGCodeMode;
+
+typedef enum {
     BGUnit_mmolPL = 1,//BGUnit_mmolPL stands for mmol/L
     BGUnit_mgPmL//BGUnit_mgPmL stands for mg/dL
 }BGUnit;
@@ -54,7 +59,7 @@ typedef void(^BlockSetUserID)(BOOL finishFlag);
  * 04：CODE value check error. This error need let user scan code and call the send code function again,no alert need to show.
  * 05\06：The environmental temperature is beyond normal range, place the meter at room temperature for at least 30 minutes, then repeat the test.
  * 07：Authentication failed more than 10 times.
- * 08：Communication error, press“START” or rescan the code to repeat the test.
+ * 08：Packet loss in the process of sending CODE.
  * 09：Tooling inspection process is not completed.
  * 10: Encryption burn write bit is empty.
  * 11: Compulsory Authentication is not passed.
@@ -63,6 +68,7 @@ typedef void(^BlockSetUserID)(BOOL finishFlag);
  * 30: BG Over Time Error.
  * 100: BG meter disconnected.
  * 101: BG meter is in sleeping mode, needs repair.
+ * 102: BG meter handshake failed.
  * 111: user verification failed.
  * 400: Parameter input error.
  */
@@ -75,23 +81,26 @@ typedef void(^BlockSetUserID)(BOOL finishFlag);
  * 03：Strip is used or unknown moisture detected, discard the test strip and repeat the test with a new strip.
  * 04：Reading transmission error. Repeat the test with a new test strip. If the problem persists, contact iHealth customer service for assistance. But,for BG1,this error need let user scan code and call the send code function again,no alert need to show.
  * 05\06：The environmental temperature is beyond normal range, place the meter at room temperature for at least 30 minutes, then repeat the test.
- * 07：Test strip coding error.
- * 08：Communication error, press“START” or rescan the code to repeat the test.
+ * 08：Test strip coding error.
  * 09：Strip removed in the middle of reading, repeat the test with a new strip.
- * 10: Insert a new test strip and repeat the test.
- * 11: Cannot write to SN or KEY.
  * 12: Please set time.
  * 13: 0 test strips remaining.
  * 14: Test strip expired.
  * 15: Unplug the charging cable before testing.
  * 18: Unplug the charging cable before scanning history data.
+ * 19: Charging line has been inserted.
+ * 20: Charging line has been pulled out.
+ * 21: Bluetooth module fault.
  * 30: BG Over Time Error.
  * 100: BG meter disconnected.
- * 101: BG meter is in sleeping mode, needs repair.
  * 111: user verification failed.
  * 112: Device don't support the query of energy.
  * 400: Parameter input error.
  */
+//
+typedef void (^DisposeBGSetTime)(BOOL setResult);
+//
+typedef void (^DisposeBGSetUnit)(BOOL setResult);
 //
 typedef void (^DisposeBGBottleID)(NSNumber *bottleID);
 //
@@ -120,6 +129,10 @@ typedef void (^DisposeConnectBGBlock)(BOOL result);
 typedef void (^DisposeAuthenticationBlock)(UserAuthenResult result);//the result of userID verification
 //电池电量
 typedef void (^DisposeBGBatteryBlock)(NSNumber* energy);
+
+//电池电量
+typedef void (^DisposeBGDeviceTime)(NSDictionary* timeInfo);
+
 
 #define BGSDKRightApi  @"OpenApiBG"
 

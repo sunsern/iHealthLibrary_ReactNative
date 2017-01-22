@@ -13,9 +13,12 @@
 /*
  error code:
  
+ 
  7:User verify error;
  
  101,102,103,104:networkerror
+ 
+ 108: input error
  
  */
 

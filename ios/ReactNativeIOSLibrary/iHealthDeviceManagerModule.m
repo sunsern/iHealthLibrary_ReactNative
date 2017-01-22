@@ -49,6 +49,26 @@ RCT_EXPORT_MODULE()
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDisconnect:) name:BP7SDisConnectNoti object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnectFailed:) name:BP7SConnectFailed object:nil];
         
+        //KN-550BT
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:KN550BTDiscover object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:KN550BTConnectNoti object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDisconnect:) name:KN550BTDisConnectNoti object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnectFailed:) name:KN550BTConnectFailed object:nil];
+        
+        //BG5L
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:BG5LDiscover object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BG5LConnectNoti object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDisconnect:) name:BG5LDisConnectNoti object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnectFailed:) name:BG5LConnectFailed object:nil];
+        
+        //BG5
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BG5ConnectNoti object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDisconnect:) name:BG5DisConnectNoti object:nil];
+        
+        //BG1
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(bg1Discover:) name:BG1ConnectNoti object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceBG1Disconnect:) name:BG1DisConnectNoti object:nil];
+        
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:HS4Discover object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:HS4ConnectNoti object:nil];
         
@@ -63,6 +83,8 @@ RCT_EXPORT_MODULE()
         [AM3SController_V2 shareIHAM3SController];
         [AM4Controller shareIHAM4Controller];
         [BP3LController shareBP3LController];
+        [BG5Controller shareIHBg5Controller];
+        [BG5LController shareIHBg5lController];
         
     }
     return self;
@@ -79,7 +101,14 @@ RCT_EXPORT_MODULE()
     NSString* serialNumber = userInfo[@"SerialNumber"];
     NSString* deviceId = userInfo[@"ID"];
     if(serialNumber.length > 0){
-        NSDictionary* deviceInfo = @{@"mac":serialNumber,@"type":[self constantsToExport][deviceName]};
+        NSDictionary* deviceInfo = [[NSDictionary alloc]init];
+        if ([userInfo[@"DeviceName"] isEqualToString:@"BG5"]) {
+            deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":@"BG5L"};
+        }
+        else
+        {
+            deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":[self constantsToExport][userInfo[@"DeviceName"]]};
+        }
         [self.bridge.eventDispatcher sendDeviceEventWithName:@"ScanDevice" body:deviceInfo];
     }else if (deviceId.length > 0){
         NSDictionary* deviceInfo = @{@"mac":deviceId,@"type":[self constantsToExport][deviceName]};
@@ -87,21 +116,73 @@ RCT_EXPORT_MODULE()
     }
     
 }
+
+-(void)bg1Discover:(NSNotification*)info {
+    
+    
+    NSDictionary* deviceInfo = @{@"mac":@"",@"type":@"BG1"};
+    [self.bridge.eventDispatcher sendDeviceEventWithName:@"ScanDevice" body:deviceInfo];
+    
+}
+
 -(void)deviceConnect:(NSNotification*)info {
+    
     NSDictionary* userInfo = [info userInfo];
-    NSDictionary* deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":[self constantsToExport][userInfo[@"DeviceName"]]};
+    NSLog(@"连接成功：%@",userInfo);
+    NSDictionary* deviceInfo = [[NSDictionary alloc]init];
+    if ([userInfo[@"DeviceName"] isEqualToString:@"BG5"]&&[userInfo[@"Type"] isEqual:@2])
+    {
+        deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":@"BG5L"};
+    }
+    else
+    {
+        deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":[self constantsToExport][userInfo[@"DeviceName"]]};
+    }
+    
     [self.bridge.eventDispatcher sendDeviceEventWithName:@"DeviceConnected" body:deviceInfo];
 }
+
+-(void)deviceBG1Disconnect:(NSNotification*)info {
+    
+    NSDictionary* deviceInfo = @{@"mac":@"",@"type":@"BG1"};
+    [self.bridge.eventDispatcher sendDeviceEventWithName:@"DeviceDisconnect" body:deviceInfo];
+}
+
 -(void)deviceDisconnect:(NSNotification*)info {
     NSDictionary* userInfo = [info userInfo];
-    NSDictionary* deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":[self constantsToExport][userInfo[@"DeviceName"]]};
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"DeviceDisconnect" body:deviceInfo];
+    
+    if (userInfo[@"SerialNumber"]!=nil  && userInfo[@"DeviceName"]!=nil) {
+        
+        NSDictionary* deviceInfo = [[NSDictionary alloc]init];
+        if ([userInfo[@"DeviceName"] isEqualToString:@"BG5"]&&[userInfo[@"Type"] isEqual:@2])
+        {
+            deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":@"BG5L"};
+        }
+        else
+        {
+            deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":[self constantsToExport][userInfo[@"DeviceName"]]};
+        }
+        [self.bridge.eventDispatcher sendDeviceEventWithName:@"DeviceDisconnect" body:deviceInfo];
+    }
 }
 
 -(void)deviceConnectFailed:(NSNotification*)info {
     NSDictionary* userInfo = [info userInfo];
-    NSDictionary* deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":[self constantsToExport][userInfo[@"DeviceName"]]};
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"DeviceDisconnect" body:deviceInfo];
+    if(userInfo[@"DeviceName"]!=nil && userInfo[@"Type"]!=nil){
+    
+        NSDictionary* deviceInfo = [[NSDictionary alloc]init];
+        if ([userInfo[@"DeviceName"] isEqualToString:@"BG5"]&&[userInfo[@"Type"] isEqual:@2])
+        {
+            deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":@"BG5L"};
+        }
+        else
+        {
+            deviceInfo = @{@"mac":userInfo[@"SerialNumber"],@"type":[self constantsToExport][userInfo[@"DeviceName"]]};
+        }
+        [self.bridge.eventDispatcher sendDeviceEventWithName:@"DeviceDisconnect" body:deviceInfo];
+    
+    }
+    
 }
 #pragma mark
 #pragma mark - constantsToExport
@@ -117,7 +198,8 @@ RCT_EXPORT_MODULE()
              @"AM4" :@"AM4",
              @"BP3L" :@"BP3L",
              @"BP7S" : @"BP7S",
-             @"KN550" : @"KN550",
+             @"KN550" : @"KN-550BT",
+             @"KN-550BT" : @"KN-550BT",
              @"HS4S" :@"HS4S",
              @"HS4" :@"HS4",
              @"BG5L": @"BG5L",
@@ -144,6 +226,11 @@ RCT_EXPORT_METHOD(startDiscovery:(nonnull NSString *)deviceType){
     
     if ([deviceType isEqualToString:@"BP5"] ||[deviceType isEqualToString:@"BG1"] ||[deviceType isEqualToString:@"BG5"] ||[deviceType isEqualToString:@"HS6"] || [deviceType isEqualToString:@"BP7"]) {
         
+        if ([deviceType isEqualToString:@"BG1"]) {
+            
+            [[BG1Controller shareBG1Controller] initBGAudioModule];
+            
+        }
         
         
     }else{
@@ -164,9 +251,9 @@ RCT_EXPORT_METHOD(startDiscovery:(nonnull NSString *)deviceType){
         }else if ([deviceType isEqualToString:@"BP7S"]){
             
              [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_BP7S];
-        }else if ([deviceType isEqualToString:@"KN550"]){
+        }else if ([deviceType isEqualToString:@"KN-550BT"]){
             
-             [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_KN550BT];
+            [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_KN550BT];
         }else if ([deviceType isEqualToString:@"HS4S"] || [deviceType isEqualToString:@"HS4"]){
             
              [[ScanDeviceController commandGetInstance] commandScanDeviceType:HealthDeviceType_HS4];
@@ -204,11 +291,35 @@ RCT_EXPORT_METHOD(stopDiscovery:(nonnull NSString *)deviceType){
 RCT_EXPORT_METHOD(connectDevice:(nonnull NSString *)mac type:(nonnull NSString *)deviceType){
     
     
-    
-    
-    if ([deviceType isEqualToString:@"BP5"] ||[deviceType isEqualToString:@"BG1"] ||[deviceType isEqualToString:@"BG5"] ||[deviceType isEqualToString:@"HS6"] || [deviceType isEqualToString:@"BP7"]) {
+    if ([deviceType isEqualToString:@"BP5"] ||[deviceType isEqualToString:@"BG1"] ||[deviceType isEqualToString:@"HS6"] || [deviceType isEqualToString:@"BP7"]) {
         
-        
+        NSMutableDictionary *idpsTempDic = [[NSMutableDictionary alloc]init];
+        if ([deviceType isEqualToString:@"BG1"]) {
+            
+            [[BG1 shareBG1CommunicationObject]commandConnectBGwithDeviceModel:@0x00FF1304 DisposeDiscoverBlock:^(BOOL result) {
+                
+            } DisposeBGIDPSBlock:^(NSDictionary *idpsDic) {
+                
+                bg1IdpsDic = [NSDictionary dictionaryWithDictionary:idpsDic];
+                
+                
+                
+            } DisposeConnectBGBlock:^(BOOL result) {
+                
+                NSString *bg1Mac = @"";
+                if (bg1IdpsDic[@"SerialNumber"] != nil) {
+                    bg1Mac = bg1IdpsDic[@"SerialNumber"];
+                }
+                NSDictionary* deviceInfo = @{@"mac":bg1Mac,@"type":@"BG1"};
+                [self.bridge.eventDispatcher sendDeviceEventWithName:@"DeviceConnected" body:deviceInfo];
+                
+            } DisposeBGErrorBlock:^(NSNumber *errorID) {
+               
+                NSDictionary* deviceInfo = @{@"mac":@"",@"action":@"action_measure_error_for_bg1",@"action_measure_error_for_bg1":errorID};
+                [self.bridge.eventDispatcher sendDeviceEventWithName:@"event_notify_bg1" body:deviceInfo];
+                
+            }];
+        }
         
     }else{
         if ([deviceType isEqualToString:@"AM3"]) {
@@ -228,7 +339,7 @@ RCT_EXPORT_METHOD(connectDevice:(nonnull NSString *)mac type:(nonnull NSString *
         }else if ([deviceType isEqualToString:@"BP7S"]){
             
              [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_BP7S andSerialNub:mac];
-        }else if ([deviceType isEqualToString:@"KN550"]){
+        }else if ([deviceType isEqualToString:@"KN-550BT"]){
             
             [[ConnectDeviceController commandGetInstance] commandContectDeviceWithDeviceType:HealthDeviceType_KN550BT andSerialNub:mac];
         }else if ([deviceType isEqualToString:@"HS4S"] || [deviceType isEqualToString:@"HS4"]){

@@ -22,6 +22,8 @@ typedef enum{
     uint8_t allCTLCodeBuf[170];
     NSNumber*bgunit;
     DisposeBGErrorBlock _disposeBGErrorBlock;
+    DisposeBGSetTime _disposeBGSetTime;
+    DisposeBGSetUnit _disposeBGSetUnit;
     DisposeBGBottleID _disposeBGBottleID;
     DisposeBGDataCount _disposeBGDataCount;
     DisposeBGHistoryData _disposeBGHistoryData;
@@ -40,7 +42,7 @@ typedef enum{
     DisposeBG5KeepConnectBlock _disposeBG5KeepConnectBlock;
 
     
-    NSString *thirdUserID;
+    NSString *currentUserID;
     
     NSString *clientSDKUserName;
     NSString *clientSDKID;
@@ -49,11 +51,15 @@ typedef enum{
     BOOL modelVerifyOK;
     int memeryNum;
     BOOL supportQeryEnergyFlg;
+    NSMutableArray *historyArray;
+    int testTypeNum; //用于开始测量发送测量模式
+
 }
 @property (strong, nonatomic) NSString *currentUUID;
 ///‘serialNumber’ is for separating different device when multiple device have been connected.
 @property (strong, nonatomic) NSString *serialNumber;
 @property (strong, nonatomic) NSString *firmwareVersion;
+@property(strong, nonatomic) NSNumber* reactNativeFlg;  //reactNative开关，YES时不走SDK认证等，NO走SDK所有流程。
 /**
  * Establish measurement connection
  * @param userID  The only user label, is indicated by form of email address.
@@ -80,6 +86,29 @@ typedef enum{
  */
 -(void)commandInitBGSetUnit:(BGUnit )unitState BGUserID:(NSString*)userID clientID:(NSString *)clientID clientSecret:(NSString *)clientSecret Authentication:(DisposeAuthenticationBlock)disposeAuthenticationBlock DisposeBGBottleID:(DisposeBGBottleID)disposeBGBottleID DisposeBGErrorBlock:(DisposeBGErrorBlock)disposeBGErrorBlock;
 
+
+/**
+ * Set Time (only for react-Native project)
+ * @param disposeBGSetTime The block return means set success.
+ * @param disposeBGErrorBlock, This block returns error codes,please refer to error codes list in BGMacroFile.
+ */
+-(void)commandBGSetTime:(DisposeBGSetTime)disposeBGSetTime DisposeBGErrorBlock:(DisposeBGErrorBlock)disposeBGErrorBlock;
+
+/**
+ * Set Unit (only for react-Native project)
+ * @param disposeBGSetUnit The block return means set success.
+ * @param disposeBGErrorBlock, This block returns error codes,please refer to error codes list in BGMacroFile.
+ */
+-(void)commandBGSetUnit:(BGUnit )unitState DisposeSetUnitResult:(DisposeBGSetUnit)disposeBGSetUnitResult DisposeBGErrorBlock:(DisposeBGErrorBlock)disposeBGErrorBlock;
+
+/**
+ * Get the bottleID stored in the BG meter (only for react-Native project)
+ * @param disposeBGBottleID  This block returns the ID which is stored in the BG meter, to verify if the strip has been used is from the same bottle of the registered one. if not, the app will notify the user need scan the new bottle, if yes, the app will get the number of left strips and expire date.
+ * @param disposeBGErrorBlock, This block returns error codes,please refer to error codes list in BGMacroFile.
+ */
+
+-(void)commandBGGetBottleID:(DisposeBGBottleID)disposeBGBottleID DisposeBGErrorBlock:(DisposeBGErrorBlock)disposeBGErrorBlock;
+
 /**
  * Tranfer offline history records
  * @param disposeBGDataCount   The number of the records in the meter memory.
@@ -104,7 +133,22 @@ typedef enum{
 -(void)commandReadBGCodeDic:(DisposeBGCodeDic)disposeBGCodeDic DisposeBGErrorBlock:(DisposeBGErrorBlock)disposeBGErrorBlock;
 
 /**
- * Send code
+ * Send code with type (New)
+ * @param testType Set the measure test type,@1 is Blood Test,@2 is CTL Test.
+ * @param codeType Set the code type,@1 is GOD,@2 is GDH.
+ * @param encodeString  The code String gets by scanning the QR code.
+ * @param bottleID   Generate from the QR code through some algorithms,ranging from 0-0xFFFFFFFF.
+ * @param date  The expired date.
+ * @param num  the number of strips which is last,ranging from 0-255. num = 0 will determine the measurement.
+ * @param disposeBGSendCodeBlock  This block returns yes means code has been sent regularly.
+ * @param disposeBGStartModel  The boot mode of the BG meter, BGOpenMode_Strip means booting the meter by sliding the strip, BGOpenMode_Hand means booting the meter by pressing the on/off button. interface (6) will be called by the first mode, interface (7) will be called by the second mode.
+ * @param disposeBGErrorBlock This block returns error codes,please refer to error codes list in BGMacroFile.
+ */
+-(void)commandSendBGCodeWithMeasureType:(BGMeasureMode)testType CodeType:(BGCodeMode)codeType CodeString:(NSString*)encodeString bottleID:(NSNumber *)bottleID validDate:(NSDate*)date remainNum:(NSNumber*)num DisposeBGSendCodeBlock:(DisposeBGSendCodeBlock)disposeBGSendCodeBlock DisposeBGStartModel:(DisposeBGStartModel)disposeBGStartModel DisposeBGErrorBlock:(DisposeBGErrorBlock)disposeBGErrorBlock;
+
+
+/**
+ * Send code (Deprecated since 2016/12/15,-- use 'Send code with type'function instead.)
  * @param encodeString  The code String gets by scanning the QR code.
  * @param bottleID   Generate from the QR code through some algorithms,ranging from 0-0xFFFFFFFF.
  * @param date  The expired date.
@@ -129,7 +173,7 @@ typedef enum{
 
 /**
  * Button-pressing booting mode
- * @param testMode  Set the measurement mode, BGMeasureMode_Blood means blood measurement mode, BGMeasureMode_NoBlood means control solution measurement mode.
+ * @param testMode  Set the measurement mode,must be the same as the testType in send code method, BGMeasureMode_Blood means blood measurement mode, BGMeasureMode_NoBlood means control solution measurement mode.
  * @param disposeBGStripInBlock  This block returns yes means strip slides in.
  * @param disposeBGBloodBlock This block returns yes means the blood drop has beed sensed from the strip.
  * @param disposeBGResultBlock  This block returns the measurement by the unit of mg/dL, range from 20-600.
