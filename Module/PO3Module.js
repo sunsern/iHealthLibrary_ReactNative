@@ -121,12 +121,11 @@ module.exports = {
      * <tr><td>Key</td><td>Value</td></tr>
      * <tr><td>action</td><td>{@link module:POProfileModule.ACTION_OFFLINEDATA_PO POProfileModule.ACTION_OFFLINEDATA_PO("offlineData_po")}</td></tr>
      * <tr><td>{@link module:POProfileModule.OFFLINEDATA_PO POProfileModule.OFFLINEDATA_PO("offlineData")}</td><td>Offline Data Array.</td></tr>
-     * <tr><td>{@link module:POProfileModule.PULSE_WAVE_PO POProfileModule.PULSE_WAVE_PO("pulseWave")}</td><td>Pulse Wave for each element in the array, e.g. [0,0,0]</td></tr>
      * <tr><td>{@link module:POProfileModule.DATAID POProfileModule.DATAID("dataID")}</td><td>Data Id for each element in the array, e.g. 67FFC7A454148723718144A604D4152B</td></tr>
-     * <tr><td>{@link module:POProfileModule.PI_PO POProfileModule.PI_PO("pi")}</td><td>PI for each element in the array, e.g. 0.0430000014603138</td></tr>
-     * <tr><td>{@link module:POProfileModule.PULSE_STRENGTH_PO POProfileModule.PULSE_STRENGTH_PO("pulsestrength")}</td><td>PI for each element in the array, e.g. 0</td></tr>
+     * <tr><td>{@link module:POProfileModule.MEASURE_DATE_PO POProfileModule.MEASURE_DATE_PO("measureDate")}</td><td>The measure data.</td></tr>
      * <tr><td>{@link module:POProfileModule.BLOOD_OXYGEN_PO POProfileModule.BLOOD_OXYGEN_PO("bloodoxygen")}</td><td>Blood Oxygen for each element in the array, e.g. 98</td></tr>
      * <tr><td>{@link module:POProfileModule.PULSE_RATE_PO POProfileModule.PULSE_RATE_PO("heartrate")}</td><td>Heart Rate for each element in the array, e.g. 65</td></tr>
+     * <tr><td>{@link module:POProfileModule.PULSE_WAVE_PO POProfileModule.PULSE_WAVE_PO("pulseWave")}</td><td>Pulse Wave for each element in the array, e.g. [0,0,0]</td></tr>
      * </tbody>
      * </table>
      * </li>
