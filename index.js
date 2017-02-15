@@ -28,7 +28,9 @@ var Component = {
     BG1ProfileModule: require('./Module/BG1ProfileModule'),
     HS6Module: require('./Module/HS6Module'),
     HS6ProfileModule: require('./Module/HS6ProfileModule'),
-
+    BG5LModule:require('./Module/BG5LModule'),
+    BG5Module:require('./Module/BG5Module'),
+    BGProfileModule:require('./Module/BGProfileModule'),
 }
 
 module.exports = Component;
