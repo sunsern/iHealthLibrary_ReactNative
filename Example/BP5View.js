@@ -138,7 +138,7 @@ export default class BP5View extends Component {
             else if (e.action === BPProfileModule.ACTION_HISTORICAL_DATA_BP) {
 
                 let dataArray = e[BPProfileModule.HISTORICAL_DATA_BP];
-                if (dataArray.length === 0) {
+                if (dataArray == undefined) {
                     result = "There is not offline data in device"
                 }else {
                     result  = "离线数据：";
