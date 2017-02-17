@@ -54,7 +54,7 @@ module.exports = {
      * 
      * @param {string} QRCode
      */
-	sendCode: function(QRCode: string): void {
+	sendCode: function(QRCode) {
         if (RCTModule != null) {
             RCTModule.sendCode(QRCode);
         }else {
@@ -93,7 +93,7 @@ module.exports = {
      * </ul>
      * @param {string} QRCode
      */
-    getBottleInfoFromQR: function(QRCode: string): void {
+    getBottleInfoFromQR: function(QRCode){
         if (RCTModule != null) {
             RCTModule.getBottleInfoFromQR(QRCode);
         }else {

@@ -135,7 +135,7 @@ export default class BG5LView extends Component {
             }
             else if (e.action == BGProfileModule.ACTION_ERROR_BG) {
                 let errorNumber = e[BGProfileModule.ERROR_NUM_BG]
-                // let errorDescription = e[BGProfileModule.ERROR_DESCRIPTION_BG]
+                let errorDescription = e[BGProfileModule.ERROR_DESCRIPTION_BG]
                 resultText = "Error happens:\n errorNumber = " + errorNumber + "\nDescreption: " + errorDescription;
             }
             else {
