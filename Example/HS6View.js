@@ -84,7 +84,7 @@ export default class HS6View extends Component {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
-                            HS6Module.setWifi("TP_LINK_3019", "nicaiba!")
+                            HS6Module.setWifi("TP-LINK_TTTTTTTT", "aaaaaaaa")
                         }}>
                         <Text style={styles.buttonText}>
                             Set Wifi

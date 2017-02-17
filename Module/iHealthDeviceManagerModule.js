@@ -42,7 +42,7 @@ module.exports = {
      * Device type number for HS4S(268435456) 1 << 28
      */
     HS4S: RCTModule.HS4S,
-    HS6: RCTModule.HS6,
+    HS6: 10086,
     /**
      * Device type number for BG1(110)
      */
