@@ -10,3 +10,5 @@ Example/android/.gradle
 recopy.sh
 local.properties
 Example/android/.idea
+gradlew.bat
+gradlew
