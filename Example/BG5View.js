@@ -20,27 +20,27 @@ var styles = StyleSheet.create({
         flex: 1,
         marginTop: 60,
     },
-    // 导航栏
+    // 
     heading: {
         height: 44,
         alignItems: 'center',
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center', 
         marginBottom: 10
     },
-    // 导航栏文字
+    // 
     headText: {
         color: '#ff5555',
         fontSize: 22
     },
-    // 按钮
+    // 
     button: {
         height: 60,
         marginTop: 10,
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center', 
         backgroundColor: '#eedddd',
         alignItems: 'center'
     },
-    // 按钮文字
+    // 
     buttonText: {
         fontSize: 18
     },
@@ -48,7 +48,7 @@ var styles = StyleSheet.create({
         marginTop: 10,
         height: 25,
         alignItems: 'flex-start',
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center', 
         marginBottom: 5
     },
 });
@@ -236,28 +236,28 @@ export default class BG5View extends Component {
                         style={styles.button}
                         onPress={() => this.holdLink()}>
                         <Text style={styles.buttonText}>
-                            保持连接
+                            holdLink
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this.setTime()}>
                         <Text style={styles.buttonText}>
-                            设置时间
+                            setTime
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this.setUnit(1)}>
                         <Text style={styles.buttonText}>
-                            设置单位
+                            setUnit
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this.getBattery()}>
                         <Text style={styles.buttonText}>
-                            获得电量
+                            getBattery
                         </Text>
                     </TouchableOpacity>
 
@@ -265,56 +265,56 @@ export default class BG5View extends Component {
                         style={styles.button}
                         onPress={() => this.startMeasure(1)}>
                         <Text style={styles.buttonText}>
-                            开始测量
+                            startMeasure
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this.getOfflineData()}>
                         <Text style={styles.buttonText}>
-                            获取离线数据
+                            getOfflineData
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this.deleteOfflineData()}>
                         <Text style={styles.buttonText}>
-                            删除离线数据
+                            deleteOfflineData
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this.setBottleMessage(2,1,"",0,"")}>
                         <Text style={styles.buttonText}>
-                            设置试瓶信息
+                            setBottleMessage
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this.getBottleMessage()}>
                         <Text style={styles.buttonText}>
-                            获取试瓶信息
+                            getBottleMessage
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this.setBottleID(123123123)}>
                         <Text style={styles.buttonText}>
-                            设置BottleID
+                            setBottleID
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this.getBottleID()}>
                         <Text style={styles.buttonText}>
-                            获取BottleID
+                            getBottleID
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this.disConnect()}>
                         <Text style={styles.buttonText}>
-                            断开连接
+                            disConnect
                         </Text>
                     </TouchableOpacity>
                 </ScrollView>
