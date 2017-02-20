@@ -268,7 +268,7 @@ class MainView extends Component {
                     }}
                     onPress={() => this.authenConfigureInfo()}>
                     <Text style={styles.buttonText}>
-                        认证SDK
+                        Authenticate SDK
                     </Text>
                 </TouchableOpacity>
 
