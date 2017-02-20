@@ -24,15 +24,15 @@ var styles = StyleSheet.create({
         height: 200,
         marginTop: 20
     },
-    // 按钮
+    // Button
     button: {
         height: 60,
         marginTop: 10,
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center', 
         backgroundColor: '#eedddd',
         alignItems: 'center'
     },
-    // 按钮文字
+    // Button text
     buttonText: {
         fontSize: 18
     },
@@ -40,7 +40,7 @@ var styles = StyleSheet.create({
         marginTop: 10,
         height: 25,
         alignItems: 'flex-start',
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center', 
         marginBottom: 5
     },
 });
@@ -170,7 +170,7 @@ export default class BG1View extends Component {
                         style={styles.button}
                         onPress={() => this._getBottleInfoFromQR()}>
                         <Text style={styles.buttonText}>
-                            解析Code信息
+                           parseCodeInfo
                         </Text>
                     </TouchableOpacity>
 
@@ -178,7 +178,7 @@ export default class BG1View extends Component {
                         style={styles.button}
                         onPress={() => this._sendCode()}>
                         <Text style={styles.buttonText}>
-                            发送Code
+                            sendCode
                         </Text>
                     </TouchableOpacity>
 
