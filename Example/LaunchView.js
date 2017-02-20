@@ -70,7 +70,7 @@ class MainView extends Component {
         console.info('scan device ------' + this.state.type)
 
         if (this.state.scanStatus) {
-            console.info('正在扫描设备')
+            console.info('Scanning devices...')
         } else if (this.state.type == iHealthDeviceManagerModule.HS6) {
             this.props.navigator.push({
                 name: "DeviceView",
@@ -262,7 +262,7 @@ class MainView extends Component {
                 <TouchableOpacity
                     style={{
                         height: 60,
-                        justifyContent: 'center', // 内容居中显示
+                        justifyContent: 'center',
                         backgroundColor: '#eedddd',
                         alignItems: 'center',
                     }}
@@ -277,7 +277,7 @@ class MainView extends Component {
                     style={{
                         height: 60,
                         marginTop: 5,
-                        justifyContent: 'center', // 内容居中显示
+                        justifyContent: 'center',
                         backgroundColor: '#eedddd',
                         alignItems: 'center',
                     }}
@@ -285,12 +285,12 @@ class MainView extends Component {
                         this.refs.dialog.setModalVisible(true)
                     }}>
                     <Text style={styles.buttonText}>
-                        扫描设备
+                        Scan
                     </Text>
                 </TouchableOpacity>
 
 
-                <Text style={styles.headText}> 扫描列表 </Text>
+                <Text style={styles.headText}> Scan list </Text>
                 <SimpleListView
                     ref='discoverListView'
                     style={{backgroundColor: '#fafafa'}}
@@ -323,7 +323,7 @@ class MainView extends Component {
                     }}
                 />
 
-                <Text style={styles.headText}> 连接列表 </Text>
+                <Text style={styles.headText}> Connected list </Text>
 
                 <SimpleListView
                     ref='connectedListView'
@@ -474,33 +474,33 @@ var styles = StyleSheet.create({
         backgroundColor: '#fafafa',
         paddingTop: 75,
     },
-    // 导航栏
+    // Navigation bar
     heading: {
         height: 44,
         alignItems: 'center',
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         marginBottom: 10
     },
-    // 导航栏文字
+    // Navigation bar text
     headText: {
         color: '#ff5555',
         fontSize: 22,
         backgroundColor: '#fafafa',
     },
-    // 按钮
+    // Button
     button: {
         height: 60,
         marginTop: 10,
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         backgroundColor: '#eedddd',
         alignItems: 'center'
     },
-    // 按钮文字
+    // Button text
     buttonText: {
         fontSize: 18
     },
     listItem: {
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         paddingTop: 3,
         paddingRight: 15,
         paddingLeft: 15,

@@ -23,27 +23,27 @@ var styles = StyleSheet.create({
         margin: 20,
         marginTop: 60
     },
-    // 导航栏
+    // Navigation bar
     heading: {
         height: 44,
         alignItems: 'center',
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         marginBottom: 10
     },
-    // 导航栏文字
+    // Navigation bar text
     headText: {
         color: '#ff5555',
         fontSize: 22
     },
-    // 按钮
+    // Button
     button: {
         height: 45,
         marginTop: 10,
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         backgroundColor: '#eedddd',
         alignItems: 'center'
     },
-    // 按钮文字
+    // Button text
     buttonText: {
         fontSize: 18
     },
@@ -51,7 +51,7 @@ var styles = StyleSheet.create({
         marginTop: 10,
         height: 25,
         alignItems: 'flex-start',
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         marginBottom: 5
     },
 });
