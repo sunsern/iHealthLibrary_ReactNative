@@ -498,5 +498,5 @@ module.exports = {
         } else {
             console.log('~~~~~ BG5L getBottleID RCTModule is null')
         }
-    },
+    }
 }
