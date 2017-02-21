@@ -52,7 +52,7 @@ RCT_EXPORT_MODULE()
     for(KN550BT *tempDevice in bpDeviceArray){
         if([mac isEqualToString:tempDevice.serialNumber]){
             
-            tempDevice.reactNativeFlg = @YES;
+//            tempDevice.reactNativeFlg = @YES;
             return tempDevice;
         }
     }
