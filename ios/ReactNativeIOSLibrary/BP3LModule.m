@@ -84,12 +84,11 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
             NSLog(@"result %@",dic);
             NSDictionary* response = @{
                                        kACTION:kACTION_ONLINE_RESULT_BP,
-                                       kHIGH_BLOOD_PRESSURE_BP:dic,
-                                       kLOW_BLOOD_PRESSURE_BP:dic,
-                                       kPULSE_BP:dic,
-                                       kMEASUREMENT_AHR_BP:dic,
-                                       kMEASUREMENT_HSD_BP:dic,
-                                       kDATAID:dic,
+                                       kHIGH_BLOOD_PRESSURE_BP:dic[@"sys"],
+                                       kLOW_BLOOD_PRESSURE_BP:dic[@"dia"],
+                                       kPULSE_BP:dic[@"heartRate"],
+                                       kMEASUREMENT_AHR_BP:dic[@"irregular"],
+                                       kDATAID:dic[@"dataID"],
                                        };
             [self sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
