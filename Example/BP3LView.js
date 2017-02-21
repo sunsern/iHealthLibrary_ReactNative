@@ -30,15 +30,15 @@ var styles = StyleSheet.create({
     contentContainer: {
         height: 400,
     },
-    // 按钮
+    // button style
     button: {
         height: 60,
         marginTop: 10,
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         backgroundColor: '#eedddd',
         alignItems: 'center'
     },
-    // 按钮文字
+    // button text style
     buttonText: {
         fontSize: 18
     },
@@ -46,7 +46,7 @@ var styles = StyleSheet.create({
         marginTop: 10,
         height: 25,
         alignItems: 'flex-start',
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         marginBottom: 5
     },
 });
@@ -95,7 +95,7 @@ export default class BP3LView extends Component {
                         onPress={() => this._getDeviceIDPS()}>
 
                         <Text style={styles.buttonText}>
-                            获得IDPS
+                            GetIDPS
                         </Text>
 
                     </TouchableOpacity>
@@ -106,7 +106,7 @@ export default class BP3LView extends Component {
                         onPress={() => this._getBattery()}>
 
                         <Text style={styles.buttonText}>
-                            获得电量
+                            GetBattery
                         </Text>
 
 
@@ -118,7 +118,7 @@ export default class BP3LView extends Component {
 
 
                         <Text style={styles.buttonText}>
-                            开始测量
+                            StartMeasure
                         </Text>
 
 
@@ -128,7 +128,7 @@ export default class BP3LView extends Component {
                         onPress={() => this._stopMeasure()}>
 
                         <Text style={styles.buttonText}>
-                            停止测量
+                            InterruptMeasure
                         </Text>
 
 
@@ -139,7 +139,7 @@ export default class BP3LView extends Component {
                         onPress={() => this._disConnect()}>
 
                         <Text style={styles.buttonText}>
-                            断开连接
+                            Disconnect
                         </Text>
 
 
@@ -171,37 +171,37 @@ export default class BP3LView extends Component {
         let self = this;
         this.connectionListener = DeviceEventEmitter.addListener(iHealthDeviceManagerModule.Event_Device_Disconnect, function (e: Event) {
             // handle event.
-            console.info('BP5View', 'addListener_DeviceDisconnect', JSON.stringify(e));
+            console.info('BP3LView', 'addListener_DeviceDisconnect', JSON.stringify(e));
             self.props.navigator.pop();
         });
         this.notifyListener = DeviceEventEmitter.addListener(BP3LModule.Event_Notify, function (e: Event) {
-            console.info('BP5View', 'addListener_DeviceDisconnect', "Action = " + e.action + '\n' + "Message = " + JSON.stringify(e));
+            console.info('BP3LView', 'addListener_Event_Notify', "Action = " + e.action + "\n" + "Message = " + JSON.stringify(e));
 
             let result = "";
             if (e.action === BPProfileModule.ACTION_ERROR_BP) {
                 let errorNum = e[BPProfileModule.ERROR_NUM_BP];
-                result = "错误编号：" + '\nErrorNum = ' + errorNum;
+                result = '\nErrorNum = ' + errorNum;
             }
             else if (e.action === BPProfileModule.ACTION_BATTERY_BP) {
                 let battery = e[BPProfileModule.BATTERY_BP];
-                result = "电池电量：" + '\nBattery = ' + battery;
+                result = '\nBattery = ' + battery;
             }
             else if (e.action === BPProfileModule.ACTION_ZOREING_BP) {
-                result = "浮零中：" +'\nBP device is zeroing';
+                result = '\nBP device is zeroing';
             }
             else if (e.action === BPProfileModule.ACTION_ZOREOVER_BP) {
-                result = "浮零结束：" +'\nBP device is zero over';
+                result = '\nBP device is zero over';
             }
             else if (e.action === BPProfileModule.ACTION_ONLINE_PRESSURE_BP) {
                 let pressure = e[BPProfileModule.BLOOD_PRESSURE_BP];
-                result = "当前压力值：" +'\npressure = ' + pressure;
+                result = '\npressure = ' + pressure;
             }
             else if (e.action === BPProfileModule.ACTION_ONLINE_PULSEWAVE_BP) {
                 let pressure = e[BPProfileModule.BLOOD_PRESSURE_BP];
                 let heartbeat = e[BPProfileModule.FLAG_HEARTBEAT_BP];
                 let wave = e[BPProfileModule.PULSEWAVE_BP];
 
-                result = "当前压力值及小波：" +"\npressure = " + pressure +
+                result = "\npressure = " + pressure +
                         "\nheartbeat = " + heartbeat +
                         "\nwave = " + wave;
             }
@@ -213,7 +213,7 @@ export default class BP3LView extends Component {
                 let hsd = e[BPProfileModule.MEASUREMENT_HSD_BP];
                 let dataID = e[BPProfileModule.DATAID];
 
-                result = "结果值：" +"\nsys = " + sys +
+                result = "\nsys = " + sys +
                         "\ndia = " + dia +
                         "\nheartRate = " + heartRate +
                         "\narrhythmia = " + arrhythmia +
