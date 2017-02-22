@@ -43,6 +43,9 @@ RCT_EXPORT_MODULE()
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BP3LConnectNoti object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDisconnect:) name:BP3LDisConnectNoti object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnectFailed:) name:BP3LConnectFailed object:nil];
+        //BP5
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BP5ConnectNoti object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDisconnect:) name:BP5DisConnectNoti object:nil];
         //BP7S
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceDiscover:) name:BP7SDiscover object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceConnect:) name:BP7SConnectNoti object:nil];
@@ -83,6 +86,7 @@ RCT_EXPORT_MODULE()
         [AM3SController_V2 shareIHAM3SController];
         [AM4Controller shareIHAM4Controller];
         [BP3LController shareBP3LController];
+        [BP5Controller shareBP5Controller];
         [BG5Controller shareIHBg5Controller];
         [BG5LController shareIHBg5lController];
         

@@ -22,7 +22,7 @@ RCT_EXPORT_MODULE()
 - (NSDictionary *)constantsToExport
 {
     return @{
-             @"Event_Notify":@"event_notify_bp550bt",
+             @"Event_Notify":EVENT_NOTIFY,
              
              };
 }
