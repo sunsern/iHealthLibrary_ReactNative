@@ -13,6 +13,11 @@
 #import "BP5Controller.h"
 #import "BP5.h"
 #import "iHealthDeviceManagerModule.h"
+
+@interface BP5Module()
+@property (nonatomic, strong) NSNumber* previousPressure;
+@property (nonatomic, assign) BOOL startSendWavelet;
+@end
 @implementation BP5Module
 #define EVENT_NOTIFY @"BP5.MODULE.NOTIFY"
 @synthesize bridge = _bridge;
@@ -69,38 +74,28 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
     
+    _previousPressure = @(0);
+    self.startSendWavelet = NO;
     if ([self getBP5WithMac:mac]!=nil) {
+        __weak typeof(self) weakSelf = self;
         [[self getBP5WithMac:mac] commandStartMeasureWithUser:[iHealthDeviceManagerModule autherizedUserID] clientID:[iHealthDeviceManagerModule autherizedClientID] clientSecret:[iHealthDeviceManagerModule autherizedClientSecret] Authentication:^(UserAuthenResult result) {
             if (result != UserAuthen_LoginSuccess) {
-                [self sendErrorWithCode:result];
+                [weakSelf sendErrorWithCode:result];
             }
         } pressure:^(NSArray *pressureArr) {
             NSLog(@"pressure %@",pressureArr);
-            NSDictionary* response = @{
-                                       kACTION:kACTION_ONLINE_PRESSURE_BP,
-                                       kBLOOD_PRESSURE_BP:pressureArr.firstObject,
-                                       };
-            [self sendEventWithDict:response];
+            [self sendPresssre:pressureArr.firstObject wavelet:nil isHeartPulse:NO];
         } xiaoboWithHeart:^(NSArray *xiaoboArr) {
             NSLog(@"xiaoboWithHeart %@",xiaoboArr);
-            NSDictionary* response = @{
-                                       kACTION:kACTION_ONLINE_PULSEWAVE_BP,
-                                       kBLOOD_PRESSURE_BP:xiaoboArr.firstObject,
-                                       kFLAG_HEARTBEAT_BP:@(1),
-                                       kPULSEWAVE_BP:xiaoboArr
-                                       };
-            [self sendEventWithDict:response];
+            [self sendPresssre:nil wavelet:xiaoboArr isHeartPulse:YES];
+            
         } xiaoboNoHeart:^(NSArray *xiaoboArr) {
             NSLog(@"xiaoboNoHeart %@",xiaoboArr);
-            NSDictionary* response = @{
-                                       kACTION:kACTION_ONLINE_PULSEWAVE_BP,
-                                       kBLOOD_PRESSURE_BP:xiaoboArr.firstObject,
-                                       kFLAG_HEARTBEAT_BP:@(0),
-                                       kPULSEWAVE_BP:xiaoboArr
-                                       };
-            [self sendEventWithDict:response];
+            [self sendPresssre:nil wavelet:xiaoboArr isHeartPulse:NO];
+            
         } result:^(NSDictionary *dic) {
             NSLog(@"result %@",dic);
+            weakSelf.startSendWavelet = NO;
             NSDictionary* response = @{
                                        kACTION:kACTION_ONLINE_RESULT_BP,
                                        kHIGH_BLOOD_PRESSURE_BP:dic[@"sys"],
@@ -109,10 +104,12 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
                                        kMEASUREMENT_AHR_BP:dic[@"irregular"],
                                        kDATAID:dic[@"dataID"],
                                        };
-            [self sendEventWithDict:response];
+            [weakSelf sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
             NSLog(@"error %d",error);
-            [self sendErrorWithCode:error];
+            weakSelf.startSendWavelet = NO;
+            [weakSelf sendErrorWithCode:error];
+            
         }];
     }else{
     
@@ -122,6 +119,31 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
     }
     
     
+}
+
+- (void)sendPresssre:(NSNumber*)pressure wavelet:(NSArray*)waveletArray isHeartPulse:(BOOL)heartPulse{
+
+    if (pressure) {
+        self.previousPressure = pressure;
+    }
+    if (waveletArray.count > 0) {
+        self.startSendWavelet = YES;
+    }
+    if (pressure && !self.startSendWavelet) {
+        NSDictionary* response = @{
+                                   kACTION:kACTION_ONLINE_PRESSURE_BP,
+                                   kBLOOD_PRESSURE_BP:pressure,
+                                   };
+        [self sendEventWithDict:response];
+    }else if (waveletArray.count > 0 && self.startSendWavelet){
+        NSDictionary* response = @{
+                                   kACTION:kACTION_ONLINE_PULSEWAVE_BP,
+                                   kBLOOD_PRESSURE_BP:self.previousPressure,
+                                   kFLAG_HEARTBEAT_BP:@(heartPulse),
+                                   kPULSEWAVE_BP:waveletArray
+                                   };
+        [self sendEventWithDict:response];
+    }
 }
 
 
