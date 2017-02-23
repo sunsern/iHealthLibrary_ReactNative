@@ -33,15 +33,15 @@ var styles = StyleSheet.create({
     contentContainer: {
         height: 400,
     },
-    // 按钮
+    // button style
     button: {
         height: 60,
         marginTop: 10,
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         backgroundColor: '#eedddd',
         alignItems: 'center'
     },
-    // 按钮文字
+    // button text style
     buttonText: {
         fontSize: 18
     },
@@ -49,7 +49,7 @@ var styles = StyleSheet.create({
         marginTop: 10,
         height: 25,
         alignItems: 'flex-start',
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         marginBottom: 5
     },
 });
@@ -100,7 +100,7 @@ export default class BP7SView extends Component {
                         onPress={() => this._getDeviceIDPS()}>
 
                         <Text style={styles.buttonText}>
-                            获得IDPS
+                            GetIDPS
                         </Text>
 
 
@@ -112,7 +112,7 @@ export default class BP7SView extends Component {
                         onPress={() => this._getFunctionInfo()}>
 
                         <Text style={styles.buttonText}>
-                            获得下位机信息
+                            GetFunctionInfoAndSyncTime
                         </Text>
 
 
@@ -123,7 +123,7 @@ export default class BP7SView extends Component {
                         onPress={() => this._getBattery()}>
 
                         <Text style={styles.buttonText}>
-                            获得电量
+                            GetBattery
                         </Text>
 
 
@@ -134,7 +134,7 @@ export default class BP7SView extends Component {
                         onPress={() => this._getOffLineNum()}>
 
                         <Text style={styles.buttonText}>
-                            获得离线数据数量
+                            GetOfflineDataNum
                         </Text>
 
 
@@ -144,7 +144,7 @@ export default class BP7SView extends Component {
                         onPress={() => this._getOffLineData()}>
 
                         <Text style={styles.buttonText}>
-                            获得离线数据
+                            GetOfflineData
                         </Text>
 
 
@@ -170,7 +170,7 @@ export default class BP7SView extends Component {
 
                             style={{
                                 height: 60,
-                                justifyContent: 'center', // 内容居中显示
+                                justifyContent: 'center',
                                 backgroundColor: '#eedddd',
                                 alignItems: 'center',
                                 flex: 2
@@ -178,7 +178,7 @@ export default class BP7SView extends Component {
                             onPress={() => this._setUnit(this.state.unit)}>
 
                             <Text style={styles.buttonText}>
-                                设置单位
+                                SetUnit
                             </Text>
 
 
@@ -193,7 +193,7 @@ export default class BP7SView extends Component {
                         onPress={() => this._setAngle()}>
 
                         <Text style={styles.buttonText}>
-                            设置角度
+                            SetAngle
                         </Text>
 
 
@@ -204,7 +204,7 @@ export default class BP7SView extends Component {
                         onPress={() => this._disConnect()}>
 
                         <Text style={styles.buttonText}>
-                            断开连接
+                            Disconnect
                         </Text>
 
 
@@ -242,19 +242,19 @@ export default class BP7SView extends Component {
             self.props.navigator.pop();
         });
         this.notifyListener = DeviceEventEmitter.addListener(BP7SModule.Event_Notify, function (e: Event) {
-            console.info( "Action = " + e.action + '\n' + "Message = " + JSON.stringify(e));
+            console.info( "Action = " + e.action + "\n" + "Message = " + JSON.stringify(e));
 
             if (e.action === BPProfileModule.ACTION_ERROR_BP) {
                 let errorNum = e[BPProfileModule.ERROR_NUM_BP];
-                result = "错误编号：" + "\nErrorNum = " + errorNum;
+                result = "\nErrorNum = " + errorNum;
             }
             else if (e.action === BPProfileModule.ACTION_BATTERY_BP) {
                 let battery = e[BPProfileModule.BATTERY_BP];
-                result = "电池电量：" + "\nBattery = " + battery;
+                result = "\nBattery = " + battery;
             }
             else if (e.action === BPProfileModule.ACTION_HISTORICAL_NUM_BP) {
                 let offlineNum = e[BPProfileModule.HISTORICAL_NUM_BP];
-                result = "离线数据数量：" + "\nofflineNum = " + offlineNum;
+                result = "\nofflineNum = " + offlineNum;
             }
             else if (e.action === BPProfileModule.ACTION_HISTORICAL_DATA_BP) {
 
@@ -263,7 +263,7 @@ export default class BP7SView extends Component {
                 if (dataArray == undefined) {
                     result = "There is not offline data in device"
                 }else {
-                    result = "离线数据：";
+                    result = "OfflineData：";
 
                     for (let i = 0; i < dataArray.length; i++) {
                         let offlineData = dataArray[i];
@@ -295,7 +295,7 @@ export default class BP7SView extends Component {
 
             } else if (e.action === BPProfileModule.ACTION_HISTORICAL_OVER_BP) {
                 result += "\n---------------------------------------------------------------";
-                result += "\n 离线数据上传结束"
+                result += "\n update offlineData over"
             } else if (e.action === BPProfileModule.ACTION_FUNCTION_INFORMATION_BP) {
 
                 let upAirMeasureFlg = e[BPProfileModule.FUNCTION_IS_UPAIR_MEASURE];
@@ -307,7 +307,7 @@ export default class BP7SView extends Component {
                 let mutableUpload = e[BPProfileModule.FUNCTION_IS_MULTI_UPLOAD];
                 let selfUpdate = e[BPProfileModule.FUNCTION_HAVE_SELF_UPDATE];
 
-                result += "设备功能信息：" + "\nupAirMeasureFlg = " + upAirMeasureFlg +
+                result += "Device functionInfo：" + "\nupAirMeasureFlg = " + upAirMeasureFlg +
                     "\narmMeasureFlg = " + armMeasureFlg +
                     "\nhaveAngleSensor = " + haveAngleSensor +
                     "\nhaveOffline" + haveOffline +
@@ -320,10 +320,10 @@ export default class BP7SView extends Component {
 
             }
             else if (e.action === BPProfileModule.ACTION_SET_UNIT_SUCCESS_BP) {
-                result = "set unit successfully";
+                result = "\nset unit successfully";
             }
             else if (e.action === BPProfileModule.ACTION_SET_ANGLE_SUCCESS_BP) {
-                result = "set angle successfully";
+                result = "\nset angle successfully";
             }
 
             self.setState({resultText: result});
@@ -374,7 +374,7 @@ export default class BP7SView extends Component {
     }
 
     _setAngle() {
-        BP7SModule.angleSet(this.props.mac, 90, 0, 0, 0);
+        BP7SModule.angleSet(this.props.mac, 80, 30, 80, 30);
     }
 
     _disConnect() {

@@ -26,15 +26,15 @@ var styles = StyleSheet.create({
     contentContainer: {
         height: 400,
     },
-    // 按钮
+    // button style
     button: {
         height: 60,
         marginTop: 10,
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         backgroundColor: '#eedddd',
         alignItems: 'center'
     },
-    // 按钮文字
+    // button text style
     buttonText: {
         fontSize: 18
     },
@@ -42,7 +42,7 @@ var styles = StyleSheet.create({
         marginTop: 10,
         height: 25,
         alignItems: 'flex-start',
-        justifyContent: 'center', // 内容居中显示
+        justifyContent: 'center',
         marginBottom: 5
     },
 });
@@ -87,32 +87,32 @@ export default class BP5View extends Component {
         });
         this.notifyListener = DeviceEventEmitter.addListener(BP5Module.Event_Notify, function (e: Event) {
 
-            console.info('BP5View', 'addListener_DeviceDisconnect',"Action = " +  e.action + '\n' + "Message = " +  JSON.stringify(e));
+            console.info('BP5View', 'addListener_Event_Notify',"Action = " +  e.action + "\n" + "Message = " +  JSON.stringify(e));
             let result = "";
             if (e.action === BPProfileModule.ACTION_ERROR_BP) {
                 let errorNum = e[BPProfileModule.ERROR_NUM_BP];
-                result = "错误编号：" + "\nErrorNum = " + errorNum;
+                result = "\nErrorNum = " + errorNum;
             }
             else if (e.action === BPProfileModule.ACTION_BATTERY_BP) {
                 let battery = e[BPProfileModule.BATTERY_BP];
-                result = "电池电量：" +"\nBattery = " + battery;
+                result = "\nBattery = " + battery;
             }
             else if (e.action === BPProfileModule.ACTION_ZOREING_BP) {
-                result = "浮零中：" + "\nBP device is zeroing"
+                result = "\nBP device is zeroing"
             }
             else if (e.action === BPProfileModule.ACTION_ZOREOVER_BP) {
-                result = "浮零结束：" +"\nBP device is zero over"
+                result = "\nBP device is zero over"
             }
             else if (e.action === BPProfileModule.ACTION_ONLINE_PRESSURE_BP) {
                 let pressure = e[BPProfileModule.BLOOD_PRESSURE_BP];
-                result = "当前压力值：" + "\npressure = " + pressure;
+                result = "\npressure = " + pressure;
             }
             else if (e.action === BPProfileModule.ACTION_ONLINE_PULSEWAVE_BP) {
                 let pressure = e[BPProfileModule.BLOOD_PRESSURE_BP];
                 let heartbeat = e[BPProfileModule.FLAG_HEARTBEAT_BP];
                 let wave = e[BPProfileModule.PULSEWAVE_BP];
 
-                result = "当前压力值及小波：" + "\npressure = " + pressure +
+                result = "\npressure = " + pressure +
                     "\nheartbeat = " + heartbeat +
                     "\nwave = " + wave;
             }
@@ -124,7 +124,7 @@ export default class BP5View extends Component {
                 let hsd = e[BPProfileModule.MEASUREMENT_HSD_BP];
                 let dataID = e[BPProfileModule.DATAID];
 
-                result = "结果值：" + "\nsys = " + sys +
+                result = "\nsys = " + sys +
                     "\ndia = " + dia +
                     "\nheartRate = " + heartRate +
                     "\narrhythmia = " + arrhythmia +
@@ -133,19 +133,19 @@ export default class BP5View extends Component {
             }
             else if (e.action === BPProfileModule.ACTION_HISTORICAL_NUM_BP) {
                 let offlineNum = e[BPProfileModule.HISTORICAL_NUM_BP];
-                result = "离线数据数量：" + "\nofflineNum = " + offlineNum;
+                result = "\nofflineNum = " + offlineNum;
             }
             else if (e.action === BPProfileModule.ACTION_HISTORICAL_DATA_BP) {
 
                 let dataArray = e[BPProfileModule.HISTORICAL_DATA_BP];
                 if (dataArray == undefined) {
-                    result = "There is not offline data in device"
+                    result = "\nThere is not offline data in device"
                 }else {
-                    result  = "离线数据：";
+                    result  = "OfflineData：";
                     for (let i = 0; i < dataArray.length; i++) {
                         let offlineData = dataArray[i];
 
-                        let time = offlineData[BPProfileModule.HISTORICAL_DATA_BP];
+                        let time = offlineData[BPProfileModule.MEASUREMENT_DATE_BP];
                         let sys = offlineData[BPProfileModule.HIGH_BLOOD_PRESSURE_BP];
                         let dia = offlineData[BPProfileModule.LOW_BLOOD_PRESSURE_BP];
                         let heartRate = offlineData[BPProfileModule.PULSE_BP];
@@ -210,14 +210,14 @@ export default class BP5View extends Component {
                         style={styles.button}
                         onPress={() => this._getDeviceIDPS()}>
                         <Text style={styles.buttonText}>
-                            获得IDPS
+                            GetIDPS
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this._startMeasure()}>
                         <Text style={styles.buttonText}>
-                            开始测量
+                            StartMeasure
                         </Text>
                     </TouchableOpacity>
 
@@ -225,56 +225,56 @@ export default class BP5View extends Component {
                         style={styles.button}
                         onPress={() => this._stopMeasure()}>
                         <Text style={styles.buttonText}>
-                            终止测量
+                            InterruptMeasure
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this._getBattery()}>
                         <Text style={styles.buttonText}>
-                            获得电量
+                            GetBattery
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this._enbleOffline()}>
                         <Text style={styles.buttonText}>
-                            使能离线测量
+                            EnableOfflineMeasure
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this._disableOffline()}>
                         <Text style={styles.buttonText}>
-                            使不能离线测量
+                            DisEnableOfflineMeasure
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this._isEnableOffline()}>
                         <Text style={styles.buttonText}>
-                            是否能离线测量
+                            IsEnableOfflineMeasure
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this._getOfflineNum()}>
                         <Text style={styles.buttonText}>
-                            获得离线数据数量
+                            GetOfflineDataNum
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this._getOfflineData()}>
                         <Text style={styles.buttonText}>
-                            获得离线数据
+                            GetOfflineData
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => this._disconnect()}>
                         <Text style={styles.buttonText}>
-                            断开连接
+                            Disconnect
                         </Text>
                     </TouchableOpacity>
                 </ScrollView>

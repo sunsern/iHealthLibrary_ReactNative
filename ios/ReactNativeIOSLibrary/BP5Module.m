@@ -14,26 +14,21 @@
 #import "BP5.h"
 #import "iHealthDeviceManagerModule.h"
 @implementation BP5Module
-
-
+#define EVENT_NOTIFY @"BP5.MODULE.NOTIFY"
+@synthesize bridge = _bridge;
 RCT_EXPORT_MODULE()
+
+- (NSDictionary *)constantsToExport
+{
+    return @{
+             @"Event_Notify":EVENT_NOTIFY,
+             
+             };
+}
 
 
 #pragma mark
 #pragma mark - Init
--(id)init
-{
-    if (self=[super init])
-    {
-        
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(DeviceConnectForBP5:) name:BP5ConnectNoti object:nil];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(DeviceDisConnectForBP5:) name:BP5DisConnectNoti object:nil];
-        
-        [BP5Controller shareBP5Controller];
-        
-    }
-    return self;
-}
 
 -(BP5*)getBP5WithMac:(NSString*)mac{
 
@@ -41,7 +36,7 @@ RCT_EXPORT_MODULE()
     NSArray *bpDeviceArray = [controller getAllCurrentBP5Instace];
     
     for(BP5 *tempBP5 in bpDeviceArray){
-        if([mac isEqualToString:tempBP5.currentUUID]){
+        if([mac isEqualToString:tempBP5.serialNumber]){
            
             return tempBP5;
             break;
@@ -54,13 +49,17 @@ RCT_EXPORT_MODULE()
 #pragma mark
 #pragma mark - Notification
 #pragma mark - BP5
--(void)DeviceConnectForBP5:(NSNotification *)tempNoti{
-    BP5Controller *controller = [BP5Controller shareBP5Controller];
-    NSArray *bpDeviceArray = [controller getAllCurrentBP5Instace];
-   
-    BP5 *bpInstance = [bpDeviceArray objectAtIndex:0];
-      
-}
+//-(void)DeviceConnectForBP5:(NSNotification *)tempNoti{
+//    BP5Controller *controller = [BP5Controller shareBP5Controller];
+//    NSArray *bpDeviceArray = [controller getAllCurrentBP5Instace];
+//   
+//    BP5 *bpInstance = [bpDeviceArray objectAtIndex:0];
+//      
+//}
+//
+//- (void)DeviceDisConnectForBP5:(NSNotification*)tempNoti{
+//    
+//}
 
 
 
@@ -72,21 +71,53 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
     
     if ([self getBP5WithMac:mac]!=nil) {
         [[self getBP5WithMac:mac] commandStartMeasureWithUser:[iHealthDeviceManagerModule autherizedUserID] clientID:[iHealthDeviceManagerModule autherizedClientID] clientSecret:[iHealthDeviceManagerModule autherizedClientSecret] Authentication:^(UserAuthenResult result) {
-            
+            if (result != UserAuthen_LoginSuccess) {
+                [self sendErrorWithCode:result];
+            }
         } pressure:^(NSArray *pressureArr) {
-            
+            NSLog(@"pressure %@",pressureArr);
+            NSDictionary* response = @{
+                                       kACTION:kACTION_ONLINE_PRESSURE_BP,
+                                       kBLOOD_PRESSURE_BP:pressureArr.firstObject,
+                                       };
+            [self sendEventWithDict:response];
         } xiaoboWithHeart:^(NSArray *xiaoboArr) {
-            
+            NSLog(@"xiaoboWithHeart %@",xiaoboArr);
+            NSDictionary* response = @{
+                                       kACTION:kACTION_ONLINE_PULSEWAVE_BP,
+                                       kBLOOD_PRESSURE_BP:xiaoboArr.firstObject,
+                                       kFLAG_HEARTBEAT_BP:@(1),
+                                       kPULSEWAVE_BP:xiaoboArr
+                                       };
+            [self sendEventWithDict:response];
         } xiaoboNoHeart:^(NSArray *xiaoboArr) {
-            
+            NSLog(@"xiaoboNoHeart %@",xiaoboArr);
+            NSDictionary* response = @{
+                                       kACTION:kACTION_ONLINE_PULSEWAVE_BP,
+                                       kBLOOD_PRESSURE_BP:xiaoboArr.firstObject,
+                                       kFLAG_HEARTBEAT_BP:@(0),
+                                       kPULSEWAVE_BP:xiaoboArr
+                                       };
+            [self sendEventWithDict:response];
         } result:^(NSDictionary *dic) {
-            
+            NSLog(@"result %@",dic);
+            NSDictionary* response = @{
+                                       kACTION:kACTION_ONLINE_RESULT_BP,
+                                       kHIGH_BLOOD_PRESSURE_BP:dic[@"sys"],
+                                       kLOW_BLOOD_PRESSURE_BP:dic[@"dia"],
+                                       kPULSE_BP:dic[@"heartRate"],
+                                       kMEASUREMENT_AHR_BP:dic[@"irregular"],
+                                       kDATAID:dic[@"dataID"],
+                                       };
+            [self sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
-            
+            NSLog(@"error %d",error);
+            [self sendErrorWithCode:error];
         }];
     }else{
     
-    
+        NSLog(@"error %d",BPDidDisconnect);
+        [self sendErrorWithCode:BPDidDisconnect];
     
     }
     
@@ -99,13 +130,18 @@ RCT_EXPORT_METHOD(stopMeasure:(nonnull NSString *)mac){
     
     if ([self getBP5WithMac:mac]!=nil) {
         [[self getBP5WithMac:mac] stopBPMeassureErrorBlock:^{
-            
+            NSDictionary* response = @{
+                                       kACTION:kACTION_INTERRUPTED_BP,
+                                       };
+            [self sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
-            
+            NSLog(@"error %d",error);
+            [self sendErrorWithCode:error];
         }];
     }else{
         
-        
+        NSLog(@"error %d",BPDidDisconnect);
+        [self sendErrorWithCode:BPDidDisconnect];
         
     }
 
@@ -117,14 +153,20 @@ RCT_EXPORT_METHOD(getBattery:(nonnull NSString *)mac){
     if ([self getBP5WithMac:mac]!=nil) {
         
         [[self getBP5WithMac:mac] commandEnergy:^(NSNumber *energyValue) {
-            
+            NSDictionary* response = @{
+                                       kACTION:kACTION_BATTERY_BP,
+                                       kBATTERY_BP:energyValue
+                                       };
+            [self sendEventWithDict:response];
         } errorBlock:^(BPDeviceError error) {
-            
+            NSLog(@"error %d",error);
+            [self sendErrorWithCode:error];
         }];
         
     }else{
         
-        
+        NSLog(@"error %d",BPDidDisconnect);
+        [self sendErrorWithCode:BPDidDisconnect];
         
     }
 
@@ -138,17 +180,24 @@ RCT_EXPORT_METHOD(enbleOffline:(nonnull NSString *)mac){
     
     
     if ([self getBP5WithMac:mac]!=nil) {
-        
+        __block BOOL success = YES;
         [[self getBP5WithMac:mac] commandSetOffline:YES errorBlock:^(BPDeviceError error) {
-            
+            success = NO;
+            [self sendErrorWithCode:error];
         }];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (success) {
+                NSDictionary* response = @{
+                                           kACTION:kACTION_ENABLE_OFFLINE_BP,
+                                           };
+                [self sendEventWithDict:response];
+            }
+        });
+        
     }else{
-        
-        
-        
+        [self sendErrorWithCode:BPDidDisconnect];
     }
-    
-    
     
 }
 
@@ -157,20 +206,26 @@ RCT_EXPORT_METHOD(disableOffline:(nonnull NSString *)mac){
     
     
     if ([self getBP5WithMac:mac]!=nil) {
-        
+        __block BOOL success = YES;
         [[self getBP5WithMac:mac] commandSetOffline:NO errorBlock:^(BPDeviceError error) {
-            
+            success = NO;
+            [self sendErrorWithCode:error];
         }];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (success) {
+                NSDictionary* response = @{
+                                           kACTION:kACTION_DISENABLE_OFFLINE_BP,
+                                           };
+                [self sendEventWithDict:response];
+            }
+        });
+        
     }else{
-        
-        
-        
+        [self sendErrorWithCode:BPDidDisconnect];
     }
-    
 
-    
-    
-    
+
 }
 
 
@@ -179,19 +234,19 @@ RCT_EXPORT_METHOD(isEnableOffline:(nonnull NSString *)mac){
     
     if ([self getBP5WithMac:mac]!=nil) {
         
-        [[self getBP5WithMac:mac] commandSetOffline:NO errorBlock:^(BPDeviceError error) {
-            
+        [[self getBP5WithMac:mac] commandFounction:^(NSDictionary *dic) {
+            NSDictionary* response = @{
+                                       kACTION:kACTION_IS_ENABLE_OFFLINE,
+                                       kIS_ENABLE_OFFLINE:dic[@"offlineOpen"]
+                                       };
+            [self sendEventWithDict:response];
+        } errorBlock:^(BPDeviceError error) {
+            [self sendErrorWithCode:error];
         }];
     }else{
-        
-        
-        
+        [self sendErrorWithCode:BPDidDisconnect];
     }
-    
-    
-    
-    
-    
+
 }
 
 
@@ -201,19 +256,23 @@ RCT_EXPORT_METHOD(getOfflineNum:(nonnull NSString *)mac){
     
     if ([self getBP5WithMac:mac]!=nil) {
         
-        [[self getBP5WithMac:mac] commandSetOffline:NO errorBlock:^(BPDeviceError error) {
+        [[self getBP5WithMac:mac] commandBatchUpload:^(NSNumber *num) {
+            NSDictionary* response = @{
+                                       kACTION:kACTION_HISTORICAL_NUM_BP,
+                                       kHISTORICAL_NUM_BP:num
+                                       };
+            [self sendEventWithDict:response];
+        } pregress:^(NSNumber *pregress) {
             
+        } dataArray:^(NSArray *array) {
+            
+        } errorBlock:^(BPDeviceError error) {
+            [self sendErrorWithCode:error];
         }];
     }else{
-        
-        
-        
+        [self sendErrorWithCode:BPDidDisconnect];
     }
-    
-    
-    
-    
-    
+
 }
 
 
@@ -223,30 +282,43 @@ RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString *)mac){
     
     if ([self getBP5WithMac:mac]!=nil) {
         
-        [[self getBP5WithMac:mac] commandSetOffline:NO errorBlock:^(BPDeviceError error) {
+        [[self getBP5WithMac:mac] commandBatchUpload:^(NSNumber *num) {
+            NSDictionary* response = @{
+                                       kACTION:kACTION_HISTORICAL_NUM_BP,
+                                       kHISTORICAL_NUM_BP:num
+                                       };
+            [self sendEventWithDict:response];
+        } pregress:^(NSNumber *pregress) {
             
+        } dataArray:^(NSArray *array) {
+            NSDictionary* response = @{
+                                       kACTION:kACTION_HISTORICAL_DATA_BP,
+                                       kHISTORICAL_DATA_BP:array
+                                       };
+            [self sendEventWithDict:response];
+        } errorBlock:^(BPDeviceError error) {
+            [self sendErrorWithCode:error];
         }];
     }else{
-        
-        
-        
+        [self sendErrorWithCode:BPDidDisconnect];
     }
-    
-    
-    
-    
-    
+
 }
 
 
 
 RCT_EXPORT_METHOD(disconnect:(nonnull NSString *)mac){
+    NSLog(@"iOS doesn't support disconnect normal BT devices");
+    [self sendErrorWithCode:BPError14];
     
-    
-    
-    
-    
-    
+}
+
+- (void)sendErrorWithCode:(NSInteger)errorCode{
+    [self sendEventWithDict:@{kACTION:kACTION_ERROR_BP,kERROR_NUM_BP:@(errorCode)}];
+}
+
+- (void)sendEventWithDict:(NSDictionary*)dict{
+    [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:dict];
 }
 
 
