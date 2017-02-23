@@ -19,6 +19,7 @@
 		187510341DE5E439005E66B1 /* AM3SModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 187510331DE5E439005E66B1 /* AM3SModule.m */; };
 		8CCCE9B21E5ADF49007F7FE4 /* PO3Module.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE9AF1E5ADF49007F7FE4 /* PO3Module.m */; };
 		8CCCE9B31E5ADF49007F7FE4 /* POProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE9B11E5ADF49007F7FE4 /* POProfileModule.m */; };
+		8CCCE9E31E5E7C58007F7FE4 /* HS6ProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE9E21E5E7C58007F7FE4 /* HS6ProfileModule.m */; };
 		9F3D8E1B1E0B6CDB00BA44B1 /* BG1Module.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3D8E121E0B6CDB00BA44B1 /* BG1Module.m */; };
 		9F3D8E1C1E0B6CDB00BA44B1 /* BG1ProfileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3D8E141E0B6CDB00BA44B1 /* BG1ProfileModule.m */; };
 		9F3D8E1D1E0B6CDB00BA44B1 /* BG5LModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3D8E161E0B6CDB00BA44B1 /* BG5LModule.m */; };
@@ -141,6 +142,8 @@
 		8CCCE9AF1E5ADF49007F7FE4 /* PO3Module.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PO3Module.m; sourceTree = "<group>"; };
 		8CCCE9B01E5ADF49007F7FE4 /* POProfileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POProfileModule.h; sourceTree = "<group>"; };
 		8CCCE9B11E5ADF49007F7FE4 /* POProfileModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POProfileModule.m; sourceTree = "<group>"; };
+		8CCCE9E11E5E7C58007F7FE4 /* HS6ProfileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HS6ProfileModule.h; sourceTree = "<group>"; };
+		8CCCE9E21E5E7C58007F7FE4 /* HS6ProfileModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HS6ProfileModule.m; sourceTree = "<group>"; };
 		9F3D8E111E0B6CDB00BA44B1 /* BG1Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BG1Module.h; sourceTree = "<group>"; };
 		9F3D8E121E0B6CDB00BA44B1 /* BG1Module.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BG1Module.m; sourceTree = "<group>"; };
 		9F3D8E131E0B6CDB00BA44B1 /* BG1ProfileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BG1ProfileModule.h; sourceTree = "<group>"; };
@@ -204,6 +207,8 @@
 				AF1B3F111DF9482100DFDB23 /* HS4SModule.m */,
 				AF1B3F381DFE72BD00DFDB23 /* HS6Module.h */,
 				AF1B3F391DFE72BD00DFDB23 /* HS6Module.m */,
+				8CCCE9E11E5E7C58007F7FE4 /* HS6ProfileModule.h */,
+				8CCCE9E21E5E7C58007F7FE4 /* HS6ProfileModule.m */,
 				AF1B3F121DF9482100DFDB23 /* HSProfileModule.h */,
 				AF1B3F131DF9482100DFDB23 /* HSProfileModule.m */,
 				182D02891DE57A2F00E9B783 /* iHealthDeviceManagerModule.h */,
@@ -377,6 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F3D8E1C1E0B6CDB00BA44B1 /* BG1ProfileModule.m in Sources */,
+				8CCCE9E31E5E7C58007F7FE4 /* HS6ProfileModule.m in Sources */,
 				1875102E1DE5E411005E66B1 /* AMProfileModule.m in Sources */,
 				1875102B1DE5E3FB005E66B1 /* BP3LModule.m in Sources */,
 				182D028B1DE57A2F00E9B783 /* iHealthDeviceManagerModule.m in Sources */,
