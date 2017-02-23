@@ -13,11 +13,12 @@
 #import "HS4.h"
 #import "iHealthDeviceManagerModule.h"
 
-#define EVENT_NOTIFY @"HS4.MODULE.NOTIFY" @"Event_Notify"
+#define EVENT_NOTIFY @"HS4.MODULE.NOTIFY" 
 
 @implementation HS4SModule
 
 @synthesize bridge = _bridge;
+
 RCT_EXPORT_MODULE()
 
 #pragma mark-init
@@ -28,21 +29,12 @@ RCT_EXPORT_MODULE()
              };
 }
 
--(id)init{
-    if (self = [super init]) {
-        
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(DeviceConnectForHS4S:) name:HS4ConnectNoti object:nil];
-        
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(DeviceDisconnectForHS4S:) name:HS4DisConnectNoti object:nil];
-    }
-    return self;
-}
 
 -(HS4 *)getHS4WithMac:(NSString *)mac{
     HS4Controller *controller = [HS4Controller shareIHHs4Controller];
     NSArray *hs4DeviceArray = [controller getAllCurrentHS4Instace];
     for (HS4 *tempHS4 in  hs4DeviceArray) {
-        if ([mac isEqualToString:tempHS4.currentUUID]){
+        if ([mac isEqualToString:tempHS4.deviceID]){
             return tempHS4;
             break;
         }
@@ -63,7 +55,7 @@ RCT_EXPORT_MODULE()
 #pragma mark
 #pragma mark - Method
 
-RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString*)mac :(nonnull NSNumber*)unit :(nonnull NSNumber*)userId){
+RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString*)mac){
     if ([self getHS4WithMac:mac] != nil) {
         HealthUser* healthUser = [[HealthUser alloc] init];
         healthUser.userID = [iHealthDeviceManagerModule autherizedUserID];
@@ -100,7 +92,7 @@ RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString*)mac :(nonnull NSNumber*)unit
 }
 
 
-RCT_EXPORT_METHOD(measuereOnline:(nonnull NSString*)mac){
+RCT_EXPORT_METHOD(measureOnline:(nonnull NSString*)mac :(nonnull NSNumber*)unit :(nonnull NSNumber*)userId){
     if ([self getHS4WithMac:mac] != nil) {
         HealthUser* healthUser = [[HealthUser alloc] init];
         healthUser.userID = [iHealthDeviceManagerModule autherizedUserID];
@@ -127,6 +119,13 @@ RCT_EXPORT_METHOD(measuereOnline:(nonnull NSString*)mac){
         }];
     }
 
+}
+
+RCT_EXPORT_METHOD(disconnect:(nonnull NSString*)mac){
+    if ([self getHS4WithMac:mac] != nil){
+        [[self getHS4WithMac:mac] commandDisconnectDevice];
+        NSLog(@"End device connnect!");
+    }
 }
 
 - (void)sendErrorWithCode:(NSInteger)errorCode{
