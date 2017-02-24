@@ -177,6 +177,11 @@ RCT_EXPORT_METHOD(getBattery:(nonnull NSString *)mac){
 //setUnit
 RCT_EXPORT_METHOD(setUnit:(nonnull NSString *)mac unit:(nonnull NSNumber*)unit){
     
+    if ([unit integerValue] > 1 || [unit integerValue] < 0)  {
+        [self sendErrorWithCode:BPInputParameterError];
+        return;
+    }
+    
     if ([self getDeviceWithMac:mac]!=nil) {
         [[self getDeviceWithMac:mac] commandSetUnit:[unit integerValue] > 0 ? @"kPa" : @"mmHg" disposeSetReslut:^{
             NSLog(@"set unit success");
