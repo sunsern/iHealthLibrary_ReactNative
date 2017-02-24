@@ -175,8 +175,10 @@ RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
             
         } totalCount:^(NSNumber *num) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"offlinenum",@"offlinenum":num };
-            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            if ([num integerValue] == 0) {
+                NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"historicaldata_bp" };
+                [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            }
             
         } pregress:^(NSNumber *pregress) {
             
@@ -199,8 +201,11 @@ RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
                 
             }
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"historicaldata_bp",@"data":[NSArray arrayWithArray:tempArr] };
-            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            if (tempArr.count > 0) {
+                NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"historicaldata_bp",@"data":[NSArray arrayWithArray:tempArr] };
+                [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            }
+            
             
         } errorBlock:^(BPDeviceError error) {
             
