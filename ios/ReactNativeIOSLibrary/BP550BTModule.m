@@ -10,7 +10,7 @@
 #import "KN550BT.h"
 #import "KN550BTController.h"
 #import "BPProfileModule.h"
-
+#import "iHealthDeviceManagerModule.h"
 
 #define EVENT_NOTIFY @"event_notify_bp550bt"
 
@@ -171,7 +171,7 @@ RCT_EXPORT_METHOD(getOffLineNum:(nonnull NSString *)mac){
 RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
-        [[self getDeviceWithMac:mac]commandTransferMemoryDataWithUser:@"NoUser" clientID:nil clientSecret:nil Authentication:^(UserAuthenResult result) {
+        [[self getDeviceWithMac:mac]commandTransferMemoryDataWithUser:[iHealthDeviceManagerModule autherizedUserID] clientID:[iHealthDeviceManagerModule autherizedClientID] clientSecret:[iHealthDeviceManagerModule autherizedClientSecret] Authentication:^(UserAuthenResult result) {
             
         } totalCount:^(NSNumber *num) {
             
