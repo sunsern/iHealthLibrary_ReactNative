@@ -105,11 +105,13 @@ RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
                 [self sendErrorWithCode:result];
             }
         } totalCount:^(NSNumber *num) {
-            NSDictionary* response = @{
-                                       kACTION:kACTION_HISTORICAL_NUM_BP,
-                                       kHISTORICAL_NUM_BP:num,
-                                       };
-            [self sendEventWithDict:response];
+            if (num.integerValue == 0) {
+                NSDictionary* response = @{
+                                           kACTION:kACTION_HISTORICAL_DATA_BP,
+                                           };
+                [self sendEventWithDict:response];
+            }
+            
         } pregress:^(NSNumber *pregress) {
             NSLog(@"pregress %@",pregress);
         } dataArray:^(NSArray *array) {
@@ -131,11 +133,14 @@ RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
                     [historyDataArray addObject:historyDataDict];
                 }
             }
-            NSDictionary* response = @{
-                                       kACTION:kACTION_HISTORICAL_DATA_BP,
-                                       kHISTORICAL_DATA_BP:[historyDataArray copy]
-                                       };
-            [self sendEventWithDict:response];
+            if (historyDataArray.count > 0) {
+                NSDictionary* response = @{
+                                           kACTION:kACTION_HISTORICAL_DATA_BP,
+                                           kHISTORICAL_DATA_BP:[historyDataArray copy]
+                                           };
+                [self sendEventWithDict:response];
+            }
+            
         } errorBlock:^(BPDeviceError error) {
             NSLog(@"error %d",error);
             [self sendErrorWithCode:error];
