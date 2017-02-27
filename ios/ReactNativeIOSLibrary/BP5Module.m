@@ -297,7 +297,54 @@ RCT_EXPORT_METHOD(getOfflineNum:(nonnull NSString *)mac){
 //    }else{
 //        [self sendErrorWithCode:BPDidDisconnect];
 //    }
-    [self getOfflineData:mac];
+    if ([self getBP5WithMac:mac]!=nil) {
+        
+        [[self getBP5WithMac:mac] commandBatchUpload:^(NSNumber *num) {
+            [[self getBP5WithMac:mac] commandBatchUpload:^(NSNumber *num) {
+                NSDictionary* response = @{
+                                           kACTION:kACTION_HISTORICAL_NUM_BP,
+                                           kHISTORICAL_NUM_BP:num
+                                           };
+                [self sendEventWithDict:response];
+        } pregress:^(NSNumber *pregress) {
+            
+        } dataArray:^(NSArray *array) {
+            NSMutableArray * historyDataArray = [NSMutableArray array];
+            
+            for(NSDictionary *dataDict in array)
+            {
+                
+                NSDate *date = [dataDict objectForKey:@"time"];
+                
+                //将时间格式转化成字符串，适配plugin和react native
+                NSDateFormatter *mydateFormatter = [[NSDateFormatter alloc] init];
+                [mydateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                NSString *dateStr = [mydateFormatter stringFromDate:date];
+                NSDictionary* historyDataDict = @{
+                                                  kMEASUREMENT_DATE_BP:dateStr,
+                                                  kHIGH_BLOOD_PRESSURE_BP:dataDict[@"sys"],
+                                                  kLOW_BLOOD_PRESSURE_BP:dataDict[@"dia"],
+                                                  kPULSE_BP:dataDict[@"heartRate"],
+                                                  kMEASUREMENT_AHR_BP:dataDict[@"irregular"],
+                                                  //                                                  kMEASUREMENT_HSD_BP:dataDict[@"hsdValue"],
+                                                  kDATAID:dataDict[@"dataID"]
+                                                  };
+                [historyDataArray addObject:historyDataDict];
+                
+                
+            }
+            
+            if (historyDataArray.count > 0) {
+                NSDictionary* deviceInfo = @{kACTION:kACTION_HISTORICAL_DATA_BP,kHISTORICAL_DATA_BP:[historyDataArray copy] };
+                [self sendEventWithDict:deviceInfo];
+            }
+            
+        } errorBlock:^(BPDeviceError error) {
+            [self sendErrorWithCode:error];
+        }];
+    }else{
+        [self sendErrorWithCode:BPDidDisconnect];
+    }
 }
 
 
