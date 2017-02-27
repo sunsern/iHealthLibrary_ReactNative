@@ -300,12 +300,11 @@ RCT_EXPORT_METHOD(getOfflineNum:(nonnull NSString *)mac){
     if ([self getBP5WithMac:mac]!=nil) {
         
         [[self getBP5WithMac:mac] commandBatchUpload:^(NSNumber *num) {
-            [[self getBP5WithMac:mac] commandBatchUpload:^(NSNumber *num) {
-                NSDictionary* response = @{
-                                           kACTION:kACTION_HISTORICAL_NUM_BP,
-                                           kHISTORICAL_NUM_BP:num
-                                           };
-                [self sendEventWithDict:response];
+            NSDictionary* response = @{
+                                       kACTION:kACTION_HISTORICAL_NUM_BP,
+                                       kHISTORICAL_NUM_BP:num
+                                       };
+            [self sendEventWithDict:response];
         } pregress:^(NSNumber *pregress) {
             
         } dataArray:^(NSArray *array) {
