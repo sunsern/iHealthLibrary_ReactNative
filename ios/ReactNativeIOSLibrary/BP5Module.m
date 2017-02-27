@@ -152,14 +152,17 @@ RCT_EXPORT_METHOD(stopMeasure:(nonnull NSString *)mac){
     
     if ([self getBP5WithMac:mac]!=nil) {
         [[self getBP5WithMac:mac] stopBPMeassureErrorBlock:^{
-            NSDictionary* response = @{
-                                       kACTION:kACTION_INTERRUPTED_BP,
-                                       };
-            [self sendEventWithDict:response];
+            //不知道为啥不往里走。。
         } errorBlock:^(BPDeviceError error) {
             NSLog(@"error %d",error);
             [self sendErrorWithCode:error];
         }];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            NSDictionary* response = @{
+                                       kACTION:kACTION_INTERRUPTED_BP,
+                                       };
+            [self sendEventWithDict:response];
+        });
     }else{
         
         NSLog(@"error %d",BPDidDisconnect);
@@ -276,25 +279,25 @@ RCT_EXPORT_METHOD(isEnableOffline:(nonnull NSString *)mac){
 RCT_EXPORT_METHOD(getOfflineNum:(nonnull NSString *)mac){
     
     
-    if ([self getBP5WithMac:mac]!=nil) {
-        
-        [[self getBP5WithMac:mac] commandBatchUpload:^(NSNumber *num) {
-            NSDictionary* response = @{
-                                       kACTION:kACTION_HISTORICAL_NUM_BP,
-                                       kHISTORICAL_NUM_BP:num
-                                       };
-            [self sendEventWithDict:response];
-        } pregress:^(NSNumber *pregress) {
-            
-        } dataArray:^(NSArray *array) {
-            
-        } errorBlock:^(BPDeviceError error) {
-            [self sendErrorWithCode:error];
-        }];
-    }else{
-        [self sendErrorWithCode:BPDidDisconnect];
-    }
-
+//    if ([self getBP5WithMac:mac]!=nil) {
+//        
+//        [[self getBP5WithMac:mac] commandBatchUpload:^(NSNumber *num) {
+//            NSDictionary* response = @{
+//                                       kACTION:kACTION_HISTORICAL_NUM_BP,
+//                                       kHISTORICAL_NUM_BP:num
+//                                       };
+//            [self sendEventWithDict:response];
+//        } pregress:^(NSNumber *pregress) {
+//            
+//        } dataArray:^(NSArray *array) {
+//            
+//        } errorBlock:^(BPDeviceError error) {
+//            [self sendErrorWithCode:error];
+//        }];
+//    }else{
+//        [self sendErrorWithCode:BPDidDisconnect];
+//    }
+    [self getOfflineData:mac];
 }
 
 
@@ -305,19 +308,45 @@ RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString *)mac){
     if ([self getBP5WithMac:mac]!=nil) {
         
         [[self getBP5WithMac:mac] commandBatchUpload:^(NSNumber *num) {
-            NSDictionary* response = @{
-                                       kACTION:kACTION_HISTORICAL_NUM_BP,
-                                       kHISTORICAL_NUM_BP:num
-                                       };
-            [self sendEventWithDict:response];
+            if (num.integerValue == 0) {
+                NSDictionary* response = @{
+                                           kACTION:kACTION_HISTORICAL_DATA_BP,
+                                           };
+                [self sendEventWithDict:response];
+            }
         } pregress:^(NSNumber *pregress) {
             
         } dataArray:^(NSArray *array) {
-            NSDictionary* response = @{
-                                       kACTION:kACTION_HISTORICAL_DATA_BP,
-                                       kHISTORICAL_DATA_BP:array
-                                       };
-            [self sendEventWithDict:response];
+            NSMutableArray * historyDataArray = [NSMutableArray array];
+            
+            for(NSDictionary *dataDict in array)
+            {
+
+                NSDate *date = [dataDict objectForKey:@"time"];
+                
+                //将时间格式转化成字符串，适配plugin和react native
+                NSDateFormatter *mydateFormatter = [[NSDateFormatter alloc] init];
+                [mydateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                NSString *dateStr = [mydateFormatter stringFromDate:date];
+                NSDictionary* historyDataDict = @{
+                                                  kMEASUREMENT_DATE_BP:dateStr,
+                                                  kHIGH_BLOOD_PRESSURE_BP:dataDict[@"sys"],
+                                                  kLOW_BLOOD_PRESSURE_BP:dataDict[@"dia"],
+                                                  kPULSE_BP:dataDict[@"heartRate"],
+                                                  kMEASUREMENT_AHR_BP:dataDict[@"irregular"],
+//                                                  kMEASUREMENT_HSD_BP:dataDict[@"hsdValue"],
+                                                  kDATAID:dataDict[@"dataID"]
+                                                  };
+                [historyDataArray addObject:historyDataDict];
+                
+                
+            }
+            
+            if (historyDataArray.count > 0) {
+                NSDictionary* deviceInfo = @{kACTION:kACTION_HISTORICAL_DATA_BP,kHISTORICAL_DATA_BP:[historyDataArray copy] };
+                [self sendEventWithDict:deviceInfo];
+            }
+
         } errorBlock:^(BPDeviceError error) {
             [self sendErrorWithCode:error];
         }];
