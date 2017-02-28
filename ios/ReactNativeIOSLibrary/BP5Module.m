@@ -17,6 +17,7 @@
 @interface BP5Module()
 @property (nonatomic, strong) NSNumber* previousPressure;
 @property (nonatomic, assign) BOOL startSendWavelet;
+@property (nonatomic, assign) BOOL isMeasuring;
 @end
 @implementation BP5Module
 #define EVENT_NOTIFY @"BP5.MODULE.NOTIFY"
@@ -81,21 +82,27 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
         [[self getBP5WithMac:mac] commandStartMeasureWithUser:[iHealthDeviceManagerModule autherizedUserID] clientID:[iHealthDeviceManagerModule autherizedClientID] clientSecret:[iHealthDeviceManagerModule autherizedClientSecret] Authentication:^(UserAuthenResult result) {
             if (result != UserAuthen_LoginSuccess) {
                 [weakSelf sendErrorWithCode:result];
+            }else{
+                weakSelf.isMeasuring = YES;
             }
         } pressure:^(NSArray *pressureArr) {
             NSLog(@"pressure %@",pressureArr);
-            [self sendPresssre:pressureArr.firstObject wavelet:nil isHeartPulse:NO];
+            weakSelf.isMeasuring = YES;
+            [weakSelf sendPresssre:pressureArr.firstObject wavelet:nil isHeartPulse:NO];
         } xiaoboWithHeart:^(NSArray *xiaoboArr) {
             NSLog(@"xiaoboWithHeart %@",xiaoboArr);
-            [self sendPresssre:nil wavelet:xiaoboArr isHeartPulse:YES];
+            weakSelf.isMeasuring = YES;
+            [weakSelf sendPresssre:nil wavelet:xiaoboArr isHeartPulse:YES];
             
         } xiaoboNoHeart:^(NSArray *xiaoboArr) {
+            weakSelf.isMeasuring = YES;
             NSLog(@"xiaoboNoHeart %@",xiaoboArr);
-            [self sendPresssre:nil wavelet:xiaoboArr isHeartPulse:NO];
+            [weakSelf sendPresssre:nil wavelet:xiaoboArr isHeartPulse:NO];
             
         } result:^(NSDictionary *dic) {
             NSLog(@"result %@",dic);
             weakSelf.startSendWavelet = NO;
+            weakSelf.isMeasuring = NO;
             NSDictionary* response = @{
                                        kACTION:kACTION_ONLINE_RESULT_BP,
                                        kHIGH_BLOOD_PRESSURE_BP:dic[@"sys"],
@@ -108,6 +115,7 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
         } errorBlock:^(BPDeviceError error) {
             NSLog(@"error %d",error);
             weakSelf.startSendWavelet = NO;
+            weakSelf.isMeasuring = NO;
             [weakSelf sendErrorWithCode:error];
             
         }];
@@ -115,7 +123,7 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
     
         NSLog(@"error %d",BPDidDisconnect);
         [self sendErrorWithCode:BPDidDisconnect];
-    
+        self.isMeasuring = NO;
     }
     
     
@@ -149,7 +157,10 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
 
 RCT_EXPORT_METHOD(stopMeasure:(nonnull NSString *)mac){
     
-    
+    if (!self.isMeasuring) {
+        [self sendErrorWithCode:BPInputParameterError];
+        return;
+    }
     if ([self getBP5WithMac:mac]!=nil) {
         [[self getBP5WithMac:mac] stopBPMeassureErrorBlock:^{
             //不知道为啥不往里走。。
@@ -162,10 +173,12 @@ RCT_EXPORT_METHOD(stopMeasure:(nonnull NSString *)mac){
                                        kACTION:kACTION_INTERRUPTED_BP,
                                        };
             [self sendEventWithDict:response];
+            self.isMeasuring = NO;
         });
     }else{
         
         NSLog(@"error %d",BPDidDisconnect);
+        self.isMeasuring = NO;
         [self sendErrorWithCode:BPDidDisconnect];
         
     }
