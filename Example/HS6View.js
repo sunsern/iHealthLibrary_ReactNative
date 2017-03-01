@@ -111,7 +111,7 @@ export default class HS6View extends Component {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
-                            HS6Module.getToken("708bde5b65884f8d9e579e33e66e8e80", "38ff62374a0d4aacadaf0e4fb4ed1931", "anudroid.apk06@gmail.com", "random_str")
+                            HS6Module.getToken("", "", "anudroid.apk06@gmail.com", "random_str")
                         }}>
                         <Text style={styles.buttonText}>
                             Get Token
