@@ -53,8 +53,8 @@ public class BG1Module extends iHealthBaseModule {
 //    }
 
     @ReactMethod
-    public void sendCode(String QRCode) {
-        Bg1Control.getInstance().sendCode(QRCode);
+    public void sendCode(String QRCode, int stripType, int measureType) {
+        Bg1Control.getInstance().sendCode(QRCode, stripType, measureType);
     }
 
     @ReactMethod

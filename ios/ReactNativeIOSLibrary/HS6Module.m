@@ -49,23 +49,22 @@ RCT_EXPORT_MODULE()
 //设置Wifi
 RCT_EXPORT_METHOD(setWifi:(nonnull NSString*)ssid :(nonnull NSString*)password){
     
-    HealthUser *user =[[HealthUser alloc]init];
+   
     iHealthHS6 *hs6Controller = [iHealthHS6 shareIHHS6Controller];
     if (hs6Controller != nil) {
         [hs6Controller commandSetHS6WithPassWord:@"aaaaaaaa" disposeHS6SuccessBlock:^(NSDictionary *deviceInfo) {
-            NSDictionary *deviceInf = @{@"mac":@"",@"action":ACTION_HS6_SETWIFI,SETWIFI_RESULT:[NSDictionary dictionaryWithObjectsAndKeys:deviceInfo, nil]};
+            NSDictionary *deviceInf = @{@"action":ACTION_HS6_SETWIFI,SETWIFI_RESULT:[deviceInfo valueForKey:@"ip"]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInf];
+            NSLog(@"设置WIFI成功");
         } disposeHS6FailBlock:^(NSString *failmsg) {
-            NSDictionary *deviceInf = @{@"mac":@"",@"action":ACTION_HS6_SETWIFI,SETWIFI_RESULT:[NSString stringWithFormat:failmsg]};
+            NSDictionary *deviceInf = @{@"action":ACTION_HS6_SETWIFI,SETWIFI_RESULT:failmsg};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInf];
             
         } disposeHS6EndBlock:^(NSDictionary *deviceDic) {
-            
-           // NSDictionary *deviceInf = @{@"mac":@"", @"action":ACTION_HS6_SETWIFI,SETWIFI_RESULT:[NSDictionary dictionaryWithObjectsAndKeys:deviceDic, nil]};
-           //[self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInf];
+            NSLog(@"设置WIFI结束");
             
         } disposeHS6ErrorBlock:^(NSNumber *error) {
-            NSDictionary *deviceInf = @{@"mac":@"",@"action":ACTION_HS6_ERROR,HS6_ERROR:[NSNumber numberWithInteger:error]};
+            NSDictionary *deviceInf = @{@"action":ACTION_HS6_ERROR,HS6_ERROR:[NSNumber numberWithInteger:error]};
             
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInf];
         }];
@@ -75,16 +74,19 @@ RCT_EXPORT_METHOD(setWifi:(nonnull NSString*)ssid :(nonnull NSString*)password){
 RCT_EXPORT_METHOD(bindDeviceHS6:(nonnull NSString*)birthday :(nonnull NSNumber*)weight :(nonnull NSNumber*)height :(nonnull NSNumber*)isSporter :(nonnull NSNumber*)gender :(nonnull NSString*)serialNumber){
    iHealthHS6 *hs6Controller = [iHealthHS6 shareIHHS6Controller];
     if (hs6Controller != nil) {
-        [hs6Controller cloudCommandUserBinedQRDeviceWithUser:nil deviceID:nil BlockHS6UserAuthentication:^(UserAuthenResult result) {
-            NSLog(@"UserAuthenResult:%d",result);
-            if (result != UserAuthen_LoginSuccess) {
-                [self sendErrorWithCode:result];
-            }
-        } binedResult:^(NSArray *resultArray) {
-            NSDictionary *deviceInf = @{@"mac":@"",@"action":ACTION_HS6_BIND,BIND_HS6_RESULT:[NSArray arrayWithObjects:resultArray, nil]};
+        HealthUser* healthUser = [[HealthUser alloc] init];
+        healthUser.userID = [iHealthDeviceManagerModule autherizedUserID];
+        healthUser.clientID = [iHealthDeviceManagerModule autherizedClientID];
+        healthUser.clientSecret = [iHealthDeviceManagerModule autherizedClientSecret];
+        healthUser.serialNub=@1461140;
+
+        [hs6Controller cloudCommandUserBinedQRDeviceWithUser:healthUser deviceID:@"www"  binedResult:^(NSArray *resultArray) {
+            NSDictionary *deviceInf = @{@"action":ACTION_HS6_BIND,HS6_BIND_EXTRA:resultArray/*,BIND_HS6_RESULT:resultArray[0],HS6_MODEL:resultArray[1],HS6_POSITION:resultArray[2],HS6_SETTED_WIFI:resultArray[3]*/
+                                        };
+            NSLog(@"ResultArray%@",resultArray);
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInf];
         } binedError:^(NSString *errorCode) {
-            NSDictionary *deviceInf = @{@"mac":@"",@"action":ACTION_HS6_ERROR,HS6_ERROR:[NSString stringWithFormat:errorCode]};
+            NSDictionary *deviceInf = @{@"action":ACTION_HS6_ERROR,HS6_ERROR:errorCode};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInf];
 
         }];
@@ -96,12 +98,17 @@ RCT_EXPORT_METHOD(unBindDeviceHS6:(nonnull NSString*)serialNumber){
     iHealthHS6 *hs6Controller = [iHealthHS6 shareIHHS6Controller];
 
     if (hs6Controller != nil) {
-        [hs6Controller cloudCommandUserDisBinedQRDeviceForUser:nil withDeviceID:nil disBinedResult:^(NSArray *resultArray) {
-            NSDictionary *deviceInf = @{@"mac":@"",@"action":ACTION_HS6_UNBIND,HS6_UNBIND_RESULT:[NSDictionary dictionaryWithObjectsAndKeys:resultArray, nil]};
+        HealthUser* healthUser = [[HealthUser alloc] init];
+        healthUser.userID = [iHealthDeviceManagerModule autherizedUserID];
+        healthUser.clientID = [iHealthDeviceManagerModule autherizedClientID];
+        healthUser.clientSecret = [iHealthDeviceManagerModule autherizedClientSecret];
+
+        [hs6Controller cloudCommandUserDisBinedQRDeviceForUser:healthUser withDeviceID:@"www" disBinedResult:^(NSArray *resultArray) {
+            NSDictionary *deviceInf = @{@"action":ACTION_HS6_UNBIND,HS6_UNBIND_RESULT:resultArray};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInf];
 
         } disBinedError:^(NSString *errorCode) {
-            NSDictionary *deviceInf = @{@"mac":@"",@"action":ACTION_HS6_ERROR,HS6_ERROR:[NSString stringWithFormat:errorCode]};
+            NSDictionary *deviceInf = @{@"action":ACTION_HS6_ERROR,HS6_ERROR:[NSString stringWithFormat:errorCode]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInf];
         }];
     }
@@ -112,11 +119,17 @@ RCT_EXPORT_METHOD(getToken:(nonnull NSString*)clientId :(nonnull NSString*)clien
     iHealthHS6 *hs6Controller = [iHealthHS6 shareIHHS6Controller];
 
     if (hs6Controller != nil) {
-        [hs6Controller commandHS6GetOpenAPITokenWithUser:nil withSuccessBlock:^(NSDictionary*openAPIInfoDic) {
-            NSDictionary *deviceInf = @{@"mac":@"",@"action":ACTION_HS6_GET_TOKEN,GET_TOKEN_RESULT:[NSDictionary dictionaryWithObjectsAndKeys:openAPIInfoDic, nil]};
+        HealthUser* healthUser = [[HealthUser alloc] init];
+        healthUser.userID = [iHealthDeviceManagerModule autherizedUserID];
+        healthUser.clientID = [iHealthDeviceManagerModule autherizedClientID];
+        healthUser.clientSecret = [iHealthDeviceManagerModule autherizedClientSecret];
+
+        [hs6Controller commandHS6GetOpenAPITokenWithUser:healthUser withSuccessBlock:^(NSDictionary*openAPIInfoDic) {
+            NSDictionary *deviceInf = @{@"action":ACTION_HS6_GET_TOKEN,GET_TOKEN_RESULT:openAPIInfoDic};
+            NSLog(@"openAPIInfoDic%@",openAPIInfoDic);
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInf];
         } withErrorBlock:^(NSDictionary *errorCode) {
-            NSDictionary *deviceInf = @{@"mac":@"" ,@"action":ACTION_HS6_ERROR, HS6_ERROR:[NSDictionary dictionaryWithObjectsAndKeys:errorCode, nil]};
+            NSDictionary *deviceInf = @{@"action":ACTION_HS6_ERROR, HS6_ERROR:[errorCode valueForKey:@"ErrorCode"],HS6_ERROR:[errorCode valueForKey:@"ErrorDescription"]};
         }];
     }
 }
@@ -124,12 +137,18 @@ RCT_EXPORT_METHOD(getToken:(nonnull NSString*)clientId :(nonnull NSString*)clien
 RCT_EXPORT_METHOD(setUnit:(nonnull NSString*)username :(nonnull NSNumber*)unitType){
      iHealthHS6 *hs6Controller = [iHealthHS6 shareIHHS6Controller];
     if (hs6Controller != nil) {
-        [hs6Controller commandHS6WithUser:nil withSyncWeightUnit:IHHS6SDKUnitWeight_lbs withSuccessBlock:^(BOOL syncWeightUnit) {
-            NSDictionary *deviceInf = @{@"mac":@"",@"action":ACTION_HS6_SET_UNIT,SET_UNIT_RESULT:[NSNumber numberWithBool:syncWeightUnit]};
+        HealthUser* healthUser = [[HealthUser alloc] init];
+        healthUser.userID = [iHealthDeviceManagerModule autherizedUserID];
+        healthUser.clientID = [iHealthDeviceManagerModule autherizedClientID];
+        healthUser.clientSecret = [iHealthDeviceManagerModule autherizedClientSecret];
+
+        [hs6Controller commandHS6WithUser:healthUser withSyncWeightUnit:IHHS6SDKUnitWeight_lbs withSuccessBlock:^(BOOL syncWeightUnit) {
+            NSDictionary *deviceInf = @{@"action":ACTION_HS6_SET_UNIT,SET_UNIT_RESULT:[NSNumber numberWithBool:syncWeightUnit]};
+            NSLog(@"setUnitResult:%d",syncWeightUnit);
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInf];
             
         } withErrorBlock:^(NSString *errorCode) {
-            NSDictionary *deviceInf = @{@"mac":@"" ,@"action":ACTION_HS6_ERROR,HS6_ERROR:[NSDictionary dictionaryWithObjectsAndKeys:errorCode, nil]};
+            NSDictionary *deviceInf = @{@"action":ACTION_HS6_ERROR,HS6_ERROR:[NSDictionary dictionaryWithObjectsAndKeys:errorCode, nil]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInf];
         }];
     }

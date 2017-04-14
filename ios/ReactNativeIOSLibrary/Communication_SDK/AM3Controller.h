@@ -22,16 +22,5 @@
 -(NSArray *)getAllCurrentAM3Instace;
 
 
-/**
- * Restart search AM3
- */
--(void)startSearchAM3;
-
-
-/**
- * Stop search AM3
- */
--(void)stopSearchAM3;
-
 
 @end

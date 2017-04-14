@@ -439,7 +439,7 @@ module.exports = {
      * </li>
      * </ul>
      * @param {string} mac Device's mac address
-     * @param {number} ID UserID set to device
+     * @param {string} ID UserID set to device
      */
     setBottleID: function (mac, ID){
         if (RCTModule != null) {
@@ -497,6 +497,45 @@ module.exports = {
             RCTModule.disConnect(mac);
         } else {
             console.log('~~~~~ BG5L getBottleID RCTModule is null')
+        }
+    },
+
+    /**
+     * Parse bottle info from QRCode, include strip expire time,strip number,bottle id
+     * <ul>
+     *     <li>This is an asynchronous call, it will return immediately.</li>
+     *     <li>If get successfully, following event will be emit:<br/>
+     *     {@link module:BG5LModule.Event_Notify BG5LModule.Event_Notify("event_notify_bg5l")}<br/>
+     *     The key and value will be as below:
+     *     <table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+     *          <tr bgcolor="#cccccc"><th >Key</th><th align="center" >Value</th></tr>
+     *          <tr><td>action</td><td>{@link module:BGProfileModule.ACTION_CODE_ANALYSIS BGProfileModule.ACTION_CODE_ANALYSIS("action_code_analysis")}</td></tr>
+     *          <tr><td>{@link module:BGProfileModule.STRIP_NUM_BG BGProfileModule.STRIP_NUM_BG("strip_num")}</td></tr>
+     *          <tr><td>{@link module:BGProfileModule.STRIP_EXPIRETIME_BG BGProfileModule.STRIP_EXPIRETIME_BG("expire_time")}</td></tr>
+     *          <tr><td>{@link module:BGProfileModule.BOTTLEID_BG BGProfileModule.BOTTLEID_BG("bottle_id")}</td></tr>
+     *          <tr><<td><br/> e.g. {"expire_time":"2017-07-15","strip_num":"25","bottle_id":"3998032623","action":"action_code_analysis"}</td></tr>
+     *     </table>
+     *     </li>
+     *
+     *     <li>
+     *         If error happens, following event will be emit:</br>
+     *         {@link module:BG5LModule.Event_Notify BG5LModule.Event_Notify("event_notify_bg5l")}</br>
+     *         The result will be as below:
+     *         {"description":"QRCode format error","action":"action_code_analysis"}
+     *     </li>
+     *
+     *     <li>
+     *         <b>Attention</b>, if you want to be notified, it is mandatory to call following method before you call this method:<br/>
+     *         <b>DeviceEventEmitter.addListener(BG5Module.Event_Notify, function (e: Event){});</b>
+     *     </li>
+     * </ul>
+     * @param {string} QRCode
+     */
+    getBottleInfoFromQR: function(QRCode){
+        if (RCTModule != null) {
+            RCTModule.getBottleInfoFromQR(QRCode);
+        }else {
+            console.log('~~~~~ RCTModule is null')
         }
     }
 }

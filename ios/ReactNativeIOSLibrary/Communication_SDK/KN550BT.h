@@ -11,66 +11,17 @@
 #import <UIKit/UIKit.h>
 
 
-@interface KN550BT : NSObject{
-    
-    BlockEnergyValue _blockEnergyValue;
-    BlockError _blockError;
-    BlockDeviceFounction _blockFounction;
-    BlockBlueSet _blockBlueSet;
-    BlockAngle _blockAngle;
-  
-    BlockXioaboWithHeart _blockXiaoboArr;
-    BlockXioaboNoHeart _blockXiaoboArrNoHeart;
-    BlockPressure _blockPressureArr;
-    BlockMesureResult _blockMesureResult;
-    
-    BlockBachCount _blockBachCount;
-    BlockBachProgress _blockBachProgress;
-    BlockBachArray _blockBachArray;
-    BlockStopSuccess _blockStopSuccess;
-    
-    BlockUserAuthentication _blockUserAnthen;
-    
-    UIAlertView * Erroralert;
-    
-    BOOL isCompleteZero;
-    int totalBatchCount;
-    BOOL isResived;
-    int uploadCountSum;
-    NSString *thirdUserID;
-    Boolean bp5Flag;
-    
-    NSString *clientSDKUserName;
-    NSString *clientSDKID;
-    NSString *clientSDKSecret;
-    
-    BOOL uploadOfflineNumFlg;
-    
-    //功能标志位
-    BOOL upAirMeasureFlg;    //上气、下气测量标志位
-    BOOL armMeasureFlg;    //腕式、臂式
-    BOOL haveAngleSensorFlg;       //是否带角度
-    BOOL haveOfflineFlg;     //是否有离线数据
-    BOOL haveHSDFlg;         //是否有HSD
-    BOOL mutableUploadFlg;   //记忆组别
-    BOOL haveAngleSetFlg;   //是否带手腕角度设置
-    BOOL selfUpdateFlg;      //是否自升级
-    
-    NSMutableArray *totalHistoryArray;
- }
+@interface KN550BT : BPDevice
 
-@property (strong, nonatomic) NSString *currentUUID;
-//‘serialNumber’ is for separating different device when multiple device have been connected.
-@property (strong, nonatomic) NSString *serialNumber;
-@property (strong, nonatomic) NSTimer *startMeasureTimer;
 
 #pragma mark - Hypogenous query
+
 /**
-  * Synchronize time and judge if the device supports the function of up Air Measurement, arm Measurement, Angle Sensor, Angle Setting, HSD, Offline Memory, mutable Groups Upload, Self Upgrade. ‘True’ means yes or on, ‘False’ means no or off.
+ * Synchronize time and judge if the device supports the function of up Air Measurement, arm Measurement, Angle Sensor, Angle Setting, HSD, Offline Memory, mutable Groups Upload, Self Upgrade. ‘True’ means yes or on, ‘False’ means no or off.
  * @param Function  A block to return the function and states that the device supports.
  * @param error  A block to refer ‘error’ in ‘Establish measurement connection’ in KN550BT.
  */
--(void)commandFounction:(BlockDeviceFounction)founction errorBlock:(BlockError)error;
+-(void)commandFunction:(BlockDeviceFunction)function errorBlock:(BlockError)error;
 
 /**
  * Query battery remaining energy.
@@ -82,32 +33,16 @@
 
 /**
  * Upload offline data total Count.
- * @param  TotalCount: item quantity of total data
- * @param error  A block to return the error
+ * @param  TotalCount: item quantity of total data.
+ * @param error  A block to return the error.
  */
--(void)commandTransferMemorytotalCount:(BlockBachCount)totalCount errorBlock:(BlockError)error;
+-(void)commandTransferMemoryTotalCount:(BlockBachCount)totalCount errorBlock:(BlockError)error;
 
 /**
  * Upload offline data.
- * @param userID  the only identification for the user，by the form of email or cell phone #(cell-phone-# form is not supported temperately).
- * @param clientID  see bellow.
- * @param clientsecret  ‘clientID’ and ‘clientsecret’ are the only identification for user of SDK, are required registration from iHealth administrator, please email: lvjincan@ihealthlabs.com.cn.com for more information.
- * @param disposeAuthenticationBlock   A block to return parameter of ‘userid’, ’clientID’, ’clientSecret’ after the verification.
- * The interpretation for the verification:
- *  1. UserAuthen_RegisterSuccess, New-user registration succeeded.
- *  2. UserAuthen_LoginSuccess， User login succeeded.
- *  3. UserAuthen_CombinedSuccess, The user is iHealth user as well, measurement via SDK has been activated, and the data from the measurement belongs to the user.
- *  4. UserAuthen_TrySuccess, testing without Internet connection succeeded.
- *  5. UserAuthen_InvalidateUserInfo, Userid/clientID/clientSecret verification failed.
- *  6. UserAuthen_SDKInvalidateRight, SDK has not been authorized.
- *  7. UserAuthen_UserInvalidateRight,User has not been authorized.
- *  8. UserAuthen_InternetError, Internet error, verification failed.
- *  --PS:
- *  The measurement via SDK will be operated in the case of 1-4, and will be terminated if any of 5-8 occurs. The interface needs to be re-called after analyzing the return parameters.
- *  @Notice   By the first time of new user register via SDK, ‘iHealth disclaimer’ will pop up automatically, and require the user agrees to continue. SDK application requires Internet connection; there is 10-day tryout if SDK cannot connect Internet, SDK is fully functional during tryout period, but will be terminated without verification through Internet after 10 days.
  * @param  TotalCount: item quantity of total data
  * @param  Progress: upload completion ratio , from 0.0 to 1.0 or 0%~100％, 100% means upload completed.
- * @param  UploadDataArray:	offline data set, including measurement time, systolic pressure, diastolic pressure, pulse rate, irregular judgment. corresponding KEY is time, sys, dia, heartRate, irregular
+ * @param  UploadDataArray:	offline data set, including measurement time, systolic pressure, diastolic pressure, pulse rate, irregular judgment. corresponding KEY as time, sys, dia, heartRate, irregular.
  * @param error   error codes.
  * Specification:
  *   1.  BPError0 = 0: Unable to take measurements due to arm/wrist movements.
@@ -136,7 +71,15 @@
  *   24.  BPAskToStopMeasure:  measurement has been stopped.
  *   25.  BPInputParameterError=400:  Parameter input error.
  */
--(void)commandTransferMemoryDataWithUser:(NSString *)userID clientID:(NSString *)clientID clientSecret:(NSString *)clientSecret Authentication:(BlockUserAuthentication)disposeAuthenticationBlock totalCount:(BlockBachCount)totalCount pregress:(BlockBachProgress)progress dataArray:(BlockBachArray)uploadDataArray errorBlock:(BlockError)error;
+-(void)commandTransferMemoryDataWithTotalCount:(BlockBachCount)totalCount progress:(BlockBachProgress)progress dataArray:(BlockBachArray)uploadDataArray errorBlock:(BlockError)error;
+
+/**
+ * Set units for the Device
+ * @param UnitName   The unit name string that KN550BT show result should use, must be @"mmHg" or @"kPa".
+ * @param setResult  This block return means set success.
+ * @param error  A block to return the error in set Unit communication.
+ */
+-(void)commandSetUnit:(NSString *)UnitName disposeSetReslut:(BlockSuccess)setResult errorBlock:(BlockError)error;
 
 
 /**

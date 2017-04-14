@@ -20,16 +20,6 @@
  */
 -(NSArray *)getAllCurrentPO3Instace;
 
-/**
- * Restart search PO3
- */
--(void)startSearchPO3;
-
-
-/**
- * Stop search PO3
- */
--(void)stopSearchPO3;
 
 
 

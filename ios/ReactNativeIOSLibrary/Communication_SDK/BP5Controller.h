@@ -7,11 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface BP5Controller : NSObject{
-    NSMutableArray *BP5DeviceArray;
-}
-
+#import "BPMacroFile.h"
+@interface BP5Controller : BPController
 /**
  * Initialize BP5 controller class
  */

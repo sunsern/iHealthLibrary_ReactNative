@@ -19,10 +19,10 @@ typedef enum {
 }ABPM_API;
 
 
-@interface ABPM : NSObject{
+@interface ABPM : BPDevice{
     ABPM_API ABPM_API_Status;
     
-    BlockDeviceFounction _blockFounction;
+    BlockDeviceFunction _blockFunction;
     BlockError _blockError;
     
     BlockEnergyValue _blockEnergyValue;
@@ -46,8 +46,6 @@ typedef enum {
     BOOL uploadOfflineNumFlg;
 }
 
-@property (strong, nonatomic) NSString *currentUUID;
-@property (strong, nonatomic) NSString *serialNumber;
 @property (retain, nonatomic) NSString *firmwareVersion;
 @property (retain, nonatomic) NSString *protocol;
 @property (retain, nonatomic) NSString *deviceName;
@@ -57,7 +55,7 @@ typedef enum {
  * @param Function  A block to return the function and states that the device supports.
  * @param error  A block to refer ‘error’ in ‘Establish measurement connection’ in KD926.
  */
--(void)commandFounction:(BlockDeviceFounction)founction errorBlock:(BlockError)error;
+-(void)commandFunction:(BlockDeviceFunction)function errorBlock:(BlockError)error;
 
 /**
  * Query battery remaining energy.

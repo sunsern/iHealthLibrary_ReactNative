@@ -1,5 +1,5 @@
 //
-//  BPMacroFile.h
+//  BGMacroFile.h
 //  BGDemoCode
 //
 //  Created by zhiwei jing on 14-6-29.
@@ -7,12 +7,16 @@
 //
 
 #import "HealthUser.h"
+#import "BGDevice.h"
+#import "BGController.h"
+#import "BGCommandCache.h"
+#import "SDKCloudUploadData.h"
 
-#ifndef BGDemoCode_BPMacroFile_h
-#define BGDemoCode_BPMacroFile_h
+#ifndef BGDemoCode_BGMacroFile_h
+#define BGDemoCode_BGMacroFile_h
 
 typedef enum {
-    BGOpenMode_Strip = 1,//BGOpenMode_Strip means booting the meter by sliding the strip
+    BGOpenMode_Strip = 1,//BGOpenMode_Strip means booting the meter by insert the strip
     BGOpenMode_Hand//BGOpenMode_Hand means booting the meter by pressing the on/off button.
 }BGOpenMode;
 
@@ -54,7 +58,7 @@ typedef void(^BlockSetUserID)(BOOL finishFlag);
  * BG1 errorID:
  * 00：Battery is low.
  * 01：Glucose test result is out of the measurement range.
- * 02：Unknown interference detected, please repeat the test.
+ * 02：2.5V reference voltage error, not normal measurement, please repeat the test.
  * 03：Strip is used or unknown moisture detected, discard the test strip and repeat the test with a new strip.
  * 04：CODE value check error. This error need let user scan code and call the send code function again,no alert need to show.
  * 05\06：The environmental temperature is beyond normal range, place the meter at room temperature for at least 30 minutes, then repeat the test.
@@ -77,7 +81,7 @@ typedef void(^BlockSetUserID)(BOOL finishFlag);
  * BG5 errorID:
  * 00：Battery is low.
  * 01：Glucose test result is out of the measurement range.
- * 02：Unknown interference detected, please repeat the test.
+ * 02：2.5V reference voltage error, not normal measurement, please repeat the test.
  * 03：Strip is used or unknown moisture detected, discard the test strip and repeat the test with a new strip.
  * 04：Reading transmission error. Repeat the test with a new test strip. If the problem persists, contact iHealth customer service for assistance. But,for BG1,this error need let user scan code and call the send code function again,no alert need to show.
  * 05\06：The environmental temperature is beyond normal range, place the meter at room temperature for at least 30 minutes, then repeat the test.
@@ -132,6 +136,11 @@ typedef void (^DisposeBGBatteryBlock)(NSNumber* energy);
 
 //电池电量
 typedef void (^DisposeBGDeviceTime)(NSDictionary* timeInfo);
+
+
+typedef void (^DisposeSendBG5DataBlock)();
+
+typedef void (^DisposeSendBG5LDataBlock)();
 
 
 #define BGSDKRightApi  @"OpenApiBG"

@@ -6,10 +6,16 @@
 //  Copyright (c) 2014年 zhiwei jing. All rights reserved.
 //
 
-#import "HealthUser.h"
+
 
 #ifndef BP_SDKDemo_BPMacroFile_h
 #define BP_SDKDemo_BPMacroFile_h
+
+#import "HealthUser.h"
+#import "BPDevice.h"
+#import "BPController.h"
+#import "BPCommandCache.h"
+
 
 typedef enum {
     BPError0 = 0,//Unable to take measurements due to arm/wrist movements.
@@ -40,103 +46,110 @@ typedef enum {
     
 }BPDeviceError;
 
-typedef enum{
-    ABIMeasureTypeArm = 0,
-    ABIMeasureTypeAll
-}ABIMeasureType;
 
-typedef void (^BlockEnergyValue)(NSNumber *energyValue);
+
+typedef void(^BlockEnergyValue)(NSNumber *energyValue);
 typedef void(^BlockError)(BPDeviceError error);
-typedef void(^BlockDeviceFounction)(NSDictionary *dic);
+typedef void(^BlockDeviceFunction)(NSDictionary *functionDict);
 typedef void(^BlockBlueSet)(BOOL isOpen);
-typedef void(^BlockAngle)(NSDictionary *dic);
+typedef void(^BlockAngle)(NSDictionary *angleDict);
 typedef void(^BlockPressure)(NSArray *pressureArr);
-typedef void(^BlockXioaboWithHeart)(NSArray *xiaoboArr);
-typedef void(^BlockXioaboNoHeart)(NSArray *xiaoboArr);
+typedef void(^BlockWavelet)(NSArray *waveletArr);
 typedef void(^BlockZero)(BOOL isComplete);
-typedef void(^BlockMesureResult)(NSDictionary *dic);
+typedef void(^BlockMeasureResult)(NSDictionary *resultDict);
 
-typedef void(^BlockBachCount)(NSNumber *num);
-typedef void(^BlockBachProgress)(NSNumber *pregress);
+typedef void(^BlockBachCount)(NSNumber *count);
+typedef void(^BlockBachProgress)(NSNumber *progress);
 typedef void(^BlockBachArray)(NSArray *array);
 typedef void(^BlockBachFinished)(BOOL finishFlag);
 
-typedef void(^BlockAskMeasureTime)(NSDictionary *measureTimeDic);
+typedef void(^BlockAskMeasureTime)(NSDictionary *measureTimeDict);
 typedef void(^BlockSetMeasureTime)(NSDictionary *setResult);
 
-typedef void(^BlockStopSuccess)();
-typedef void(^BlockSetUnitSuccess)();
-typedef void(^BlockSetAngleSuccess)();
+typedef void(^BlockSuccess)();
 
-typedef void (^BlockUserAuthentication)(UserAuthenResult result);//the result of userID verification
+typedef void(^BlockUserAuthentication)(UserAuthenResult result);//the result of userID verification
 typedef void(^BlockSetUserID)(BOOL finishFlag);
 
-typedef void(^BlockStopResult)(BOOL result);
-typedef void(^BlockDelPortResult)(BOOL result);
+typedef void(^BlockResult)(BOOL result);
+
+typedef void(^BlockRedWaveDic)(NSDictionary *redWaveDict);
+
+typedef void(^BlockMeasureStatus)(NSDictionary *statusDic);
+
+typedef void(^DisposeSendKN550BTDataBlock)();
 
 
-#define BP3ConnectNoti @"BP3ConnectNoti"
-#define BP3DisConnectNoti @"BP3DisConnectNoti"
-#define BP5ConnectNoti @"BP5ConnectNoti"
-#define BP5DisConnectNoti @"BP5DisConnectNoti"
-#define BP7ConnectNoti @"BP7ConnectNoti"
-#define BP7DisConnectNoti @"BP7DisConnectNoti"
+
+#define BP3ConnectNoti      @"BP3ConnectNoti"
+#define BP3DisConnectNoti   @"BP3DisConnectNoti"
+#define BP5ConnectNoti      @"BP5ConnectNoti"
+#define BP5DisConnectNoti   @"BP5DisConnectNoti"
+#define BP7ConnectNoti      @"BP7ConnectNoti"
+#define BP7DisConnectNoti   @"BP7DisConnectNoti"
 
 #define BP3LDiscover        @"BP3LDiscover"
 #define BP3LConnectFailed   @"BP3LConnectFailed"
-#define BP3LConnectNoti @"BP3LConnectNoti"
-#define BP3LDisConnectNoti @"BP3LDisConnectNoti"
+#define BP3LConnectNoti     @"BP3LConnectNoti"
+#define BP3LDisConnectNoti  @"BP3LDisConnectNoti"
+
+#define BP5SDiscover        @"BP5SDiscover"
+#define BP5SConnectFailed   @"BP5SConnectFailed"
+#define BP5SConnectNoti     @"BP5SConnectNoti"
+#define BP5SDisConnectNoti  @"BP5SDisConnectNoti"
+
+#define BP5SRWDiscover        @"BP5SRWDiscover"
+#define BP5SRWConnectFailed   @"BP5SRWConnectFailed"
+#define BP5SRWConnectNoti     @"BP5SRWConnectNoti"
+#define BP5SRWDisConnectNoti  @"BP5SRWDisConnectNoti"
 
 #define BP7SDiscover        @"BP7SDiscover"
 #define BP7SConnectFailed   @"BP7SConnectFailed"
-#define BP7SConnectNoti @"BP7SConnectNoti"
-#define BP7SDisConnectNoti @"BP7SDisConnectNoti"
+#define BP7SConnectNoti     @"BP7SConnectNoti"
+#define BP7SDisConnectNoti  @"BP7SDisConnectNoti"
 
-#define KN550BTDiscover         @"KN550BTDiscover"
+#define KN550BTDiscover     @"KN550BTDiscover"
 #define KN550BTConnectFailed   @"KN550BTConnectFailed"
-#define KN550BTConnectNoti @"KN550BTConnectNoti"
-#define KN550BTDisConnectNoti @"KN550BTDisConnectNoti"
+#define KN550BTConnectNoti  @"KN550BTConnectNoti"
+#define KN550BTDisConnectNoti  @"KN550BTDisConnectNoti"
 
-#define KD926Discover        @"KD926Discover"
-#define KD926ConnectFailed   @"KD926ConnectFailed"
-#define KD926ConnectNoti @"KD926ConnectNoti"
+#define KD926Discover       @"KD926Discover"
+#define KD926ConnectFailed  @"KD926ConnectFailed"
+#define KD926ConnectNoti    @"KD926ConnectNoti"
 #define KD926DisConnectNoti @"KD926DisConnectNoti"
 
-#define KD723Discover        @"KD723Discover"
-#define KD723ConnectFailed   @"KD723ConnectFailed"
-#define KD723ConnectNoti @"KD723ConnectNoti"
+#define KD723Discover       @"KD723Discover"
+#define KD723ConnectFailed  @"KD723ConnectFailed"
+#define KD723ConnectNoti    @"KD723ConnectNoti"
 #define KD723DisConnectNoti @"KD723DisConnectNoti"
 
 #define ABPMDiscover        @"ABPMDiscover"
 #define ABPMConnectFailed   @"ABPMConnectFailed"
-#define ABPMConnectNoti @"ABPMConnectNoti"
-#define ABPMDisConnectNoti @"ABPMDisConnectNoti"
+#define ABPMConnectNoti     @"ABPMConnectNoti"
+#define ABPMDisConnectNoti  @"ABPMDisConnectNoti"
 
 #define ContinuaBPDiscover        @"ContinuaBPDiscover"
 #define ContinuaBPConnectFailed   @"ContinuaBPConnectFailed"
-#define ContinuaBPConnectNoti @"ContinuaBPConnectNoti"
-#define ContinuaBPDisConnectNoti @"ContinuaBPDisConnectNoti"
+#define ContinuaBPConnectNoti     @"ContinuaBPConnectNoti"
+#define ContinuaBPDisConnectNoti  @"ContinuaBPDisConnectNoti"
 
 
 
-#define BPDeviceID @"ID"
-#define BPSDKRightApi  @"OpenApiBP"
+#define BPDeviceID      @"ID"
+#define BPSDKRightApi   @"OpenApiBP"
 
 
 
 
-#define ABIConnectNoti @"ABIConnectNoti"
-#define ABIDisConnectNoti @"ABIDisConnectNoti"
+#define ABIConnectNoti      @"ABIConnectNoti"
+#define ABIDisConnectNoti   @"ABIDisConnectNoti"
 
 #define ArmKey    @"ABI-ARM"
 #define LegKey    @"ABI-Leg"
 
 
-#define ArmConnectNoti @"ArmConnectNoti"
-#define ArmDisConnectNoti @"ArmDisConnectNoti"
-
-
-
+#define ArmConnectNoti      @"ArmConnectNoti"
+#define ArmDisConnectNoti   @"ArmDisConnectNoti"
 
 
 

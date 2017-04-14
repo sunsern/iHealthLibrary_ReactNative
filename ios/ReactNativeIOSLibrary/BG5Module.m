@@ -52,7 +52,7 @@ RCT_EXPORT_MODULE()
     for(BG5 *tempBG5 in BGDeviceArray){
         if([mac isEqualToString:tempBG5.serialNumber]){
             
-            tempBG5.reactNativeFlg = @YES; //reactNative开关，YES时不走SDK认证等，NO走SDK所有流程。
+//            tempBG5.reactNativeFlg = @YES; //reactNative开关，YES时不走SDK认证等，NO走SDK所有流程。
             return tempBG5;
             break;
         }

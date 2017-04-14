@@ -10,58 +10,8 @@
 #import "UIKit/UIKit.h"
 #import "BPMacroFile.h"
 
-typedef enum {
-    BPContinuaNormalError = 1,//下位机传上来的错误信息
-    BPContinuaOverTimeError,//底层发的超时
-    BPContinuaNoRespondError,//一定时间内没收到响应的，一般是蓝牙堵塞
-    BPContinuaDidDisconnect,//下位机断开
-    BPContinuaAskToStopMeasure//下位机请求中断测量
-    
-}BPContinuaDeviceError;
 
-
-typedef void (^BlockEnergyValue)(NSNumber *energyValue);
-typedef void(^BlockPressure)(NSArray *pressureArr);
-typedef void(^BlockXioaboWithHeart)(NSArray *xiaoboArr);
-typedef void(^BlockXioaboNoHeart)(NSArray *xiaoboArr);
-typedef void(^BlockZero)(BOOL isComplete);
-typedef void(^BlockMesureResult)(NSDictionary *dic);
-typedef void(^BlockStopResult)(BOOL result);
-typedef void(^BlockDelPortResult)(BOOL result);
-
-@interface BPContinua : NSObject<UIAlertViewDelegate>
-{
-    BlockEnergyValue _blockEnergyValue;
-    BlockError _blockError;
-    
-    BlockXioaboWithHeart _blockXiaoboArr;
-    BlockXioaboNoHeart _blockXiaoboArrNoHeart;
-    BlockPressure _blockPressureArr;
-    BlockMesureResult _blockMesureResult;
-    
-    BlockBachCount _blockBachCount;
-    BlockBachProgress _blockBachProgress;
-    BlockBachArray _blockBachArray;
-    BlockStopSuccess _blockStopSuccess;
-    
-    BlockUserAuthentication _blockUserAnthen;
-    
-    BlockSetUserID _blockSetUserIDSuccess;
-    
-    BOOL isCompleteZero;
-    BOOL isRecResult;
-    BOOL isAlterShow;
-    BOOL isMeasureState;
-    
-    NSString *thirdUserID;
-}
-
-@property (strong, nonatomic)UIAlertView * Erroralert;
-
-@property (strong, nonatomic) NSString *currentUUID;
-@property (strong, nonatomic) NSString *serialNumber;
-@property (strong, nonatomic) NSString *firmwareVersion;
-@property (strong, nonatomic) NSTimer *startMeasureTimer;
+@interface BPContinua : BPDevice
 
 
 /**

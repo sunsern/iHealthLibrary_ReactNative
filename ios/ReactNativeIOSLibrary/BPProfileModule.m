@@ -7,7 +7,9 @@
 //
 
 #import "BPProfileModule.h"
-
+#import "RCTBridge.h"
+#import "RCTEventDispatcher.h"
+#import "BPMacroFile.h"
 @implementation BPProfileModule
 
 
@@ -73,6 +75,17 @@ RCT_EXPORT_MODULE()
 };
 
 
++ (void)sendErrorToBridge:(RCTBridge *)bridge eventNotify:(NSString*)eventNotify WithCode:(NSInteger)errorCode{
+    NSDictionary* errorDict = @{
+                                kACTION:kACTION_ERROR_BP,
+                                kERROR_NUM_BP:@(errorCode)
+                                };
+    [self sendEventToBridge:bridge eventNotify:eventNotify WithDict:errorDict];
+}
+
++ (void)sendEventToBridge:(RCTBridge *)bridge eventNotify:(NSString*)eventNotify WithDict:(NSDictionary*)dict{
+    [bridge.eventDispatcher sendDeviceEventWithName:eventNotify body:dict];
+}
 
 
 @end

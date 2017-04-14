@@ -22,6 +22,17 @@ typedef enum{
     UpdateModelStatusBusy
 }UpdateModelStatus;
 
+typedef enum{
+    UpdateDeviceType_AM3 = 1,
+    UpdateDeviceType_AM3S,
+    UpdateDeviceType_AM4,
+    UpdateDeviceType_PO3,
+    UpdateDeviceType_HS4,
+    UpdateDeviceType_BP5S,
+    UpdateDeviceType_ECG,
+    UpdateDeviceType_ABPM
+}UpdateDeviceType;
+
 
 typedef void (^DisposeUpdateVersionResult)(NSDictionary * updateVersionDic);
 
@@ -120,5 +131,27 @@ typedef void (^TransferSuccess)(NSNumber*transferSuccess);
 
 -(void)commandStartUpdateWithDeviceUUID:(NSString*)uuidString DownloadFirmwareStart:(DisposeDownloadFirmwareStart)disposeDownloadFirmwareStart DisposeDownloadFirmwareFinish:(DisposeDownloadFirmwareFinish)disposeDownloadFirmwareFinish DisposeUpdateProgress:(DisposeUpdateProgress)disposeUpdateProgress DisposeUpdateResult:(DisposeUpdateResult)disposeUpdateResult TransferSuccess:(TransferSuccess)transferSuccess  DisposeErrorBlock:(DisposeUpdateErrorBlock)disposeErrorBlock;
 
+/**
+ *  Update Device.
+ * Import Parameters: 
+    uuidString:device UUID.
+    deviceType: UpdateDeviceType
+    infoFilePath: infoFilePath
+    upadteFilePath: upadteFilePath
+    fileCRC: file CRC
+    appSecret: appSecret
+ * @param DisposeUpdateProgress:   Update Device progress（0-100）.
+ * @param DisposeUpdateResult:  Update Device result（bool 1：sucess，0：fail）Applicable to the protocol of 100.
+ * @param TransferSuccess:  TransferSuccess Applicable to the protocol of 101.
+ * @param DisposeErrorBlock Update error codes, see UpdateDeviceError error descriptions.
+ */
+
+-(void)commandStartUpdateWithDeviceUUID:(NSString*)uuidString DeviceType:(UpdateDeviceType)deviceType InfoFilePath:(NSString*)infoFilePath UpadteFilePath:(NSString*)upadteFilePath FileCRC:(NSNumber*)fileCRC AppSecret:(NSString*)appSecret DisposeUpdateProgress:(DisposeUpdateProgress)disposeUpdateProgress DisposeUpdateResult:(DisposeUpdateResult)disposeUpdateResult TransferSuccess:(TransferSuccess)transferSuccess  DisposeErrorBlock:(DisposeUpdateErrorBlock)disposeErrorBlock;
+
+
+
+
+
+-(void)commandsetCloudModel:(NSNumber*)cloudModel;
 
 @end

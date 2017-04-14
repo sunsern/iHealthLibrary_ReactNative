@@ -17,29 +17,6 @@
 
 
 
-
-/**
- * Establish memory and measurement connection,Only after verification through this interface can we move onto using other API's.
- * @param tempUser includes properties：clientID，clientSecret，userID.userID，either email or mobile phone number (mobile phone number not yet supported).ClientID and clientSecret, the only identification for users of the SDK, requires registration from iHealth administrator, please email:heguangming@ihealthlabs.com.cn for more information
- * @param disposeAuthenticationBlock The return parameters of ’‘userid’, ’clientID’,and ‘clientSecret’ after verification.
- * The interpretation for the verification:
- *  1. UserAuthen_RegisterSuccess, New-user registration succeeded.
- *  2. UserAuthen_LoginSuccess， User login succeeded.
- *  3. UserAuthen_CombinedSuccess, The user is iHealth user as well, measurement via SDK has been activated, and the data from the measurement belongs to the user.
- *  4. UserAuthen_TrySuccess, testing without Internet connection succeeded.
- *  5. UserAuthen_InvalidateUserInfo, Userid/clientID/clientSecret verification failed.
- *  6. UserAuthen_SDKInvalidateRight, SDK has not been authorized.
- *  7. UserAuthen_UserInvalidateRight,User has not been authorized.
- *  8. UserAuthen_InternetError, Internet error, verification failed.
- *  --PS:
- *  The measurement via SDK will be operated in the case of 1-3, and will be terminated if any of 4-8 occurs. The interface needs to be re-called after analyzing the return parameters.
- *  @Notice  Notice: when a new user registers via SDK, an ‘iHealth disclaimer’ will pop up automatically, and will require the user to agree in order to continue. SDK applications require an Internet connection.
- * @param currentUserIDBlock Uniquely identifies the user, the SDK requires this to be stored. This ID will be sent to the AM3S and will allow the AM3S to pair with only this user.
- * @param errorBlock Communication error codes, see AM3S error descriptions.
- */
--(void)commandAM3SCreateUserManageConnectWithUser:(HealthUser *)tempUser withAuthenticationResult:(BlockUserAuthentication)authenticationResultBlock withCurrentUserID:(CurrentSerialNub)currentUserIDBlock withErrorBlock:(DisposeAM3SErrorBlock)errorBlock;
-
-
 /**
  * Get device userID and user bined sevice MAC Address
  * @param getDeviceUserIDBlock The connected user's MAC Address

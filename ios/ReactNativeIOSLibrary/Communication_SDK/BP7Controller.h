@@ -7,11 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface BP7Controller : NSObject{
-    NSMutableArray *BP7DeviceArray;
-}
-
+#import "BPMacroFile.h"
+@interface BP7Controller : BPController
 /**
  * Initialize BP7 controller class
  */

@@ -10,14 +10,12 @@
 #define AMDemoCode_AMHeader_h
 
 #import "AM3.h"
-#import "AM3S.h"
 #import "AM3S_V2.h"
 #import "AM4.h"
 
 
 
 #import "AM3Controller.h"
-#import "AM3SController.h"
 #import "AM3SController_V2.h"
 #import "AM4Controller.h"
 

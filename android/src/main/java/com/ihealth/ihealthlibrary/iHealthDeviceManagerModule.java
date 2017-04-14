@@ -249,6 +249,12 @@ public class iHealthDeviceManagerModule extends iHealthBaseModule implements Lif
     }
 
     @ReactMethod
+    public void authenAppSecret(String appSecret, Callback callback) {
+        boolean authenResult = iHealthDevicesManager.getInstance().sdkAuthWithAppSecret(mContext, appSecret);
+        callback.invoke(authenResult);
+    }
+
+    @ReactMethod
     public void getDevicesIDPS(String mac, Callback callback) {
         String idpsInfo = iHealthDevicesManager.getInstance().getDevicesIDPS(mac);
         WritableMap writableMap = Arguments.createMap();

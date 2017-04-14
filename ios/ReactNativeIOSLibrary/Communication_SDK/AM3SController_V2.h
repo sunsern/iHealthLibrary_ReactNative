@@ -22,14 +22,5 @@
 -(NSArray *)getAllCurrentAM3SInstace;
 
 
-/**
- * Restart search AM3S
- */
--(void)startSearchAM3S;
 
-
-/**
- * Stop search AM3S
- */
--(void)stopSearchAM3S;
 @end

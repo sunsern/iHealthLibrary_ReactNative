@@ -93,6 +93,8 @@ public class Utils {
                     writableArray.pushDouble((Double) objectInArray);
                 } else if(objectInArray instanceof String) {
                     writableArray.pushString((String) objectInArray);
+                } else if(objectInArray instanceof Long) {
+                    writableArray.pushDouble((Long) objectInArray);
                 } else {
                     Log.e(TAG, "Unknown type : " + objectInArray.getClass().getSimpleName());
                 }
@@ -112,6 +114,8 @@ public class Utils {
             writableMap.putDouble(key, (Double) object);
         } else if(object instanceof String) {
             writableMap.putString(key, (String) object);
+        } else if(object instanceof Long) {
+            writableMap.putDouble(key, (Long) object);
         } else {
             Log.e(TAG, "Unknown type : " + object.getClass().getSimpleName());
         }

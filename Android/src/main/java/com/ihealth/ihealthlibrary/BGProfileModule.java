@@ -37,15 +37,16 @@ public class BGProfileModule extends ReactContextBaseJavaModule {
     private static final String ACTION_ONLINE_RESULT_BG = "ACTION_ONLINE_RESULT_BG";
 
 
-    private static final String KEEP_LINK = "KEEP_LINK";
-    private static final String SET_TIME = "SET_TIME";
-    private static final String SET_UNIT = "SET_UNIT";
+//    private static final String KEEP_LINK = "KEEP_LINK";
+//    private static final String SET_TIME = "SET_TIME";
+//    private static final String SET_UNIT = "SET_UNIT";
     private static final String GET_BATTERY = "GET_BATTERY";
-    private static final String START_MEASURE = "START_MEASURE";
+//    private static final String START_MEASURE = "START_MEASURE";
     private static final String GET_OFFLINEDATA_COUNT = "GET_OFFLINEDATA_COUNT";
     private static final String GET_OFFLINEDATA = "GET_OFFLINEDATA";
-    private static final String DELETE_OFFLINEDATA = "DELETE_OFFLINEDATA";
+//    private static final String DELETE_OFFLINEDATA = "DELETE_OFFLINEDATA";
     private static final String SET_BOTTLEMESSAGE = "SET_BOTTLEMESSAGE";
+    private static final String START_MODE = "START_MODE";
     private static final String GET_EXPIRECTIME = "GET_EXPIRECTIME";
     private static final String GET_USENUM = "GET_USENUM";
 //    private static final String SET_BOTTLEID = "SET_BOTTLEID";
@@ -55,6 +56,28 @@ public class BGProfileModule extends ReactContextBaseJavaModule {
     private static final String ONLINE_RESULT_BG = "ONLINE_RESULT_BG";
     private static final String DATA_ID = "DATA_ID";
 
+    /**
+     * Callback indicating the code analysis result.
+     */
+    private static final String ACTION_CODE_ANALYSIS = "ACTION_CODE_ANALYSIS";
+
+
+    /**
+     * the strip number
+     */
+    private static final String STRIP_NUM_BG = "STRIP_NUM_BG";
+
+
+    /**
+     * the expire time
+     */
+    private static final String STRIP_EXPIRETIME_BG = "STRIP_EXPIRETIME_BG";
+
+
+    /**
+     * the bottle id
+     */
+    private static final String BOTTLEID_BG = "BOTTLEID_BG";
 
     public BGProfileModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -90,23 +113,29 @@ public class BGProfileModule extends ReactContextBaseJavaModule {
         constants.put(ACTION_ONLINE_RESULT_BG, Bg5Profile.ACTION_ONLINE_RESULT_BG);
 
 
-        constants.put(KEEP_LINK, Bg5Profile.KEEP_LINK);
-        constants.put(SET_TIME, Bg5Profile.SET_TIME);
-        constants.put(SET_UNIT, Bg5Profile.SET_UNIT);
+//        constants.put(KEEP_LINK, Bg5Profile.KEEP_LINK);
+//        constants.put(SET_TIME, Bg5Profile.SET_TIME);
+//        constants.put(SET_UNIT, Bg5Profile.SET_UNIT);
         constants.put(GET_BATTERY, Bg5Profile.BATTERY_BG);
-        constants.put(START_MEASURE, Bg5Profile.START_MEASURE);
+//        constants.put(START_MEASURE, Bg5Profile.START_MEASURE);
         constants.put(GET_OFFLINEDATA_COUNT, Bg5Profile.HISTORICAL_NUM_BG);
         constants.put(GET_OFFLINEDATA, Bg5Profile.HISTORICAL_DATA_BG);
-        constants.put(DELETE_OFFLINEDATA, Bg5Profile.DELETE_HISTORICAL_DATA);
+//        constants.put(DELETE_OFFLINEDATA, Bg5Profile.DELETE_HISTORICAL_DATA);
         constants.put(SET_BOTTLEMESSAGE, Bg5Profile.SET_BOTTLE_MESSAGE);
+        constants.put(START_MODE,Bg5Profile.START_MODE_EXTRA);
         constants.put(GET_EXPIRECTIME, Bg5Profile.GET_EXPIRECTIME);
         constants.put(GET_USENUM, Bg5Profile.GET_USENUM);
         constants.put(GET_BOTTLEID, Bg5Profile.GET_BOTTLEID);
-//        constants.put(SET_BOTTLEID, Bg5Profile.SET_BOTTLEID);
+//        constants.put(SET_BOTTLEID, Bg5Profile.SET_BOTTLE_MESSAGE);
         constants.put(ERROR_NUM_BG, Bg5Profile.ERROR_NUM_BG);
         constants.put(ERROR_DESCRIPTION_BG, Bg5Profile.ERROR_DESCRIPTION_BG);
         constants.put(ONLINE_RESULT_BG, Bg5Profile.ONLINE_RESULT_BG);
         constants.put(DATA_ID, Bg5Profile.DATA_ID);
+
+        constants.put(ACTION_CODE_ANALYSIS, "action_code_analysis");
+        constants.put(STRIP_NUM_BG, "strip_num");
+        constants.put(STRIP_EXPIRETIME_BG, "expire_time");
+        constants.put(BOTTLEID_BG, "bottle_id");
 
         return constants;
     }

@@ -7,21 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #import "ABI.h"
 
-#define IOS8Flag   ([UIDevice currentDevice].systemVersion.intValue>=8)?YES:NO
-
-@interface ABIController : NSObject{
-    NSString *currentArmUUID;
-    NSString *currentLegUUID;
-    ABI *currentABIInstance;
-    
-    NSString *armSerialNumber;
-    NSString *legSerialNumber;
-    
-    ABI *currentArmInstance;
-}
+@interface ABIController : NSObject
 
 /**
  * Initialize ABI controller class

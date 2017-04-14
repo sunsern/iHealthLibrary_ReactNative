@@ -91,6 +91,16 @@ module.exports = {
     authenConfigureInfo: function (userName, clientID, clientSecret) {
         RCTModule.authenConfigureInfo(userName, clientID, clientSecret)
     },
+	/**
+	 *Authencation the appSecret
+	 * @param {string} appSecret
+	 * @return {callback} Callback with a boolen object. true:authencation success   false:authencation failed .<br/>
+	*/
+
+    authenAppSecret: function (appSecret, callback) {
+        RCTModule.authenAppSecret(appSecret, callback)
+    },
+
     /**
      * Start discovery iHealth device with type
      * Attentation: Please register to receive event(iHealthDeviceManagerModel.Event_Scan_Device) before call the api.

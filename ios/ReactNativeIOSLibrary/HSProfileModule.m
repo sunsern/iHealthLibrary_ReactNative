@@ -33,7 +33,7 @@ RCT_EXPORT_MODULE()
              
              
              @"ACTION_HISTORICAL_DATA_HS" : ACTION_HISTORICAL_DATA_HS,
-             @"HISTORYDATA__HS" : HISTORYDATA__HS,
+             @"HISTORDATA__HS" :HISTORDATA__HS,
              @"MEASUREMENT_DATE_HS" : MEASUREMENT_DATE_HS,
              @"ACTION_NO_HISTORICALDATA" : ACTION_NO_HISTORICALDATA,
              

@@ -58,10 +58,11 @@ export default class BG5View extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            resultText: ""
+            resultText: "",
+            QRCode:"02323C641E3114322D0800A064646464646464646464FA012261000E1CCC",
+            BottleID:""
         }
     }
-
     componentWillMount() {
         this.addListener();
     }
@@ -84,20 +85,20 @@ export default class BG5View extends Component {
         this.notifyListerner = DeviceEventEmitter.addListener(BG5Module.Event_Notify, function (e: Event) {
             console.info('BG5View', 'addListener_NotifyLinstener', "Action = " + e.action + '\n' + "Message = " + JSON.stringify(e));
             if (e.action == BGProfileModule.ACTION_KEEP_LINK) {
-                resultText = e[BGProfileModule.KEEP_LINK] ? 'Keep link success' : 'Keep link fail';
+                resultText = 'Keep link success'
             }
             else if (e.action == BGProfileModule.ACTION_GET_BATTERY) {
                 console.info('BG5View', BGProfileModule.GET_BATTERY + JSON.stringify(e));
                 resultText = 'bg5 battery : ' + e[BGProfileModule.GET_BATTERY];
             }
             else if (e.action == BGProfileModule.ACTION_SET_TIME) {
-                resultText = e[BGProfileModule.SET_TIME] ? 'Set time success' : 'Set time fail'
+                resultText = 'Set time success'
             }
             else if (e.action == BGProfileModule.ACTION_SET_UNIT) {
-                resultText = e[BGProfileModule.SET_UNIT] == true ? 'Set unit success' : 'Set unit fail'
+                resultText = 'Set unit success'
             }
             else if (e.action == BGProfileModule.ACTION_START_MEASURE) {
-                resultText = e[BGProfileModule.START_MEASURE] == true ? 'Start measure success' : 'Start measure fail'
+                resultText = 'Start measure success'
             }
             else if (e.action == BGProfileModule.ACTION_GET_OFFLINEDATA) {
                 resultText = 'Offline data : ' + e[BGProfileModule.GET_OFFLINEDATA];
@@ -107,17 +108,17 @@ export default class BG5View extends Component {
                 resultText = 'Offline data count 111 : ' + e[BGProfileModule.GET_OFFLINEDATA_COUNT];
             }
             else if (e.action == BGProfileModule.ACTION_DELETE_OFFLINEDATA) {
-                resultText = e[BGProfileModule.DELETE_OFFLINEDATA] == true ? 'Delete success' : 'Delete fail'
+                resultText = 'Delete success'
             }
             else if (e.action == BGProfileModule.ACTION_SET_BOTTLEMESSAGE) {
-                resultText = e[BGProfileModule.SET_BOTTLEMESSAGE] == true ? 'Set bottle message success' : 'Set bottle message fail'
+                resultText = JSON.stringify(e);
             }
             else if (e.action == BGProfileModule.ACTION_GET_BOTTLEMESSAGE) {
                 resultText = 'Expire time : ' + e[BGProfileModule.GET_EXPIRECTIME] + "  ";
-                resultText += 'UserID : ' + e[BGProfileModule.GET_USENUM];
+                resultText += 'UseNum: ' + e[BGProfileModule.GET_USENUM];
             }
             else if (e.action == BGProfileModule.ACTION_SET_BOTTLEID) {
-                resultText = e[BGProfileModule.SET_BOTTLEMESSAGE] == true ? 'Set bottleID success' : 'Set bottleID fail'
+                resultText = 'Set bottleID success'
             }
             else if (e.action == BGProfileModule.ACTION_GET_BOTTLEID) {
                 resultText = 'BottleID is : ' + e[BGProfileModule.GET_BOTTLEID];
@@ -139,6 +140,11 @@ export default class BG5View extends Component {
                 let errorNumber = e[BGProfileModule.ERROR_NUM_BG]
                 let errorDescription = e[BGProfileModule.ERROR_DESCRIPTION_BG]
                 resultText = "Error happens:\nerrorNumber = " + errorNumber + "\nDescreption: " + errorDescription;
+            } else if(e.action == BGProfileModule.ACTION_CODE_ANALYSIS){
+                BottleID = e[BGProfileModule.BOTTLEID_BG]
+                resultText = JSON.stringify(e)
+                console.log('BottleID = ' + BottleID)
+                self.setState({BottleID: BottleID})
             }
             else {
                 resultText = JSON.stringify(e)
@@ -159,6 +165,11 @@ export default class BG5View extends Component {
         if (this.notifyListerner) {
             this.notifyListerner.remove()
         }
+    }
+
+    getBottleInfoFromQR(QRCode){
+        console.log("  BG5 getBottleInfoFromQR  " + QRCode);
+        BG5Module.getBottleInfoFromQR(QRCode);
     }
 
     holdLink() {
@@ -234,6 +245,13 @@ export default class BG5View extends Component {
                 <ScrollView style={styles.contentContainer}>
                     <TouchableOpacity
                         style={styles.button}
+                        onPress={() => this.getBottleInfoFromQR(this.state.QRCode)}>
+                        <Text style={styles.buttonText}>
+                            parseCodeInfo
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => this.holdLink()}>
                         <Text style={styles.buttonText}>
                             holdLink
@@ -284,7 +302,7 @@ export default class BG5View extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this.setBottleMessage(2,1,"",0,"")}>
+                        onPress={() => this.setBottleMessage(1,1,this.state.QRCode,25,"2017-07-15")}>
                         <Text style={styles.buttonText}>
                             setBottleMessage
                         </Text>
@@ -298,7 +316,7 @@ export default class BG5View extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this.setBottleID(123123123)}>
+                        onPress={() => this.setBottleID(this.state.BottleID)}>
                         <Text style={styles.buttonText}>
                             setBottleID
                         </Text>

@@ -61,28 +61,29 @@ RCT_EXPORT_MODULE()
 }
 
 
--(void)DeviceConnectForKN550BT:(NSNotification *)tempNoti{
-    KN550BTController *controller = [KN550BTController shareKN550BTController];
-    NSArray *BPDeviceArray = [controller getAllCurrentKN550BTInstace];
-    
-    KN550BT *bpInstance = [BPDeviceArray objectAtIndex:0];
-    NSString *mac = bpInstance.currentUUID;
-    NSDictionary *IDPSDic = [tempNoti userInfo];
-    
-    NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"kn550bt_connected_bg",@"idps":IDPSDic };
-    [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
-    
-}
-
--(void)DeviceDisConnectForKN550BT:(NSNotification *)tempNoti{
-    
-    NSDictionary *IDPSDic = [tempNoti userInfo];
-    NSString *mac = [IDPSDic objectForKey:@"SerialNumber"];
-    
-    NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"kn550bt_disconnected_bg",@"idps":IDPSDic};
-    [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
-    
-}
+//-(void)DeviceConnectForKN550BT:(NSNotification *)tempNoti{
+//    KN550BTController *controller = [KN550BTController shareKN550BTController];
+//    NSArray *BPDeviceArray = [controller getAllCurrentKN550BTInstace];
+//    
+//    KN550BT *bpInstance = [BPDeviceArray objectAtIndex:0];
+//    NSString *mac = bpInstance.currentUUID;
+//    NSDictionary *IDPSDic = [tempNoti userInfo];
+//    
+//    NSDictionary* deviceInfo = @{
+//                                 kACTION:@"kn550bt_connected_bg",@"idps":IDPSDic };
+//    [BPProfileModule sendEventToBridge:self.bridge eventNotify:EVENT_NOTIFY WithDict:response];
+//    
+//}
+//
+//-(void)DeviceDisConnectForKN550BT:(NSNotification *)tempNoti{
+//    
+//    NSDictionary *IDPSDic = [tempNoti userInfo];
+//    NSString *mac = [IDPSDic objectForKey:@"SerialNumber"];
+//    
+//    NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"kn550bt_disconnected_bg",@"idps":IDPSDic};
+//    [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+//    
+//}
 
 
 
@@ -92,27 +93,26 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(getFunctionInfo:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
-        [[self getDeviceWithMac:mac] commandFounction:^(NSDictionary *dic) {
+        __weak typeof(self) weakSelf = self;
+        [[self getDeviceWithMac:mac] commandFunction:^(NSDictionary *dic) {
            
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"function_info_bp",@"upAirMeasureFlg": [dic objectForKey:@"upAirMeasureFlg"],
+            NSDictionary* response = @{@"mac":mac,@"action":@"function_info_bp",@"upAirMeasureFlg": [dic objectForKey:@"upAirMeasureFlg"],
                                          @"armMeasureFlg": [dic objectForKey:@"armMeasureFlg"],
                                          @"haveAngleSensor": [dic objectForKey:@"haveAngleSensor"],
                                          @"haveOffline": [dic objectForKey:@"haveOffline"],
                                          @"haveHSD": [dic objectForKey:@"haveHSD"],@"haveAngleSet": [dic objectForKey:@"haveAngleSet"],
                                          @"mutableUpload": [dic objectForKey:@"mutableUpload"],
                                          @"selfUpdate": [dic objectForKey: @"selfUpdate"]};
-            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            [BPProfileModule sendEventToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithDict:response];
             
         } errorBlock:^(BPDeviceError error) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"error_bp",@"error":[NSNumber numberWithInteger:error]};
-            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            [BPProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithCode:error];
             
         }];
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"error_bp",@"error":[NSNumber numberWithInteger:BPDidDisconnect]};
-        [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+        [BPProfileModule sendErrorToBridge:self.bridge eventNotify:EVENT_NOTIFY WithCode:BPDidDisconnect];
         
     }
     
@@ -122,23 +122,25 @@ RCT_EXPORT_METHOD(getFunctionInfo:(nonnull NSString *)mac){
 RCT_EXPORT_METHOD(getBattery:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
+        __weak typeof(self) weakSelf = self;
         [[self getDeviceWithMac:mac] commandEnergy:^(NSNumber *energyValue) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"battery_bp",@"battery":energyValue};
-            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
-            NSLog(@"%@",deviceInfo);
+            NSDictionary* response = @{
+                                         kACTION:@"battery_bp",
+                                         kBATTERY_BP:energyValue
+                                         };
+            [BPProfileModule sendEventToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithDict:response];
+            NSLog(@"%@",response);
             
         } errorBlock:^(BPDeviceError error) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"error_bp",@"error":[NSNumber numberWithInteger:error]};
-            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            [BPProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithCode:error];
             
         }];
         
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"error_bp",@"error":[NSNumber numberWithInteger:BPDidDisconnect]};
-        [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+        [BPProfileModule sendErrorToBridge:self.bridge eventNotify:EVENT_NOTIFY WithCode:BPDidDisconnect];
     }
     
     
@@ -147,21 +149,23 @@ RCT_EXPORT_METHOD(getBattery:(nonnull NSString *)mac){
 RCT_EXPORT_METHOD(getOffLineNum:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
-        [[self getDeviceWithMac:mac]commandTransferMemorytotalCount:^(NSNumber *num) {
+        __weak typeof(self) weakSelf = self;
+        [[self getDeviceWithMac:mac]commandTransferMemoryTotalCount:^(NSNumber *num) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"offlinenum",@"offlinenum":num };
-            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            NSDictionary* response = @{
+                                         kACTION:kACTION_HISTORICAL_NUM_BP,
+                                         kHISTORICAL_NUM_BP:num
+                                         };
+            [BPProfileModule sendEventToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithDict:response];
             
         } errorBlock:^(BPDeviceError error) {
             
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"error_bp",@"error":[NSNumber numberWithInteger:error]};
-            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+            [BPProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithCode:error];
             
         }];
          
          }else{
-             NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"error_bp",@"error":[NSNumber numberWithInteger:BPDidDisconnect]};
-             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+             [BPProfileModule sendErrorToBridge:self.bridge eventNotify:EVENT_NOTIFY WithCode:BPDidDisconnect];
              
     }
     
@@ -171,19 +175,16 @@ RCT_EXPORT_METHOD(getOffLineNum:(nonnull NSString *)mac){
 RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
-        [[self getDeviceWithMac:mac]commandTransferMemoryDataWithUser:[iHealthDeviceManagerModule autherizedUserID] clientID:[iHealthDeviceManagerModule autherizedClientID] clientSecret:[iHealthDeviceManagerModule autherizedClientSecret] Authentication:^(UserAuthenResult result) {
-            
-        } totalCount:^(NSNumber *num) {
-            
-            if ([num integerValue] == 0) {
-                NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"historicaldata_bp" };
-                [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+        __weak typeof(self) weakSelf = self;
+        
+        [[self getDeviceWithMac:mac] commandTransferMemoryDataWithTotalCount:^(NSNumber *count) {
+            if ([count integerValue] == 0) {
+                NSDictionary* response = @{kACTION:kACTION_HISTORICAL_DATA_BP };
+                [BPProfileModule sendEventToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithDict:response];
             }
-            
-        } pregress:^(NSNumber *pregress) {
+        } progress:^(NSNumber *progress) {
             
         } dataArray:^(NSArray *array) {
-            
             NSMutableArray * tempArr = [[NSMutableArray alloc]init];
             
             for(NSDictionary *history in array)
@@ -202,23 +203,20 @@ RCT_EXPORT_METHOD(getOffLineData:(nonnull NSString *)mac){
             }
             
             if (tempArr.count > 0) {
-                NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"historicaldata_bp",@"data":[NSArray arrayWithArray:tempArr] };
-                [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+                NSDictionary* response = @{
+                                           kACTION:kACTION_HISTORICAL_DATA_BP,
+                                           kHISTORICAL_DATA_BP:[tempArr copy]
+                                           };
+                [BPProfileModule sendEventToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithDict:response];
             }
-            
-            
+
         } errorBlock:^(BPDeviceError error) {
-            
-            NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"error_bp",@"error":[NSNumber numberWithInteger:error]};
-            [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
-            
+            [BPProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithCode:error];
         }];
-        
+    
     }else{
         
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"error_bp",@"error":[NSNumber numberWithInteger:BPDidDisconnect]};
-        [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
-        
+        [BPProfileModule sendErrorToBridge:self.bridge eventNotify:EVENT_NOTIFY WithCode:BPDidDisconnect];
     }
     
     
@@ -232,8 +230,7 @@ RCT_EXPORT_METHOD(disconnect:(nonnull NSString *)mac){
         
     }else{
       
-        NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"error_bp",@"error":[NSNumber numberWithInteger:BPDidDisconnect]};
-        [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
+        [BPProfileModule sendErrorToBridge:self.bridge eventNotify:EVENT_NOTIFY WithCode:BPDidDisconnect];
     
     }
     

@@ -43,6 +43,25 @@ typedef enum{
 }UserIsAthelete;
 
 
+typedef enum{
+    iHealthSDK_BP= 0,
+    iHealthSDK_BG,
+    iHealthSDK_HS,
+    iHealthSDK_PO,
+    iHealthSDK_AM,
+    iHealthSDK_ECG,
+    iHealthSDK_TH,
+    iHealthSDK_All
+}SDKDeviceAccessType;
+
+typedef void(^DisposeSDKUserDeviceAccess)(NSArray*DeviceAccessArray);
+
+typedef void(^DisposeSDKUserValidationSuccess)(UserAuthenResult result);
+
+typedef void(^DisposeSDKUserValidationReturn)(NSString *userID);
+
+typedef void (^DisposeSDKUserValidationErrorBlock)(UserAuthenResult errorID);
+
 
 
 @interface HealthUser : NSObject
@@ -51,6 +70,7 @@ typedef enum{
 @property (nonatomic, strong) NSString * clientID;
 @property (nonatomic, strong) NSString * clientSecret;
 @property (nonatomic, strong) NSString * userID;
+@property (nonatomic, strong) NSString * userAccount;
 @property (nonatomic, strong) NSString * certificatePath;
 @property (nonatomic, strong) NSString * certificateSecret;
 

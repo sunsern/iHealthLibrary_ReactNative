@@ -48,7 +48,7 @@ class MainView extends Component {
             pickerEnabled: true,
             scanStatus: false
         };
-        AsyncStorage.getItem(STORAGE_KEY_DISCOVERY_TYPE, (err, type)=> {
+        AsyncStorage.getItem(STORAGE_KEY_DISCOVERY_TYPE, (err, type) => {
             if (err == null && type != null) {
                 let typNum = parseInt(type)
                 this.setState({
@@ -62,7 +62,10 @@ class MainView extends Component {
     authenConfigureInfo() {
         this.removeListener()
         this.addListener()
-        iHealthDeviceManagerModule.authenConfigureInfo('jing@q.aaa', '', '')
+        // iHealthDeviceManagerModule.authenAppSecret("appSecret", (authenResult) => {
+        //     console.log("authenResult:" + authenResult)
+        // })
+        iHealthDeviceManagerModule.authenConfigureInfo('jing@q.aaa', '708bde5b65884f8d9e579e33e66e8e80', '38ff62374a0d4aacadaf0e4fb4ed1931')
     }
 
 
@@ -251,9 +254,9 @@ class MainView extends Component {
                     onClick={(index) => {
                         if (index == 1) {
                             this.startDiscovery()
-                            try{
+                            try {
                                 AsyncStorage.setItem(STORAGE_KEY_DISCOVERY_TYPE, this.state.type.toString());
-                            } catch(error) {
+                            } catch (error) {
                                 console.warn('AsyncStorage error : ' + error.message)
                             }
                         }

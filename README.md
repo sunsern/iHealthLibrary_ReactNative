@@ -25,7 +25,7 @@
 	}   
 ```
 
-##Configure module for iOS
+##Configure module for iOS(Support in future)
 ```
 1. Open your iOS project, add node_modules/@ihealth/ihealthlibrary-react-native/ios/ReactNativeIOSLibrary.xcodeproj to libraries
 

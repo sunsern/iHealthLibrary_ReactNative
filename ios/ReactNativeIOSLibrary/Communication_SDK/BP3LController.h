@@ -7,11 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface BP3LController : NSObject{
-    
-    NSMutableArray *BP3LDeviceArray;
-}
+#import "BPMacroFile.h"
+@interface BP3LController : BPController
 
 /**
  * Initialize BP3L controller class
@@ -23,14 +20,5 @@
  */
 -(NSArray *)getAllCurrentBP3LInstace;
 
-/**
- * Restart search BP3L
- */
--(void)startSearchBP3L;
-
-/**
- * Stop search BP3L
- */
--(void)stopSearchBP3L;
 
 @end

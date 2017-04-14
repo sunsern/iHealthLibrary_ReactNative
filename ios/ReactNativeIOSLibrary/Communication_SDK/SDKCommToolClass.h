@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
-#define BTFlag self.framework.BtFlag
-
 //BluetoothState
 typedef void (^DisposeSDKBluetoothState)(BOOL BluetoothState);
 
@@ -19,13 +17,10 @@ typedef void (^DisposeSDKBluetoothState)(BOOL BluetoothState);
     DisposeSDKBluetoothState _disposeSDKBluetoothState;
     CBCentralManager *centralManager;
 }
-@property (nonatomic, assign) BOOL blueToothStatus;
 
 +(SDKCommToolClass *)shareSDKCommToolClass;
 
 //YES:ON   NO:Off
 -(void)commandGetBluetoothState:(DisposeSDKBluetoothState)disposeSDKBluetoothState;
-
--(BOOL)getTheBLEStatus;
 
 @end

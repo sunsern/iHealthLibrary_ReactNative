@@ -127,7 +127,7 @@ public class BG1ProfileModule extends ReactContextBaseJavaModule {
     /**
      * the expire time
      */
-    private static final String STRIP_EXPIRETIME_BG = "DATA_ID";
+    private static final String STRIP_EXPIRETIME_BG = "STRIP_EXPIRETIME_BG";
 
 
     /**

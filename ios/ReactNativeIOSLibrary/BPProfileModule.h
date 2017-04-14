@@ -29,6 +29,8 @@
 #define kACTION_DISENABLE_OFFLINE_BP @"disenable_offline_bp"
 #define kACTION_IS_ENABLE_OFFLINE @"offlinestatus"
 
+#define kMessage @"Message"
+#define kIDPS @"idps"
 #define kACTION @"action"
 #define kERROR_NUM_BP @"error"
 #define kBATTERY_BP @"battery"
@@ -59,7 +61,7 @@
 #define kFUNCTION_HAVE_HSD @"haveHSD"
 
 
-
-
++ (void)sendErrorToBridge:(RCTBridge *)bridge eventNotify:(NSString*)eventNotify WithCode:(NSInteger)errorCode;
++ (void)sendEventToBridge:(RCTBridge *)bridge eventNotify:(NSString*)eventNotify WithDict:(NSDictionary*)dict;
 
 @end

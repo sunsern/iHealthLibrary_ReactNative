@@ -11,22 +11,6 @@
 #ifndef AMDemoCode_AMMacroFile_h
 #define AMDemoCode_AMMacroFile_h
 
-/*
-    UserAuthen_RegisterSuccess: New-user registration succeeded.
-    UserAuthen_LoginSuccess: User login succeeded.
-    UserAuthen_CombinedSuccess: The user is an iHealth user as well, measurement via SDK has been activated, and the data from the measurement belongs to the user.
-    UserAuthen_TrySuccess: Testing without internet connection succeeded.
-    UserAuthen_InvalidateUserInfo: Userid/clientID/clientSecret verification failed.
-    UserAuthen_SDKInvalidateRight: SDK has not been authorized.
-    UserAuthen_UserInvalidateRight: User has not been authorized.
-    UserAuthen_InternetError: Internet error, verification failed.
-    The measurement via SDK will be operated in the case of 1-3, and will be terminated if any of 4-8 occurs. The interface needs to be re-called after analyzing the return parameters.
-    Notice: when a new user registers via SDK, an ‘iHealth disclaimer’ will pop up automatically, and will require the user to agree in order to continue. SDK applications require an Internet connection.
-*/
-typedef void (^BlockUserAuthentication)(UserAuthenResult result);//the result of userID verification
-
-//Uniquely identifies the user, the SDK requires this to be stored. This ID will be sent to the AM and will allow the AM to pair with only this user.
-typedef void (^CurrentSerialNub)(NSInteger serialNub);
 
 #define AM3Discover         @"AM3Discover"
 #define AM3ConnectFailed    @"AM3ConnectFailed"
@@ -456,6 +440,10 @@ typedef void (^DisposeAM4SettingSwimmingBlock)(BOOL resetSuc);//set swimming
 typedef void (^DisposeAM4StageMeasureDataBlock)(NSArray *measureDataArray);
 typedef void (^DisposeAM4StageMeasureFinishBlock)(BOOL resetSuc);
 typedef void (^DisposeAM4UserInfoBlock)(NSDictionary *userInfo);//query userinfo
+
+typedef void (^DisposeSendAM3DataBlock)();
+typedef void (^DisposeSendAM3SDataBlock)();
+typedef void (^DisposeSendAM4DataBlock)();
 
 
 #endif

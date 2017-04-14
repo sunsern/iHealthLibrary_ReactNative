@@ -52,11 +52,13 @@ module.exports = {
      *     </li>
      * </ul>
      * 
-     * @param {string} QRCode
+     * @param {string} QRCode the result string of scanning strip bottle(ignore if use GDH strip)
+     * @param {int} stripType 1:GOD      2:GDH
+     * @param {int} measureType 1:Test with Blood    2:Test with control liquid (CTL)
      */
-	sendCode: function(QRCode) {
+	sendCode: function(QRCode, stripType, measureType) {
         if (RCTModule != null) {
-            RCTModule.sendCode(QRCode);
+            RCTModule.sendCode(QRCode, stripType, measureType);
         }else {
             console.log('~~~~~ RCTModule is null')
         }
@@ -75,7 +77,7 @@ module.exports = {
      *          <tr><td>{@link module:BG1ProfileModule.STRIP_NUM_BG BG1ProfileModule.STRIP_NUM_BG("strip_num")}</td></tr>
      *          <tr><td>{@link module:BG1ProfileModule.STRIP_EXPIRETIME_BG BG1ProfileModule.STRIP_EXPIRETIME_BG("expire_time")}</td></tr>
      *          <tr><td>{@link module:BG1ProfileModule.BOTTLEID_BG BG1ProfileModule.BOTTLEID_BG("bottle_id")}</td></tr>
-     *          <tr><<td><br/> e.g. {"dataID":"B4D34EE3764178BBE858055473B18766","measure_result_for_bg1":131,"mac":"","type":"BG1","action":"action_measure_result_for_bg1"}</td></tr>
+     *          <tr><<td><br/> e.g. {"expire_time":"2017-07-15","strip_num":"25","bottle_id":"3998032623","action":"action_code_analysis"}</td></tr>
      *     </table>
      *     </li>
      *

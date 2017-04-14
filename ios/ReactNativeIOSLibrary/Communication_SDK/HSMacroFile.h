@@ -62,6 +62,119 @@ typedef enum{
     
 }HS5DeviceError;
 
+//HS6 Unit
+typedef enum{
+    IHHS6SDKUnitWeight_kg = 0,  //
+    IHHS6SDKUnitWeight_lbs,     //
+    IHHS6SDKUnitWeight_oz,     //
+} IHHS6SDKUnitWeight;           //WeightUnit
+
+
+
+#pragma mark HS3  Block
+//deviceID
+typedef void(^WeightID)(NSString *weightID);
+//HS3Error
+typedef void (^DisposeHS3ErrorBlock)(HS3DeviceError errorID);
+//Memory Number，0～200.
+typedef void (^DisposeHS3UploadDataNum)(NSNumber *uploadDataNum);
+//Memory transmission progress，0.0～1.0.
+typedef void (^DisposeHS3Progress)(float progress);
+//Record data including weight(kg), measure time，coordinated key：weight、date.
+typedef void (^HS3MemorryData)(NSDictionary *historyDataDic);
+//Start transmission
+typedef void (^StartHS3Transmission)(BOOL startTransmission);
+//Finish memory transmission.
+typedef void (^FinishHS3Transmission)();
+//Stable weight (Kg)
+typedef void (^StableHS3Weight)(NSDictionary *StableWeightDic);
+//
+typedef void (^FinishHS3Init)();
+//
+typedef void (^DisposeResult)(BOOL resetSuc);
+
+
+#pragma mark HS4  Block
+typedef void (^DisposeResult)(BOOL resetSuc);
+//HS4 error
+typedef void (^DisposeHS4ErrorBlock)(HS4DeviceError errorID);
+
+//Start Memory transmission
+typedef void (^StartHS4Transmission)(NSDictionary *startDataDictionary);
+//Memory transmission progress，0.0～1.0.
+typedef void (^DisposeProgress)(NSNumber *progress);
+//data including weight (kg), measurement time，coordinated key：weight，date.
+typedef void (^MemorryData)(NSArray *historyDataArray);
+//Finish memory transmission.
+typedef void (^FinishHS4Transmission)();
+//Current weight, (Kg)
+typedef void (^UnStableWeight)(NSNumber *unStableWeight);
+//Stable weight, (Kg)
+typedef void (^StableWeight)(NSDictionary *StableWeightDic);
+
+typedef void (^DisposeSendHS4DataBlock)();
+
+
+#pragma mark HS5  Block
+//Existing user info in HS5，including serialNub、Position of users. Related key: serialNumber、position
+typedef void (^MemorryUserListHS5Data)(NSArray *userListDataArray);
+//HS5 result
+typedef void (^DisposeHS5Result)(BOOL resetSuc);
+//HS5 error
+typedef void (^DisposeHS5ErrorBlock)(HS5DeviceError errorID);
+//Start memory transmission.
+typedef void (^StartHS5Transmission)(BOOL startHS5Transmission);
+//progress: Memory transmission progress，0.0～1.0.
+typedef void (^DisposeHS5Progress)(NSNumber *progress);
+// Record data，More details and key refer Measure API. Additionally add time-measure property, related key: date.
+typedef void (^MemorryHS5Data)(NSDictionary *historyDataDic);
+//Finish Memory Transmission
+typedef void (^FinishHS5Transmission)(BOOL finishHS5Transmission);
+//Current weight, (kg)
+typedef void (^UnStableHS5Weight)(NSNumber *unStableWeight);
+//Stable weight, (kg)
+typedef void (^StableHS5Weight)(NSNumber *StableWeight);
+//Weight by impedence, (kg)
+typedef void (^ImpedanceWeight)(NSNumber*ImpedanceWeight);
+//body info, includes weight(kg), fat content(%), water content(%), muscle content(%), bone mass, visceral fat level, DCI(Kcal). keys: weight, weightFatValue, waterValue, muscleValue, skeletonValue, VFatLevelValue, DCIValue
+typedef void (^BodyCompositionMeasurements)(NSDictionary*BodyCompositionInforDic);
+//
+typedef void (^GetScaleSuperPassword)(NSString*superPassword);
+//CurrentSerialNub
+typedef void (^CurrentSerialNub)(NSInteger serialNub);
+
+typedef void (^DisposeSendHS5DataBlock)();
+
+
+#pragma mark HS6  Block
+typedef void (^DisposeHS6SuccessBlock)(NSDictionary* deviceInfo);
+
+typedef void (^DisposeHS6FailBlock)(NSString* failmsg);
+
+typedef void (^DisposeHS6EndBlock)(NSDictionary* deviceDic);
+
+typedef void (^DisposeHS6ErrorBlock)(NSNumber* error);
+
+//Binding QR Device
+typedef void(^BinedQRDeviceBlock)(NSArray *resultArray);
+//Binding QR Device
+typedef void(^BinedQRDeviceErrorBlock)(NSString *errorCode);
+
+//unbind Device
+typedef void(^DisBinedQRDeviceBlock)(NSArray *resultArray);
+//unbind QR Device
+typedef void(^DisBinedQRDeviceErrorBlock)(NSString *errorCode);
+
+//typedef void (^BlockHS6UserAuthentication)(UserAuthenResult result);
+
+
+typedef void (^DisposeHS6GetOpenAPISuccessBlock)(NSDictionary* openAPIInfoDic);
+typedef void (^DisposeHS6GetOpenAPIErrorBlock)(NSDictionary *errorCode);
+
+typedef void (^DisposeHS6SyncWeightUnitSuccessBlock)(BOOL syncWeightUnit);
+typedef void (^DisposeHS6SyncWeightUnitErrorBlock)(NSString *errorCode);
+
+
 
 typedef void (^BlockUserAuthentication)(UserAuthenResult result);//the result of userID verification
 typedef void (^BlockDataFromCloud)(NSArray *dataArray);//the result of userID verification

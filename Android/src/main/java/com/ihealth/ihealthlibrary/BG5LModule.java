@@ -11,6 +11,10 @@ import com.ihealth.communication.control.Bg5Profile;
 import com.ihealth.communication.control.Bg5lControl;
 import com.ihealth.communication.manager.iHealthDevicesManager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -178,10 +182,19 @@ public class BG5LModule extends iHealthBaseModule {
     }
 
     @ReactMethod
-    public void setBottleId(String mac, double bottleID) {
+    public void setBottleId(String mac, String bottleID) {
+        long bottleId = 0;
+        try {
+            bottleId = Long.parseLong(bottleID);
+        } catch (NumberFormatException e) {
+            WritableMap params = Arguments.createMap();
+            params.putInt("errorid", 400);
+            sendEvent(EVENT_NOTIFY, params);
+            return;
+        }
         Bg5lControl bg5lControl = iHealthDevicesManager.getInstance().getBG5lControl(mac);
         if (bg5lControl != null) {
-            bg5lControl.setBottleId((long) bottleID);
+            bg5lControl.setBottleId(bottleId);
         } else {
             WritableMap params = Arguments.createMap();
             params.putInt("errorid", 400);
@@ -219,6 +232,35 @@ public class BG5LModule extends iHealthBaseModule {
         Log.e(TAG, msg);
     }
 
+    @ReactMethod
+    public void getBottleInfoFromQR(String QRCode) {
+        String result = Bg5lControl.getBottleInfoFromQR(QRCode);
+        Log.v(TAG, "code info = " + result);
+
+        JSONObject resultJsonStr = new JSONObject();
+
+        try {
+            JSONArray jsonArray = new JSONObject(result).getJSONArray("bottleInfo");
+            resultJsonStr.put("strip_num", ((JSONObject) jsonArray.get(0)).getString("stripNum"));
+            resultJsonStr.put("expire_time", ((JSONObject) jsonArray.get(0)).getString("overDate"));
+            resultJsonStr.put("bottle_id", ((JSONObject) jsonArray.get(0)).getString("bottleId"));
+
+        } catch (JSONException e) {
+            try {
+                resultJsonStr.put("description","QRCode format error");
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+
+        WritableMap params = Arguments.createMap();
+        params.putString("action", "action_code_analysis");
+        if (!TextUtils.isEmpty(resultJsonStr.toString())) {
+            Utils.jsonToMap(resultJsonStr.toString(), params);
+        }
+        sendEvent(EVENT_NOTIFY, params);
+    }
     @Override
     public void handleNotify(String mac, String deviceType, String action, String message) {
         switch (action) {

@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface BP7SController : NSObject{
+#import "BPController.h"
+@interface BP7SController : BPController{
     NSMutableArray *BP7SDeviceArray;
 }
 
@@ -22,15 +22,6 @@
  */
 -(NSArray *)getAllCurrentBP7SInstace;
 
-/**
- * Restart search BP7S
- */
--(void)startSearchBP7S;
-
-/**
- * Stop search BP7S
- */
--(void)stopSearchBP7S;
 
 
 

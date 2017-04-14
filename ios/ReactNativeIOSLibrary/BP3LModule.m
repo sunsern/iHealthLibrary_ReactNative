@@ -49,11 +49,9 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
-        [[self getDeviceWithMac:mac] commandStartMeasureWithUser:[iHealthDeviceManagerModule autherizedUserID] clientID:[iHealthDeviceManagerModule autherizedClientID] clientSecret:[iHealthDeviceManagerModule autherizedClientSecret] Authentication:^(UserAuthenResult result) {
-            NSLog(@"authen %d",result);
-            if (result != UserAuthen_LoginSuccess) {
-                [self sendErrorWithCode:result];
-            }
+        __weak typeof(self) weakSelf = self;
+        
+        [[self getDeviceWithMac:mac] commandStartMeasureWithZeroingState:^(BOOL isComplete) {
             
         } pressure:^(NSArray *pressureArr) {
             NSLog(@"pressure %@",pressureArr);
@@ -61,64 +59,65 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
                                        kACTION:kACTION_ONLINE_PRESSURE_BP,
                                        kBLOOD_PRESSURE_BP:pressureArr.firstObject,
                                        };
-            [self sendEventWithDict:response];
-        } xiaoboWithHeart:^(NSArray *xiaoboArr) {
-            NSLog(@"xiaoboWithHeart %@",xiaoboArr);
+            [BPProfileModule sendEventToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithDict:response];
+        } waveletWithHeartbeat:^(NSArray *waveletArr) {
+            NSLog(@"xiaoboWithHeart %@",waveletArr);
             NSDictionary* response = @{
                                        kACTION:kACTION_ONLINE_PULSEWAVE_BP,
-                                       kBLOOD_PRESSURE_BP:xiaoboArr.firstObject,
+                                       kBLOOD_PRESSURE_BP:waveletArr.firstObject,
                                        kFLAG_HEARTBEAT_BP:@(1),
-                                       kPULSEWAVE_BP:xiaoboArr
+                                       kPULSEWAVE_BP:waveletArr
                                        };
-            [self sendEventWithDict:response];
-        } xiaoboNoHeart:^(NSArray *xiaoboArr) {
-            NSLog(@"xiaoboNoHeart %@",xiaoboArr);
+            [BPProfileModule sendEventToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithDict:response];
+        } waveletWithoutHeartbeat:^(NSArray *waveletArr) {
+            NSLog(@"xiaoboNoHeart %@",waveletArr);
             NSDictionary* response = @{
                                        kACTION:kACTION_ONLINE_PULSEWAVE_BP,
-                                       kBLOOD_PRESSURE_BP:xiaoboArr.firstObject,
+                                       kBLOOD_PRESSURE_BP:waveletArr.firstObject,
                                        kFLAG_HEARTBEAT_BP:@(0),
-                                       kPULSEWAVE_BP:xiaoboArr
+                                       kPULSEWAVE_BP:waveletArr
                                        };
-            [self sendEventWithDict:response];
-        } result:^(NSDictionary *dic) {
-            NSLog(@"result %@",dic);
+            [BPProfileModule sendEventToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithDict:response];
+        } result:^(NSDictionary *resultDict) {
+            NSLog(@"result %@",resultDict);
             NSDictionary* response = @{
                                        kACTION:kACTION_ONLINE_RESULT_BP,
-                                       kHIGH_BLOOD_PRESSURE_BP:dic[@"sys"],
-                                       kLOW_BLOOD_PRESSURE_BP:dic[@"dia"],
-                                       kPULSE_BP:dic[@"heartRate"],
-                                       kMEASUREMENT_AHR_BP:dic[@"irregular"],
-                                       kDATAID:dic[@"dataID"],
+                                       kHIGH_BLOOD_PRESSURE_BP:resultDict[@"sys"],
+                                       kLOW_BLOOD_PRESSURE_BP:resultDict[@"dia"],
+                                       kPULSE_BP:resultDict[@"heartRate"],
+                                       kMEASUREMENT_AHR_BP:resultDict[@"irregular"],
+                                       kDATAID:resultDict[@"dataID"],
                                        };
-            [self sendEventWithDict:response];
+            [BPProfileModule sendEventToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithDict:response];
         } errorBlock:^(BPDeviceError error) {
             NSLog(@"error %d",error);
-            [self sendErrorWithCode:error];
+            [BPProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithCode:error];
         }];
+            
     }else{
         NSLog(@"error %d",BPDidDisconnect);
-        [self sendErrorWithCode:BPDidDisconnect];
+        [BPProfileModule sendErrorToBridge:self.bridge eventNotify:EVENT_NOTIFY WithCode:BPDidDisconnect];
     }
     
     
 }
 
 RCT_EXPORT_METHOD(stopMeasure:(nonnull NSString *)mac){
-    
+    __weak typeof(self) weakSelf = self;
     if ([self getDeviceWithMac:mac]!=nil) {
         [[self getDeviceWithMac:mac] stopBPMeassureErrorBlock:^{
             
             NSDictionary* response = @{
                                        kACTION:kACTION_INTERRUPTED_BP,
                                        };
-            [self sendEventWithDict:response];
+            [BPProfileModule sendEventToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithDict:response];
         } errorBlock:^(BPDeviceError error) {
             NSLog(@"error %d",error);
-            [self sendErrorWithCode:error];
+            [BPProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithCode:error];
         }];
     }else{
         NSLog(@"error %d",BPDidDisconnect);
-        [self sendErrorWithCode:BPDidDisconnect];
+        [BPProfileModule sendErrorToBridge:self.bridge eventNotify:EVENT_NOTIFY WithCode:BPDidDisconnect];
     }
     
     
@@ -127,19 +126,20 @@ RCT_EXPORT_METHOD(stopMeasure:(nonnull NSString *)mac){
 RCT_EXPORT_METHOD(getBattery:(nonnull NSString *)mac){
     
     if ([self getDeviceWithMac:mac]!=nil) {
+        __weak typeof(self) weakSelf = self;
         [[self getDeviceWithMac:mac] commandEnergy:^(NSNumber *energyValue) {
             NSDictionary* response = @{
                                        kACTION:kACTION_BATTERY_BP,
                                        kBATTERY_BP:energyValue
                                        };
-            [self sendEventWithDict:response];
+            [BPProfileModule sendEventToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithDict:response];
         } errorBlock:^(BPDeviceError error) {
             NSLog(@"error %d",error);
-            [self sendErrorWithCode:error];
+            [BPProfileModule sendErrorToBridge:weakSelf.bridge eventNotify:EVENT_NOTIFY WithCode:error];
         }];
     }else{
         NSLog(@"error %d",BPDidDisconnect);
-        [self sendErrorWithCode:BPDidDisconnect];
+        [BPProfileModule sendErrorToBridge:self.bridge eventNotify:EVENT_NOTIFY WithCode:BPDidDisconnect];
     }
     
     
@@ -151,18 +151,11 @@ RCT_EXPORT_METHOD(disconnect:(nonnull NSString *)mac){
         [[self getDeviceWithMac:mac] commandDisconnectDevice];
     }else{
         NSLog(@"error %d",BPDidDisconnect);
-        [self sendErrorWithCode:BPDidDisconnect];
+        [BPProfileModule sendErrorToBridge:self.bridge eventNotify:EVENT_NOTIFY WithCode:BPDidDisconnect];
     }
     
     
 }
 
-- (void)sendErrorWithCode:(NSInteger)errorCode{
-    [self sendEventWithDict:@{kACTION:kACTION_ERROR_BP,kERROR_NUM_BP:@(errorCode)}];
-}
-
-- (void)sendEventWithDict:(NSDictionary*)dict{
-    [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:dict];
-}
 
 @end

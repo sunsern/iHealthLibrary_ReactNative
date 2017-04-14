@@ -9,9 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "BG1.h"
 
-@interface BG1Controller : NSObject{
-    NSMutableArray *bg1Array;
-}
+@interface BG1Controller : NSObject
+
 
 /**
  * Initialization for BG1Controller Instance.

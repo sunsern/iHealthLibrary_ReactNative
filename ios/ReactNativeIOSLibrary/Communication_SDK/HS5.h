@@ -11,69 +11,8 @@
 #import "HSMacroFile.h"
 
 
-//Existing user info in HS5，including serialNub、Position of users. Related key: serialNumber、position
-typedef void (^MemorryUserListHS5Data)(NSArray *userListDataArray);
-//HS5 result
-typedef void (^DisposeHS5Result)(BOOL resetSuc);
-//HS5 error
-typedef void (^DisposeHS5ErrorBlock)(HS5DeviceError errorID);
-//Start memory transmission.
-typedef void (^StartHS5Transmission)(BOOL startHS5Transmission);
-//progress: Memory transmission progress，0.0～1.0.
-typedef void (^DisposeHS5Progress)(NSNumber *progress);
-// Record data，More details and key refer Measure API. Additionally add time-measure property, related key: date.
-typedef void (^MemorryHS5Data)(NSDictionary *historyDataDic);
-//Finish Memory Transmission
-typedef void (^FinishHS5Transmission)(BOOL finishHS5Transmission);
-//Current weight, (kg)
-typedef void (^UnStableHS5Weight)(NSNumber *unStableWeight);
-//Stable weight, (kg)
-typedef void (^StableHS5Weight)(NSNumber *StableWeight);
-//Weight by impedence, (kg)
-typedef void (^ImpedanceWeight)(NSNumber*ImpedanceWeight);
-//body info, includes weight(kg), fat content(%), water content(%), muscle content(%), bone mass, visceral fat level, DCI(Kcal). keys: weight, weightFatValue, waterValue, muscleValue, skeletonValue, VFatLevelValue, DCIValue
-typedef void (^BodyCompositionMeasurements)(NSDictionary*BodyCompositionInforDic);
-//
-typedef void (^GetScaleSuperPassword)(NSString*superPassword);
-//CurrentSerialNub
-typedef void (^CurrentSerialNub)(NSInteger serialNub);
 
-@interface HS5 : NSObject{
-    
-    MemorryUserListHS5Data _memorryUserListHS5Data;
-    DisposeHS5ErrorBlock _disposeHS5ErrorBlock;
-    StartHS5Transmission _startHS5Transmission;
-    DisposeHS5Progress _disposeHS5Progress;
-    FinishHS5Transmission _finishHS5Transmission;
-    MemorryHS5Data _memorryHS5Data;
-    UnStableHS5Weight _unStableHS5Weight;
-    StableHS5Weight _stableHS5Weight;
-
-    
-    ImpedanceWeight _impedanceWeight;
-    BodyCompositionMeasurements _bodyCompositionMeasurements;
-    DisposeHS5Result _disposeHS5Result;
-    GetScaleSuperPassword _getScaleSuperPassword;
-    CurrentSerialNub _currentSerialNub;
-    NSMutableData *serverAddress;
-    NSNumber *userHS5Position;
-    NSTimer*startTimer;
-    BOOL TestMode;
-    
-    //
-    BlockUserAuthentication _disposeAuthenticationBlock;
-    HealthUser *myUser;
-    
-    NSString *thirdUserID;
-    NSString *clientSDKUserName;
-    NSString *clientSDKID;
-    NSString *clientSDKSecret;
-    BOOL modelVerifyOK;
-    
-    //
-    NSMutableDictionary *serialAndPositionDic;
-}
-
+@interface HS5 : NSObject
 
 @property (retain, nonatomic) NSString *currentUUID;
 @property (retain, nonatomic) NSString *deviceID;
@@ -89,24 +28,13 @@ typedef void (^CurrentSerialNub)(NSInteger serialNub);
     height: the height of a user (cm);
     clientID & clientSecret: the only identification for users of the SDK, requires registration from iHealth administrator, please email: heguangming@ihealthlabs.com.cn for more information.
  Return Parameters:
-    disposeAuthenticationBlock: The return parameters of ’‘userid’, ‘height’, ’clientID’, and ‘clientSecret’ after verification
- 
-    The interpretation for the verification:
-        UserAuthen_RegisterSuccess: New-user registration succeeded.
-        UserAuthen_LoginSuccess: User login succeeded.
-        UserAuthen_CombinedSuccess: The user is an iHealth user as well, measurement via SDK has been activated, and the    data from the measurement belongs to the user.
-        UserAuthen_TrySuccess: Testing without internet connection succeeded.
-        UserAuthen_InvalidateUserInfo: Userid/clientID/clientSecret verification failed.
-        UserAuthen_SDKInvalidateRight: SDK has not been authorized.
-        UserAuthen_UserInvalidateRight: User has not been authorized.
-        UserAuthen_InternetError: Internet error, verification failed.
     The measurement via SDK will be operated in the case of 1-3, and will be terminated if any of 4-8 occurs. The interface needs to be re-called after analyzing the return parameters.
     Notice: when a new user registers via SDK, an ‘iHealth disclaimer’ will pop up automatically, and will require the user to agree in order to continue. SDK applications require an Internet connection; UserAuthen_TrySuccess is invalidate for HS5.
     SerialNub: The only identification of a user，should be reserved in third party apps，provide to other Apps [Range:0~0xFFFFFFF]
     MemorryUserListHS5Data：Existing user info in HS5，including serialNub、Position of users. Related key: serialNumber、position
     disposeErrorBlock：error codes in transmission process: Errors in HS5
 */
--(void)commandCreateUserManageConnectWithUser:(HealthUser *)tempUser Authentication:(BlockUserAuthentication)disposeAuthenticationBlock currentUserSerialNub:(CurrentSerialNub)serialNub deviceUserList:(MemorryUserListHS5Data) MemorryUserListHS5Data Disposehs5ErrorBlock:(DisposeHS5ErrorBlock)disposeErrorBlock;
+-(void)commandCreateUserManageConnectWithUser:(HealthUser *)tempUser  currentUserSerialNub:(CurrentSerialNub)serialNub deviceUserList:(MemorryUserListHS5Data) MemorryUserListHS5Data Disposehs5ErrorBlock:(DisposeHS5ErrorBlock)disposeErrorBlock;
 
 /*Create new user*/
 //Use the function if the SerialNub of current user is not included in user list of HS5 and the user number is less than 20
@@ -180,11 +108,17 @@ typedef void (^CurrentSerialNub)(NSInteger serialNub);
 -(void)commandCreateMeasureWithUser:(HealthUser *)tempUser unStableWeight:(UnStableHS5Weight)unStableHS5Weight MeasureWeight:(StableHS5Weight)stableHS5Weight ImpedanceType:(ImpedanceWeight)impedanceWeight BodyCompositionMeasurements:(BodyCompositionMeasurements)bodyCompositionMeasurements Disposehs5ErrorBlock:(DisposeHS5ErrorBlock)disposeErrorBlock;
 
 
-/**/
+/*Stop Current Action*/
 -(void)commandEndCurrentConnect:(DisposeHS5Result)disposeHS5Result Disposehs5ErrorBlock:(DisposeHS5ErrorBlock)disposeErrorBlock;
-/**/
+/*Clean HS5*/
+/*
+ Explanation:Delete current Auten Device and then rebuild connection.
+ Return Parameters:
+ disposeHS5Result: Success:Yes，Fail:No.
+ disposeErrorBlock: error codes in transmission process: Errors in HS5
+ */
 -(void)commandcleanDeviceDisposeHS5Result:(DisposeHS5Result)disposeHS5Result Disposehs5ErrorBlock:(DisposeHS5ErrorBlock)disposeErrorBlock;
 
-/**/
+/*Rebuild UDP connection*/
 -(void)commandRebuildUdpLinker;
 @end

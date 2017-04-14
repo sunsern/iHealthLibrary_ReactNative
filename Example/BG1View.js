@@ -70,7 +70,7 @@ export default class BG1View extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            QRCode:"02ABCDE67C284BA29ACDFEE6E60A2FE43EDF0C"
+            QRCode:"02554064554014322D1200A05542D3BACE1446CE9A96190122EFEE4D1864"
         }
 
     }
@@ -150,12 +150,12 @@ export default class BG1View extends Component {
         }
     }
 
-    _sendCode() {
-        BG1Module.sendCode(this.state.QRCode);
+    _sendCode(QRCode,stripType,measureType) {
+        BG1Module.sendCode(QRCode,stripType,measureType);
     }
 
-    _getBottleInfoFromQR() {
-       BG1Module.getBottleInfoFromQR(this.state.QRCode);
+    _getBottleInfoFromQR(QRCode) {
+       BG1Module.getBottleInfoFromQR(QRCode);
     }
 
 
@@ -168,7 +168,7 @@ export default class BG1View extends Component {
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._getBottleInfoFromQR()}>
+                        onPress={() => this._getBottleInfoFromQR(this.state.QRCode)}>
                         <Text style={styles.buttonText}>
                            parseCodeInfo
                         </Text>
@@ -176,7 +176,7 @@ export default class BG1View extends Component {
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => this._sendCode()}>
+                        onPress={() => this._sendCode(this.state.QRCode,1,1)}>
                         <Text style={styles.buttonText}>
                             sendCode
                         </Text>

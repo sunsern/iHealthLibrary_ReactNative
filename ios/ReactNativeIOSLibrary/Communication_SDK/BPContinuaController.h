@@ -11,12 +11,16 @@
 
 @interface BPContinuaController : NSObject{
     
-    NSMutableArray *BPContinuaDeviceArray;
 }
 
+/**
+ * Initialize contina BP controller class
+ */
 +(BPContinuaController *)shareBPContinuaController;
 
-//获取当前所有HS3实例
+/**
+ * Get all ContinuaBP instance,Access control class instance after receiving ContinuaBPConnectNoti, then use instance to call ContinuaBP related communication methods.
+ */
 -(NSArray *)getAllCurrentBPContinuaInstace;
 
 @end

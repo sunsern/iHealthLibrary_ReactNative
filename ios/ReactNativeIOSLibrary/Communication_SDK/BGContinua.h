@@ -25,7 +25,7 @@ typedef void(^BlockPressure)(NSArray *pressureArr);
 typedef void(^BlockXioaboWithHeart)(NSArray *xiaoboArr);
 typedef void(^BlockXioaboNoHeart)(NSArray *xiaoboArr);
 typedef void(^BlockZero)(BOOL isComplete);
-typedef void(^BlockMesureResult)(NSDictionary *dic);
+typedef void(^BlockMeasureResult)(NSDictionary *dic);
 typedef void(^BlockStopResult)(BOOL result);
 typedef void(^BlockDelPortResult)(BOOL result);
 
@@ -34,10 +34,10 @@ typedef void(^BlockDelPortResult)(BOOL result);
     BlockEnergyValue _blockEnergyValue;
     DisposeBGErrorBlock _blockError;
     
-    BlockXioaboWithHeart _blockXiaoboArr;
-    BlockXioaboNoHeart _blockXiaoboArrNoHeart;
+    BlockXioaboWithHeart _blockWaveletWithHeartbeat;
+    BlockXioaboNoHeart _blockWaveletWithoutHeartbeat;
     BlockPressure _blockPressureArr;
-    BlockMesureResult _blockMesureResult;
+    BlockMeasureResult _blockMesureResult;
     
     DisposeBGDataCount _disposeBGDataCount;
     DisposeBGHistoryData _disposeBGHistoryData;

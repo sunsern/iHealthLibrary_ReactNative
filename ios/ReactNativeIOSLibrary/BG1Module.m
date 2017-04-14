@@ -49,7 +49,6 @@ RCT_EXPORT_MODULE()
     BG1 *bg1Instance = [controller getCurrentBG1Instance];
     if(bg1Instance != nil)
     {
-        bg1Instance.reactNativeFlg = @YES; //reactNative开关，YES时不走SDK认证等，NO走SDK所有流程。
         return bg1Instance;
     }
     else
@@ -82,21 +81,19 @@ RCT_EXPORT_METHOD(sendCode:(nonnull NSNumber *)codeType:(nonnull NSNumber *)test
         NSNumber *remainNum = [codeDic objectForKey:@"stripNum"];
         
         BGMeasureMode *bgMeasureModel = BGMeasureMode_Blood;
-        if(codeType.integerValue == 2)
-        {
+//        if(codeType.integerValue == 2)
+//        {
             bgMeasureModel = BGMeasureMode_NoBlood;
-        }
+//        }
         
         BGCodeMode *bgCodeModel =BGCodeMode_GOD;
-        if(codeType.integerValue == 2)
-        {
+//        if(codeType.integerValue == 2)
+//        {
             bgCodeModel = BGCodeMode_GDH;
-        }
+//        }
         
         
-        [[self getBG1Instance]commandCreateBGtestWithUser:@"noUser" clientID:nil clientSecret:nil Authentication:^(UserAuthenResult result) {
-            
-        } WithMeasureType:bgMeasureModel CodeType:bgCodeModel CodeString:QR DisposeBGSendCodeBlock:^(BOOL sendOk) {
+        [[self getBG1Instance]commandCreateBGtestWithMeasureType:bgMeasureModel CodeType:bgCodeModel CodeString:QR DisposeBGSendCodeBlock:^(BOOL sendOk) {
             
             NSDictionary* deviceInfo = @{@"mac":@"",@"action":@"action_sendcode_result_for_bg1",@"set_bottle_message":@true};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
@@ -137,6 +134,7 @@ RCT_EXPORT_METHOD(sendCode:(nonnull NSNumber *)codeType:(nonnull NSNumber *)test
             
         }];
         
+                
         
     }else{
         

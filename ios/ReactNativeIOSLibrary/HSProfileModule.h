@@ -26,7 +26,7 @@
 
 
 #define ACTION_HISTORICAL_DATA_HS  @"historicaldata_hs"
-#define HISTORYDATA__HS  @"historyData"
+#define HISTORDATA__HS  @"historyData"
 #define MEASUREMENT_DATE_HS  @"date"
 #define ACTION_NO_HISTORICALDATA  @"noHistoryData"
 

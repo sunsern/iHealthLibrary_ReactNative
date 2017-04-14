@@ -54,7 +54,7 @@ RCT_EXPORT_MODULE()
     for(BG5L *tempBG5L in BGDeviceArray){
         if([mac isEqualToString:tempBG5L.serialNumber]){
            
-            tempBG5L.reactNativeFlg = @YES; //reactNative开关，YES时不走SDK认证等，NO走SDK所有流程。
+//            tempBG5L.reactNativeFlg = @YES; //reactNative开关，YES时不走SDK认证等，NO走SDK所有流程。
             return tempBG5L;
             break;
         }
@@ -101,7 +101,7 @@ RCT_EXPORT_METHOD(getBattery:(nonnull NSString *)mac){
     
     if ([self getBG5LWithMac:mac]!=nil) {
         
-        [self getBG5LWithMac:mac].reactNativeFlg = @YES; //reactNative开关，YES时不走SDK认证等，NO走SDK所有流程。
+//        [self getBG5LWithMac:mac].reactNativeFlg = @YES; //reactNative开关，YES时不走SDK认证等，NO走SDK所有流程。
 
         
         [[self getBG5LWithMac:mac] commandQueryBattery:^(NSNumber *energy) {
@@ -216,6 +216,7 @@ RCT_EXPORT_METHOD(getBottleId:(nonnull NSString *)mac){
 
 RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac :(nonnull NSNumber *)testType){
     
+    /*
     
     if ([self getBG5LWithMac:mac]!=nil) {
         
@@ -284,7 +285,7 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac :(nonnull NSNumber *)test
         NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":@100 };
         [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
     }
-    
+    */
 }
 
 RCT_EXPORT_METHOD(getOfflineData:(nonnull NSString *)mac){
@@ -401,7 +402,7 @@ RCT_EXPORT_METHOD(setBottleMessageWithInfo:(nonnull NSString *)mac :(nonnull NSN
             {
                 //插条开机
                 openModelNum = @1;
-                
+                /*
                 [[self getBG5LWithMac:mac]commandCreateBGtestStripInBlock:^(BOOL stripIn) {
                     NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_strip_in_bg"};
                     [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
@@ -443,7 +444,7 @@ RCT_EXPORT_METHOD(setBottleMessageWithInfo:(nonnull NSString *)mac :(nonnull NSN
                     NSDictionary* deviceInfo = @{@"mac":mac,@"action":@"action_measure_error",@"error_num":errorID};
                     [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
                 }];
-                
+                */
             }
             else
             {

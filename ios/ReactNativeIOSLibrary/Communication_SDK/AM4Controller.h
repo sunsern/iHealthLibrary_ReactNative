@@ -24,15 +24,5 @@
 -(NSArray *)getAllCurrentAM4Instace;
 
 
-/**
- * Restart search AM4
- */
--(void)startSearchAM4;
-
-
-/**
- * Stop search AM4
- */
--(void)stopSearchAM4;
 
 @end

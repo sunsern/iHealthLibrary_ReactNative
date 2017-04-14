@@ -91,25 +91,26 @@ RCT_EXPORT_METHOD(startMeasure:(nonnull NSString *)mac){
     
     
     if ([self getPO3WithMac:mac]!=nil) {
-        [[self getPO3WithMac:mac] commandStartPO3MeasureData:^(BOOL startData) {
+        
+        [[self getPO3WithMac:mac] commandPO3StartMeasure:^(BOOL resetSuc) {
             
-        } Measure:^(NSDictionary *measureDataDic) {
+        } withMeasureData:^(NSDictionary *measureDataDic) {
             
             NSDictionary* deviceInfo = @{@"action":@"ACTION_LIVEDA_PO",@"pulseWave":[measureDataDic valueForKey:@"wave"],@"dataID":[measureDataDic valueForKey:@"dataID"],@"pi":[measureDataDic valueForKey:@"PI"],@"pulsestrength":[measureDataDic valueForKey:@"bpm"],@"bloodoxygen":[measureDataDic valueForKey:@"spo2"],@"heartrate":[measureDataDic valueForKey:@"height"]};
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
             
             resultDic=[[NSMutableDictionary alloc] initWithDictionary:deviceInfo];
             
-        } FinishPO3MeasureData:^(BOOL finishData) {
-           
+        } withFinishMeasure:^(BOOL finishData) {
+            
             [resultDic setValue:@"ACTION_LIVEDA_PO" forKey:POACTION];
-           
+            
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:resultDic];
             
-            
-        } DisposeErrorBlock:^(PO3ErrorID errorID) {
+        } withErrorBlock:^(PO3ErrorID errorID) {
             
         }];
+        
     }else{
         
         NSDictionary* deviceInfo = @{@"action":@"ACTION_ERROR_PO",@"error_po":@"disconnect"};
@@ -124,29 +125,27 @@ RCT_EXPORT_METHOD(getHistoryData:(nonnull NSString *)mac){
     
     if ([self getPO3WithMac:mac]!=nil) {
         
-        [[self getPO3WithMac:mac] commandDisposePO3DataCount:^(NSNumber *dataCount) {
+        [[self getPO3WithMac:mac] commandPO3OfflineDataCount:^(NSNumber *dataCount) {
             
-        } TransferMemorryData:^(BOOL startData) {
+        } withStartUpload:^(BOOL resetSuc) {
             
-        } Memory:^(NSDictionary *historyDataDic) {
-            
+        } withOfflineData:^(NSDictionary *OfflineData) {
             NSDictionary* deviceInfo = @{
                                          POACTION:@"ACTION_OFFLINEDATA_PO",
-                                         @"measureDate":[historyDataDic valueForKey:@"date"],
-                                         @"dataID":[historyDataDic valueForKey:@"dataID"],
-                                         @"pulseWave":[historyDataDic valueForKey:@"wave"],
-                                         @"pulsestrength":[historyDataDic valueForKey:@"height"],
-                                         @"bloodoxygen":[historyDataDic valueForKey:@"spo2"],
-                                         @"heartrate":[historyDataDic valueForKey:@"height"]};
+                                         @"measureDate":[OfflineData valueForKey:@"date"],
+                                         @"dataID":[OfflineData valueForKey:@"dataID"],
+                                         @"pulseWave":[OfflineData valueForKey:@"wave"],
+                                         @"pulsestrength":[OfflineData valueForKey:@"height"],
+                                         @"bloodoxygen":[OfflineData valueForKey:@"spo2"],
+                                         @"heartrate":[OfflineData valueForKey:@"height"]};
             
             [self.bridge.eventDispatcher sendDeviceEventWithName:EVENT_NOTIFY body:deviceInfo];
 
+        } withOfflineWaveData:^(NSDictionary *offlineWaveDataDic) {
             
-        } DisposePO3WaveHistoryData:^(NSDictionary *waveHistoryDataDic) {
+        } withFinishMeasure:^(BOOL resetSuc) {
             
-        } FinishTransmission:^(BOOL finishData) {
-            
-        } DisposeErrorBlock:^(PO3ErrorID errorID) {
+        } withErrorBlock:^(PO3ErrorID errorID) {
             
         }];
         

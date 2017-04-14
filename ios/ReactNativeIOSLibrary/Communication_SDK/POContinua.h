@@ -15,7 +15,6 @@
 @property (strong, nonatomic) NSString *firmwareVersion;
 
 
--(void)commandContinuaPOCreateUserManageConnectWithUser:(HealthUser *)tempUser withAuthenticationResult:(BlockUserAuthentication)authenticationResultBlock withCurrentUserID:(CurrentSerialNub)currentUserIDBlock withErrorBlock:(DisposeContinuaPOErrorBlock)errorBlock;
 
 
 -(void)commandContinuaPOGetDeviceBattery:(DisposeContinuaPOBatteryBlock)batteryBlock withErrorBlock:(DisposeContinuaPOErrorBlock)errorBlock;

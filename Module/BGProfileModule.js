@@ -228,7 +228,7 @@ module.exports = {
      * <b>Example:</b><br/>
      * {<br/>
      * &nbsp; &nbsp; "action": "action_setbottleid_success",<br/>
-	 * &nbsp; &nbsp; "set_bottle_message": true <br/>
+	 * &nbsp; &nbsp; "set_bottle_id": true <br/>
 	 * }<br/>
      */
     ACTION_SET_BOTTLEID: RCTModule.ACTION_SET_BOTTLEID,
@@ -353,29 +353,9 @@ module.exports = {
     ERROR_DESCRIPTION_BG: RCTModule.ERROR_DESCRIPTION_BG,
 
     /**
-     * Keep link value.
-     */
-    KEEP_LINK: RCTModule.KEEP_LINK,
-
-    /**
-     * Set time value.
-     */
-    SET_TIME: RCTModule.SET_TIME,
-
-    /**
-     * Set time value.
-     */
-    SET_UNIT: RCTModule.SET_UNIT,
-
-    /**
      * Get battery value.
      */
     GET_BATTERY: RCTModule.GET_BATTERY,
-
-    /**
-     * Start measure value.
-     */
-    START_MEASURE: RCTModule.START_MEASURE,
 
     /**
      * Get offlin data count value.
@@ -388,14 +368,21 @@ module.exports = {
     GET_OFFLINEDATA: RCTModule.GET_OFFLINEDATA,
 
     /**
-     * Delete offline data value.
-     */
-    DELETE_OFFLINEDATA: RCTModule.DELETE_OFFLINEDATA,
-
-    /**
      * Set bottle message value.
      */
     SET_BOTTLEMESSAGE: RCTModule.SET_BOTTLEMESSAGE,
+
+    /**
+     * the start mode of Bg5 device.
+     * <li>
+     * value=1, start by insert strip, no need to call <BG5Module.startMeasure> 
+     * </li>
+     * <li>
+     * value=2, start by tap the button, need to call <BG5Module.startMeasure> 
+     * </li>
+     * </ul>
+     */
+    START_MODE: RCTModule.START_MODE,
 
     /**
      * Get bottle message value.
@@ -407,10 +394,6 @@ module.exports = {
      */
     GET_USENUM: RCTModule.GET_USENUM,
 
-    /**
-     * Set bottle ID value.
-     */
-    SET_BOTTLEID: RCTModule.SET_BOTTLEID,
 
     /**
      * Get bottle ID value.
@@ -426,4 +409,24 @@ module.exports = {
      * The dataID measured by device
      */
     DATA_ID: RCTModule.DATA_ID,
+
+    /**
+     * Callback indicating the code analysis result.
+     */
+    ACTION_CODE_ANALYSIS:RCTModule.ACTION_CODE_ANALYSIS,
+
+    /**
+     * the strip number
+     */
+    STRIP_NUM_BG:RCTModule.STRIP_NUM_BG,
+
+    /**
+     * the expire time
+     */
+    STRIP_EXPIRETIME_BG:RCTModule.STRIP_EXPIRETIME_BG,
+
+    /**
+     * the bottle id
+     */
+    BOTTLEID_BG:RCTModule.BOTTLEID_BG
 }

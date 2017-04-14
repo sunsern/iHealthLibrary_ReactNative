@@ -1,0 +1,2438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: BGProfileModule</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Module: BGProfileModule</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".ACTION_DELETE_OFFLINEDATA"><span class="type-signature">(static) </span>ACTION_DELETE_OFFLINEDATA<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of delete offline data command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_DELETE_OFFLINEDATA</td></tr>
+<tr><td>BGProfileModule.DELETE_OFFLINEDATA</td><td>delete offline data command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_delete_historical_data",<br/>
+&nbsp; &nbsp; "delete_historical_data": true <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line179">line 179</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_ERROR_BG"><span class="type-signature">(static) </span>ACTION_ERROR_BG<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the error of BG device.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_ERROR_BG</td></tr>
+<tr><td>BGProfileModule.ERROR_NUM_BG</td><td> The error num</td></tr>
+<tr><td>BGProfileModule.ERROR_DESCRIPTION_BG</td><td>Detailed description of the error</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_measure_error",<br/>
+&nbsp; &nbsp; "error": 400,<br/>
+&nbsp; &nbsp; "description": "setAlarmClock() parameter min should be in the range [0, 59]."<br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line34">line 34</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_GET_BATTERY"><span class="type-signature">(static) </span>ACTION_GET_BATTERY<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of get battery command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_GET_BATTERY</td></tr>
+<tr><td>BGProfileModule.GET_BATTERY</td><td>get battery command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_battery_bg",<br/>
+&nbsp; &nbsp; "battery": 50 <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line106">line 106</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_GET_BLOOD"><span class="type-signature">(static) </span>ACTION_GET_BLOOD<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of get the blood.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_GET_BLOOD</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_measure_get_blood",<br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line301">line 301</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_GET_BOTTLEID"><span class="type-signature">(static) </span>ACTION_GET_BOTTLEID<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of get bottleID command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_GET_BOTTLEID</td></tr>
+<tr><td>BGProfileModule.GET_BOTTLEID</td><td>Get bottleID command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_get_bottleid",<br/>
+&nbsp; &nbsp; "bottleid": 121212 <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line252">line 252</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_GET_BOTTLEMESSAGE"><span class="type-signature">(static) </span>ACTION_GET_BOTTLEMESSAGE<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of get bottle message command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_GET_BOTTLEMESSAGE</td></tr>
+<tr><td>BGProfileModule.GET_BOTTLEMESSAGE</td><td>Get bottle message command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_get_codeinfo",<br/>
+&nbsp; &nbsp; "expiretime": 2017-01-01<br/>
+&nbsp; &nbsp; "usenum": 1024 <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line216">line 216</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_GET_OFFLINEDATA"><span class="type-signature">(static) </span>ACTION_GET_OFFLINEDATA<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of get offline data command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_GET_OFFLINEDATA</td></tr>
+<tr><td>BGProfileModule.GET_OFFLINEDATA</td><td>Get offline data command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_historicaldata_bg",<br/>
+&nbsp; &nbsp; "his_data_bg":{"history":[{"dataID":"ABCDEF1234567890","value":140,"date":"2016-12-1 01:15:00"},
+                                        {"dataID":"1234567890ABCDEF","value":120,"date":"2016-12-1 01:16:00"}]} <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line161">line 161</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_GET_OFFLINEDATA_COUNT"><span class="type-signature">(static) </span>ACTION_GET_OFFLINEDATA_COUNT<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of get offline data count command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_GET_OFFLINEDATA_COUNT</td></tr>
+<tr><td>BGProfileModule.GET_OFFLINEDATA_COUNT</td><td>Get offline data count command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_historicalnum_bg",<br/>
+&nbsp; &nbsp; "count":10 <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line142">line 142</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_KEEP_LINK"><span class="type-signature">(static) </span>ACTION_KEEP_LINK<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of keep link command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_KEEP_LINK</td></tr>
+<tr><td>BGProfileModule.KEEP_LINK</td><td>keep link command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_keep_link",<br/>
+&nbsp; &nbsp; "keep_link": true <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line52">line 52</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_ONLINE_RESULT_BG"><span class="type-signature">(static) </span>ACTION_ONLINE_RESULT_BG<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of get measure value from devices.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_ONLINE_RESULT_BG</td></tr>
+<tr><td>BGProfileModule.ONLINE_RESULT_BG</td><td>The bg value measured by device</td></tr>
+<tr><td>BGProfileModule.dataID</td><td>The dataID measured by device</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_value_bg",<br/>
+&nbsp; &nbsp; "result": 155 <br/>
+&nbsp; &nbsp; "dataID": 123456789ABCDE <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line321">line 321</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_SET_BOTTLEID"><span class="type-signature">(static) </span>ACTION_SET_BOTTLEID<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of set bottleID command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_SET_BOTTLEID</td></tr>
+<tr><td>BGProfileModule.SET_BOTTLEID</td><td>Set bottleID command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_setbottleid_success",<br/>
+&nbsp; &nbsp; "set_bottle_message": true <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line234">line 234</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_SET_BOTTLEMESSAGE"><span class="type-signature">(static) </span>ACTION_SET_BOTTLEMESSAGE<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of set bottle message command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_SET_BOTTLEMESSAGE</td></tr>
+<tr><td>BGProfileModule.SET_BOTTLEMESSAGE</td><td>Set bottle message command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_set_bottle_message_success",<br/>
+&nbsp; &nbsp; "set_bottle_message": true <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line197">line 197</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_SET_TIME"><span class="type-signature">(static) </span>ACTION_SET_TIME<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of set time command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_SET_TIME</td></tr>
+<tr><td>BGProfileModule.SET_TIME</td><td>set time command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_set_time",<br/>
+&nbsp; &nbsp; "set_time": true <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_SET_UNIT"><span class="type-signature">(static) </span>ACTION_SET_UNIT<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of set unit command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_SET_UNIT</td></tr>
+<tr><td>BGProfileModule.SET_UNIT</td><td>set unit command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_set_unit",<br/>
+&nbsp; &nbsp; "set_unit": true <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line88">line 88</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_START_MEASURE"><span class="type-signature">(static) </span>ACTION_START_MEASURE<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of start measure command.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_START_MEASURE</td></tr>
+<tr><td>BGProfileModule.START_MEASURE</td><td>start measure command result</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_start_measure",<br/>
+&nbsp; &nbsp; "start_measure":true <br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line124">line 124</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_STRIP_IN"><span class="type-signature">(static) </span>ACTION_STRIP_IN<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of strip was put in the devices.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_STRIP_IN</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_measure_strip_in",<br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line269">line 269</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ACTION_STRIP_OUT"><span class="type-signature">(static) </span>ACTION_STRIP_OUT<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The action value of event indicating the result of strip out of the devices.<br/>
+The key and value will be as below:
+<table style="width:100px;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+<tbody>
+<tr><td>Key</td><td>Value</td></tr>
+<tr><td>action</td><td>BGProfileModule.ACTION_STRIP_OUT</td></tr>
+</tbody>
+</table>
+<b>Example:</b><br/>
+{<br/>
+&nbsp; &nbsp; "action": "action_measure_strip_out",<br/>
+}<br/>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line285">line 285</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".DATA_ID"><span class="type-signature">(static) </span>DATA_ID<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The dataID measured by device
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line428">line 428</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".DELETE_OFFLINEDATA"><span class="type-signature">(static) </span>DELETE_OFFLINEDATA<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Delete offline data value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line393">line 393</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ERROR_DESCRIPTION_BG"><span class="type-signature">(static) </span>ERROR_DESCRIPTION_BG<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The error discription.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line353">line 353</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ERROR_NUM_BG"><span class="type-signature">(static) </span>ERROR_NUM_BG<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The error num means different error.
+<p>0:Battery is low.</p>
+<p>1:Glucose test result is out of the measurement range.</p>
+<p>2:Unknown interference detected, please repeat the test.</p>
+<p>3:Strip is used or unknown moisture detected, discard the test strip and repeat the test with a new strip..</p>
+<p>4:Reading transmission error. Repeat the test with a new test strip. If the problem persists, contact iHealth customer service for assistance.</p>
+<p>5:The environmental temperature is beyond normal range, place the meter at room temperature for at least 30 minutes, then repeat the test.</p>
+<p>6:The environmental temperature is beyond normal range, place the meter at room temperature for at least 30 minutes, then repeat the test.</p>
+<p>7:Test strip coding error.</p>
+<p>8:Communication error, press"START" or rescan the code to repeat the test.</p>
+<p>9:Strip removed in the middle of reading, repeat the test with a new strip.</p>
+<p>10:Insert a new test strip and repeat the test.</p>
+<p>11:Cannot write to SN or KEY.</p>
+<p>12:Please set time.</p>
+<p>13:0 test strips remaining.</p>
+<p>14:Test strip expired.</p>
+<p>15:Unplug the charging cable before testing.</p>
+<p>18:Unplug the charging cable before read the history data</>
+<p>19:Charging line is inserted</>
+<p>20:Charging line pull out</>
+<p>21:The bluetooth module failure</>
+<p>112:Device don't support to query energy.</p>
+<p>400:Parameters out of range.</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line348">line 348</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".GET_BATTERY"><span class="type-signature">(static) </span>GET_BATTERY<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Get battery value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line373">line 373</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".GET_BOTTLEID"><span class="type-signature">(static) </span>GET_BOTTLEID<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Get bottle ID value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line418">line 418</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".GET_EXPIRECTIME"><span class="type-signature">(static) </span>GET_EXPIRECTIME<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Get bottle message value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line403">line 403</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".GET_OFFLINEDATA"><span class="type-signature">(static) </span>GET_OFFLINEDATA<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Get offline data value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line388">line 388</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".GET_OFFLINEDATA_COUNT"><span class="type-signature">(static) </span>GET_OFFLINEDATA_COUNT<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Get offlin data count value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line383">line 383</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".GET_USENUM"><span class="type-signature">(static) </span>GET_USENUM<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Get use num value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line408">line 408</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".KEEP_LINK"><span class="type-signature">(static) </span>KEEP_LINK<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Keep link value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line358">line 358</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ONLINE_RESULT_BG"><span class="type-signature">(static) </span>ONLINE_RESULT_BG<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The bg value measured by device
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line423">line 423</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".SET_BOTTLEID"><span class="type-signature">(static) </span>SET_BOTTLEID<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Set bottle ID value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line413">line 413</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".SET_BOTTLEMESSAGE"><span class="type-signature">(static) </span>SET_BOTTLEMESSAGE<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Set bottle message value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line398">line 398</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".SET_TIME"><span class="type-signature">(static) </span>SET_TIME<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Set time value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line363">line 363</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".SET_UNIT"><span class="type-signature">(static) </span>SET_UNIT<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Set time value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line368">line 368</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".START_MEASURE"><span class="type-signature">(static) </span>START_MEASURE<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Start measure value.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="BGProfileModule.js.html">BGProfileModule.js</a>, <a href="BGProfileModule.js.html#line378">line 378</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AM3SModule.html">AM3SModule</a></li><li><a href="module-AM4Module.html">AM4Module</a></li><li><a href="module-AMProfileModule.html">AMProfileModule</a></li><li><a href="module-BG1Module.html">BG1Module</a></li><li><a href="module-BG1ProfileModule.html">BG1ProfileModule</a></li><li><a href="module-BG5LModule.html">BG5LModule</a></li><li><a href="module-BG5Module.html">BG5Module</a></li><li><a href="module-BGProfileModule.html">BGProfileModule</a></li><li><a href="module-BP3LModule.html">BP3LModule</a></li><li><a href="module-BP5Module.html">BP5Module</a></li><li><a href="module-BP7SModule.html">BP7SModule</a></li><li><a href="module-BP550BTModule.html">BP550BTModule</a></li><li><a href="module-BPProfileModule.html">BPProfileModule</a></li><li><a href="module-HS4SModule.html">HS4SModule</a></li><li><a href="module-HS6Module.html">HS6Module</a></li><li><a href="module-HS6ProfileModule.html">HS6ProfileModule</a></li><li><a href="module-HSProfileModule.html">HSProfileModule</a></li><li><a href="module-iHealthDeviceManagerModule.html">iHealthDeviceManagerModule</a></li><li><a href="module-PO3Module.html">PO3Module</a></li><li><a href="module-POProfileModule.html">POProfileModule</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Mar 21 2017 13:55:22 GMT+0800 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

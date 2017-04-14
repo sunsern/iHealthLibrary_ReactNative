@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: iHealthDeviceManagerModule.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: iHealthDeviceManagerModule.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+
+var {NativeModules} = require('react-native');
+
+var RCTModule = NativeModules.iHealthDeviceManagerModule
+
+/**
+ * @module iHealthDeviceManagerModule
+ */
+module.exports = {
+    //Device Type
+    /**
+     * Device type number for AM3S(2) 1 &lt;&lt; 1
+     */
+    AM3S: RCTModule.AM3S,
+    /**
+     * Device type number for AM4(4) 1 &lt;&lt; 2
+     */
+    AM4: RCTModule.AM4,
+    /**
+     * Device type number for PO3(8) 1 &lt;&lt; 3
+     */
+    PO3: RCTModule.PO3,
+    /**
+     * Device type number for BP5(33554432) 1 &lt;&lt; 25
+     */
+    BP5: RCTModule.BP5,
+    /**
+     * Device type number for BP3L(32) 1 &lt;&lt; 5
+     */
+    BP3L: RCTModule.BP3L,
+    /**
+     * Device type number for BP7S(16777216) 1 &lt;&lt; 24
+     */
+    BP7S: RCTModule.BP7S,
+    /**
+     * Device type number for Bp550BT(128) 1 &lt;&lt; 7
+     */
+    KN550: RCTModule.KN550,
+    /**
+     * Device type number for HS4S(268435456) 1 &lt;&lt; 28
+     */
+    HS4S: RCTModule.HS4S,
+    HS6: 10086,
+    /**
+     * Device type number for BG1(110)
+     */
+    BG1: RCTModule.BG1,
+    /**
+     * Device type number for BG5(4294967296) 1 &lt;&lt; 32
+     */
+    BG5: RCTModule.BG5,
+    /**
+     * Device type number for BG5L(4096) 1 &lt;&lt; 12
+     */
+    BG5L: RCTModule.BG5L,
+    /**
+     * Notify event type for scan device result.("event_scan_device")
+     */
+    Event_Scan_Device: RCTModule.Event_Scan_Device,
+    /**
+     * Notify event type for scan action finish.("event_scan_finish")
+     */
+    Event_Scan_Finish: RCTModule.Event_Scan_Finish,
+    /**
+     * Notify event type for connect device successfully.("event_device_connected")
+     */
+    Event_Device_Connected: RCTModule.Event_Device_Connected,
+    /**
+     * Notify event type for connect device failed.("event_device_connect_failed")
+     */
+    Event_Device_Connect_Failed: RCTModule.Event_Device_Connect_Failed,
+    /**
+     * Notify event type for device disconnect.("event_device_disconnect")
+     */
+    Event_Device_Disconnect: RCTModule.Event_Device_Disconnect,
+    /**
+     * Notify event type for authenticate result.("event_authenticate_result")
+     */
+    Event_Authenticate_Result: RCTModule.Event_Authenticate_Result,
+
+
+    /**
+     * Authentication the configure information.
+     * Attentation: Please register to receive event(iHealthDeviceManagerModel.Event_Authenticate_Result) before call the api.
+     * @param {string} userName User's user name you use when you sign up
+     * @param {string} clientID User's client id.
+     * @param {string} clientSecret User's client secret.
+     */
+    authenConfigureInfo: function (userName, clientID, clientSecret) {
+        RCTModule.authenConfigureInfo(userName, clientID, clientSecret)
+    },
+	/**
+	 *Authencation the appSecret
+	 * @param {string} appSecret
+	 * @return {callback} Callback with a boolen object. true:authencation success   false:authencation failed .&lt;br/>
+	*/
+
+    authenAppSecret: function (appSecret, callback) {
+        RCTModule.authenAppSecret(appSecret, callback)
+    },
+
+    /**
+     * Start discovery iHealth device with type
+     * Attentation: Please register to receive event(iHealthDeviceManagerModel.Event_Scan_Device) before call the api.
+     *
+     * @param {number} type The type to be discovered.&lt;br/>
+     * e.g. startDiscovery(iHealthDeviceManagerModule.AM4) will discover AM4 devices.&lt;br/>
+     */
+    startDiscovery: function (type) {
+        RCTModule.startDiscovery(type)
+    },
+
+
+    /**
+     * Stop discovery iHealth device
+     * Attentation: Please register to receive event(iHealthDeviceManagerModel.Event_Scan_Finish) before call the api.
+     */
+    stopDiscovery: function () {
+        RCTModule.stopDiscovery()
+    },
+
+    /**
+     * Connect iHealth device
+     * Attentation: Please register to receive event(iHealthDeviceManagerModel.Event_Device_Connected or iHealthDeviceManagerModel.Event_Device_Connect_Failed) before call the api.
+     * @param {string} mac The mac address of device to be connected.&lt;br/>
+     * e.g. "004D3208D5D4"
+     * @param {string} type Device type string.
+     */
+    connectDevice: function (mac, type) {
+        RCTModule.connectDevice(mac, type)
+    },
+
+
+    /**
+     * Get information for iHealth device
+     *
+     * @param {string} mac The mac address of device.&lt;br/>
+     * e.g. "004D3208D5D4"
+     * @return {callback} Callback with a map object.&lt;br/>
+     * e.g. {"protocolstring":"com.jiuan.AMV12","accessoryname":"AM4","firmwareversion":"138","hardwareversion":"100","manufacture":"iHealth","serialnumber":"004D32079148","modenumber":"AM4 11070"}
+     */
+    getDevicesIDPS: function (mac, callback) {
+        RCTModule.getDevicesIDPS(mac, callback)
+    },
+
+
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AM3SModule.html">AM3SModule</a></li><li><a href="module-AM4Module.html">AM4Module</a></li><li><a href="module-AMProfileModule.html">AMProfileModule</a></li><li><a href="module-BG1Module.html">BG1Module</a></li><li><a href="module-BG1ProfileModule.html">BG1ProfileModule</a></li><li><a href="module-BG5LModule.html">BG5LModule</a></li><li><a href="module-BG5Module.html">BG5Module</a></li><li><a href="module-BGProfileModule.html">BGProfileModule</a></li><li><a href="module-BP3LModule.html">BP3LModule</a></li><li><a href="module-BP5Module.html">BP5Module</a></li><li><a href="module-BP7SModule.html">BP7SModule</a></li><li><a href="module-BP550BTModule.html">BP550BTModule</a></li><li><a href="module-BPProfileModule.html">BPProfileModule</a></li><li><a href="module-HS4SModule.html">HS4SModule</a></li><li><a href="module-HS6Module.html">HS6Module</a></li><li><a href="module-HS6ProfileModule.html">HS6ProfileModule</a></li><li><a href="module-HSProfileModule.html">HSProfileModule</a></li><li><a href="module-iHealthDeviceManagerModule.html">iHealthDeviceManagerModule</a></li><li><a href="module-PO3Module.html">PO3Module</a></li><li><a href="module-POProfileModule.html">POProfileModule</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Mar 21 2017 13:55:21 GMT+0800 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

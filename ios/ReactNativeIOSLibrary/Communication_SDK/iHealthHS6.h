@@ -8,79 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import "HealthUser.h"
+#import "HSMacroFile.h"
 
 /*HS6 error instruction*/
 /*
  error code:
  
- 
  7:User verify error;
  
  101,102,103,104:networkerror
  
- 108: input error
- 
  */
 
-typedef enum{
-    IHHS6SDKUnitWeight_kg = 0,  //
-    IHHS6SDKUnitWeight_lbs,     //
-    IHHS6SDKUnitWeight_oz,     //
-} IHHS6SDKUnitWeight;           //WeightUnit
-
-typedef void (^DisposeHS6SuccessBlock)(NSDictionary* deviceInfo);
-
-typedef void (^DisposeHS6FailBlock)(NSString* failmsg);
-
-typedef void (^DisposeHS6EndBlock)(NSDictionary* deviceDic);
-
-typedef void (^DisposeHS6ErrorBlock)(NSNumber* error);
-
-//Binding QR Device
-typedef void(^BinedQRDeviceBlock)(NSArray *resultArray);
-//Binding QR Device
-typedef void(^BinedQRDeviceErrorBlock)(NSString *errorCode);
-
-//unbind Device
-typedef void(^DisBinedQRDeviceBlock)(NSArray *resultArray);
-//unbind QR Device
-typedef void(^DisBinedQRDeviceErrorBlock)(NSString *errorCode);
-
-typedef void (^BlockHS6UserAuthentication)(UserAuthenResult result);
 
 
-typedef void (^DisposeHS6GetOpenAPISuccessBlock)(NSDictionary* openAPIInfoDic);
-typedef void (^DisposeHS6GetOpenAPIErrorBlock)(NSDictionary *errorCode);
-
-typedef void (^DisposeHS6SyncWeightUnitSuccessBlock)(BOOL syncWeightUnit);
-typedef void (^DisposeHS6SyncWeightUnitErrorBlock)(NSString *errorCode);
-
-@interface iHealthHS6 : NSObject{
-
-    DisposeHS6SuccessBlock _disposeHS6SuccessBlock;
-    
-    DisposeHS6FailBlock _disposeHS6FailBlock;
-    
-    DisposeHS6EndBlock _disposeHS6EndBlock;
-    
-    DisposeHS6ErrorBlock _disposeHS6ErrorBlock;
-    
-    BlockHS6UserAuthentication _blockHS6UserAuthentication;
-    
-    
-    BinedQRDeviceBlock _blockBinedQRDevice;
-    BinedQRDeviceErrorBlock _blockBinedQRDeviceError;
-    
-    DisBinedQRDeviceBlock _blockDisBinedQRDevice;
-    DisBinedQRDeviceErrorBlock _blockDisBinedQRDeviceError;
-
-    DisposeHS6GetOpenAPISuccessBlock _blockDisGetOpenAPI;
-    DisposeHS6GetOpenAPIErrorBlock _blockDisGetOpenAPIError;
-    
-    DisposeHS6SyncWeightUnitSuccessBlock _blockDisSyncWeightUnit;
-    DisposeHS6SyncWeightUnitErrorBlock _blockDisSyncWeightUnitError;
-
-}
+@interface iHealthHS6 : NSObject
 
 +(iHealthHS6 *)shareIHHS6Controller;
 
@@ -93,18 +35,7 @@ typedef void (^DisposeHS6SyncWeightUnitErrorBlock)(NSString *errorCode);
  deviceID: device Mac
  clientID & clientSecret: the only identification for users of the SDK, requires registration from iHealth administrator, please email: lvjincan@ihealthlabs.com.cn.com for more information.
  Return parameters:
- BlockHS6UserAuthentication: The return parameters of ’‘userid’, ‘height’, ’clientID’, and ‘clientSecret’ after verification
- 
- The interpretation for the verification:
- HS6UserAuthen_RegisterSuccess: New-user registration succeeded.
- HS6UserAuthen_LoginSuccess: User login succeeded.
- HS6UserAuthen_CombinedSuccess: The user is an iHealth user as well, measurement via SDK has been activated, and the data from the measurement belongs to the user.
- HS6UserAuthen_TrySuccess: Testing without internet connection succeeded.
- HS6UserAuthen_InvalidateUserInfo: Userid/clientID/clientSecret verification failed.
- HS6UserAuthen_SDKInvalidateRight: SDK has not been authorized.
- HS6UserAuthen_UserInvalidateRight: User has not been authorized.
- HS6UserAuthen_InternetError: Internet error, verification failed.
- The measurement via SDK will be operated in the case of 1-4, and will be terminated if any of 5-8 occurs. The interface needs to be re-called after analyzing the return parameters.
+  The measurement via SDK will be operated in the case of 1-4, and will be terminated if any of 5-8 occurs. The interface needs to be re-called after analyzing the return parameters.
  Notice: when a new user registers via SDK, an ‘iHealth disclaimer’ will pop up automatically, and will require the user to agree in order to continue. SDK applications require an Internet connection; there is 10-day trial period if the SDK cannot connect to the internet, the SDK is fully functional during tryout period, but will be terminated without a working internet connection after 10 days.
  
  binedResult: Action = 1;(1:bind sucess 2：full user bind faild 3,:ts error bind faild 4 other),
@@ -120,7 +51,7 @@ typedef void (^DisposeHS6SyncWeightUnitErrorBlock)(NSString *errorCode);
  refer to “error” : HS6 error instruction.
  */
 
--(void)cloudCommandUserBinedQRDeviceWithUser:(HealthUser *)tempUser  deviceID:(NSString *)tempDeviceID BlockHS6UserAuthentication:(BlockHS6UserAuthentication)BlockHS6UserAuthentication binedResult:(BinedQRDeviceBlock)result binedError:(BinedQRDeviceErrorBlock)error;
+-(void)cloudCommandUserBinedQRDeviceWithUser:(HealthUser *)tempUser  deviceID:(NSString *)tempDeviceID  binedResult:(BinedQRDeviceBlock)result binedError:(BinedQRDeviceErrorBlock)error;
 
 /*unBind QR Device*/
 /*

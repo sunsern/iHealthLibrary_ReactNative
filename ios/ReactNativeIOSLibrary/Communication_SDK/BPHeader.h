@@ -9,6 +9,8 @@
 #ifndef BP_SDKDemo_BPHeader_h
 #define BP_SDKDemo_BPHeader_h
 
+#import "BPController.h"
+#import "BPDevice.h"
 
 #import "BP5Controller.h"
 #import "BP5.h"
@@ -28,12 +30,6 @@
 #import "KN550BT.h"
 #import "KN550BTController.h"
 
-#import "KD926.h"
-#import "KD926Controller.h"
-
-#import "KD723.h"
-#import "KD723Controller.h"
-
 #import "BPMacroFile.h"
 #import "HealthUser.h"
 
@@ -45,5 +41,11 @@
 
 #import "BPContinua.h"
 #import "BPContinuaController.h"
+
+#import "BP5S.h"
+#import "BP5SController.h"
+
+#import "BP5SRW.h"
+#import "BP5SRWController.h"
 
 #endif

@@ -25,5 +25,7 @@
 
 -(void)commandDisconnectSelectDevice:(NSString *)uuidString;
 
+-(void)commandConnectReadDeviceIDPS:(NSString *)uuidString;
+
 
 @end

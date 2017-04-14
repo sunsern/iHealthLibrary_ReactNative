@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface KN550BTController : NSObject{
+#import "BPController.h"
+@interface KN550BTController : BPController{
     NSMutableArray *KN550BTDeviceArray;
 }
 
@@ -22,15 +22,7 @@
  */
 -(NSArray *)getAllCurrentKN550BTInstace;
 
-/**
- * Restart search KN550BT
- */
--(void)startSearchKN550BT;
 
- /**
-  * Stop search KN550BT
-  */
--(void)stopSearchKN550BT;
 
 
 @end
