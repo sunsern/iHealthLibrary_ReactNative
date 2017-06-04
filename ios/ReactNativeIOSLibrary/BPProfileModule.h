@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RCTBridgeModule.h"
+#import <React/RCTBridgeModule.h>
 @interface BPProfileModule : NSObject<RCTBridgeModule>
 
 #define kACTION_ERROR_BP @"error_bp"

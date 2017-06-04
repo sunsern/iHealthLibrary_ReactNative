@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RCTBridgeModule.h"
+#import <React/RCTBridgeModule.h>
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
 @interface BP5Module : NSObject<RCTBridgeModule>
