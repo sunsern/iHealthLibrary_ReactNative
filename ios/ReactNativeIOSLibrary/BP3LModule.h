@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
-#import "RCTBridge.h"
-#import "RCTEventDispatcher.h"
+#import <React/RCTBridge.h>
+#import <React/RCTEventDispatcher.h>
 #import "ScanDeviceController.h"
 #import "ConnectDeviceController.h"
 @interface BP3LModule : NSObject<RCTBridgeModule>
