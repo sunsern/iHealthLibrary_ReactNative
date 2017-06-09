@@ -38,11 +38,11 @@ RCT_EXPORT_MODULE()
              @"ACTION_SET_UNIT_SUCCESS_BP":kACTION_SET_UNIT_SUCCESS_BP,
              @"ACTION_SET_ANGLE_SUCCESS_BP":kACTION_SET_ANGLE_SUCCESS_BP,
              @"ACTION_INTERRUPTED_BP":kACTION_INTERRUPTED_BP,
-             
+
              @"ACTION_ENABLE_OFFLINE_BP":kACTION_ENABLE_OFFLINE_BP,
              @"ACTION_DISENABLE_OFFLINE_BP":kACTION_DISENABLE_OFFLINE_BP,
              @"ACTION_IS_ENABLE_OFFLINE":kACTION_IS_ENABLE_OFFLINE,
-             
+
              @"ERROR_NUM_BP":kERROR_NUM_BP,
              @"BATTERY_BP":kBATTERY_BP,
              @"BLOOD_PRESSURE_BP":kBLOOD_PRESSURE_BP,
@@ -59,10 +59,10 @@ RCT_EXPORT_MODULE()
              @"MEASUREMENT_HAND_BP":kMEASUREMENT_HAND_BP,
              @"DATAID":kDATAID,
              @"IS_ENABLE_OFFLINE":kIS_ENABLE_OFFLINE,
-             
+
              @"HISTORICAL_NUM_BP":kHISTORICAL_NUM_BP,
              @"HISTORICAL_DATA_BP":kHISTORICAL_DATA_BP,
-             
+
              @"FUNCTION_IS_UPAIR_MEASURE":kFUNCTION_IS_UPAIR_MEASURE,
              @"FUNCTION_IS_ARM_MEASURE":kFUNCTION_IS_ARM_MEASURE,
              @"FUNCTION_HAVE_ANGLE_SENSOR":kFUNCTION_HAVE_ANGLE_SENSOR,
@@ -84,7 +84,7 @@ RCT_EXPORT_MODULE()
 }
 
 + (void)sendEventToBridge:(RCTBridge *)bridge eventNotify:(NSString*)eventNotify WithDict:(NSDictionary*)dict{
-    [bridge.eventDispatcher sendDeviceEventWithName:eventNotify body:dict];
+    [self sendEventWithName:eventNotify body:dict];
 }
 
 

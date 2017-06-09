@@ -10,9 +10,11 @@
 #import <React/RCTBridgeModule.h>
 #import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
+#import <React/RCTEventEmitter.h>
 #import "ScanDeviceController.h"
 #import "ConnectDeviceController.h"
-@interface iHealthDeviceManagerModule : NSObject<RCTBridgeModule>
+
+@interface iHealthDeviceManagerModule : RCTEventEmitter<RCTBridgeModule>
 {
     NSDictionary *bg1IdpsDic;
 }

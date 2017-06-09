@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
-@interface BPProfileModule : NSObject<RCTBridgeModule>
+#import <React/RCTEventEmitter.h>
+
+@interface BPProfileModule : RCTEventEmitter<RCTBridgeModule>
 
 #define kACTION_ERROR_BP @"error_bp"
 #define kACTION_BATTERY_BP @"battery_bp"
