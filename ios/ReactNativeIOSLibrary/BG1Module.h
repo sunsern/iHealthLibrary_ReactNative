@@ -10,7 +10,8 @@
 #import <React/RCTBridgeModule.h>
 #import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
-@interface BG1Module : NSObject<RCTBridgeModule>
+
+@interface BG1Module : RCTEventEmitter<RCTBridgeModule>
 
 
 
